@@ -28,7 +28,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const tokenData = {
             id: currentUser._id
         }
-
+        const expiryDate = new Date();
+        expiryDate.setHours(expiryDate.getHours() + 1);
         const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!,{expiresIn: '1h'});
         const response = NextResponse.json({
             message: "Logged in Success",
@@ -36,7 +37,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         })
 
         response.cookies.set("token", token, {
-            httpOnly: true
+            httpOnly: true,
+            expires: expiryDate
         });
 
         return response;

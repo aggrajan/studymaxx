@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { useRouter, useParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { verifyNewPasswordSchema } from "@/schemas/verifyNewPasswordSchema";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 const VerifyAccount = () => {
     const router = useRouter();
@@ -63,20 +64,30 @@ const VerifyAccount = () => {
                 </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField 
-                            name="token"
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Verification OTP</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="OTP" {...field} type="number" onChange={(e) => {
-                                            field.onChange(e);
-                                        }}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}      
+                    <FormField
+                        control={form.control}
+                        name="token"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>One-Time Password</FormLabel>
+                            <FormControl>
+                                <InputOTP maxLength={6} {...field}>
+                                <InputOTPGroup>
+                                    <InputOTPSlot index={0} />
+                                    <InputOTPSlot index={1} />
+                                    <InputOTPSlot index={2} />
+                                    <InputOTPSlot index={3} />
+                                    <InputOTPSlot index={4} />
+                                    <InputOTPSlot index={5} />
+                                </InputOTPGroup>
+                                </InputOTP>
+                            </FormControl>
+                            <FormDescription>
+                                Please enter the one-time password sent at your email id.
+                            </FormDescription>
+                            <FormMessage />
+                            </FormItem>
+                        )}
                         />
                         <FormField 
                             name="newPassword"
@@ -85,7 +96,7 @@ const VerifyAccount = () => {
                                 <FormItem>
                                     <FormLabel>New Password</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="OTP" {...field} type="password" onChange={(e) => {
+                                        <Input placeholder="Enter your new password" {...field} type="password" onChange={(e) => {
                                             field.onChange(e);
                                         }}/>
                                     </FormControl>

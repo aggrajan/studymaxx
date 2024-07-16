@@ -57,8 +57,25 @@ function SignIn() {
     const handleGoogleSignIn = async (e: React.MouseEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
-        await signIn("google", { redirect: false });
-        setIsSubmitting(false);
+        const result = await signIn("google", { redirect: false });
+        
+        if(result?.error) {
+            toast({
+                title: "Login Failed",
+                description: "Incorrect Email Id or Password",
+                variant: "destructive"
+            })
+            setIsSubmitting(false);
+        }
+
+        if(result?.url) {
+            toast({
+                title: "Logged In",
+                description: "Successfully logged in with correct credentials"
+            })
+            router.replace("/");
+            setIsSubmitting(false);
+        }
     }
 
     return (

@@ -8,7 +8,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await dbConnect();
         const token = cookies().get("token")?.value || "";
-        const userId : any = jwt.verify(token, process.env.TOKEN_SECRET!);
+        
+        const userId : any = jwt.verify(token, process.env.TOKEN_SECRET!, function(err, decoded) {
+            if(err) {
+                if(err.message === "jwt expired") {
+                    cookies().delete("token");
+                }
+            }
+
+            return decoded
+        });
         
         const user = await UserModel.findById(userId.id).select("-password");
         if(!user) {

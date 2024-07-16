@@ -50,12 +50,14 @@ const authOptions: NextAuthOptions = {
                     const tokenData = {
                         id: currentUser._id
                     }
-
+                    const expiryDate = new Date();
+                    expiryDate.setHours(expiryDate.getHours() + 1);
                     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!,{expiresIn: '1h'});
                     const response = currentUser;
 
                     cookies().set("token", token, {
-                        httpOnly: true
+                        httpOnly: true,
+                        expires: expiryDate
                     });
 
                     return response;
@@ -102,12 +104,14 @@ const authOptions: NextAuthOptions = {
             const tokenData = {
                 id: currentUser?._id
             }
-
+            const expiryDate = new Date();
+            expiryDate.setHours(expiryDate.getHours() + 1);
             const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!,{ expiresIn: '1h' });
             const response = true;
 
             cookies().set("token", token, {
-                httpOnly: true
+                httpOnly: true,
+                expires: expiryDate
             });
 
             return response;
