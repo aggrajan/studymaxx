@@ -2,7 +2,7 @@
 import React, { useState } from "react"
 import { useRouter, useParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { verifySchema } from "@/schemas/verifySchema";
@@ -12,6 +12,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 const VerifyAccount = () => {
     const router = useRouter();
@@ -62,23 +63,33 @@ const VerifyAccount = () => {
                     </p>
                 </div>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField 
-                            name="token"
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Verification OTP</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="OTP" {...field} type="number" onChange={(e) => {
-                                            field.onChange(e);
-                                        }}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}      
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+                        <FormField
+                        control={form.control}
+                        name="token"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>One-Time Password</FormLabel>
+                            <FormControl>
+                                <InputOTP maxLength={6} {...field}>
+                                <InputOTPGroup>
+                                    <InputOTPSlot index={0} />
+                                    <InputOTPSlot index={1} />
+                                    <InputOTPSlot index={2} />
+                                    <InputOTPSlot index={3} />
+                                    <InputOTPSlot index={4} />
+                                    <InputOTPSlot index={5} />
+                                </InputOTPGroup>
+                                </InputOTP>
+                            </FormControl>
+                            <FormDescription>
+                                Please enter the one-time password sent to your phone.
+                            </FormDescription>
+                            <FormMessage />
+                            </FormItem>
+                        )}
                         />
-                        
+                
                         <Button type="submit" disabled={isSubmitting}>
                             {
                                 isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Verify')
@@ -92,3 +103,45 @@ const VerifyAccount = () => {
 }
 
 export default VerifyAccount;
+
+/*
+<Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+                        <FormField
+                        control={form.control}
+                        name="pin"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>One-Time Password</FormLabel>
+                            <FormControl>
+                                <InputOTP maxLength={6} {...field}>
+                                <InputOTPGroup>
+                                    <InputOTPSlot index={0} />
+                                    <InputOTPSlot index={1} />
+                                    <InputOTPSlot index={2} />
+                                    <InputOTPSlot index={3} />
+                                    <InputOTPSlot index={4} />
+                                    <InputOTPSlot index={5} />
+                                </InputOTPGroup>
+                                </InputOTP>
+                            </FormControl>
+                            <FormDescription>
+                                Please enter the one-time password sent to your phone.
+                            </FormDescription>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                
+                        <Button type="submit">Submit</Button>
+                    </form>
+                </Form>
+
+
+
+            <Button type="submit" disabled={isSubmitting}>
+                            {
+                                isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Verify')
+                            }
+                        </Button>
+*/
