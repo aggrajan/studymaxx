@@ -183,7 +183,7 @@ export function ExploreBooks() {
               <CardTitle>Filter books by Subjects.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre) => (<div className="flex items-center space-x-2 my-2">
+              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`a_${index}`}>
                 <Checkbox id={genre} />
                 <label
                 htmlFor={genre}
@@ -199,7 +199,7 @@ export function ExploreBooks() {
               <CardTitle>Filter books by Board.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre) => (<div className="flex items-center space-x-2 my-2">
+              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`b_${index}`}>
                 <Checkbox id={genre} />
                 <label
                 htmlFor={genre}
@@ -215,7 +215,7 @@ export function ExploreBooks() {
               <CardTitle>Filter books by Class.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre) => (<div className="flex items-center space-x-2 my-2">
+              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`c_${index}`}>
                 <Checkbox id={genre} />
                 <label
                 htmlFor={genre}
@@ -231,7 +231,7 @@ export function ExploreBooks() {
               <CardTitle>Filter books by Language.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre) => (<div className="flex items-center space-x-2 my-2">
+              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`d_${index}`}>
                 <Checkbox id={genre} />
                 <label
                 htmlFor={genre}
@@ -247,7 +247,7 @@ export function ExploreBooks() {
               <CardTitle>Filter books by Type of Book.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre) => (<div className="flex items-center space-x-2 my-2">
+              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`e_${index}`}>
                 <Checkbox id={genre} />
                 <label
                 htmlFor={genre}
@@ -261,8 +261,8 @@ export function ExploreBooks() {
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {currentBooks.map((book) => (
-              <ItemCard key={book.id} title={book.title} authors={book.authors} price={book.price} cover={book.cover} />
+            {currentBooks.map((book, index) => (
+              <ItemCard key={`book_${book.id}`} title={book.title} authors={book.authors} price={book.price} cover={book.cover} />
             ))}
           </div>
           <div className="container px-4 md:px-6 mt-8">
@@ -276,8 +276,8 @@ export function ExploreBooks() {
                     tabIndex={currentPage <= 1 ? -1 : undefined}
                   />
                 </PaginationItem>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <PaginationItem key={page}>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page, index) => (
+                  <PaginationItem key={`page_${index}`}>
                     <PaginationLink className="hover:cursor-pointer" onClick={(e) => {e.preventDefault(); handlePageChange(page);}} isActive={page === currentPage}>
                       {page}
                     </PaginationLink>

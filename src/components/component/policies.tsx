@@ -6,17 +6,17 @@
 
 /** Add fonts into your Next.js project:
 
-import { Arimo } from 'next/font/google'
-import { Chivo } from 'next/font/google'
+import { Arimo } from &apos;next/font/google&apos;
+import { Chivo } from &apos;next/font/google&apos;
 
 arimo({
-  subsets: ['latin'],
-  display: 'swap',
+  subsets: [&apos;latin&apos;],
+  display: &apos;swap&apos;,
 })
 
 chivo({
-  subsets: ['latin'],
-  display: 'swap',
+  subsets: [&apos;latin&apos;],
+  display: &apos;swap&apos;,
 })
 
 To read more about using these font, please visit the Next.js documentation:
@@ -91,7 +91,7 @@ export function Policies() {
         <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Acceptable Use</h2>
           <p className="text-muted-foreground">
-          You agree to use our website and services only for lawful purposes and in a way that does not infringe on the rights of others or restrict or inhibit anyone else's use and enjoyment of the website.
+          You agree to use our website and services only for lawful purposes and in a way that does not infringe on the rights of others or restrict or inhibit anyone else&apos;s use and enjoyment of the website.
           </p>
           
         </div>
@@ -117,7 +117,7 @@ export function Policies() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Return Policy</h1>
           <p className="mt-2 text-muted-foreground">At StudyMaxx, we stand behind the quality of our products. If you are not satisfied with your purchase, you can return it within 30 days for a full refund. To initiate a return, please contact our customer service team with your order information and the reason for the return. We will provide you with a prepaid return label and instructions on how to send the item back to us.
 
-Please note that items must be in new, unused condition to be eligible for a refund. We cannot accept returns on custom-ordered or personalized items. If you have any questions about our return policy, please don't hesitate to reach out.</p>
+Please note that items must be in new, unused condition to be eligible for a refund. We cannot accept returns on custom-ordered or personalized items. If you have any questions about our return policy, please don&apos;t hesitate to reach out.</p>
         </div>
       </div>
     </section>
@@ -128,7 +128,7 @@ Please note that items must be in new, unused condition to be eligible for a ref
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Refund Policy</h1>
           <p className="mt-2 text-muted-foreground">At StudyMaxx, we are committed to providing a hassle-free refund process. If you are not satisfied with your purchase for any reason, you can request a full refund within 30 days of the delivery date. To initiate a refund, please contact our customer service team with your order information and the reason for the refund request.
 
-We will process your refund as soon as possible, typically within 5-7 business days. Please note that refunds may take longer to appear on your statement, depending on your bank's processing time. If you have any questions or concerns about our refund policy, please don't hesitate to reach out.</p>
+We will process your refund as soon as possible, typically within 5-7 business days. Please note that refunds may take longer to appear on your statement, depending on your bank&apos;s processing time. If you have any questions or concerns about our refund policy, please don&apos;t hesitate to reach out.</p>
         </div>
       </div>
     </section>
@@ -143,7 +143,7 @@ Standard ground shipping typically takes 5-7 business days for delivery within t
 
 For international orders, shipping times may vary depending on the destination and the selected shipping method. We recommend allowing 10-14 business days for international deliveries. Please note that customers are responsible for any customs fees or taxes associated with international shipments.
 
-If you have any questions or concerns about our shipping policy, please don't hesitate to contact our customer service team.</p>
+If you have any questions or concerns about our shipping policy, please don&apos;t hesitate to contact our customer service team.</p>
         </div>
       </div>
     </section>
@@ -156,7 +156,7 @@ If you have any questions or concerns about our shipping policy, please don't he
 
 To cancel an order, please contact our customer service team as soon as possible. We will process the cancellation and issue a full refund to the original payment method. Please note that we cannot cancel orders that have already been shipped.
 
-If you have any questions or concerns about our cancellation policy, please don't hesitate to reach out.</p>
+If you have any questions or concerns about our cancellation policy, please don&apos;t hesitate to reach out.</p>
         </div>
       </div>
     </section>

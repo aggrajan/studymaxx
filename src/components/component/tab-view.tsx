@@ -35,7 +35,7 @@ export function TabView() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                    <div className="text-slate-800 text-sm">"Mathematics for Class 6" by R.S. Aggarwal is a comprehensive textbook designed to cater to the learning needs of middle school students. Known for its clear explanations and structured approach, this book serves as an essential guide for mastering mathematical concepts at the Class 6 level.
+                    <div className="text-slate-800 text-sm">&quot;Mathematics for Class 6&quot; by R.S. Aggarwal is a comprehensive textbook designed to cater to the learning needs of middle school students. Known for its clear explanations and structured approach, this book serves as an essential guide for mastering mathematical concepts at the Class 6 level.
                     </div>
                     </CardContent>
                     <CardFooter>
@@ -55,7 +55,7 @@ export function TabView() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                        <div className="text-slate-800 text-sm">"Mathematics for Class 6" by R.S. Aggarwal stands out for its clear, step-by-step explanations and structured approach to learning. Each topic is meticulously broken down to ensure conceptual clarity, supported by numerous worked examples and a wide range of exercises that cater to different difficulty levels. The book includes chapter summaries for quick revision, multiple-choice questions for competitive exam preparation, and highlights real-life applications of mathematical concepts, making it a comprehensive resource for middle school students.</div>
+                        <div className="text-slate-800 text-sm">&quot;Mathematics for Class 6&quot; by R.S. Aggarwal stands out for its clear, step-by-step explanations and structured approach to learning. Each topic is meticulously broken down to ensure conceptual clarity, supported by numerous worked examples and a wide range of exercises that cater to different difficulty levels. The book includes chapter summaries for quick revision, multiple-choice questions for competitive exam preparation, and highlights real-life applications of mathematical concepts, making it a comprehensive resource for middle school students.</div>
                     </CardContent>
                     <CardFooter>
                     <Button variant="secondary">Read More</Button>

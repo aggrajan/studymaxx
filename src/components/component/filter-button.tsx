@@ -72,8 +72,8 @@ export function FilterButton({optionArray, name} : { optionArray: string[], name
           >
             {getSelectedOptions(value).length > 0
               ? <div className="">
-                {getSelectedOptions(value).map((option: string) => (
-                    <Badge variant="secondary" className="mx-[5px] rounded-full py-0 text-wrap bg-slate-300" onClick={(e) => {e.preventDefault(); setValue({...value, [option]: !value[option]})}}>
+                {getSelectedOptions(value).map((option: string, index: number) => (
+                    <Badge key={`filter_${index}`} variant="secondary" className="mx-[5px] rounded-full py-0 text-wrap bg-slate-300" onClick={(e) => {e.preventDefault(); setValue({...value, [option]: !value[option]})}}>
                       <div className="flex items-center"><div>{option}</div> <X width={15} className="ml-[1px]" /></div>
                     </Badge>
                   )
@@ -88,9 +88,9 @@ export function FilterButton({optionArray, name} : { optionArray: string[], name
             <CommandInput placeholder={`Search ${name}s...`} />
             <CommandEmpty>No {name} found.</CommandEmpty>
             <CommandList>
-              {allOptions.map((givenOption) => (
+              {allOptions.map((givenOption, index) => (
                 <CommandItem
-                  key={givenOption.value}
+                  key={`option_${index}`}
                   className="cursor-pointer"
                   value={givenOption.value}
                   onSelect={(currentValue) => {

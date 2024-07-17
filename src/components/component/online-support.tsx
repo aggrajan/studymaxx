@@ -34,7 +34,7 @@ export function OnlineSupport() {
                 <h3 className="text-xl font-semibold">Teacher Support</h3>
               </div>
               <p className="mt-4 text-muted-foreground">
-                Access lesson plans, grading tools, and professional development resources. We're here to help you succeed.
+                Access lesson plans, grading tools, and professional development resources. We&apos;re here to help you succeed.
               </p>
             </div>
             <Button className="mt-4 w-auto mx-auto">Get Support</Button>
@@ -48,7 +48,7 @@ export function OnlineSupport() {
                 <h3 className="text-xl font-semibold">Parent Support</h3>
               </div>
               <p className="mt-4 text-muted-foreground">
-                Get guidance on supporting your child's learning, managing schedules, and more. We're here for you.
+                Get guidance on supporting your child&apos;s learning, managing schedules, and more. We&apos;re here for you.
               </p>
             </div>
             <Button className="mt-4 w-auto mx-auto">Get Support</Button>

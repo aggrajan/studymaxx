@@ -101,7 +101,7 @@ export function FrequentlyAskedQuestions() {
                     </ul>
                     <p>
                       All transactions are processed securely to protect your personal and financial information. If you
-                      have any questions or concerns about our payment options, please don't hesitate to contact our
+                      have any questions or concerns about our payment options, please don&apos;t hesitate to contact our
                       customer support team.
                     </p>
                   </div>
@@ -119,25 +119,25 @@ export function FrequentlyAskedQuestions() {
                     </p>
                     <ul className="list-disc space-y-2 pl-6">
                       <li>
-                        <strong>For Beginners:</strong> "Math for Everyone" by Jane Doe - A comprehensive introduction
+                        <strong>For Beginners:</strong> &quot;Math for Everyone&quot; by Jane Doe - A comprehensive introduction
                         to the fundamental concepts of mathematics.
                       </li>
                       <li>
-                        <strong>For Students:</strong> "Algebra Essentials" by John Smith - A step-by-step guide to
+                        <strong>For Students:</strong> &quot;Algebra Essentials&quot; by John Smith - A step-by-step guide to
                         mastering algebra, with plenty of practice problems and real-world applications.
                       </li>
                       <li>
-                        <strong>For Teachers:</strong> "Engaging Math Lessons" by Sarah Johnson - A collection of
+                        <strong>For Teachers:</strong> &quot;Engaging Math Lessons&quot; by Sarah Johnson - A collection of
                         innovative teaching strategies and lesson plans to make math fun and engaging for students.
                       </li>
                       <li>
-                        <strong>For Enthusiasts:</strong> "The Beauty of Mathematics" by Alex Lee - A captivating
+                        <strong>For Enthusiasts:</strong> &quot;The Beauty of Mathematics&quot; by Alex Lee - A captivating
                         exploration of the hidden patterns and elegance of mathematics.
                       </li>
                     </ul>
                     <p>
                       If you need any other recommendations or have specific requirements, please feel free to contact
-                      our customer support team, and we'll be happy to assist you.
+                      our customer support team, and we&apos;ll be happy to assist you.
                     </p>
                   </div>
                 </AccordionContent>
@@ -147,8 +147,8 @@ export function FrequentlyAskedQuestions() {
                 <AccordionContent>
                   <div className="space-y-4 text-muted-foreground">
                     <p>
-                      If you have any other questions or concerns that haven't been addressed, please don't hesitate to
-                      reach out to our customer support team. We're here to help and ensure you have a seamless shopping
+                      If you have any other questions or concerns that haven&apos;t been addressed, please don&apos;t hesitate to
+                      reach out to our customer support team. We&apos;re here to help and ensure you have a seamless shopping
                       experience.
                     </p>
                     <p>
@@ -156,7 +156,7 @@ export function FrequentlyAskedQuestions() {
                       team is available Monday to Friday, 9 AM to 5 PM EST.
                     </p>
                     <p>
-                      We're committed to providing excellent customer service and helping you find the perfect math
+                      We&apos;re committed to providing excellent customer service and helping you find the perfect math
                       books for your needs. Thank you for choosing MathBooks!
                     </p>
                   </div>
