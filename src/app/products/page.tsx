@@ -8,15 +8,15 @@ export default function Products(){
     return (
         <>
             <NavBar />
-            <Breadcrumb className="px-4 lg:px-6">
-            <BreadcrumbList>
-                <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbPage>Products</BreadcrumbPage>
-                </BreadcrumbItem>
+            <Breadcrumb className="px-4 lg:px-6 mt-16 mb-12">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Products</BreadcrumbPage>
+                    </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
             {/* <ExploreBooks /> */}

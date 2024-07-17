@@ -6,14 +6,13 @@ import { OtherProductsYouMayFindUseful } from "@/components/component/other-prod
 import { ProductDetails } from "@/components/component/product-details";
 import { Reviews } from "@/components/component/reviews";
 import { TabView } from "@/components/component/tab-view";
-import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 
 export default function Product() {
     return (
         <>
             <NavBar />
-            <Breadcrumb className="px-4 lg:px-6">
+            <Breadcrumb className="px-4 lg:px-6 mt-16">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink href="/">Home</BreadcrumbLink>

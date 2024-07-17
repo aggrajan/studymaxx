@@ -24,7 +24,7 @@ export function Footer() {
     <footer className="bg-muted text-muted-foreground mt-24 py-12 px-0 md:px-4">
       <div className="container max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-8 md:px-0">
         <div className="flex flex-col items-start gap-4">
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
+          <Link href="/" className="flex items-center gap-2" prefetch={false}>
             <BookIcon className="h-6 w-6" />
             <span className="text-xl font-bold">Bookworm</span>
           </Link>
@@ -34,7 +34,7 @@ export function Footer() {
               <FacebookIcon className="h-5 w-5" />
             </Link>
             <Link href="#" aria-label="Twitter" prefetch={false}>
-              <TwitterIcon className="h-5 w-5" />
+              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 512 512" className="fill-current text-muted-foreground"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
             </Link>
             <Link href="#" aria-label="Instagram" prefetch={false}>
               <InstagramIcon className="h-5 w-5" />
@@ -62,40 +62,40 @@ export function Footer() {
         <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
           <div className="flex flex-col gap-2">
             <h4 className="text-sm font-medium">Quick Links</h4>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/" className="text-sm hover:underline" prefetch={false}>
               Home
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/mission" className="text-sm hover:underline" prefetch={false}>
               Vision
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/faq" className="text-sm hover:underline" prefetch={false}>
               FAQs
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/#contact-us" className="text-sm hover:underline" prefetch={false}>
               Contact
             </Link>
           </div>
           <div className="flex flex-col gap-2">
             <h4 className="text-sm font-medium">Information</h4>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#privacy-policy" className="text-sm hover:underline" prefetch={false}>
               Privacy Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#terms-and-conditions" className="text-sm hover:underline" prefetch={false}>
               Terms and Conditions
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#return-policy" className="text-sm hover:underline" prefetch={false}>
               Return Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#refund-policy" className="text-sm hover:underline" prefetch={false}>
               Refund Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#shipping-policy" className="text-sm hover:underline" prefetch={false}>
               Shipping Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#cancellation-policy" className="text-sm hover:underline" prefetch={false}>
               Cancellation Policy
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#disclaimer" className="text-sm hover:underline" prefetch={false}>
               Disclaimer
             </Link>
           </div>
@@ -116,10 +116,10 @@ export function Footer() {
       <div className="container max-w-7xl mt-8 flex items-center justify-between px-4 md:px-0">
         <p className="text-sm">&copy; 2024 Bookworm. All rights reserved.</p>
         <nav className="flex items-center gap-4">
-          <Link href="#" className="text-sm hover:underline" prefetch={false}>
+          <Link href="/policy#privacy-policy" className="text-sm hover:underline" prefetch={false}>
             Privacy Policy
           </Link>
-          <Link href="#" className="text-sm hover:underline" prefetch={false}>
+          <Link href="/policy#terms-and-conditions" className="text-sm hover:underline" prefetch={false}>
             Terms of Service
           </Link>
         </nav>
@@ -272,26 +272,6 @@ function PhoneIcon(props: any) {
       strokeLinejoin="round"
     >
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-    </svg>
-  )
-}
-
-
-function TwitterIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
     </svg>
   )
 }

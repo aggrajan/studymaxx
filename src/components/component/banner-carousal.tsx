@@ -4,7 +4,7 @@ import { Card, CardContent } from "../ui/card";
 
 export function BannerCarousal() {
     return (
-        <div className="w-full overflow-hidden flex justify-center">
+        <div className="w-full overflow-hidden flex justify-center mt-16">
         <Carousel
           plugins={[Autoplay({ delay: 2500, stopOnInteraction: false })]}
           className="w-full"

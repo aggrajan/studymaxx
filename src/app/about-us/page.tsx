@@ -1,24 +1,24 @@
+import { AboutUsMain } from "@/components/component/about-us";
 import { Footer } from "@/components/component/footer";
 import { NavBar } from "@/components/component/nav-bar";
-import { OurMission } from "@/components/component/our-mission";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
-export default function Mission() {
+export default function AboutUs() {
     return (
         <>
             <NavBar />
-            <Breadcrumb className="px-4 lg:px-6 mt-16">
+            <Breadcrumb className="px-4 lg:px-6 mt-16 mb-2">
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/">Home</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Mission</BreadcrumbPage>
+                        <BreadcrumbPage>About Us</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <OurMission />
+            <AboutUsMain />
             <Footer />
         </>
     );

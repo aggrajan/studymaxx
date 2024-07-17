@@ -2,11 +2,13 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu";
-import { Badge } from "lucide-react";
+import { Badge } from "../ui/badge";
 import React, { useState } from "react";
 import { Input } from "../ui/input";
+import { useRouter } from "next/navigation";
 
 export function NavBar(props: any) {
+    const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
     const [cartCount, setCartCount] = useState(0);
     const [isSearching, setIsSearching] = useState(false);
@@ -19,7 +21,7 @@ export function NavBar(props: any) {
       setIsOpen((prevState: boolean) => !prevState);
     };
     return (<>
-      <header className="px-4 lg:px-6 h-14 flex items-center">
+      <header className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
         <Link href="/" className="flex items-center justify-center" prefetch={false}>
           <BookIcon className="h-6 w-6" />
           <span className="sr-only">Bookworm</span>
@@ -28,7 +30,7 @@ export function NavBar(props: any) {
           <Link href="/" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Home
           </Link>
-          <Link href="/" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/about-us" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             About Us
           </Link>
           <Link href="/mission" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
@@ -55,7 +57,7 @@ export function NavBar(props: any) {
                 className="bg-[#f3f3f3] border border-gray-300 rounded-md py-2 pl-10 pr-4 w-full"
               />
             </div>}
-          <Button variant="ghost" size="icon" className="rounded-full">
+          <Button onClick={(e) => {e.preventDefault(); router.push('/cart')}} variant="ghost" size="icon" className="rounded-full">
             <ShoppingCartIcon className="h-5 w-5" />
             <span className="sr-only">Shopping Cart</span>
             {cartCount > 0 && <Badge className="ml-2 bg-primary text-primary-foreground">{cartCount}</Badge>}
@@ -101,14 +103,14 @@ export function NavBar(props: any) {
           />}
         </nav>
       </header>
-      <div className={`transition-all duration-500 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:hidden flex flex-col gap-1 p-2 justify-start items-start`}>
+      <div className={`fixed top-14 w-full ${ isOpen ? "border shadow bg-white" : ""}  z-50 transition-all duration-500 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:hidden flex flex-col gap-1 p-2 justify-start items-start`}>
         <Link href="/" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Home
         </Link>
-        <Link href="/" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/about-us" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           About Us
         </Link>
-        <Link href="/" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/mission" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Mission
         </Link>
         <Link href="/products" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
