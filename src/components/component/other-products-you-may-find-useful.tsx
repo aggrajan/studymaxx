@@ -11,10 +11,10 @@ export function OtherProductsYouMayFindUseful() {
                     </p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                    {/* <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
                     <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
                     <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
-                    <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
-                    <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
+                    <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} /> */}
                     {/* <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
                     <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
                     <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />

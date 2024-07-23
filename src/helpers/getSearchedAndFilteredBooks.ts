@@ -18,8 +18,8 @@ export async function getSearchedAndFilteredBooks(searchTerm: string, subjects: 
                 filteredSchool.push(...booksFilteredBySubjects.filter((book: Book) => (languages && languages.length > 0 && languages[0] !== "") ? languages?.includes(book.language) : false
                             || (boards && boards.length > 0 && book.board && boards[0] !== "") ? boards?.includes(book.board) : false
                             || (levels && levels.length > 0 && levels[0] !== "") ? levels?.includes(book.level) : false
-                            || (subjects && subjects.length > 0 && subjects[0] !== "") ? subjects.includes(book.subject) : false
-                ));
+                            || (subjects && subjects.length > 0 && subjects[0] !== "") ? subjects.includes(book.subject) : false)
+                );
         } else {
             filteredSchool.push(...booksFilteredBySubjects);
         }

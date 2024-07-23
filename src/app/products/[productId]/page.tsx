@@ -54,7 +54,7 @@ export default function Product() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                    <BreadcrumbPage>The Alchemist</BreadcrumbPage>
+                    <BreadcrumbPage>{book.title}</BreadcrumbPage>
                 </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
