@@ -1,5 +1,3 @@
-"use client";
-
 import { BannerCarousal } from "@/components/component/banner-carousal";
 import { ConnectWithUs } from "@/components/component/connect-with-us";
 import { ContactQueryForm } from "@/components/component/contact-query-form";
@@ -11,20 +9,12 @@ import { LatestArrivals } from "@/components/component/latest-arrivals";
 import { NavBar } from "@/components/component/nav-bar";
 import { OnlineSupport } from "@/components/component/online-support";
 import { Testimonials } from "@/components/component/testimonials";
-import axios from "axios";
 
 export default function Home() {
-  const logout = () => {
-    
-    async function logoutCurrentUser() {
-      const response = await axios.post(`/api/logout`);
-      console.log(response.data);
-    } 
-    logoutCurrentUser();
-  }
+  
   return (
     <>
-      <NavBar logout={logout} />
+      <NavBar />
       <BannerCarousal />
       <ExploreBooks />
       <main className="flex-1">

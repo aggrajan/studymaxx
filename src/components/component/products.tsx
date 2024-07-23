@@ -1,152 +1,106 @@
 "use client";
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ItemCard } from "./item-card"
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "../ui/pagination"
-import { subjects, levels, boards, languages, categories } from "@/model/Enums";
+import { subjects, levels, boards, languages, categories, exams } from "@/model/Enums";
 import { Button } from "@/components/ui/button"
 import { FilterButton } from "./filter-button";
 import { Input } from "../ui/input";
+import { Book } from "@/model/Books";
+import { getBooks } from "@/app/apiCalls/callBooks";
+import { Author } from "@/model/Authors";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
+import { setBooks } from "@/lib/slices/booksSlice";
+import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 
 export function ProductsPage() {
-    const [books, setBooks] = useState([
-        {
-          id: 1,
-          title: "The Great Gatsby",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 2,
-          title: "To Kill a Mockingbird",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 3,
-          title: "1984",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 4,
-          title: "Pride and Prejudice",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 5,
-          title: "The Catcher in the Rye",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 6,
-          title: "The Lord of the Rings",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 7,
-          title: "Harry Potter and the Sorcerer's Stone",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 8,
-          title: "The Hobbit",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 9,
-          title: "The Hunger Games",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 10,
-          title: "The Kite Runner",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 11,
-          title: "The Book Thief",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 12,
-          title: "The Fault in Our Stars",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 13,
-          title: "The Kite Runner",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 14,
-          title: "The Book Thief",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        },
-        {
-          id: 15,
-          title: "The Fault in Our Stars",
-          cover: "/placeholder.svg",
-          authors: ["ABC", "Dr. R. S. Aggarwal"],
-          price: 1499
-        }
-      ])
-      const [currentPage, setCurrentPage] = useState(1)
-      const booksPerPage = 8
-      const totalPages = Math.ceil(books.length / booksPerPage)
-      const indexOfLastBook = currentPage * booksPerPage
-      const indexOfFirstBook = indexOfLastBook - booksPerPage
-      const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook)
-      const [searchTerm, setSearchTerm] = useState("");
-      const handlePageChange = (page: any) => {
-        setCurrentPage(page)
+    const filteredBooks = useAppSelector((state) => state.books.books)
+    const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
+    const filters = useAppSelector((state) => state.searchAndFilter.filters)
+    const dispatch = useAppDispatch();
+    const [books, setAllBooks] = useState<Book[]>([]);
+    useEffect(() => {
+      
+      const getAllBooks = async () => {
+        const allBooks = await getBooks();
+        setAllBooks(allBooks);
       }
+
+      if(searchTerm === "" && filters.board.length === 0 && filters.categorie.length === 0 && filters.clas.length === 0 && filters.exam.length === 0 && filters.language.length === 0 && filters.subject.length === 0) {
+        getAllBooks();
+      }
+    }, []);
+
+    useEffect(() => {
+      setAllBooks(filteredBooks);
+    }, [filteredBooks])
+    const [currentPage, setCurrentPage] = useState(1)
+    const booksPerPage = 8
+    const totalPages = Math.ceil(books.length / booksPerPage)
+    const indexOfLastBook = currentPage * booksPerPage
+    const indexOfFirstBook = indexOfLastBook - booksPerPage
+    const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook)
+    const [isSchoolSelected, setIsSchoolSelected] = useState(false);
+    const [isCompetitiveExamSelected, setIsCompetitiveExamSelected] = useState(false);
+
+    useEffect(() => {
+      if(filters.categorie.findIndex((category) => category === "School") === -1) {
+        setIsSchoolSelected(false);
+      } else {
+        setIsSchoolSelected(true);
+      }
+
+      if(filters.categorie.findIndex((category) => category === "Competitive Exam") === -1) {
+        setIsCompetitiveExamSelected(false);
+      } else {
+        setIsCompetitiveExamSelected(true);
+      }
+
+      search(searchTerm);
+    }, [filters])
+
+    const handlePageChange = (page: any) => {
+      setCurrentPage(page)
+    }
+
+    function getAuthorNames(authors: Author[] | undefined): string[] {
+      if(authors === undefined) return [];
+      return authors.map(author => author.name).filter((name): name is string => name !== undefined);
+    }
+
+    const search = (searchText: string) => {
+      (async () => {
+        const books = await getSearchedAndFilteredBooks(searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
+        dispatch(setBooks(books));
+      })();
+    }
+
     return (
         <section>
             <div className="space-y-2 text-center">
                 <h2 className="text-3xl font-bold">Welcome to StudyMaxx</h2>
                 <div className="flex w-full max-w-sm items-center space-x-2 mx-auto">
-                  <Input type="text" placeholder="search by title or author or keywords" value={searchTerm} onChange={(e) => {setSearchTerm(e.target.value)}} />
-                  <Button type="button">Search</Button>
+                  <Input type="text" placeholder="search by title or author or keywords" value={searchTerm} onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} />
+                  <Button type="button" onClick={() => {
+                    search(searchTerm);
+                  }}>Search</Button>
                 </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-4 gap-3">
-                <FilterButton optionArray={subjects} name="subject" />
-                <FilterButton optionArray={levels} name="clas" />
-                <FilterButton optionArray={boards} name="board" />
-                <FilterButton optionArray={languages} name="language" />
                 <FilterButton optionArray={categories} name="categorie" />
+                {isSchoolSelected && <FilterButton optionArray={subjects} name="subject" />}
+                {isSchoolSelected && <FilterButton optionArray={levels} name="clas" />}
+                {isSchoolSelected && <FilterButton optionArray={boards} name="board" />}
+                {(isSchoolSelected || isCompetitiveExamSelected) && <FilterButton optionArray={languages} name="language" />}
+                {isCompetitiveExamSelected && <FilterButton optionArray={exams} name="exam" />}
             </div>
             <div className="container px-4 md:px-6 pt-6">
                 <div className="flex flex-col">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-                    {currentBooks.map((book) => (
-                    <ItemCard key={book.id} title={book.title} authors={book.authors} price={book.price} cover={book.cover} />
+                    {currentBooks.map((book: Book) => (
+                    <ItemCard key={book._id as string} title={book.title} authors={getAuthorNames(book.authors)} price={book.price} cover={book.image} book={book} />
                     ))}
                 </div>
                 <div className="container px-4 md:px-6 mt-8">

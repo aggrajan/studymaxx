@@ -1,4 +1,4 @@
-export const levels: string[] = [
+export const levels: [string, ...string[]] = [
     'Class 1', 
     'Class 2', 
     'Class 3', 
@@ -13,49 +13,48 @@ export const levels: string[] = [
     'Class 12'
 ]
 
-export const subjects: string[] = [
+export const subjects: [string, ...string[]] = [
     'Subject A',
     'Subject B',
     'Subject C',
     'Subject D'
 ]
 
-export const boards: string[] = [
+export const boards: [string, ...string[]] = [  
     'Board 1',
     'Board 2',
     'Board 3',
     'Board 4'
 ]
 
-export const exams: string[] = [
+export const exams: [string, ...string[]] = [
     'Exam A',
     'Exam B',
     'Exam C',
     'Exam D'
 ]
 
-export const sizes: string[] = [
+export const sizes: [string, ...string[]] = [
     'Size 1',
     'Size 2',
     'Size 3'
 ]
 
-export const bindings: string[] = [
+export const bindings: [string, ...string[]] = [
     'Binding Type 1',
     'Binding Type 2',
     'Binding Type 3'
 ]
 
-export const categories: string[] = [
+export const categories: [string, ...string[]] = [
     'School',
-    'College',
+    'Higher Acedemic Book',
     'Competitive Exam',
-    'Guide',
-    'Course Book',
-    'Workbook'
+    'General',
+    'Kids Foundation'
 ]
 
-export const languages: string[] = [
+export const languages: [string, ...string[]] = [
     'Hindi',
     'English',
     'Marathi',

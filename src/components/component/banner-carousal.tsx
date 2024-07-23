@@ -1,3 +1,4 @@
+"use client"
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Card, CardContent } from "../ui/card";

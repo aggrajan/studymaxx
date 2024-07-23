@@ -23,6 +23,7 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
+"use client"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -34,38 +35,49 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useAppDispatch } from "@/lib/hooks"
+import { addCartItem, addItemQuantity, ICartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
+import { useToast } from "../ui/use-toast"
 
-export function ProductDetails(props: { isModal: boolean }) {
+export function ProductDetails(props: any) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
+  const cartItem: ICartItem = {
+    quantity: 1,
+    product: props.book
+  }
+  const { toast } = useToast();
+  function getPercetageOff(originalPrice: number, discountedPrice: number) {
+    return (100.0 * ((originalPrice - discountedPrice) / originalPrice));
+  }
   const { isModal } = props;
   return (
-    <div className="grid md:grid-cols-2 gap-6 lg:gap-12 items-start max-w-6xl px-4 mx-auto py-6">
+    <div className={`${isModal ? "flex flex-col lg:flex-row gap-8 lg:gap-12 px-4 mx-auto py-6" : "grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center px-4 mx-auto py-6"}`}>
       <div className="grid gap-4">
         <img
-          src="/placeholder.svg"
+          src={props.book.image}
           alt="Book Cover"
-          width={600}
-          height={800}
-          className="rounded-lg border w-full aspect-[3/4] object-cover shadow-lg hover:shadow-xl transition-shadow duration-300"
+          width={450}
+          className="rounded-lg border aspect-[3/4] object-cover shadow-lg hover:shadow-xl transition-shadow duration-300 md:ml-auto mx-auto"
         />
         
       </div>
       <div className="grid gap-4 md:gap-8">
         <div className="grid gap-2">
-          <h1 className="text-3xl font-bold text-primary">The Alchemist</h1>
+          <h1 className="text-3xl font-bold text-primary w-[30rem]">{props.book.title}</h1>
           <div className="flex flex-row justify-between">
             <div className="flex items-center gap-2 text-muted-foreground">
               <span>by</span>
               <Link href="#" className="text-primary hover:underline underline-offset-4" prefetch={false}>
-                Paulo Coelho
+                {props.getAuthors(props.book.authors.map((author: { name: string }) => author.name))}
               </Link>
-              <ShareButton link="http://localhost:3000/products/5" />
+              <ShareButton link={`http://localhost:3000/products/${props.book._id}`} />
             </div>
             {isModal && <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="rounded-full p-2" variant="outline">
-                      <img src="/full-screen.svg" width={18} className="cursor-pointer" onClick={() => router.push('/products/5')} />
+                    <Button className="rounded-full p-2" variant="outline" onClick={() => router.push(`/products/${props.book._id}`)}>
+                      <img src="/full-screen.svg" width={18} className="cursor-pointer"  />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -78,115 +90,68 @@ export function ProductDetails(props: { isModal: boolean }) {
         </div>
         <div className="grid gap-2">
           <div className="flex items-center justify-start gap-4">
-            <div className="text-2xl font-bold text-primary">&#8377;14.99</div>
-            <div className="text-xl font-bold text-muted-foreground line-through">&#8377;19.99</div>
-            <Badge variant="outline">
-              25% OFF
-            </Badge>
+            {props.book.discountedPrice > 0 && <div className="text-2xl font-bold text-primary">&#8377;{props.book.discountedPrice}</div>}
+            <div className={`${props.book.discountedPrice > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price}</div>
+            {props.book.discountedPrice > 0 && <Badge variant="default">
+              {getPercetageOff(props.book.price, props.book.discountedPrice)}% OFF
+            </Badge>}
           </div>
           <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">Preview</Button>
-          {/* <div className="grid sm:grid-cols-2 gap-4">
-            <div className="grid gap-1">
-              <div className="flex justify-start items-center gap-1">
-                <img src="/book.svg" width={22} />
-                <div className="text-sm font-semibold">Level/Class</div>
-              </div>
-              <div className="text-sm text-muted-foreground ml-[25px]">High School</div>
-            </div>
-            <div className="grid gap-1">
-              <div className="flex justify-start items-center gap-1">
-                <img src="/subject.svg" width={22} />
-                <div className="text-sm font-semibold">Subject</div>
-              </div>
-              <div className="text-sm text-muted-foreground ml-[25px]">Fiction</div>
-            </div>
-            <div className="grid gap-1">
-              <div className="flex justify-start items-center gap-1">
-                <img src="/board.svg" width={22} />
-                <div className="text-sm font-semibold">Board</div>
-              </div>
-              <div className="text-sm text-muted-foreground ml-[25px]">CBSE</div>
-            </div>
-            <div className="grid gap-1">
-              <div className="flex justify-start items-center gap-1">
-                <img src="/exam.svg" width={22} />
-                <div className="text-sm font-semibold">Exam</div>
-              </div>
-              <div className="text-sm text-muted-foreground ml-[25px]">-</div>
-            </div>
-          </div> */}
         </div>
-        {/* <div className="grid gap-2">
-          <div className="flex justify-start items-center gap-1">
-            <img src="/keyword.svg" width={22} />
-            <div className="text-sm font-semibold">Keywords</div>
-          </div>
-          <div className="flex flex-wrap gap-2 ml-[25px]">
-            <Badge variant="outline">
-              Fiction
-            </Badge>
-            <Badge variant="outline">
-              Adventure
-            </Badge>
-            <Badge variant="outline">
-              Self-Discovery
-            </Badge>
-          </div>
-        </div> */}
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/language.svg" width={22} />
               <div className="text-sm font-semibold">Language</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">English</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.language}</div>
           </div>
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/isbn.svg" width={22} />
               <div className="text-sm font-semibold">ISBN</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">978-0-06-251595-9</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.isbn}</div>
           </div>
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/pages.svg" width={22} />
               <div className="text-sm font-semibold">Pages</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">208</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.number_of_pages}</div>
           </div>
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/year.svg" width={22} />
               <div className="text-sm font-semibold">Year</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">1988</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.year}</div>
           </div>
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/size.svg" width={22} />
               <div className="text-sm font-semibold">Size</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">5 x 8 inches</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.size}</div>
           </div>
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/paperback.svg" width={22} />
               <div className="text-sm font-semibold">Binding</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">Paperback</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.binding}</div>
           </div>
           <div className="grid gap-1">
             <div className="flex justify-start items-center gap-1">
               <img src="/category.svg" width={22} /> 
               <div className="text-sm font-semibold">Category</div>
             </div>
-            <div className="text-sm text-muted-foreground ml-[25px]">Fiction</div>
+            <div className="text-sm text-muted-foreground ml-[25px]">{props.book.category}</div>
           </div>
         </div>
         
-        <div className="grid grid-cols-2 lg:flex gap-2">
-          <Button size="lg" className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+        {!props.addedToCart && <div className="grid grid-cols-2 xl:flex gap-2 w-[25em]">
+          <Button size="lg" className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             Add to Cart
           </Button>
@@ -202,7 +167,25 @@ export function ProductDetails(props: { isModal: boolean }) {
             <HeartIcon className="mr-2 h-4 w-4" />
             Add to Wishlist
           </Button>
-        </div>
+        </div>}
+
+        {props.addedToCart && <div className="grid grid-cols-2 lg:flex gap-2 w-[25em]">
+          <div className="flex items-center gap-2 w-full">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => { dispatch(subtractItemQuantity({ id: props.book._id as number})) }}
+              disabled={props.getQuantity() === 1}
+              className="w-32"
+            >
+              <MinusIcon className="h-4 w-4" />
+            </Button>
+            <span>{props.getQuantity()}</span>
+            <Button variant="outline" className="w-32" size="icon" onClick={() => { dispatch(addItemQuantity({ id: props.book._id as number})) }}>
+              <PlusIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>}
         
       </div>
     </div>
@@ -267,6 +250,46 @@ function XIcon(props: any) {
     >
       <path d="M18 6 6 18" />
       <path d="m6 6 12 12" />
+    </svg>
+  )
+}
+
+function MinusIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+    </svg>
+  )
+}
+
+
+function PlusIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
     </svg>
   )
 }

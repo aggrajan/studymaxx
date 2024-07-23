@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import AddressSchema, { Address } from "./Address";
 
 export interface User extends Document {
     username?: string;
@@ -12,6 +13,7 @@ export interface User extends Document {
     isAdmin?: boolean;
     forgotPasswordCode?: string;
     forgotPasswordCodeExpiry?: Date;
+    addresses?: Address[]
 };
 
 export const UserSchema: Schema<User> = new Schema({
@@ -63,8 +65,8 @@ export const UserSchema: Schema<User> = new Schema({
     picture: {
         type: String,
         required: false
-    }
-
+    },
+    addresses: [AddressSchema]
 })
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);
