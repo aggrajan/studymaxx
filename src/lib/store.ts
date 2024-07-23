@@ -3,12 +3,38 @@ import { authReducer } from './slices/authSlice';
 import { cartReducer } from './slices/cartSlice';
 import { searchAndFilterReducer } from './slices/searchAndFilterSlice';
 import { booksReducer } from './slices/booksSlice';
+import { persistReducer } from "redux-persist";
+import storage from 'redux-persist/lib/storage';
+
+const authPersistConfig = {
+  key: "auth",
+  storage: storage,
+  whitelist: ["user", "userPresent"]
+}
+
+const cartPersistConfig = {
+  key: "cart",
+  storage: storage,
+  whitelist: ["cartCount", "cartItems", "subtotal", "shipping", "discount", "total"]
+}
+
+const searchAndFilterPersistConfig = {
+  key: "searchAndFilter",
+  storage: storage,
+  whitelist: ["searchTerm", "filters"]
+}
+
+const booksPersistConfig = {
+  key: "books",
+  storage: storage,
+  whitelist: ["books"]
+}
 
 const rootReducer = combineReducers({
-  auth: authReducer,
-  cart: cartReducer,
-  searchAndFilter: searchAndFilterReducer,
-  books: booksReducer
+  auth: persistReducer(authPersistConfig, authReducer),
+  cart: persistReducer(cartPersistConfig, cartReducer),
+  searchAndFilter: persistReducer(searchAndFilterPersistConfig, searchAndFilterReducer),
+  books: persistReducer(booksPersistConfig, booksReducer)
 })
 
 export const store = configureStore({
