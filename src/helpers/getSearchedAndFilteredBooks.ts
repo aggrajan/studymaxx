@@ -51,7 +51,7 @@ export async function getSearchedAndFilteredBooks(searchTerm: string, subjects: 
     }
 
     const allFilteredBooks = [];
-    if(languages.length > 0 || subjects.length > 0 || exams.length > 0 || categories.length > 0 || boards.length > 0 || levels.length > 0) {
+    if(categories.length > 0) {
         allFilteredBooks.push(...filteredSchool, ...filteredCompetitiveExams, ...filteredGeneralBooks, ...filteredKidsFoundation, ...filteredHigherAcedemic);
     } else {
         allFilteredBooks.push(...books);

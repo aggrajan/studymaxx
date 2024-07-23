@@ -31,7 +31,7 @@ import { getBooks } from "@/app/apiCalls/callBooks";
 import { Book } from "@/model/Books";
 import { Author } from "next/dist/lib/metadata/types/metadata-types";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addFilter, updateSearchTerm, removeFilter } from "@/lib/slices/searchAndFilterSlice";
+import { addFilter, updateSearchTerm, removeFilter, clearAll } from "@/lib/slices/searchAndFilterSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 
@@ -122,7 +122,10 @@ export function ExploreBooks() {
                 value={searchAndFilterState.searchTerm}
                 onChange={(e) => dispatch(updateSearchTerm(e.target.value))}
               />
-              <Button className="mt-2 bg-blue-500 border" onClick={() => { search(searchAndFilterState.searchTerm) }}>Search</Button>
+              <div className="flex flex-row gap-2">
+                <Button className="mt-2 bg-blue-500 border" onClick={() => { search(searchAndFilterState.searchTerm) }}>Search</Button>
+                <Button className="mt-2 bg-blue-500 border" onClick={() => { dispatch(clearAll()) }}>Clear All Filters</Button>
+              </div>
             </CardContent>
           </Card>
 
@@ -177,23 +180,6 @@ export function ExploreBooks() {
             </CardContent>
           </Card>}
 
-          {isSchoolSelected && <Card>
-            <CardHeader>
-              <CardTitle>Filter books by Class.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {levels.map((level, index) => (<div className="flex items-center space-x-2 my-2" key={`level_${index}`}>
-                <Checkbox id={level} checked={searchAndFilterState.filters.clas.includes(level)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "clas", value: level})) : dispatch(removeFilter({name: "clas", value: level})))} />
-                <label
-                htmlFor={level}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {level}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card>}
-
           {(isSchoolSelected || isCompetitiveExamSelected) && <Card>
             <CardHeader>
               <CardTitle>Filter books by Language.</CardTitle>
@@ -227,6 +213,24 @@ export function ExploreBooks() {
               ))}
             </CardContent>
           </Card>}
+
+          {isSchoolSelected && <Card>
+            <CardHeader>
+              <CardTitle>Filter books by Class.</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {levels.map((level, index) => (<div className="flex items-center space-x-2 my-2" key={`level_${index}`}>
+                <Checkbox id={level} checked={searchAndFilterState.filters.clas.includes(level)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "clas", value: level})) : dispatch(removeFilter({name: "clas", value: level})))} />
+                <label
+                htmlFor={level}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  {level}
+                </label>
+                </div>
+              ))}
+            </CardContent>
+          </Card>}
+
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
