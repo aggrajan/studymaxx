@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -19,46 +18,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Badge } from "../ui/badge"
-
-interface OptionsType {
-  [key: string]: boolean
-}
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-]
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { addFilter, IFilter, removeFilter } from "@/lib/slices/searchAndFilterSlice"
 
 export function FilterButton({optionArray, name} : { optionArray: string[], name: string }) {
+  const filters = useAppSelector((state) => state.searchAndFilter.filters);
+  const dispatch = useAppDispatch();
   const allOptions = optionArray.map((option: string) => ({value: option, label: option}));
   const [open, setOpen] = React.useState(false)
-  const options: OptionsType = allOptions.reduce((acc, obj) => ({...acc, [obj.value] : false}), {});
-  const [value, setValue] = React.useState(options);
-  const getSelectedOptions = (options: object) => {
-    return Object.entries(options).filter(([_, value]) => (value === true)).map(([key, _]) => (key))
-  }
-
-
-
-
+  
   return (
     <div className="flex flex-col gap-1">
       <div className="text-sm text-muted-foreground">Select {name}s:</div>
@@ -70,10 +38,10 @@ export function FilterButton({optionArray, name} : { optionArray: string[], name
             className="p-5 overflow-x-auto overflow-y-hidden flex justify-between hover:bg-slate-100" 
             aria-expanded={open}
           >
-            {getSelectedOptions(value).length > 0
+            {(filters[name as keyof IFilter]).length > 0
               ? <div className="">
-                {getSelectedOptions(value).map((option: string, index: number) => (
-                    <Badge key={`filter_${index}`} variant="secondary" className="mx-[5px] rounded-full py-0 text-wrap bg-slate-300" onClick={(e) => {e.preventDefault(); setValue({...value, [option]: !value[option]})}}>
+                {(filters[name as keyof IFilter]).map((option: string, index: number) => (
+                    <Badge key={`filter_${index}`} variant="secondary" className="mx-[5px] rounded-full py-0 text-wrap bg-slate-300" onClick={(e) => {e.preventDefault(); dispatch(removeFilter({name: name as keyof IFilter, value: option}))}}>
                       <div className="flex items-center"><div>{option}</div> <X width={15} className="ml-[1px]" /></div>
                     </Badge>
                   )
@@ -94,14 +62,14 @@ export function FilterButton({optionArray, name} : { optionArray: string[], name
                   className="cursor-pointer"
                   value={givenOption.value}
                   onSelect={(currentValue) => {
-                    setValue({...value, [currentValue]: !value[currentValue]})
+                    dispatch(addFilter({name: name as keyof IFilter, value: currentValue}))
                     setOpen(false)
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value[givenOption.value] ? "opacity-100" : "opacity-0"
+                      filters[name as keyof IFilter].includes(givenOption.value) ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {givenOption.label}

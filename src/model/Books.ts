@@ -2,10 +2,13 @@ import mongoose, { Schema, Document } from "mongoose";
 import { bindings, boards, categories, exams, languages, levels, sizes, subjects } from "./Enums";
 import AuthorSchema, { Author } from "./Authors";
 
+const boardsWithEmpty: [string, ...string[]] = ['' as const, ...boards];
+const examsWithEmpty: [string, ...string[]] = ['' as const, ...exams];
+
 export interface Book extends Document {
     title: string;
     image: string;
-    authors: Author[];
+    authors?: Author[];
     price: number;
     discountedPrice?: number;
     level: string;
@@ -55,12 +58,12 @@ export const BookSchema: Schema<Book> = new Schema({
     board: {
         type: String,
         required: false,
-        enum: boards
+        enum: boardsWithEmpty
     },
     exam: {
         type: String,
         required: false,
-        enum: exams
+        enum: examsWithEmpty
     },
     keywords: [{
         type: String,

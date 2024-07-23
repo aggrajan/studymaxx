@@ -1,26 +1,48 @@
 "use client"
+
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu";
-import { Badge } from "../ui/badge";
-import React, { useState } from "react";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
+import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
+import { ShoppingCartButton } from "../client-only-components/shopping-cart-button";
+import { logout } from "@/app/apiCalls/callLogout";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setAuthState, removeAuthState } from "@/lib/slices/authSlice";
+import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
+import { getProfile } from "@/app/apiCalls/callProfile";
+import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
+import { setBooks } from "@/lib/slices/booksSlice";
 
-export function NavBar(props: any) {
-    const router = useRouter();
-    const [isOpen, setIsOpen] = useState(false);
-    const [cartCount, setCartCount] = useState(0);
-    const [isSearching, setIsSearching] = useState(false);
-    const [searchTerm, setSearchTerm] = useState("");
-    const handleSearch = (e: any) => {
-      e.preventDefault();
-      setSearchTerm(e.target.value);
-    }
-    const toggle = () => {
-      setIsOpen((prevState: boolean) => !prevState);
-    };
-    return (<>
+export function NavBar() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const userAuth = useAppSelector((state) => state.auth);
+  const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
+  const filters = useAppSelector((state) => state.searchAndFilter.filters);
+
+  useEffect(() => {(async () => {
+    const user = await getProfile();
+    if(user) dispatch(setAuthState(user));
+  })()}, []);
+
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+  
+  const toggle = () => {
+    setIsOpen((prevState: boolean) => !prevState);
+  };
+
+  const search = (searchText: string) => {
+    (async () => {
+      const books = await getSearchedAndFilteredBooks(searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
+      dispatch(setBooks(books));
+    })();
+  }
+  return (<>
       <header className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
         <Link href="/" className="flex items-center justify-center" prefetch={false}>
           <BookIcon className="h-6 w-6" />
@@ -42,26 +64,25 @@ export function NavBar(props: any) {
           <Link href="/#contact-us" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Contact Us
           </Link>
+          {userAuth.user?.isAdmin && <Link href="/add-book" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+            Add book
+          </Link>}
           
           {!isSearching ? <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
-            <SearchIcon className="h-5 w-5"  />
+            <SearchIcon className="h-5 w-5" />
             <span className="sr-only">Search</span>
-          </Button> : <div className="relative flex-1 max-w-md">
+          </Button> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <Input
                 type="text"
                 placeholder="Search for products..."
                 value={searchTerm}
-                onChange={handleSearch}
-                onBlur={(e) => {e.preventDefault(); setIsSearching((prev) => !prev)}}
+                onChange={(e) => { dispatch(updateSearchTerm(e.target.value)); }}
+                onBlur={(e) => { e.preventDefault(); setIsSearching((prev) => !prev); }}
                 className="bg-[#f3f3f3] border border-gray-300 rounded-md py-2 pl-10 pr-4 w-full"
               />
-            </div>}
-          <Button onClick={(e) => {e.preventDefault(); router.push('/cart')}} variant="ghost" size="icon" className="rounded-full">
-            <ShoppingCartIcon className="h-5 w-5" />
-            <span className="sr-only">Shopping Cart</span>
-            {cartCount > 0 && <Badge className="ml-2 bg-primary text-primary-foreground">{cartCount}</Badge>}
-          </Button>
+            </form>}
+          <ShoppingCartButton />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
@@ -70,21 +91,14 @@ export function NavBar(props: any) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="/sign-up" prefetch={false}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-up'); setIsClicked(false);}}>
                   Register
-                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="/sign-in" prefetch={false}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); setIsClicked(false);}}>
                   Login
-                </Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer">
-                <div onClick={(e) =>  {e.preventDefault(); props.logout()}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); setIsClicked(false);}}>
                   Logout
-                </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -119,6 +133,9 @@ export function NavBar(props: any) {
         <Link href="/#contact-us" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Contact Us
         </Link>
+        {userAuth.user?.isAdmin && <Link href="/add-book" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+            Add book
+        </Link>}
       </div>
 
     </>);
@@ -164,27 +181,6 @@ function SearchIcon(props: any) {
   )
 }
 
-
-function ShoppingCartIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="8" cy="21" r="1" />
-      <circle cx="19" cy="21" r="1" />
-      <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-    </svg>
-  )
-}
 
 
 function UserIcon(props: any) {

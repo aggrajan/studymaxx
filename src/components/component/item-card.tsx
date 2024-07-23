@@ -3,9 +3,10 @@
 * @see https://v0.dev/t/Ei51Tewh6Nb
 * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
 */
+"use client"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation";
+import { useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -19,23 +20,57 @@ import { ProductDetails } from "./product-details";
 import { TabView } from "./tab-view";
 import { Reviews } from "./reviews";
 import { OtherProductsYouMayFindUseful } from "./other-products-you-may-find-useful";
-import { ScrollArea } from "../ui/scroll-area";
+import { Book } from "@/model/Books";
+import { addItemQuantity, ICartItem, removeCartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { addCartItem } from "@/lib/slices/cartSlice";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
+import { Badge } from "../ui/badge"
+import { useEffect } from "react"
+import { useToast } from "../ui/use-toast"
 
-export function ItemCard({ title, authors, price, cover } : { title: string, authors: string[], price: number, cover: string}) {
-  const router = useRouter();
+export function ItemCard({ title, authors, price, cover, book } : { title: string, authors: string[], price: number, cover: string, book: Book}) {
+  const dispatch = useAppDispatch();
+  const { cartItems } = useAppSelector((state) => state.cart);
   function getAuthors(authors: string[]): string {
     return authors.join(", ");
   }
+  const { toast } = useToast();
+  const [addedToCart, setAddedToCart] = useState(false);
+  const cartItem: ICartItem = {
+    quantity: 1,
+    product: book
+  }
+
+  useEffect(() => {
+    if(getQuantity() > 0) setAddedToCart(true);
+  }, [])
+
+  function getQuantity(): number {
+    if(!book) return 0;
+    const cartIndex = cartItems.findIndex((cartItem) => cartItem.product._id === book._id);
+    if(cartIndex === -1) return 0;
+    return cartItems[cartIndex].quantity
+  }
+
+  function getTruncatedTitle(title: string): string {
+    return title.length > 50 ? title.substring(0, 50) + "..." : title;
+  }
+
+  function getPercetageOff(originalPrice: number, discountedPrice: number) {
+    return (100.0 * ((originalPrice - discountedPrice) / originalPrice));
+  }
+
   return (
     <Card className="w-full max-w-sm">
       <Dialog>
         <DialogTrigger asChild>
-          <img src={cover} alt="Book Image" className="object-cover mb-2 w-full cursor-pointer rounded-t-lg transition-all hover:scale-[103%]" />
+          <img src={cover} alt="Book Image" className="object-cover mb-2 w-full h-[20rem] md:h-[22rem] lg:h-[25rem] xl:h-[30rem] hover:shadow-xl cursor-pointer rounded-t-lg transition-all hover:scale-[103%]" />
         </DialogTrigger>
         <DialogContent className="min-w-[85%] my-16" onOpenAutoFocus={(e) => {e.preventDefault()}}>
           {/* <ScrollArea className="rounded-md border">
             <div className="p-0 sm:p-2"> */}
-                <ProductDetails isModal={true} />
+                <ProductDetails isModal={true} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
                 <TabView />
                 <Reviews />
                 <OtherProductsYouMayFindUseful />
@@ -45,17 +80,51 @@ export function ItemCard({ title, authors, price, cover } : { title: string, aut
       </Dialog>
       
       <CardContent className="flex flex-col items-center">
-        <div className="text-md lg:text-lg font-semibold min-h-20 text-center">{title}</div>
-        <div className="text-xs md:text-sm text-muted-foreground mb-2 min-h-8">{getAuthors(authors)}</div>
-        <div className="text-lg font-bold mb-4">&#8377;{price}</div>
-        <div className="flex space-x-4">
+        <TooltipProvider delayDuration={100}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+                <div className="text-md lg:text-lg font-semibold min-h-20 text-center">{getTruncatedTitle(title)}</div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-wrap">{title}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        
+        <div className="text-xs md:text-sm text-muted-foreground mb-2 text-center min-h-8">{getAuthors(authors)}</div>
+        
+        <div className="flex items-center justify-start gap-4">
+          {book && book.discountedPrice && book.discountedPrice > 0 && <div className="text-2xl font-bold text-primary">&#8377;{book.discountedPrice}</div>}
+          <div className={`${book && book.discountedPrice && book.discountedPrice > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{price}</div>
+          {book && book.discountedPrice && book.discountedPrice > 0 && <Badge variant="default">
+            {getPercetageOff(price, book.discountedPrice).toFixed(1)}% OFF
+          </Badge>}
+        </div>
+        
+        {!addedToCart && <div className="flex space-x-4 mt-2">
           <Button variant="ghost" size="icon">
             <HeartIcon className="w-6 h-6" />
           </Button>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
             <ShoppingCartIcon className="w-6 h-6" />
           </Button>
-        </div>
+        </div>}
+        {addedToCart && <div className="flex items-center flex-col sm:flex-row gap-4 mt-2">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => { dispatch(subtractItemQuantity({ id: book._id as number})) }}
+              disabled={getQuantity() === 1}
+            >
+              <MinusIcon className="h-4 w-4" />
+            </Button>
+            <span>{getQuantity()}</span>
+            <Button variant="outline" size="icon" onClick={() => { dispatch(addItemQuantity({ id: book._id as number})) }}>
+              <PlusIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>}
       </CardContent>
     </Card>
   )
@@ -121,4 +190,66 @@ function XIcon(props: any) {
       <path d="m6 6 12 12" />
     </svg>
   );
+}
+
+function MinusIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+    </svg>
+  )
+}
+
+
+function PlusIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </svg>
+  )
+}
+
+
+function TrashIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+    </svg>
+  )
 }

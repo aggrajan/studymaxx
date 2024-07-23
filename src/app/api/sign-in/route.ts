@@ -40,6 +40,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             httpOnly: true,
             expires: expiryDate
         });
+        
+        response.cookies.set("isAdmin", currentUser?.isAdmin === undefined ? "false" : (currentUser.isAdmin ? "true" : "false"), {
+            httpOnly: true,
+            expires: expiryDate
+        });
 
         return response;
     } catch (error: any) {

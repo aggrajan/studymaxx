@@ -13,6 +13,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             if(err) {
                 if(err.message === "jwt expired") {
                     cookies().delete("token");
+                    cookies().delete("isAdmin")
                 }
             }
 
@@ -44,6 +45,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             httpOnly: true,
             expires: new Date(0)
         })
+
+        response.cookies.set("isAdmin", "", {
+            httpOnly: true,
+            expires: new Date(0)
+        });
 
         return response
     } catch (error: any) {

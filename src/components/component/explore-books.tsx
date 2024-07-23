@@ -19,140 +19,88 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import { subjects, levels, boards, languages, categories, exams } from "@/model/Enums";
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from "@/components/ui/pagination";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "../ui/button";
 import { ItemCard } from "./item-card";
+import { getBooks } from "@/app/apiCalls/callBooks";
+import { Book } from "@/model/Books";
+import { Author } from "next/dist/lib/metadata/types/metadata-types";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { addFilter, updateSearchTerm, removeFilter } from "@/lib/slices/searchAndFilterSlice";
+import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
+import { setBooks } from "@/lib/slices/booksSlice";
 
 export function ExploreBooks() {
-  const [books, setBooks] = useState([
-    {
-      id: 1,
-      title: "The Great Gatsby",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 2,
-      title: "To Kill a Mockingbird",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 3,
-      title: "1984",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 4,
-      title: "Pride and Prejudice",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 5,
-      title: "The Catcher in the Rye",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 6,
-      title: "The Lord of the Rings",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 7,
-      title: "Harry Potter and the Sorcerer's Stone",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 8,
-      title: "The Hobbit",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 9,
-      title: "The Hunger Games",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 10,
-      title: "The Kite Runner",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 11,
-      title: "The Book Thief",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 12,
-      title: "The Fault in Our Stars",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 13,
-      title: "The Kite Runner",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 14,
-      title: "The Book Thief",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    },
-    {
-      id: 15,
-      title: "The Fault in Our Stars",
-      cover: "/placeholder.svg",
-      authors: ["ABC", "Dr. R. S. Aggarwal"],
-      price: 1499
-    }
-  ])
+  const filteredBooks = useAppSelector((state) => state.books.books);
+  const dispatch = useAppDispatch();
+  const searchAndFilterState = useAppSelector((state) => state.searchAndFilter) 
+  const [books, setAllBooks] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1)
   const booksPerPage = 8
   const totalPages = Math.ceil(books.length / booksPerPage)
   const indexOfLastBook = currentPage * booksPerPage
   const indexOfFirstBook = indexOfLastBook - booksPerPage
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterGenre, setFilterGenre] = useState("")
+  const [isSchoolSelected, setIsSchoolSelected] = useState(false);
+  const [isCompetitiveExamSelected, setIsCompetitiveExamSelected] = useState(false);
+
+  useEffect(() => {
+    if(searchAndFilterState.filters.categorie.findIndex((category) => category === "School") === -1) {
+      setIsSchoolSelected(false);
+    } else {
+      setIsSchoolSelected(true);
+    }
+
+    if(searchAndFilterState.filters.categorie.findIndex((category) => category === "Competitive Exam") === -1) {
+      setIsCompetitiveExamSelected(false);
+    } else {
+      setIsCompetitiveExamSelected(true);
+    }
+
+    search(searchAndFilterState.searchTerm);
+  }, [searchAndFilterState.filters])
+
+  useEffect(() => {
+    const getAllBooks = async () => {
+      const allBooks = await getBooks();
+      setAllBooks(allBooks);
+    }
+
+    if(searchAndFilterState.searchTerm === "" && searchAndFilterState.filters.board.length === 0
+      && searchAndFilterState.filters.categorie.length === 0 && searchAndFilterState.filters.clas.length === 0 
+      && searchAndFilterState.filters.exam.length === 0 && searchAndFilterState.filters.language.length === 0 
+      && searchAndFilterState.filters.subject.length === 0
+    ) {
+      getAllBooks();
+    }
+  }, []);
+
+  useEffect(() => {
+    setAllBooks(filteredBooks);
+  }, [filteredBooks]);
+
+  
   const handlePageChange = (page: any) => {
     setCurrentPage(page)
   }
-  // const filteredBooks = books.filter((book) => {
-  //   const titleMatch = book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  //   const genreMatch = filterGenre ? book.genre === filterGenre : true
-  //   return titleMatch && genreMatch
-  // })
-  const uniqueGenres = ["Mathematics", "Competitve Exams"]
+
+  function getAuthorNames(authors: Author[] | undefined): string[] {
+    if(authors === undefined) return [];
+    return authors.map(author => author.name).filter((name): name is string => name !== undefined);
+  }
+  
+  const search = (searchText: string) => {
+    (async () => {
+      const books = await getSearchedAndFilteredBooks(searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
+      dispatch(setBooks(books));
+    })();
+  }
+
   return (
     <section className="pt-12 md:pt-24 lg:pt-32 bg-background">
       <div className="container px-4 md:px-6 gap-8 pb-4">
@@ -161,7 +109,7 @@ export function ExploreBooks() {
           Discover our top-selling and most popular books across various genres.
         </p>
       </div>
-      <div className="container px-4 md:px-6 grid md:grid-cols-[250px_1fr] gap-8">
+      <div className="container px-4 md:px-6 grid md:grid-cols-[280px_1fr] gap-8">
         <div className="flex flex-col gap-4">
           <Card>
             <CardHeader>
@@ -170,99 +118,120 @@ export function ExploreBooks() {
             <CardContent>
               <Input
                 type="search"
-                placeholder="Enter title..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Type title, author, keywords..."
+                value={searchAndFilterState.searchTerm}
+                onChange={(e) => dispatch(updateSearchTerm(e.target.value))}
               />
-              <Button className="mt-2 bg-blue-500 border" >Search</Button>
+              <Button className="mt-2 bg-blue-500 border" onClick={() => { search(searchAndFilterState.searchTerm) }}>Search</Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Filter books by Subjects.</CardTitle>
+              <CardTitle>Filter books by Type of Book.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`a_${index}`}>
-                <Checkbox id={genre} />
+              {categories.map((category, index) => (<div className="flex items-center space-x-2 my-2" key={`category_${index}`}>
+                <Checkbox id={category} checked={searchAndFilterState.filters.categorie.includes(category)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "categorie", value: category})) : dispatch(removeFilter({name: "categorie", value: category})))} />
                 <label
-                htmlFor={genre}
+                htmlFor={category}
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {genre}
+                  {category}
                 </label>
                 </div>
               ))}
             </CardContent>
           </Card>
-          <Card>
+
+          {isSchoolSelected && <Card>
+            <CardHeader>
+              <CardTitle>Filter books by Subjects.</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {subjects.map((subject, index) => (<div className="flex items-center space-x-2 my-2" key={`subject_${index}`}>
+                <Checkbox id={subject} checked={searchAndFilterState.filters.subject.includes(subject)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "subject", value: subject})) : dispatch(removeFilter({name: "subject", value: subject})))} />
+                <label
+                htmlFor={subject}
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  {subject}
+                </label>
+                </div>
+              ))}
+            </CardContent>
+          </Card>}
+
+          {isSchoolSelected && <Card>
             <CardHeader>
               <CardTitle>Filter books by Board.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`b_${index}`}>
-                <Checkbox id={genre} />
+              {boards.map((board, index) => (<div className="flex items-center space-x-2 my-2" key={`board${index}`}>
+                <Checkbox id={board} checked={searchAndFilterState.filters.board.includes(board)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "board", value: board})) : dispatch(removeFilter({name: "board", value: board})))} />
                 <label
-                htmlFor={genre}
+                htmlFor={board}
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {genre}
+                  {board}
                 </label>
                 </div>
               ))}
             </CardContent>
-          </Card>
-          <Card>
+          </Card>}
+
+          {isSchoolSelected && <Card>
             <CardHeader>
               <CardTitle>Filter books by Class.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`c_${index}`}>
-                <Checkbox id={genre} />
+              {levels.map((level, index) => (<div className="flex items-center space-x-2 my-2" key={`level_${index}`}>
+                <Checkbox id={level} checked={searchAndFilterState.filters.clas.includes(level)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "clas", value: level})) : dispatch(removeFilter({name: "clas", value: level})))} />
                 <label
-                htmlFor={genre}
+                htmlFor={level}
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {genre}
+                  {level}
                 </label>
                 </div>
               ))}
             </CardContent>
-          </Card>
-          <Card>
+          </Card>}
+
+          {(isSchoolSelected || isCompetitiveExamSelected) && <Card>
             <CardHeader>
               <CardTitle>Filter books by Language.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`d_${index}`}>
-                <Checkbox id={genre} />
+              {languages.map((language, index) => (<div className="flex items-center space-x-2 my-2" key={`language_${index}`}>
+                <Checkbox id={language} checked={searchAndFilterState.filters.language.includes(language)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "language", value: language})) : dispatch(removeFilter({name: "language", value: language})))} />
                 <label
-                htmlFor={genre}
+                htmlFor={language}
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {genre}
+                  {language}
                 </label>
                 </div>
               ))}
             </CardContent>
-          </Card>
-          <Card>
+          </Card>}
+
+          {isCompetitiveExamSelected && <Card>
             <CardHeader>
-              <CardTitle>Filter books by Type of Book.</CardTitle>
+              <CardTitle>Filter books by Exam Type.</CardTitle>
             </CardHeader>
             <CardContent>
-              {uniqueGenres.map((genre, index) => (<div className="flex items-center space-x-2 my-2" key={`e_${index}`}>
-                <Checkbox id={genre} />
+              {exams.map((exam, index) => (<div className="flex items-center space-x-2 my-2" key={`exam_${index}`}>
+                <Checkbox id={exam} checked={searchAndFilterState.filters.exam.includes(exam)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "exam", value: exam})) : dispatch(removeFilter({name: "exam", value: exam})))} />
                 <label
-                htmlFor={genre}
+                htmlFor={exam}
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                  {genre}
+                  {exam}
                 </label>
                 </div>
               ))}
             </CardContent>
-          </Card>
+          </Card>}
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {currentBooks.map((book, index) => (
-              <ItemCard key={`book_${book.id}`} title={book.title} authors={book.authors} price={book.price} cover={book.cover} />
+            {currentBooks.map((book: Book) => (
+              <ItemCard key={`book_${book._id}`} title={book.title} authors={getAuthorNames(book.authors)} price={book.price} cover={book.image} book={book}/>
             ))}
           </div>
           <div className="container px-4 md:px-6 mt-8">

@@ -25,83 +25,58 @@ To read more about using these font, please visit the Next.js documentation:
 **/
 "use client"
 
-import { useState } from "react"
+import { useToast } from "../ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { Author } from "@/model/Authors"
+import { addItemQuantity, subtractItemQuantity, removeCartItem } from "@/lib/slices/cartSlice"
 
 export function CartPage() {
-  const cartItems = [
-    {
-      id: 1,
-      image: "/placeholder.svg",
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      quantity: 2,
-      price: 14.99,
-    },
-    {
-      id: 2,
-      image: "/placeholder.svg",
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      quantity: 1,
-      price: 12.99,
-    },
-    {
-      id: 3,
-      image: "/placeholder.svg",
-      title: "Pride and Prejudice",
-      author: "Jane Austen",
-      quantity: 3,
-      price: 9.99,
-    },
-  ]
-  const [cart, setCart] = useState(cartItems)
-  const removeFromCart = (id: number) => {
-    setCart(cart.filter((item) => item.id !== id))
+  const dispatch = useAppDispatch();
+  const { cartCount, cartItems, shipping, discount, total, subtotal } = useAppSelector((state) => state.cart);
+  const { toast } = useToast();
+  function getAuthors(authors: Author[] | undefined): string {
+    if(authors ===  undefined) return "";
+    const authorsName = authors.map((author) => author.name)
+    return authorsName.join(", ");
   }
-  const updateQuantity = (id: number, quantity: number) => {
-    setCart(cart.map((item) => (item.id === id ? { ...item, quantity } : item)))
-  }
-  const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0)
-  const shipping = 5.99
-  const discount = 10
   return (
       <main className="flex-1 py-12 px-2 md:px-4 mt-16">
         <div className="container mx-auto grid gap-8 md:grid-cols-[2fr_1fr]">
           <div>
             <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
             <div className="grid gap-6">
-              {cart.length > 0 ? cart.map((item) => (
-                <div key={item.id} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
+              {cartCount > 0 ? cartItems.map((item) => (
+                <div key={item.product.id} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
                   <img
-                    src="/placeholder.svg"
-                    alt={item.title}
+                    src={item.product.image}
+                    alt={item.product.title}
                     width={100}
                     height={150}
                     className="rounded-md object-cover"
                   />
                   <div>
-                    <h3 className="font-semibold">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.author}</p>
-                    <p className="text-black">&#8377;{item.price}</p>
+                    <h3 className="font-semibold">{item.product.title}</h3>
+                    <p className="text-muted-foreground">{getAuthors(item.product.authors)}</p>
+                    <p className="text-black">&#8377;{item.product.price}</p>
                   </div>
                   <div className="flex items-center flex-col sm:flex-row gap-4">
                     <div className="flex items-center gap-2">
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        onClick={() => { dispatch(subtractItemQuantity({ id: item.product._id as number})) }}
                         disabled={item.quantity === 1}
                       >
                         <MinusIcon className="h-4 w-4" />
                       </Button>
                       <span>{item.quantity}</span>
-                      <Button variant="outline" size="icon" onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                      <Button variant="outline" size="icon" onClick={() => {console.log(item.product._id); dispatch(addItemQuantity({ id: item.product._id as number})) }}>
                         <PlusIcon className="h-4 w-4" />
                       </Button>
                     </div>
-                    <Button variant="outline" size="icon" onClick={() => removeFromCart(item.id)}>
+                    <Button variant="outline" size="icon" onClick={() => { dispatch(removeCartItem({ id: item.product._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"})}}>
                       <TrashIcon className="h-4 w-4" />
                     </Button>
                   </div>
@@ -114,23 +89,23 @@ export function CartPage() {
             <div className="grid gap-2">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>&#8377;{total.toFixed(2)}</span>
+                <span>&#8377;{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>&#8377;{cart.length > 0 ? shipping.toFixed(2): 0}</span>
+                <span>&#8377;{cartCount > 0 ? shipping.toFixed(2): 0}</span>
               </div>
               <div className="flex justify-between">
                 <span>Discount</span>
-                <span>-&#8377;{cart.length > 0 ? discount.toFixed(2) : 0}</span>
+                <span>-&#8377;{cartCount > 0 ? discount.toFixed(2) : 0}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-bold">
                 <span>Total</span>
-                <span>${(total + (cart.length > 0 ? shipping : 0) -  (cart.length > 0 ? discount : 0)).toFixed(2)}</span>
+                <span>&#8377;{(total).toFixed(2)}</span>
               </div>
             </div>
-            <Button className={`w-full mt-6 ${cart.length > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={cart.length === 0}>Proceed to Checkout</Button>
+            <Button className={`w-full mt-6 ${cartCount > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={cartCount === 0}>Proceed to Checkout</Button>
           </div>
         </div>
       </main>

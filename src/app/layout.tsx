@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { CookiesProvider } from "next-client-cookies/server"
+import { CookiesProvider } from "next-client-cookies/server";
+import StoreProvider from "./StoreProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 import AuthProvider from "@/context/AuthProvider";
@@ -22,10 +23,12 @@ export default function RootLayout({
         <CookiesProvider >
         <AuthProvider>
           <body className={inter.className}>
+          <StoreProvider>
             <main>
               {children}
               <Toaster />
             </main>
+          </StoreProvider>
           </body>
         </AuthProvider>
         </CookiesProvider>

@@ -60,6 +60,11 @@ const authOptions: NextAuthOptions = {
                         expires: expiryDate
                     });
 
+                    cookies().set("isAdmin", currentUser.isAdmin === undefined ? "false" : (currentUser.isAdmin ? "true" : "false"), {
+                        httpOnly: true,
+                        expires: expiryDate
+                    });
+
                     return response;
                 } catch (error: any) {
                     return new Error("Credentials Error: ", error.message);
@@ -110,6 +115,11 @@ const authOptions: NextAuthOptions = {
             const response = true;
 
             cookies().set("token", token, {
+                httpOnly: true,
+                expires: expiryDate
+            });
+
+            cookies().set("isAdmin", currentUser?.isAdmin === undefined ? "false" : (currentUser.isAdmin ? "true" : "false"), {
                 httpOnly: true,
                 expires: expiryDate
             });

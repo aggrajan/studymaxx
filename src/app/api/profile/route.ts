@@ -16,7 +16,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const user = await UserModel.findOne({_id: userId}).select("-password");
-    console.log(userId, user, dataResponse)
     if(!user) {
         return NextResponse.json({
             success: false,
