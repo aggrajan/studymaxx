@@ -10,7 +10,7 @@ export interface Book extends Document {
     image: string;
     authors?: Author[];
     price: number;
-    discountedPrice?: number;
+    discount?: number;
     level: string;
     subject: string;
     board?: string;
@@ -40,7 +40,7 @@ export const BookSchema: Schema<Book> = new Schema({
         min: 0,
         required: [true, "Price is required"]
     },
-    discountedPrice: {
+    discount: {
         type: Number,
         min: 0,
         required: false

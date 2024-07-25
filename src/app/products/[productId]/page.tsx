@@ -61,7 +61,7 @@ export default function Product() {
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
             <TabView />
             <Reviews />
-            <OtherProductsYouMayFindUseful />
+            <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />
             <Footer />
         </>

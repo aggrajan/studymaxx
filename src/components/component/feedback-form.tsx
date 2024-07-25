@@ -38,17 +38,27 @@ export function FeedbackForm() {
             <p className="text-muted-foreground">Help us improve our book selection and services.</p>
           </div>
           <form className="space-y-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter your name" />
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <Label htmlFor="feedback_name">Name</Label>
+                <Input id="feedback_name" placeholder="Enter your name" />
+              </div>
+              <div>
+                <Label htmlFor="feedback_email">Email</Label>
+                <Input id="feedback_email" type="email" placeholder="Enter your email" />
+              </div>
             </div>
+
             <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="Enter your email" />
+              <div>
+                <Label htmlFor="feedback_book">Book</Label>
+                <Input id="feedback_book" placeholder="Enter the name of the book" />
+              </div>
             </div>
+
             <div className="grid gap-2">
-              <Label htmlFor="feedback">Feedback</Label>
-              <Textarea id="feedback" placeholder="Share your thoughts and suggestions" className="min-h-[120px]" />
+              <Label htmlFor="feedback_content">Feedback</Label>
+              <Textarea id="feedback_content" placeholder="Share your thoughts and suggestions" className="min-h-[120px]" />
             </div>
             <div className="flex justify-end">
               <Button type="submit">Submit Feedback</Button>

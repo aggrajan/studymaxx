@@ -11,7 +11,7 @@ export function OnlineSupport() {
           </p>
         </div>
         <div className="container grid grid-cols-1 gap-6 px-4 md:grid-cols-3 md:px-6">
-          <div className="rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
+          <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-4">
                 <div className="rounded-md bg-primary p-3 text-primary-foreground">
@@ -25,7 +25,7 @@ export function OnlineSupport() {
             </div>
             <Button className="mt-4 w-auto mx-auto">Get Support</Button>
           </div>
-          <div className="rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
+          <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-4">
                 <div className="rounded-md bg-secondary p-3 text-secondary-foreground">
@@ -39,7 +39,7 @@ export function OnlineSupport() {
             </div>
             <Button className="mt-4 w-auto mx-auto">Get Support</Button>
           </div>
-          <div className="rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
+          <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-4">
                 <div className="rounded-md bg-muted p-3 text-muted-foreground">

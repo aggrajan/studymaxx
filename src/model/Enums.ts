@@ -48,7 +48,7 @@ export const bindings: [string, ...string[]] = [
 
 export const categories: [string, ...string[]] = [
     'School',
-    'Higher Acedemic Book',
+    'Higher Academic Book',
     'Competitive Exam',
     'General',
     'Kids Foundation'

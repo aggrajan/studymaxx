@@ -36,7 +36,7 @@ export function ContactQueryForm() {
           <h2 className="text-3xl font-bold">Contact Us and Ask your query</h2>
           <p className="text-muted-foreground">Help us improve our book selection and services.</p>
         </div>
-        <div className="rounded-lg border bg-background p-6 shadow-sm transition-all hover:shadow-md">
+        <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md">
           <div className="flex items-center gap-4">
             <div className="rounded-md bg-primary p-3 text-primary-foreground">
               <MailIcon className="h-6 w-6" />

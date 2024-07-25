@@ -42,42 +42,40 @@ const testimonials = [
 export function Testimonials() {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
+
  
   useEffect(() => {
     if (!api) {
       return
     }
- 
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
- 
+    setCurrent((api.selectedScrollSnap()) % testimonials.length)
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1)
+      setCurrent((api.selectedScrollSnap()) % testimonials.length)
     })
   }, [api])
   return (
     <section className="w-full pt-12 md:pt-24 lg:pt-32 h-full">
     <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
       <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Testimonials</h2>
-              <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                Discover our top-selling and most popular books across various genres.
-              </p>
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Testimonials</h2>
+        <p className="max-w-[700px] text-muted-foreground md:text-xl">
+          Discover our top-selling and most popular books across various genres.
+        </p>
       </div>
     <div>
     <Carousel 
       setApi={setApi}
       opts={{
         align: "start",
+        loop: true
       }}
-      plugins={[Autoplay({ delay: 2500, stopOnInteraction: false })]}
+      plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
       className="w-full min-h-72 hidden lg:block"
     >
       <CarouselContent>
-      {testimonials.concat(testimonials.slice(0, 2)).map((testimonial, index) => (
+      {testimonials.map((testimonial, index) => (
           <CarouselItem key={index} className="basis-1/3 select-none">
-          <Card className={`transition-all duration-500 ease-in-out ${index === current ? 'bg-gray-200 scale-110 m-4' : 'scale-[0.8] opacity-75 mt-4 ml-4 mr-4 mb-4'}`}>
+          <Card className={`cursor-pointer rounded-md transition-all duration-500 ease-in-out ${(index === ((current + 1)%testimonials.length)) ? 'bg-gray-200 scale-110 m-4' : 'scale-[0.8] opacity-75 mt-4 ml-4 mr-4 mb-4'}`}>
             <CardContent className="flex flex-col items-start justify-center p-6">
             <blockquote className="text-lg font-semibold leading-snug min-h-32">
               &ldquo;{testimonial.text}&rdquo;
@@ -101,14 +99,15 @@ export function Testimonials() {
     <Carousel 
       opts={{
         align: "start",
+        loop: true
       }}
-      plugins={[Autoplay({ delay: 2500, stopOnInteraction: false })]}
+      plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
       className="w-full max-w-4xl block lg:hidden"
     >
       <CarouselContent>
       {testimonials.map((testimonial, index) => (
           <CarouselItem key={index}>
-          <Card className="mx-2">
+          <Card className="mx-2 rounded-md">
             <CardContent className="flex flex-col items-start justify-center p-6">
             <blockquote className="text-lg font-semibold leading-snug">
               &ldquo;{testimonial.text}&rdquo;
@@ -125,8 +124,6 @@ export function Testimonials() {
         </CarouselItem>
         ))}
       </CarouselContent>
-      {/* <CarouselPrevious />
-      <CarouselNext /> */}
     </Carousel>
     </div>
     <div className="lg:flex justify-center mt-4 hidden">
@@ -134,11 +131,12 @@ export function Testimonials() {
         <div
           key={index}
           className={`h-2 w-2 bg-gray-500 rounded-full mx-1 transition-all duration-500 ease-in-out ${
-            index === current-1 ? 'w-4' : '' 
+            index === current ? 'w-4' : '' 
           } cursor-pointer`}
           onClick={(e) => {
             e.preventDefault();
             api?.scrollTo(index);
+            
           }}
         ></div>
       ))}

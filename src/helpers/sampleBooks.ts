@@ -293,7 +293,7 @@ export const sampleBooks = [
         }
       ],
       "price": 320,
-      "discountedPrice": 0,
+      "discount": 0,
       "level": "Class 10",
       "subject": "Subject C",
       "board": "Board 2",
@@ -323,7 +323,7 @@ export const sampleBooks = [
         }
       ],
       "price": 320,
-      "discountedPrice": 300,
+      "discount": 30,
       "level": "Class 11",
       "subject": "Subject B",
       "board": "Board 4",
@@ -351,7 +351,7 @@ export const sampleBooks = [
         }
       ],
       "price": 223,
-      "discountedPrice": 200,
+      "discount": 20,
       "level": "Class 7",
       "subject": "Subject C",
       "board": "Board 1",

@@ -28,12 +28,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { Badge } from "../ui/badge"
 import { useEffect } from "react"
 import { useToast } from "../ui/use-toast"
+import { Author } from "@/model/Authors"
 
-export function ItemCard({ title, authors, price, cover, book } : { title: string, authors: string[], price: number, cover: string, book: Book}) {
+export function ItemCard({ book } : { book: Book}) {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
-  function getAuthors(authors: string[]): string {
-    return authors.join(", ");
+  function getAuthorNames(authors: Author[] | undefined): string {
+    if(authors === undefined) return "";
+    return authors.map(author => author.name).filter((name): name is string => name !== undefined).reduce((prev, curr) => (prev + ", " + curr));
   }
   const { toast } = useToast();
   const [addedToCart, setAddedToCart] = useState(false);
@@ -57,51 +59,51 @@ export function ItemCard({ title, authors, price, cover, book } : { title: strin
     return title.length > 50 ? title.substring(0, 50) + "..." : title;
   }
 
-  function getPercetageOff(originalPrice: number, discountedPrice: number) {
-    return (100.0 * ((originalPrice - discountedPrice) / originalPrice));
+  function getDiscountedPrice(originalPrice: number, discount: number): number {
+    return (originalPrice * (100 - discount)) / 100.0;
   }
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full rounded-md rounded-t-none">
       <Dialog>
         <DialogTrigger asChild>
-          <img src={cover} alt="Book Image" className="object-cover mb-2 w-full h-[20rem] md:h-[22rem] lg:h-[25rem] xl:h-[30rem] hover:shadow-xl cursor-pointer rounded-t-lg transition-all hover:scale-[103%]" />
+          <img src={book.image} alt="Book Image" className="w-full  hover:shadow-2xl cursor-pointer rounded-t-none transition-all hover:scale-[103%]" />
         </DialogTrigger>
-        <DialogContent className="min-w-[85%] my-16" onOpenAutoFocus={(e) => {e.preventDefault()}}>
+        <DialogContent className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
           {/* <ScrollArea className="rounded-md border">
             <div className="p-0 sm:p-2"> */}
-                <ProductDetails isModal={true} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
+                <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
                 <TabView />
                 <Reviews />
-                <OtherProductsYouMayFindUseful />
+                <OtherProductsYouMayFindUseful book={book} isModal={true} />
             {/* </div>
           </ScrollArea> */}
         </DialogContent>
       </Dialog>
       
-      <CardContent className="flex flex-col items-center">
+      <CardContent className="flex flex-col p-2">
         <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>
-                <div className="text-md lg:text-lg font-semibold min-h-20 text-center">{getTruncatedTitle(title)}</div>
+                <div className="text-md lg:text-lg font-semibold min-h-16 sm:min-h-20 md:min-h-20">{getTruncatedTitle(book.title)}</div>
             </TooltipTrigger>
             <TooltipContent>
-              <p className="text-wrap">{title}</p>
+              <p className="text-wrap">{book.title}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
         
-        <div className="text-xs md:text-sm text-muted-foreground mb-2 text-center min-h-8">{getAuthors(authors)}</div>
+        <div className="text-xs md:text-sm text-muted-foreground min-h-4 md:min-h-8">{getAuthorNames(book.authors)}</div>
         
-        <div className="flex items-center justify-start gap-4">
-          {book && book.discountedPrice && book.discountedPrice > 0 && <div className="text-2xl font-bold text-primary">&#8377;{book.discountedPrice}</div>}
-          <div className={`${book && book.discountedPrice && book.discountedPrice > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{price}</div>
-          {book && book.discountedPrice && book.discountedPrice > 0 && <Badge variant="default">
-            {getPercetageOff(price, book.discountedPrice).toFixed(1)}% OFF
-          </Badge>}
+        <div className="flex justify-start items-center gap-4">
+          {(book && book.discount && (book.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(book.price, book.discount)}</div> : null}
+          <div className={`${(book && book.discount && (book.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{book.price}</div>
+          {(book && book.discount && (book.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100">
+            {(book.discount).toFixed(1)}% OFF
+          </Badge> : null}
         </div>
         
-        {!addedToCart && <div className="flex space-x-4 mt-2">
+        {!addedToCart && <div className="flex space-x-2">
           <Button variant="ghost" size="icon">
             <HeartIcon className="w-6 h-6" />
           </Button>
@@ -109,7 +111,7 @@ export function ItemCard({ title, authors, price, cover, book } : { title: strin
             <ShoppingCartIcon className="w-6 h-6" />
           </Button>
         </div>}
-        {addedToCart && <div className="flex items-center flex-col sm:flex-row gap-4 mt-2">
+        {addedToCart && <div className="flex items-center flex-col sm:flex-row gap-4">
           <div className="flex items-center gap-2">
             <Button
               variant="outline"

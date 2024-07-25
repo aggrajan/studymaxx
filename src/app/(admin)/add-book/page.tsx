@@ -35,17 +35,17 @@ function AddBookForm() {
             title: '',
             image: '',
             authors: [{name: ''}],
-            price: 0,
-            discountedPrice: 0,
+            price: NaN,
+            discount: NaN,
             level: '',
             subject: '',
             board: '',
             exam: '',
-            keywords: [''],
+            keywords: [undefined],
             language: '',
             isbn: '',
-            number_of_pages: 0,
-            year: 0,
+            number_of_pages: NaN,
+            year: NaN,
             size: '',
             binding: '',
             category: ''
@@ -145,7 +145,7 @@ function AddBookForm() {
                                         </FormItem>
                                     </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, {name: ''}])}>Add Author</Button>
+                                <Button type="button" onClick={() => field.onChange([...field.value, {name: ''}])}>Add Another Author</Button>
                             </>
                         )}
                         />
@@ -157,7 +157,7 @@ function AddBookForm() {
                                 <FormItem>
                                     <FormLabel>Price</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="price" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} />
+                                        <Input placeholder="price" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} onWheel={(e) => (e.target as HTMLElement).blur()} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -165,13 +165,13 @@ function AddBookForm() {
                         />
 
                         <FormField 
-                            name="discountedPrice"
+                            name="discount"
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Discounted Price</FormLabel>
+                                    <FormLabel>Discount</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="discounted price" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} />
+                                        <Input placeholder="discount amount in percentage (%)" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} onWheel={(e) => (e.target as HTMLElement).blur()} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -305,7 +305,7 @@ function AddBookForm() {
                                         </FormItem>
                                     </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Keyword</Button>
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Keyword</Button>
                             </>
                         )}
                         />
@@ -357,7 +357,7 @@ function AddBookForm() {
                                 <FormItem>
                                     <FormLabel>Pages</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="number of pages" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} />
+                                        <Input placeholder="number of pages" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} onWheel={(e) => (e.target as HTMLElement).blur()} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -371,7 +371,7 @@ function AddBookForm() {
                                 <FormItem>
                                     <FormLabel>Year</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="year" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} />
+                                        <Input placeholder="year" type="number" value={field.value} onChange={(e) => field.onChange(e.target.valueAsNumber)} onWheel={(e) => (e.target as HTMLElement).blur()} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

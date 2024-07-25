@@ -5,15 +5,16 @@ import { Card, CardContent } from "../ui/card";
 
 export function BannerCarousal() {
     return (
-        <div className="w-full overflow-hidden flex justify-center mt-16">
+        <div className="w-full overflow-hidden flex justify-center mt-[55px]">
         <Carousel
-          plugins={[Autoplay({ delay: 2500, stopOnInteraction: false })]}
+          plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
           className="w-full"
+          opts={{loop: true}}
         >
           <CarouselContent>
             <CarouselItem>
               <div className="p-1">
-                <Card>
+                <Card className="rounded-none">
                   <CardContent className="flex flex-col items-center justify-center p-6">
                     <img
                       src="/placeholder.svg"
@@ -29,7 +30,7 @@ export function BannerCarousal() {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card>
+                <Card className="rounded-none">
                   <CardContent className="flex flex-col items-center justify-center p-6">
                     <img
                       src="/placeholder.svg"
@@ -45,7 +46,7 @@ export function BannerCarousal() {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card>
+                <Card className="rounded-none">
                   <CardContent className="flex flex-col items-center justify-center p-6">
                     <img
                       src="/placeholder.svg"
@@ -61,7 +62,7 @@ export function BannerCarousal() {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card>
+                <Card className="rounded-none">
                   <CardContent className="flex flex-col items-center justify-center p-6">
                     <img
                       src="/placeholder.svg"

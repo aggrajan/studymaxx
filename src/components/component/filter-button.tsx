@@ -62,9 +62,11 @@ export function FilterButton({optionArray, name} : { optionArray: string[], name
                   className="cursor-pointer"
                   value={givenOption.value}
                   onSelect={(currentValue) => {
-                    dispatch(addFilter({name: name as keyof IFilter, value: currentValue}))
+                    if(filters[name as keyof IFilter].includes(currentValue)) dispatch(removeFilter({name: name as keyof IFilter, value: currentValue}))
+                    else dispatch(addFilter({name: name as keyof IFilter, value: currentValue}))
                     setOpen(false)
                   }}
+                  disabled={name == "categorie" && filters[name as keyof IFilter].length > 0 && !filters[name as keyof IFilter].includes(givenOption.value)}
                 >
                   <Check
                     className={cn(

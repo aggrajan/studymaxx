@@ -47,8 +47,8 @@ export function ProductDetails(props: any) {
     product: props.book
   }
   const { toast } = useToast();
-  function getPercetageOff(originalPrice: number, discountedPrice: number) {
-    return (100.0 * ((originalPrice - discountedPrice) / originalPrice));
+  function getDiscountedPrice(originalPrice: number, discount: number): number {
+    return (originalPrice * (100 - discount)) / 100.0;
   }
   const { isModal } = props;
   return (
@@ -64,14 +64,14 @@ export function ProductDetails(props: any) {
       </div>
       <div className="grid gap-4 md:gap-8">
         <div className="grid gap-2">
-          <h1 className="text-3xl font-bold text-primary w-[30rem]">{props.book.title}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-primary w-full md:w-[30rem]">{props.book.title}</h1>
           <div className="flex flex-row justify-between">
             <div className="flex items-center gap-2 text-muted-foreground">
               <span>by</span>
               <Link href="#" className="text-primary hover:underline underline-offset-4" prefetch={false}>
-                {props.getAuthors(props.book.authors.map((author: { name: string }) => author.name))}
+                {props.getAuthors(props.book.authors)}
               </Link>
-              <ShareButton link={`http://localhost:3000/products/${props.book._id}`} />
+              <ShareButton link={`https://study-maxx.vercel.app/products/${props.book._id}`} />
             </div>
             {isModal && <TooltipProvider delayDuration={100}>
                 <Tooltip>
@@ -90,10 +90,10 @@ export function ProductDetails(props: any) {
         </div>
         <div className="grid gap-2">
           <div className="flex items-center justify-start gap-4">
-            {props.book.discountedPrice > 0 && <div className="text-2xl font-bold text-primary">&#8377;{props.book.discountedPrice}</div>}
-            <div className={`${props.book.discountedPrice > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price}</div>
-            {props.book.discountedPrice > 0 && <Badge variant="default">
-              {getPercetageOff(props.book.price, props.book.discountedPrice)}% OFF
+            {props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount)}</div>}
+            <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price}</div>
+            {props.book.discount > 0 && <Badge variant="default">
+              {(props.book.discount)}% OFF
             </Badge>}
           </div>
           <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">Preview</Button>
@@ -150,7 +150,7 @@ export function ProductDetails(props: any) {
           </div>
         </div>
         
-        {!props.addedToCart && <div className="grid grid-cols-2 xl:flex gap-2 w-[25em]">
+        {!props.addedToCart && <div className="grid grid-cols-2 xl:flex gap-2 w-full">
           <Button size="lg" className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             Add to Cart

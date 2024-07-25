@@ -38,8 +38,8 @@ export async function getSearchedAndFilteredBooks(searchTerm: string, subjects: 
         }
     }
 
-    if(categories?.includes("Higher Academic Books")) {
-        filteredHigherAcedemic.push(...books.filter((book: Book) => book.category === "Higher Acedemic Books"))
+    if(categories?.includes("Higher Academic Book")) {
+        filteredHigherAcedemic.push(...books.filter((book: Book) => book.category === "Higher Academic Book"))
     }
 
     if(categories?.includes("General")) {

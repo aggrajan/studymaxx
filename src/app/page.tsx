@@ -17,9 +17,7 @@ export default function Home() {
       <NavBar />
       <BannerCarousal />
       <ExploreBooks />
-      <main className="flex-1">
-        <DiscoverSection />
-      </main>
+      <DiscoverSection />
       <LatestArrivals />
       <OnlineSupport />
       <Testimonials />

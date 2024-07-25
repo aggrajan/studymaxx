@@ -14,13 +14,14 @@ export function LatestArrivals() {
               </p>
             </div>
             <Carousel
-              plugins={[Autoplay({ delay: 2500, stopOnInteraction: false })]}
+              plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
               className="w-full max-w-4xl"
+              opts={{loop: true}}
             >
               <CarouselContent>
                 <CarouselItem>
                   <div className="p-1">
-                    <Card>
+                    <Card className="rounded-md">
                       <CardContent className="flex flex-col items-center justify-center p-6">
                         <img
                           src="/placeholder.svg"
@@ -36,7 +37,7 @@ export function LatestArrivals() {
                 </CarouselItem>
                 <CarouselItem>
                   <div className="p-1">
-                    <Card>
+                    <Card className="rounded-md">
                       <CardContent className="flex flex-col items-center justify-center p-6">
                         <img
                           src="/placeholder.svg"
@@ -52,7 +53,7 @@ export function LatestArrivals() {
                 </CarouselItem>
                 <CarouselItem>
                   <div className="p-1">
-                    <Card>
+                    <Card className="rounded-md">
                       <CardContent className="flex flex-col items-center justify-center p-6">
                         <img
                           src="/placeholder.svg"
@@ -68,7 +69,7 @@ export function LatestArrivals() {
                 </CarouselItem>
                 <CarouselItem>
                   <div className="p-1">
-                    <Card>
+                    <Card className="rounded-md">
                       <CardContent className="flex flex-col items-center justify-center p-6">
                         <img
                           src="/placeholder.svg"

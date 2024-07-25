@@ -6,9 +6,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await dbConnect();
         const reqBody = await request.json();
-        const { title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discountedPrice, size, subject, year } = reqBody;
+        const { title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year } = reqBody;
         const newBook = new BookModel({
-            title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, size, subject, year, discountedPrice
+            title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, size, subject, year, discount
         })
 
         await newBook.save();
