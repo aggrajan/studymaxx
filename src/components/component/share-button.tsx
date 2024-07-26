@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import copy from 'clipboard-copy';
 
 export function ShareButton({ link }: { link: string}) {
   return (
@@ -41,7 +42,7 @@ export function ShareButton({ link }: { link: string}) {
               readOnly
             />
           </div>
-          <Button type="submit" size="sm" className="px-3">
+          <Button type="submit" size="sm" className="px-3 cursor-pointer" onClick={async () => {await copy(link);}} >
             <span className="sr-only">Copy</span>
             <Copy className="h-4 w-4" />
           </Button>

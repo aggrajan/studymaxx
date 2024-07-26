@@ -7,11 +7,12 @@ import { OtherProductsYouMayFindUseful } from "@/components/component/other-prod
 import { ProductDetails } from "@/components/component/product-details";
 import { Reviews } from "@/components/component/reviews";
 import { TabView } from "@/components/component/tab-view";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
+import { BreadCrumb } from "./breadcrumb";
 import { Book } from "@/model/Books";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/hooks";
+import { Author } from "@/model/Authors";
 
 export default function Product() {
     const { cartItems } = useAppSelector((state) => state.cart);
@@ -20,8 +21,9 @@ export default function Product() {
     const [book, setBook] = useState<Book>({"_id":"","title":" ","image":"/placeholder.svg","authors":[{"name":"-"}],"price":0,"level":"","subject":"","board":"","exam":"","keywords":[""],"language":"","isbn":"","number_of_pages":0,"year":0,"size":"","binding":"","category":""} as Book);
     const [addedToCart, setAddedToCart] = useState(false);
 
-    function getAuthors(authors: string[]): string {
-        return authors.join(", ");
+    function getAuthors(authors: Author[]): string {
+        if(authors === undefined) return "";
+        return authors.map((author) => author.name).join(", ");
     }
 
     useEffect(() => {
@@ -43,21 +45,7 @@ export default function Product() {
     return (
         <>
             <NavBar />
-            <Breadcrumb className="px-4 lg:px-6 mt-16">
-            <BreadcrumbList>
-                <BreadcrumbItem>
-                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbLink href="/products">Products</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                    <BreadcrumbPage>{book.title}</BreadcrumbPage>
-                </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+            <BreadCrumb book={book} />
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
             <TabView />
             <Reviews />

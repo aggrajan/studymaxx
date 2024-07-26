@@ -10,10 +10,12 @@ import { logout } from "@/app/apiCalls/callLogout";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setAuthState, removeAuthState } from "@/lib/slices/authSlice";
-import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
+import { clearAll, updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { getProfile } from "@/app/apiCalls/callProfile";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { setBooks } from "@/lib/slices/booksSlice";
+import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
+import { emptyCart } from "@/lib/slices/cartSlice";
 
 export function NavBar() {
   const router = useRouter();
@@ -23,8 +25,15 @@ export function NavBar() {
   const filters = useAppSelector((state) => state.searchAndFilter.filters);
 
   useEffect(() => {(async () => {
-    const user = await getProfile();
-    if(user) dispatch(setAuthState(user));
+    const checkIfToken = await checkIsTokenAvailable();
+    if(checkIfToken) {
+      const user = await getProfile();
+      if(user) dispatch(setAuthState(user));
+    } else {
+      dispatch(removeAuthState());
+      dispatch(clearAll());
+      dispatch(emptyCart());
+    }
   })()}, []);
 
 
@@ -91,13 +100,13 @@ export function NavBar() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-up'); setIsClicked(false);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-up'); }}>
                   Register
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); setIsClicked(false);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); }}>
                   Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); setIsClicked(false);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); }}>
                   Logout
               </DropdownMenuItem>
             </DropdownMenuContent>

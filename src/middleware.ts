@@ -6,18 +6,27 @@ export async function middleware(request: NextRequest) {
     const token = cookies().get("token")?.value || "";
     const isAdmin = cookies().get("isAdmin")?.value || "false";
     const url = request.nextUrl;
+    const expiryDate = new Date();
+    expiryDate.setHours(expiryDate.getHours() + 1);
+    
     if(token && ( 
         url.pathname.startsWith('/sign-in') || 
         url.pathname.startsWith('/sign-up') || 
         url.pathname.startsWith('/verify')
     )) {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/', request.url), {headers: {
+            'Set-Cookie': `isActiveToken=${"active"}; Expires=${expiryDate.toUTCString()}; HttpOnly;`
+        }});
     }
 
     if((url.pathname.startsWith('/add-book') || url.pathname.startsWith('/edit-book')) && isAdmin === "false") {
-        return NextResponse.redirect(new URL('/', request.url));
+        return NextResponse.redirect(new URL('/', request.url), {headers: {
+            'Set-Cookie': `isActiveToken=${"active"}; Expires=${expiryDate.toUTCString()}; HttpOnly;`
+        }});
     }
-    return NextResponse.next();
+    const response = NextResponse.next();
+    response.headers.set('Set-Cookie', `isActiveToken=${"active"}; Expires=${expiryDate.toUTCString()}; HttpOnly;`);
+    return response;
 }
 
 export const config = {
