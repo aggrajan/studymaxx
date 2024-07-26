@@ -36,7 +36,7 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
                     {getRelevantBooks().map((book: Book) => (
-                        <ItemCard book={book} />
+                        <ItemCard key={`interesting_${book._id}`} book={book} />
                     ))}
                     {/* <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
                     <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
