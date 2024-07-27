@@ -14,18 +14,13 @@ export async function middleware(request: NextRequest) {
         url.pathname.startsWith('/sign-up') || 
         url.pathname.startsWith('/verify')
     )) {
-        return NextResponse.redirect(new URL('/', request.url), {headers: {
-            'Set-Cookie': `isActiveToken=${"active"}; Expires=${expiryDate.toUTCString()}; HttpOnly;`
-        }});
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
     if((url.pathname.startsWith('/add-book') || url.pathname.startsWith('/edit-book')) && isAdmin === "false") {
-        return NextResponse.redirect(new URL('/', request.url), {headers: {
-            'Set-Cookie': `isActiveToken=${"active"}; Expires=${expiryDate.toUTCString()}; HttpOnly;`
-        }});
+        return NextResponse.redirect(new URL('/', request.url));
     }
     const response = NextResponse.next();
-    response.headers.set('Set-Cookie', `isActiveToken=${"active"}; Expires=${expiryDate.toUTCString()}; HttpOnly;`);
     return response;
 }
 
