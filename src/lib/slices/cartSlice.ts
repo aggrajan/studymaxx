@@ -88,9 +88,15 @@ export const cartSlice = createSlice({
                 state.subtotal -= item.product.price * item.quantity;
                 state.total = state.subtotal + state.shipping - state.discount;
             }   
+        },
+        emptyCart: (state: ICartState) => {
+            return {
+                ...state,
+                ...initialState
+            }
         }
     }
 })
 
 export const cartReducer = cartSlice.reducer;
-export const { addCartItem, addItemQuantity, setShippingAmount, setDiscountAmount, subtractItemQuantity, removeCartItem } = cartSlice.actions;
+export const { addCartItem, addItemQuantity, setShippingAmount, setDiscountAmount, subtractItemQuantity, removeCartItem, emptyCart } = cartSlice.actions;

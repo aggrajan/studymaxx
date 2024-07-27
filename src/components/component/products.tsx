@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
+import { sampleBooks } from "@/helpers/sampleBooks";
 
 export function ProductsPage() {
     const filteredBooks = useAppSelector((state) => state.books.books)
@@ -24,9 +25,13 @@ export function ProductsPage() {
     useEffect(() => {
       
       const getAllBooks = async () => {
-        const allBooks = await getBooks();
-        setAllBooks(allBooks);
-      }
+          const allBooks = await getBooks();
+          if (Array.isArray(allBooks)) {
+              setAllBooks(allBooks);
+          } else {
+              console.error("Data fetched is not an array:", allBooks);
+          }
+      };
 
       if(searchTerm === "" && filters.board.length === 0 && filters.categorie.length === 0 && filters.clas.length === 0 && filters.exam.length === 0 && filters.language.length === 0 && filters.subject.length === 0) {
         getAllBooks();
@@ -34,8 +39,12 @@ export function ProductsPage() {
     }, []);
 
     useEffect(() => {
-      setAllBooks(filteredBooks);
-    }, [filteredBooks])
+      if (Array.isArray(filteredBooks)) {
+          setAllBooks(filteredBooks);
+      } else {
+          console.error("Filtered books is not an array:", filteredBooks);
+      }
+  }, [filteredBooks]);
     const [currentPage, setCurrentPage] = useState(1)
     const booksPerPage = 8
     const totalPages = Math.ceil(books.length / booksPerPage)
@@ -65,11 +74,6 @@ export function ProductsPage() {
       setCurrentPage(page)
     }
 
-    function getAuthorNames(authors: Author[] | undefined): string[] {
-      if(authors === undefined) return [];
-      return authors.map(author => author.name).filter((name): name is string => name !== undefined);
-    }
-
     const search = (searchText: string) => {
       (async () => {
         const books = await getSearchedAndFilteredBooks(searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
@@ -88,7 +92,7 @@ export function ProductsPage() {
                   }}>Search</Button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
                 <FilterButton optionArray={categories} name="categorie" />
                 {isSchoolSelected && <FilterButton optionArray={subjects} name="subject" />}
                 {isSchoolSelected && <FilterButton optionArray={levels} name="clas" />}

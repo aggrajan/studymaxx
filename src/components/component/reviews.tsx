@@ -25,7 +25,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 export function Reviews() {
   
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-6 pt-8">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8">
       <div className="grid gap-8">
         <div>
           <h2 className="text-2xl font-bold mb-4">Leave a Review</h2>
