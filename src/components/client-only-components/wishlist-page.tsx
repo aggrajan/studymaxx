@@ -22,7 +22,7 @@ export function WishlistPage() {
                 </div>
             </div>
         </section> : <div className="h-full w-full flex justify-center items-center min-h-screen ">
-                    You haven't selected any items for wishlist yet!
+                    You haven&apos;t selected any items for wishlist yet!
         </div>
     }
     </>
