@@ -106,7 +106,7 @@ export function NavBar() {
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); }}>
                   Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); setIsClicked(false);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); dispatch(removeAuthState()); dispatch(clearAll()); dispatch(emptyCart()); setIsClicked(false);}}>
                   Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
