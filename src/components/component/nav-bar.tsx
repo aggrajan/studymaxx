@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu";
 import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
 import { ShoppingCartButton } from "../client-only-components/shopping-cart-button";
@@ -106,8 +106,12 @@ export function NavBar() {
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); }}>
                   Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); }}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); setIsClicked(false);}}>
                   Logout
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
+              <DropdownMenuItem className={`${userAuth.userPresent ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
+                  Your Wishlist
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
