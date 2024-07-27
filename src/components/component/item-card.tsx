@@ -21,18 +21,22 @@ import { TabView } from "./tab-view";
 import { Reviews } from "./reviews";
 import { OtherProductsYouMayFindUseful } from "./other-products-you-may-find-useful";
 import { Book } from "@/model/Books";
-import { addItemQuantity, ICartItem, removeCartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
+import { addItemQuantity, ICartItem, subtractItemQuantity, addCartItem } from "@/lib/slices/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addCartItem } from "@/lib/slices/cartSlice";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
 import { Badge } from "../ui/badge"
 import { useEffect } from "react"
 import { useToast } from "../ui/use-toast"
 import { Author } from "@/model/Authors"
+import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
+import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
+import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 
 export function ItemCard({ book } : { book: Book}) {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { userPresent, user } = useAppSelector((state) => state.auth);
+  const [addedToWishlist, setAddedToWishlist] = useState<boolean>(checkIfAddedToWishlist())
   function getAuthorNames(authors: Author[] | undefined): string {
     if(authors === undefined) return "";
     return authors.map(author => author.name).filter((name): name is string => name !== undefined).reduce((prev, curr) => (prev + ", " + curr));
@@ -61,6 +65,11 @@ export function ItemCard({ book } : { book: Book}) {
 
   function getDiscountedPrice(originalPrice: number, discount: number): number {
     return (originalPrice * (100 - discount)) / 100.0;
+  }
+
+  function checkIfAddedToWishlist() {
+    if(!userPresent) return false;
+    return user?.wishlist.findIndex((wishlistBook: Book) => wishlistBook._id === book._id) !== -1;
   }
 
   return (
@@ -104,9 +113,12 @@ export function ItemCard({ book } : { book: Book}) {
         </div>
         
         {!addedToCart && <div className="flex space-x-2">
-          <Button variant="ghost" size="icon">
-            <HeartIcon className="w-6 h-6" />
-          </Button>
+          {userPresent && <Button variant="ghost" size="icon">
+            {addedToWishlist ? 
+            <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/> : 
+            <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />}
+            
+          </Button>}
           <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
             <ShoppingCartIcon className="w-6 h-6" />
           </Button>
@@ -141,6 +153,25 @@ function HeartIcon(props: any) {
       height="24"
       viewBox="0 0 24 24"
       fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    </svg>
+  );
+}
+
+function HeartIconFilled(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="red"
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"

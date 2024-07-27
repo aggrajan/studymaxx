@@ -1,4 +1,5 @@
 import { Address } from "@/model/Address";
+import { Book } from "@/model/Books";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -10,7 +11,8 @@ interface UserStoreInfo {
     email: string,
     isVerified: boolean,
     isAdmin?: boolean,
-    addresses?: Address[]
+    addresses?: Address[],
+    wishlist: Book[]
 };
 
 export interface IAuthState {
@@ -35,15 +37,27 @@ export const authSlice = createSlice({
             }
         },
         removeAuthState: (state: IAuthState) => {
-            return {
+            return { 
                 ...state,
                 userPresent: false,
                 user: null
+            }
+        },
+        addToWishlist: (state: IAuthState, action: PayloadAction<Book>) => {
+            const bookIndex = state.user?.wishlist.findIndex((book: Book) => book._id === action.payload._id);
+            if(bookIndex === -1 && state.user?.wishlist) {
+                state.user.wishlist = [ ...state.user.wishlist, action.payload ]
+            }
+        },
+        removeFromWishlist: (state: IAuthState, action: PayloadAction<Book>) => {
+            const bookIndex = state.user?.wishlist.findIndex((book: Book) => book._id === action.payload._id);
+            if(bookIndex !== undefined && bookIndex !== -1 && state.user?.wishlist) {
+                state.user.wishlist.splice(bookIndex, 1);
             }
         }
     }
 });
 
-export const { setAuthState, removeAuthState } = authSlice.actions;
+export const { setAuthState, removeAuthState, addToWishlist, removeFromWishlist } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
