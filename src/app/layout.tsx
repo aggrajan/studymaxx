@@ -21,23 +21,19 @@ export default function RootLayout({
 }>) {
   return (
       <html lang="en">
-        <CookiesProvider >
-        <AuthProvider>
-          <StoreProvider>
-          <NavBar />
-          <body className={inter.className}>
-          
-            <main>
-            
-              {children}
-           
-              <Toaster />
-            </main>
-          
-          </body>
-          <Footer />
-          </StoreProvider>
-        </AuthProvider>
+        <CookiesProvider>
+          <AuthProvider>
+            <StoreProvider>
+              <NavBar />
+                <body className={inter.className}>
+                  <main>
+                    {children}
+                    <Toaster />
+                  </main>
+                </body>
+              <Footer />
+            </StoreProvider>
+          </AuthProvider>
         </CookiesProvider>
       </html>
   );
