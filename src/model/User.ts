@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import AddressSchema, { Address } from "./Address";
+import { Book, BookSchema } from "./Books";
 
 export interface User extends Document {
     username?: string;
@@ -14,6 +15,7 @@ export interface User extends Document {
     forgotPasswordCode?: string;
     forgotPasswordCodeExpiry?: Date;
     addresses?: Address[]
+    wishlist: Book[]
 };
 
 export const UserSchema: Schema<User> = new Schema({
@@ -66,7 +68,8 @@ export const UserSchema: Schema<User> = new Schema({
         type: String,
         required: false
     },
-    addresses: [AddressSchema]
+    addresses: [AddressSchema],
+    wishlist: [BookSchema]
 })
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);
