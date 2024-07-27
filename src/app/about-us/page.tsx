@@ -6,7 +6,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 export default function AboutUs() {
     return (
         <>
-            <NavBar />
             <Breadcrumb className="px-4 lg:px-6 mt-16 mb-2">
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -19,7 +18,6 @@ export default function AboutUs() {
                 </BreadcrumbList>
             </Breadcrumb>
             <AboutUsMain />
-            <Footer />
         </>
     );
 }

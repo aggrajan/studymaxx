@@ -6,7 +6,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 export default function Products(){
     return (
         <>
-            <NavBar />
             <Breadcrumb className="px-4 lg:px-6 mt-16 mb-12">
                 <BreadcrumbList>
                     <BreadcrumbItem>
@@ -19,7 +18,6 @@ export default function Products(){
                 </BreadcrumbList>
             </Breadcrumb>
             <ProductsPage />
-            <Footer />
         </>
     );
 }

@@ -5,9 +5,9 @@ import { NavBar } from "@/components/component/nav-bar";
 export default function Cart() {
     return (
         <>
-            <NavBar />
+   
             <CartPage />
-            <Footer />
+
         </>
     );  
 }

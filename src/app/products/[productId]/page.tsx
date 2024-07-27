@@ -44,14 +44,14 @@ export default function Product() {
 
     return (
         <>
-            <NavBar />
+ 
             <BreadCrumb book={book} />
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
             <TabView />
             <Reviews />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />
-            <Footer />
+  
         </>
     );
 }

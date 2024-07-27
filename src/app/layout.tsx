@@ -6,6 +6,8 @@ import StoreProvider from "./StoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { NavBar } from "@/components/component/nav-bar";
+import { Footer } from "@/components/component/footer";
 
 export const metadata: Metadata = {
   title: "StudyMaxx",
@@ -22,6 +24,7 @@ export default function RootLayout({
         <CookiesProvider >
         <AuthProvider>
           <StoreProvider>
+          <NavBar />
           <body className={inter.className}>
           
             <main>
@@ -32,6 +35,7 @@ export default function RootLayout({
             </main>
           
           </body>
+          <Footer />
           </StoreProvider>
         </AuthProvider>
         </CookiesProvider>

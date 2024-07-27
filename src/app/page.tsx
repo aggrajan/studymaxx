@@ -14,7 +14,7 @@ export default function Home() {
   
   return (
     <>
-      <NavBar />
+
       <BannerCarousal />
       <ExploreBooks />
       <DiscoverSection />
@@ -24,7 +24,7 @@ export default function Home() {
       <FeedbackForm />
       <ContactQueryForm />
       <ConnectWithUs />
-      <Footer />
+
     </>
   );
 }
