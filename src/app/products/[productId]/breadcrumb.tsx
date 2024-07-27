@@ -18,11 +18,10 @@ export function BreadCrumb({ book }: {book: Book}) {
             <BreadcrumbLink href="/products">Products</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        {categories.length > 0 ? <>
         <BreadcrumbItem>
-            <BreadcrumbLink href="/products">{categories[0]}</BreadcrumbLink>
+            <BreadcrumbLink href="/products">{book.category}</BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator /></> : null}
+        <BreadcrumbSeparator />
         <BreadcrumbItem>
             <BreadcrumbPage>{getTruncatedTitle(book.title)}</BreadcrumbPage>
         </BreadcrumbItem>

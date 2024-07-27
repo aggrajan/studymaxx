@@ -10,10 +10,6 @@ import { useState } from "react"
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { ProductDetails } from "./product-details";
@@ -129,7 +125,7 @@ export function ItemCard({ book } : { book: Book}) {
               variant="outline"
               size="icon"
               onClick={() => { dispatch(subtractItemQuantity({ id: book._id as number})) }}
-              disabled={getQuantity() === 1}
+              disabled={getQuantity() <= 1}
             >
               <MinusIcon className="h-4 w-4" />
             </Button>
