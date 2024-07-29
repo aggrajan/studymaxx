@@ -22,7 +22,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         })
     }
     catch (error: any) {
-        console.log(error.message);
+        console.log("api error: ", error.message);
         return NextResponse.json({
             success: false,
             message: "error occured while adding book"

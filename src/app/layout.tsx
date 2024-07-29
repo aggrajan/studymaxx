@@ -8,6 +8,11 @@ import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { NavBar } from "@/components/component/nav-bar";
 import { Footer } from "@/components/component/footer";
+import { checkIsTokenAvailable } from "./apiCalls/checkIsTokenAvailable";
+import { useAppDispatch } from "@/lib/hooks";
+import { removeAuthState } from "@/lib/slices/authSlice";
+import { clearAllFilters } from "@/lib/slices/searchAndFilterSlice";
+import { emptyCart } from "@/lib/slices/cartSlice";
 
 export const metadata: Metadata = {
   title: "StudyMaxx",
@@ -20,21 +25,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en">
-        <CookiesProvider>
-          <AuthProvider>
-            <StoreProvider>
-              <NavBar />
+    <>
+      <CookiesProvider>
+        <AuthProvider>
+          <StoreProvider>
+            
+              <html lang="en">
+              
                 <body className={inter.className}>
+                <NavBar />
                   <main>
                     {children}
                     <Toaster />
                   </main>
+                  <Footer />
                 </body>
-              <Footer />
-            </StoreProvider>
-          </AuthProvider>
-        </CookiesProvider>
-      </html>
+                
+              </html>
+            
+          </StoreProvider>
+        </AuthProvider>
+      </CookiesProvider>
+    </>
   );
 }

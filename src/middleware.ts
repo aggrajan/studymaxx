@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
     const expiryDate = new Date();
     expiryDate.setHours(expiryDate.getHours() + 1);
-    
+
     if(token && ( 
         url.pathname.startsWith('/sign-in') || 
         url.pathname.startsWith('/sign-up') || 
@@ -17,10 +17,27 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if((url.pathname.startsWith('/add-book') || url.pathname.startsWith('/edit-book')) && isAdmin === "false") {
+    if((url.pathname.startsWith('/add-book') || 
+    url.pathname.startsWith('/edit-book')  || 
+    url.pathname.startsWith('/all-feedbacks') ||
+    url.pathname.startsWith('/all-queries')) && isAdmin === "false") {
+        
         return NextResponse.redirect(new URL('/', request.url));
     }
     const response = NextResponse.next();
+
+    if(token !== "") {
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            expires: expiryDate
+        })
+        if(isAdmin !== "false") {
+            response.cookies.set("isAdmin", isAdmin, {
+                httpOnly: true,
+                expires: expiryDate
+            });
+        }
+    }
     return response;
 }
 
@@ -28,8 +45,12 @@ export const config = {
     matcher: [
         '/sign-in',
         '/sign-up',
+        '/verify',
         '/profile',
         '/add-book',
+        '/all-feedbacks',
+        '/edit-book',
+        '/all-queries',
         '/'
     ]
 }

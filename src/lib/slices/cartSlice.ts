@@ -1,6 +1,9 @@
 import { Book } from "@/model/Books";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { addToCart } from "@/app/apiCalls/callAddtoCart";
+import { removeFromCart } from "@/app/apiCalls/removeFromCart";
+import { changeQuantityInCart } from "@/app/apiCalls/callChangeQuantityInCart";
 
 export interface ICartItem {
     product: Book;
@@ -29,17 +32,22 @@ export const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        setCart: (state: ICartState, action: PayloadAction<ICartState>) => {
+        setCart: (state: ICartState, action: PayloadAction<ICartItem[]>) => {
             return {
                 ...state,
-                ...action.payload
+                cartItems: [...action.payload],
+                cartCount: action.payload.length
             }
         }, 
         addCartItem: (state: ICartState, action: PayloadAction<ICartItem>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.product._id);
             if(itemIndex !== -1) return {
                                     ...state
-                                }
+                                };
+            (async () => {
+                const response = await addToCart(action.payload.product._id as string);
+                console.log(response);
+            })();
             return {
                 ...state,
                 cartItems: [...state.cartItems, action.payload],
@@ -65,6 +73,11 @@ export const cartSlice = createSlice({
         addItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
+                (async () => {
+                    const response = await changeQuantityInCart(action.payload.id.toString(), 1);
+                    console.log(response);
+                })();
+
                 state.cartItems[itemIndex].quantity += 1;
                 state.subtotal += state.cartItems[itemIndex].product.price;
                 state.total = state.subtotal + state.shipping - state.discount;
@@ -74,6 +87,11 @@ export const cartSlice = createSlice({
         subtractItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
+                (async () => {
+                    const response = await changeQuantityInCart(action.payload.id.toString(), -1);
+                    console.log(response);
+                })();
+
                 state.cartItems[itemIndex].quantity -= 1;
                 state.subtotal -= state.cartItems[itemIndex].product.price;
                 state.total = state.subtotal + state.shipping - state.discount;
@@ -82,6 +100,11 @@ export const cartSlice = createSlice({
         removeCartItem: (state: ICartState, action: PayloadAction<{ id: number }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
+                (async () => {
+                    const response = await removeFromCart(action.payload.id.toString());
+                    console.log(response);
+                })();
+
                 const item = state.cartItems[itemIndex];
                 state.cartItems.splice(itemIndex, 1);
                 state.cartCount -= 1;
@@ -99,4 +122,4 @@ export const cartSlice = createSlice({
 })
 
 export const cartReducer = cartSlice.reducer;
-export const { addCartItem, addItemQuantity, setShippingAmount, setDiscountAmount, subtractItemQuantity, removeCartItem, emptyCart } = cartSlice.actions;
+export const { setCart, addCartItem, addItemQuantity, setShippingAmount, setDiscountAmount, subtractItemQuantity, removeCartItem, emptyCart } = cartSlice.actions;

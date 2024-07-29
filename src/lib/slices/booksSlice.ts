@@ -25,9 +25,15 @@ export const bookSlice = createSlice({
                 ...state,
                 books: []
             }
+        },
+        addBook: (state: IBookState, action: PayloadAction<Book>) => {
+            return {
+                ...state,
+                books: [...state.books, action.payload] 
+            }
         }
     }
 })
 
 export const booksReducer = bookSlice.reducer;
-export const { setBooks, removeBooks } = bookSlice.actions
+export const { setBooks, removeBooks, addBook } = bookSlice.actions

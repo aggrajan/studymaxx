@@ -14,6 +14,9 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { bindings, boards, categories, exams, languages, levels, sizes, subjects } from '@/model/Enums';
+import { useAppDispatch } from "@/lib/hooks";
+import { setBooks } from "@/lib/slices/booksSlice";
+
 import {
     Select,
     SelectContent,
@@ -21,10 +24,12 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { getBooks } from "@/app/apiCalls/callBooks";
   
 
 
 function AddBookForm() {
+    const dispatch = useAppDispatch();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -62,6 +67,7 @@ function AddBookForm() {
                     description: "Book successfully added to database",
                     variant: "default"
                 });
+                
                 router.push('/');
             } else {
                 toast({
@@ -69,6 +75,14 @@ function AddBookForm() {
                     description: "There might be some issue with the data provided",
                     variant: "destructive"
                 });
+                
+                const allBooks = await getBooks();
+                if (Array.isArray(allBooks)) {
+                    dispatch(setBooks(allBooks))
+                } else {
+                    console.error("Data fetched is not an array:", allBooks);
+                }
+                
                 router.push('/');
             }
         } catch(error: any) {
@@ -84,7 +98,7 @@ function AddBookForm() {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex justify-center items-center min-h-screen mt-32">
             <div className="w-full max-w-5xl p-8 space-y-8 bg-white rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
@@ -192,7 +206,7 @@ function AddBookForm() {
                                 </FormControl>
                                 <SelectContent>
                                 {levels.map((level, index) => {
-                                    if(level === "") return null
+                                    
                                     return <SelectItem key={`level_${index}`} value={level}>
                                         {level}
                                     </SelectItem>
@@ -218,7 +232,7 @@ function AddBookForm() {
                                 </FormControl>
                                 <SelectContent>
                                 {subjects.map((subject, index) => {
-                                    if(subject === "") return null;
+                                    
 
                                     return <SelectItem key={`level_${index}`} value={subject}>
                                         {subject}
@@ -245,7 +259,7 @@ function AddBookForm() {
                                 </FormControl>
                                 <SelectContent>
                                 {boards.map((board, index) => {
-                                    if(board === "") return null;
+                                    
                                     return <SelectItem key={`level_${index}`} value={board}>
                                         {board}
                                     </SelectItem>
@@ -271,7 +285,7 @@ function AddBookForm() {
                                 </FormControl>
                                 <SelectContent>
                                 {exams.map((exam, index) => {
-                                    if(exam === "") return null;
+                                   
                                     return <SelectItem key={`level_${index}`} value={exam}>
                                         {exam}
                                     </SelectItem>

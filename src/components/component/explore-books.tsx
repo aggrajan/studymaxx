@@ -10,7 +10,7 @@ import { ItemCard } from "./item-card";
 import { getBooks } from "@/app/apiCalls/callBooks";
 import { Book } from "@/model/Books";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addFilter, updateSearchTerm, removeFilter, clearAll } from "@/lib/slices/searchAndFilterSlice";
+import { addFilter, updateSearchTerm, removeFilter, clearAllFilters } from "@/lib/slices/searchAndFilterSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { useRouter } from "next/navigation";
@@ -29,6 +29,22 @@ export function ExploreBooks() {
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook)
   const [isSchoolSelected, setIsSchoolSelected] = useState(false);
   const [isCompetitiveExamSelected, setIsCompetitiveExamSelected] = useState(false);
+
+  useEffect(() => { 
+    const getAllBooks = async () => {
+        const allBooks = await getBooks();
+        if (Array.isArray(allBooks)) {
+            setAllBooks(allBooks);
+        } else {
+            console.error("Data fetched is not an array:", allBooks);
+        }
+    };
+
+    if(searchAndFilterState.searchTerm === "") {
+      getAllBooks();
+    }
+
+  }, [searchAndFilterState.searchTerm])
 
   useEffect(() => {
     if(searchAndFilterState.filters.categorie.findIndex((category) => category === "School") === -1) {
@@ -73,14 +89,11 @@ export function ExploreBooks() {
         console.error("Filtered books is not an array:", filteredBooks);
     }
   }, [filteredBooks]);
-
   
   const handlePageChange = (page: any) => {
     setCurrentPage(page)
   }
 
-  
-  
   const search = (searchText: string) => {
     (async () => {
       const books = await getSearchedAndFilteredBooks(searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
@@ -111,7 +124,7 @@ export function ExploreBooks() {
               />
               <div className="flex flex-row gap-2">
                 <Button className="mt-2 bg-blue-500 border" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
-                <Button className="mt-2 bg-blue-500 border" onClick={() => { dispatch(clearAll()); search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
+                <Button className="mt-2 bg-blue-500 border" onClick={() => { dispatch(clearAllFilters()); search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
               </div>
             </CardContent>
           </Card>
@@ -124,7 +137,7 @@ export function ExploreBooks() {
               {categories.map((category, index) => (<div className="flex items-center space-x-2 my-2" key={`category_${index}`}>
                 <Checkbox id={category} 
                 checked={searchAndFilterState.filters.categorie.includes(category)} 
-                onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "categorie", value: category})) : dispatch(clearAll()))}
+                onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "categorie", value: category})) : dispatch(clearAllFilters()))}
                 disabled={searchAndFilterState.filters.categorie.length > 0 && !searchAndFilterState.filters.categorie.includes(category)} />
                 <label
                 htmlFor={category}

@@ -1,5 +1,3 @@
-import { Footer } from "@/components/component/footer";
-import { NavBar } from "@/components/component/nav-bar";
 import { OurMission } from "@/components/component/our-mission";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 

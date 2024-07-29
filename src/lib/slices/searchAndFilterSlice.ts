@@ -51,7 +51,7 @@ export const searchAndFilterSlice = createSlice({
                 searchTerm: ""
             }
         },
-        clearAll: (state: ISearchAndFilter) => {
+        clearAllFilters: (state: ISearchAndFilter) => {
             return {
                 ...state,
                 ...initialState
@@ -61,4 +61,4 @@ export const searchAndFilterSlice = createSlice({
 })
 
 export const searchAndFilterReducer = searchAndFilterSlice.reducer;
-export const { addFilter, removeFilter, updateSearchTerm, clearSearchTerm, clearAll } = searchAndFilterSlice.actions
+export const { addFilter, removeFilter, updateSearchTerm, clearSearchTerm, clearAllFilters } = searchAndFilterSlice.actions

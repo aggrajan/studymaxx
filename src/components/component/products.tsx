@@ -9,12 +9,10 @@ import { FilterButton } from "./filter-button";
 import { Input } from "../ui/input";
 import { Book } from "@/model/Books";
 import { getBooks } from "@/app/apiCalls/callBooks";
-import { Author } from "@/model/Authors";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
-import { sampleBooks } from "@/helpers/sampleBooks";
 
 export function ProductsPage() {
     const filteredBooks = useAppSelector((state) => state.books.books)
@@ -33,7 +31,10 @@ export function ProductsPage() {
           }
       };
 
-      if(searchTerm === "" && filters.board.length === 0 && filters.categorie.length === 0 && filters.clas.length === 0 && filters.exam.length === 0 && filters.language.length === 0 && filters.subject.length === 0) {
+      if(searchTerm === "" && 
+        filters.board.length === 0 && filters.categorie.length === 0 
+        && filters.clas.length === 0 && filters.exam.length === 0 
+        && filters.language.length === 0 && filters.subject.length === 0) {
         getAllBooks();
       }
     }, []);
@@ -70,6 +71,22 @@ export function ProductsPage() {
       search(searchTerm);
     }, [filters])
 
+    useEffect(() => { 
+      const getAllBooks = async () => {
+          const allBooks = await getBooks();
+          if (Array.isArray(allBooks)) {
+              setAllBooks(allBooks);
+          } else {
+              console.error("Data fetched is not an array:", allBooks);
+          }
+      };
+  
+      if(searchTerm === "") {
+        getAllBooks();
+      }
+  
+    }, [searchTerm])
+
     const handlePageChange = (page: any) => {
       setCurrentPage(page)
     }
@@ -82,7 +99,7 @@ export function ProductsPage() {
     }
 
     return (
-        <section className="container px-4 md:px-6">
+        <section className="container px-4 md:px-6  mb-24">
             <div className="space-y-2 text-center">
                 <h2 className="text-3xl font-bold">Welcome to StudyMaxx</h2>
                 <div className="flex w-full max-w-sm items-center space-x-2 mx-auto">

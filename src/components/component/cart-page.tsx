@@ -54,7 +54,7 @@ export function CartPage() {
                     alt={item.product.title}
                     width={100}
                     height={150}
-                    className="rounded-md object-cover"
+                    className="object-cover"
                   />
                   <div>
                     <h3 className="font-semibold">{item.product.title}</h3>

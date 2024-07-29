@@ -5,6 +5,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 // Inspired from User Interface defined in User model
 interface UserStoreInfo {
+    _id: string
     username?: string,
     name?: string,
     picture?: string,

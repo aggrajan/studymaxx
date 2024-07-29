@@ -44,12 +44,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
         return NextResponse.json({
             success: true, 
-            message: "Successfully added book"
+            message: "Successfully removed book"
         }, {status: 200})
     } catch(error: any) {
         return NextResponse.json({
             success: false, 
-            message: "Book can't be added"
+            message: "Book can't be removed"
         }, {status: 500})
     }
 }

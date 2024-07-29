@@ -10,12 +10,12 @@ import { logout } from "@/app/apiCalls/callLogout";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setAuthState, removeAuthState } from "@/lib/slices/authSlice";
-import { clearAll, updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
+import { clearAllFilters, updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { getProfile } from "@/app/apiCalls/callProfile";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
-import { emptyCart } from "@/lib/slices/cartSlice";
+import { emptyCart, setCart } from "@/lib/slices/cartSlice";
 
 export function NavBar() {
   const router = useRouter();
@@ -29,12 +29,13 @@ export function NavBar() {
     if(checkIfToken) {
       const user = await getProfile();
       if(user) dispatch(setAuthState(user));
+      if(user.cart) dispatch(setCart(user.cart));
     } else {
       dispatch(removeAuthState());
-      dispatch(clearAll());
+      dispatch(clearAllFilters());
       dispatch(emptyCart());
     }
-  })()}, []);
+  })()}, [userAuth.userPresent]);
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -52,28 +53,28 @@ export function NavBar() {
     })();
   }
   return (<>
-      <header className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
-        <Link href="/" className="flex items-center justify-center" prefetch={false}>
+      <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
+        <Link href="/" onClick={() => {setIsOpen(false)}} className="flex items-center justify-center" prefetch={false}>
           <BookIcon className="h-6 w-6" />
-          <span className="sr-only">Bookworm</span>
+          <span className="sr-only">StudyMaxx</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link href="/" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Home
           </Link>
-          <Link href="/about-us" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             About Us
           </Link>
-          <Link href="/mission" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/mission" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Mission
           </Link>
-          <Link href="/products" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/products" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Products
           </Link>
-          <Link href="/#contact-us" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Contact Us
           </Link>
-          {userAuth.user?.isAdmin && <Link href="/add-book" className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Add book
           </Link>}
           
@@ -106,12 +107,22 @@ export function NavBar() {
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); setIsClicked(false); }}>
                   Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); dispatch(removeAuthState()); dispatch(clearAll()); dispatch(emptyCart()); setIsClicked(false);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); dispatch(clearAllFilters()); dispatch(emptyCart()); setIsClicked(false);}}>
                   Logout
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/all-feedbacks'); }}>
+                  All Feedbacks
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/all-queries'); }}>
+                  All Queries
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${userAuth.userPresent ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
                   Your Wishlist
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${userAuth.userPresent ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/feedback'); }}>
+                  Your Feedbacks
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -129,24 +140,24 @@ export function NavBar() {
             className="md:hidden cursor-pointer"
           />}
         </nav>
-      </header>
+      </div>
       <div className={`fixed top-14 w-full ${ isOpen ? "border shadow bg-white" : ""}  z-50 transition-all duration-500 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:hidden flex flex-col gap-1 p-2 justify-start items-start`}>
-        <Link href="/" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Home
         </Link>
-        <Link href="/about-us" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           About Us
         </Link>
-        <Link href="/mission" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/mission" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Mission
         </Link>
-        <Link href="/products" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/products" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Products
         </Link>
-        <Link href="/#contact-us" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
           Contact Us
         </Link>
-        {userAuth.user?.isAdmin && <Link href="/add-book" className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Add book
         </Link>}
       </div>

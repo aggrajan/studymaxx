@@ -3,6 +3,10 @@ import { bindings, boards, categories, exams, languages, levels, sizes, subjects
 
 const boardsWithEmpty: [string, ...string[]] = ['' as const, ...boards];
 const examsWithEmpty: [string, ...string[]] = ['' as const, ...exams];
+const subjectsWithEmpty: [string, ...string[]] = ['' as const, ...subjects];
+const levelsWithEmpty: [string, ...string[]] = ['' as const, ...levels];
+
+
 
 export const authorSchema = z.object({
     name: z.string()
@@ -15,8 +19,8 @@ export const bookSchema = z.object({
     authors: z.array(authorSchema),
     price: z.number().min(0, { message: "Price must be at least 0" }), 
     discount: z.number().min(0).optional(),
-    level: z.enum(levels, { required_error: "Class/Level is required" }),
-    subject: z.enum(subjects, { required_error: "Subject is required" }),
+    level: z.enum(levelsWithEmpty).optional(),
+    subject: z.enum(subjectsWithEmpty).optional(),
     board: z.enum(boardsWithEmpty).optional(),
     exam: z.enum(examsWithEmpty).optional(),
     keywords: z.array(z.string({ required_error: "Keyword is required" })).nonempty(),

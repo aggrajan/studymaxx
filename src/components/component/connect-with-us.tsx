@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 
 export function ConnectWithUs() {
     return (
-        <section className="max-w-6xl mx-auto px-4 md:px-6 pt-12 md:pt-24 lg:pt-32">
+        <section className="max-w-6xl mx-auto px-4 md:px-6 pt-12 md:pt-24 lg:pt-32 mb-24">
             <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
                 <div className="space-y-2">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Connect With Us</h2>

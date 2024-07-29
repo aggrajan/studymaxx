@@ -16,6 +16,7 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
 
 function SignUp() {
     const [username, setUsername] = useState('');
@@ -130,7 +131,7 @@ function SignUp() {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="password" type="password" {...field} />
+                                        <PasswordInput placeholder="password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

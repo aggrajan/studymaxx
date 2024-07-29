@@ -13,8 +13,13 @@ import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { PasswordInput } from "@/components/ui/password-input";
+import { useAppDispatch } from "@/lib/hooks";
+import { setAuthState } from "@/lib/slices/authSlice";
+import { getProfile } from "@/app/apiCalls/callProfile";
 
 function SignIn() {
+    const dispatch = useAppDispatch();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -49,6 +54,8 @@ function SignIn() {
                 title: "Logged In",
                 description: "Successfully logged in with correct credentials"
             })
+            const user = await getProfile();
+            dispatch(setAuthState(user));
             router.replace("/");
             setIsSubmitting(false);
         }
@@ -111,7 +118,7 @@ function SignIn() {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="password" type="password" {...field} />
+                                        <PasswordInput placeholder="password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

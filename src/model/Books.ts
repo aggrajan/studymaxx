@@ -4,6 +4,8 @@ import AuthorSchema, { Author } from "./Authors";
 
 const boardsWithEmpty: [string, ...string[]] = ['' as const, ...boards];
 const examsWithEmpty: [string, ...string[]] = ['' as const, ...exams];
+const subjectsWithEmpty: [string, ...string[]] = ['' as const, ...subjects];
+const levelsWithEmpty: [string, ...string[]] = ['' as const, ...levels];
 
 export interface Book extends Document {
     title: string;
@@ -11,8 +13,8 @@ export interface Book extends Document {
     authors?: Author[];
     price: number;
     discount?: number;
-    level: string;
-    subject: string;
+    level?: string;
+    subject?: string;
     board?: string;
     exam?: string;
     keywords: string[];
@@ -47,13 +49,13 @@ export const BookSchema: Schema<Book> = new Schema({
     },
     level: {
         type: String,
-        required: [true, "Class/Level is required"],
-        enum: levels
+        required: false,
+        enum: levelsWithEmpty
     },
     subject: {
         type: String,
-        required: [true, "Subject is required"],
-        enum: subjects
+        required: false,
+        enum: subjectsWithEmpty
     },
     board: {
         type: String,

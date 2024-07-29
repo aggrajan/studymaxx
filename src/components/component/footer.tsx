@@ -21,12 +21,12 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="bg-muted text-muted-foreground mt-24 py-12 px-0 md:px-4">
+    <footer className="bg-muted text-muted-foreground py-12 px-0 md:px-4">
       <div className="container max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-8 md:px-0">
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
             <BookIcon className="h-6 w-6" />
-            <span className="text-xl font-bold">Bookworm</span>
+            <span className="text-xl font-bold">StudyMaxx</span>
           </Link>
           <p className="text-sm">Discover your next great read with our curated selection of books.</p>
           <div className="flex items-center gap-4">
@@ -51,7 +51,7 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <MailOpenIcon className="h-5 w-5" />
-              <span className="text-sm">info@bookworm.com</span>
+              <span className="text-sm">info@studymaxx.com</span>
             </div>
             <div className="flex items-center gap-2">
               <LocateIcon className="h-5 w-5" />
@@ -114,7 +114,7 @@ export function Footer() {
         </div>
       </div>
       <div className="container max-w-7xl mt-8 flex items-center justify-between px-4 md:px-0">
-        <p className="text-sm">&copy; 2024 Bookworm. All rights reserved.</p>
+        <p className="text-sm">&copy; 2024 StudyMaxx. All rights reserved.</p>
         <nav className="flex items-center gap-4">
           <Link href="/policy#privacy-policy" className="text-sm hover:underline" prefetch={false}>
             Privacy Policy
