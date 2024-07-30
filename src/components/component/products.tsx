@@ -77,6 +77,18 @@ export function ProductsPage() {
         dispatch(setBooks(books));
       })();
     }
+    
+    function UniqueHashCode(obj: object){
+      var str = JSON.stringify(obj) 
+      var hash = 0;
+      if (str.length == 0) return hash;
+      for (let i = 0; i < str.length; i++) {
+          let char = str.charCodeAt(i);
+          hash = ((hash<<5)-hash)+char;
+          hash = hash & hash; // Convert to 32bit integer
+      }
+      return hash;
+  }
 
     return (
         <section className="container px-4 md:px-6  mb-24">
@@ -101,7 +113,7 @@ export function ProductsPage() {
                 <div className="flex flex-col">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     {bookState.slice(indexOfFirstBook, indexOfLastBook).map((book: Book) => (
-                    <ItemCard key={book._id as string} bookId={book._id as number} />
+                    <ItemCard key={UniqueHashCode(book)} bookId={book._id as number} />
                     ))}
                 </div>
                 <div className="container px-4 md:px-6 mt-8">

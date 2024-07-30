@@ -1,6 +1,4 @@
 import { WishlistPage } from "@/components/client-only-components/wishlist-page";
-import { Footer } from "@/components/component/footer";
-import { NavBar } from "@/components/component/nav-bar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 export default function Wishlist() {

@@ -36,6 +36,18 @@ export function ExploreBooks() {
       }
   };
 
+  function UniqueHashCode(obj: object){
+    var str = JSON.stringify(obj) 
+    var hash = 0;
+    if (str.length == 0) return hash;
+    for (let i = 0; i < str.length; i++) {
+        let char = str.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
+
   useEffect(() => { 
     if(searchAndFilterState.searchTerm === "") {
       getAllBooks();
@@ -219,7 +231,7 @@ export function ExploreBooks() {
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {bookState.slice(indexOfFirstBook, indexOfLastBook).map((book: Book) => (
-              <ItemCard key={`book_${book._id}`} bookId={book._id as number}/>
+              <ItemCard key={UniqueHashCode(book)} bookId={book._id as number}/>
             ))}
           </div>
           <div className="container px-4 md:px-6 mt-8" id="pagination">

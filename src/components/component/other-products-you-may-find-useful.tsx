@@ -14,6 +14,18 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
         getAllBooks();
     }, []);
 
+    function UniqueHashCode(obj: object){
+        var str = JSON.stringify(obj) 
+        var hash = 0;
+        if (str.length == 0) return hash;
+        for (let i = 0; i < str.length; i++) {
+            let char = str.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+    }
+
     function getRelevantBooks() {
         return books.filter((givenBook: Book) => ((givenBook._id !== book._id) 
                     && 
@@ -36,7 +48,7 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {getRelevantBooks().map((book: Book) => (
-                        <ItemCard key={`interesting_${book._id}`} bookId={book._id as number} />
+                        <ItemCard key={UniqueHashCode(book)} bookId={book._id as number} />
                     ))}
                 </div>
             </div>
