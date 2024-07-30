@@ -27,7 +27,7 @@ export function ItemCard({ book } : { book: Book}) {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userPresent, user } = useAppSelector((state) => state.auth);
-  const [addedToWishlist, setAddedToWishlist] = useState<boolean>(checkIfAddedToWishlist())
+  const [addedToWishlist, setAddedToWishlist] = useState<boolean>(false);
   function getAuthorNames(authors: Author[] | undefined): string {
     if(authors === undefined) return "";
     return authors.map(author => author.name).filter((name): name is string => name !== undefined).reduce((prev, curr) => (prev + ", " + curr));
@@ -48,6 +48,11 @@ export function ItemCard({ book } : { book: Book}) {
     } else {
       setAddedToCart(false);
       setCount(1);
+    }
+
+    const isAddedToWishlist = checkIfAddedToWishlist();
+    if(isAddedToWishlist) {
+      setAddedToWishlist(true);
     }
   }, [userPresent])
 
