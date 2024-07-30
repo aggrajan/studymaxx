@@ -76,8 +76,10 @@ function AddBookForm() {
 
                 const allBooks = await getBooks();
                 if (Array.isArray(allBooks)) {
+                    console.log("allBooks", allBooks);
                     dispatch(setBooks(allBooks))
                 } else {
+                    console.log("allBooks error", allBooks);
                     console.error("Data fetched is not an array:", allBooks);
                 }
                 

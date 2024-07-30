@@ -27,18 +27,28 @@ export function NavBar() {
 
   useEffect(() => {(async () => {
     const checkIfToken = await checkIsTokenAvailable();
+    const books = await getBooks();
+    dispatch(setBooks(books));
     if(checkIfToken) {
       const user = await getProfile();
-      const books = await getBooks();
+      
       if(user) dispatch(setAuthState(user));
       if(user.cart) dispatch(setCart(user.cart));
-      dispatch(setBooks(books));
+      
     } else {
       dispatch(removeAuthState());
       dispatch(clearAllFilters());
       dispatch(emptyCart());
     }
   })()}, [userAuth.userPresent]);
+
+  useEffect(() => {
+    const resetBooks = async () => {
+      const books = await getBooks();
+      dispatch(setBooks(books));
+    }
+    resetBooks();
+  }, []);
 
 
   const [isOpen, setIsOpen] = useState(false);

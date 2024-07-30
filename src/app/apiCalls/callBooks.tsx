@@ -4,6 +4,6 @@ export const getBooks = async () => {
         const response = await axios.get(`/api/get-books`);
         return response.data.response;
     } catch(error: any) {
-        return null;
+        return [];
     }
 }
