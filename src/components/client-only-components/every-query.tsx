@@ -46,8 +46,8 @@ export function EveryQueryPage() {
                     </TableRow>
                 </TableHeader>
                 {
-                    queries.map((query: { createdAt: string, _id: string, name: string, email: string, subject: string, message: string }) => {
-                        return <TableBody>
+                    queries.map((query: { createdAt: string, _id: string, name: string, email: string, subject: string, message: string }, index: number) => {
+                        return <TableBody key={`every_query_${index}`}>
                             <TableRow>
                                 <TableCell className="font-medium w-[100px]">{query._id}</TableCell>
                                 <TableCell>{query.createdAt.slice(0, 10)}</TableCell>

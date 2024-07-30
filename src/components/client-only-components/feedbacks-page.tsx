@@ -46,8 +46,8 @@ export function FeedbackPage() {
                     </TableRow>
                 </TableHeader>
                 {
-                    feedbacks.map((feedback: { createdAt: string, _id: string, name: string, email: string, book?: string, feedback: string }) => {
-                        return <TableBody>
+                    feedbacks.map((feedback: { createdAt: string, _id: string, name: string, email: string, book?: string, feedback: string }, index: number) => {
+                        return <TableBody key={`feedback_${index}`}>
                             <TableRow>
                                 <TableCell className="font-medium w-[100px]">{feedback._id}</TableCell>
                                 <TableCell>{feedback.createdAt.slice(0, 10)}</TableCell>
