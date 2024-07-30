@@ -237,7 +237,7 @@ export function ExploreBooks() {
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {currentBooks.map((book: Book) => (
+            {books.slice(indexOfFirstBook, indexOfLastBook).map((book: Book) => (
               <ItemCard key={`book_${book._id}`} book={book}/>
             ))}
           </div>
