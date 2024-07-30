@@ -118,22 +118,25 @@ export function ItemCard({ book } : { book: Book}) {
           </Badge> : null}
         </div>
         
-        {!addedToCart && <div className="flex space-x-2">
+        {!addedToCart && <div className="flex mx-auto justify-around w-3/4 mt-2">
           {userPresent && <Button variant="ghost" size="icon">
             {addedToWishlist ? 
             <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/> : 
             <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />}
             
           </Button>}
-          <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+          {userPresent && <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
             <ShoppingCartIcon className="w-6 h-6" />
-          </Button>
+          </Button>}
+          {!userPresent && <Button variant="outline" className="mx-auto w-full mt-2 bg-gray-300 border-gray-400" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+              <h3 className="font-semibold">Add to Cart</h3>
+            </Button>}
           {(user && user.isAdmin) ? <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
             <img src="/edit.svg" className="w-6 h-6" />
           </Button> : null}
         </div>}
-        {addedToCart && <div className="flex items-center flex-col sm:flex-row gap-4">
-          <div className="flex items-center gap-2">
+        {addedToCart && <div className="flex items-center flex-col mt-2">
+          <div className="flex items-center gap-x-4">
             <Button
               variant="outline"
               size="icon"
