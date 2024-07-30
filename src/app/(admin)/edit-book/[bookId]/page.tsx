@@ -73,6 +73,13 @@ function AddBookForm() {
                     description: "Book successfully edited int the database",
                     variant: "default"
                 });
+
+                const allBooks = await getBooks();
+                if (Array.isArray(allBooks)) {
+                    dispatch(setBooks(allBooks))
+                } else {
+                    console.error("Data fetched is not an array:", allBooks);
+                }
                 
                 router.push('/');
             } else {
@@ -81,13 +88,6 @@ function AddBookForm() {
                     description: "There might be some issue with the data provided",
                     variant: "destructive"
                 });
-                
-                const allBooks = await getBooks();
-                if (Array.isArray(allBooks)) {
-                    dispatch(setBooks(allBooks))
-                } else {
-                    console.error("Data fetched is not an array:", allBooks);
-                }
                 
                 router.push('/');
             }
