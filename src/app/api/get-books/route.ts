@@ -13,12 +13,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             response: books
         }, {
             status: 200,
-            headers: {
-                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0',
-                'Surrogate-Control': 'no-store'
-            }
         });
 
         return response;
@@ -28,14 +22,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             message: "Error in getting the books"
         }, {
             status: 500,
-            headers: {
-                'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0',
-                'Surrogate-Control': 'no-store'
-            }
         });
 
         return response;
     }
 }
+export const dynamic = "force-dynamic";
