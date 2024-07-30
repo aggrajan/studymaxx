@@ -36,7 +36,7 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {getRelevantBooks().map((book: Book) => (
-                        <ItemCard key={`interesting_${book._id}`} book={book} />
+                        <ItemCard key={`interesting_${book._id}`} bookId={book._id as number} />
                     ))}
                 </div>
             </div>
