@@ -17,29 +17,26 @@ import { useRouter } from "next/navigation";
 
 export function ExploreBooks() {
   const router = useRouter();
-  const filteredBooks = useAppSelector((state) => state.books.books);
   const dispatch = useAppDispatch();
+  const bookState = useAppSelector((state) => state.books.books)
   const searchAndFilterState = useAppSelector((state) => state.searchAndFilter) 
-  const [books, setAllBooks] = useState<Book[]>([]);
   const [currentPage, setCurrentPage] = useState(1)
   const booksPerPage = 8
-  const totalPages = Math.ceil(books.length / booksPerPage)
+  const totalPages = Math.ceil(bookState.length / booksPerPage)
   const indexOfLastBook = currentPage * booksPerPage
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook)
   const [isSchoolSelected, setIsSchoolSelected] = useState(false);
   const [isCompetitiveExamSelected, setIsCompetitiveExamSelected] = useState(false);
+  const getAllBooks = async () => {
+      const allBooks = await getBooks();
+      if (Array.isArray(allBooks)) {
+          dispatch(setBooks(allBooks));
+      } else {
+          console.error("Data fetched is not an array:", allBooks);
+      }
+  };
 
   useEffect(() => { 
-    const getAllBooks = async () => {
-        const allBooks = await getBooks();
-        if (Array.isArray(allBooks)) {
-            setAllBooks(allBooks);
-        } else {
-            console.error("Data fetched is not an array:", allBooks);
-        }
-    };
-
     if(searchAndFilterState.searchTerm === "") {
       getAllBooks();
     }
@@ -64,14 +61,6 @@ export function ExploreBooks() {
   }, [searchAndFilterState.filters])
 
   useEffect(() => {
-    const getAllBooks = async () => {
-        const allBooks = await getBooks();
-        if (Array.isArray(allBooks)) {
-            setAllBooks(allBooks);
-        } else {
-            console.error("Data fetched is not an array:", allBooks);
-        }
-    };
 
     if(searchAndFilterState.searchTerm === "" && searchAndFilterState.filters.board.length === 0
       && searchAndFilterState.filters.categorie.length === 0 && searchAndFilterState.filters.clas.length === 0 
@@ -81,14 +70,6 @@ export function ExploreBooks() {
       getAllBooks();
     }
   }, []);
-
-  useEffect(() => {
-    if (Array.isArray(filteredBooks)) {
-        setAllBooks(filteredBooks);
-    } else {
-        console.error("Filtered books is not an array:", filteredBooks);
-    }
-  }, [filteredBooks]);
   
   const handlePageChange = (page: any) => {
     setCurrentPage(page)
@@ -96,8 +77,8 @@ export function ExploreBooks() {
 
   const search = (searchText: string) => {
     (async () => {
-      const books = await getSearchedAndFilteredBooks(searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
-      dispatch(setBooks(books));
+      const filteredBooks = await getSearchedAndFilteredBooks(searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
+      dispatch(setBooks(filteredBooks));
     })();
   }
 
@@ -237,8 +218,8 @@ export function ExploreBooks() {
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {books.slice(indexOfFirstBook, indexOfLastBook).map((book: Book) => (
-              <ItemCard key={`book_${book._id}`} book={book}/>
+            {bookState.slice(indexOfFirstBook, indexOfLastBook).map((book: Book) => (
+              <ItemCard key={`book_${book._id}`} bookId={book._id as number}/>
             ))}
           </div>
           <div className="container px-4 md:px-6 mt-8" id="pagination">

@@ -16,6 +16,7 @@ import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBoo
 import { setBooks } from "@/lib/slices/booksSlice";
 import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
 import { emptyCart, setCart } from "@/lib/slices/cartSlice";
+import { getBooks } from "@/app/apiCalls/callBooks";
 
 export function NavBar() {
   const router = useRouter();
@@ -28,8 +29,10 @@ export function NavBar() {
     const checkIfToken = await checkIsTokenAvailable();
     if(checkIfToken) {
       const user = await getProfile();
+      const books = await getBooks();
       if(user) dispatch(setAuthState(user));
       if(user.cart) dispatch(setCart(user.cart));
+      dispatch(setBooks(books));
     } else {
       dispatch(removeAuthState());
       dispatch(clearAllFilters());
