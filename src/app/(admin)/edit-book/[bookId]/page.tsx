@@ -5,16 +5,15 @@ import * as z from "zod";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
-import { bookSchema } from "@/schemas/addBookSchema";
 import { Form } from "@/components/ui/form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { bindings, boards, categories, exams, languages, levels, sizes, subjects } from '@/model/Enums';
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 
 import {
@@ -25,46 +24,53 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { getBooks } from "@/app/apiCalls/callBooks";
+import { Book } from "@/model/Books";
+import { editBookSchema } from "@/schemas/editBookSchema";
   
 
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
+    const { books } = useAppSelector((state) => state.books)
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
+    const params = useParams<{bookId: string}>();
+    const bookId = params.bookId;
+    const book: Book = books.filter((book: Book) => book._id === bookId)[0];
 
-    const form = useForm<z.infer<typeof bookSchema>>({
-        resolver: zodResolver(bookSchema),
+    const form = useForm<z.infer<typeof editBookSchema>>({
+        resolver: zodResolver(editBookSchema),
         defaultValues: {
-            title: '',
-            image: '',
-            authors: [{name: ''}],
-            price: NaN,
-            discount: NaN,
-            level: '',
-            subject: '',
-            board: '',
-            exam: '',
-            keywords: [undefined],
-            language: '',
-            isbn: '',
-            number_of_pages: NaN,
-            year: NaN,
-            size: '',
-            binding: '',
-            category: ''
+            id: bookId,
+            title: book.title,
+            image: book.image,
+            authors: book.authors,
+            price: book.price,
+            discount: book.discount,
+            level: book.level,
+            subject: book.subject,
+            board: book.board,
+            exam: book.exam,
+            keywords: book.keywords,
+            language: book.language,
+            isbn: book.isbn,
+            number_of_pages: book.number_of_pages,
+            year: book.year,
+            size: book.size,
+            binding: book.binding,
+            category: book.category
         }
     });
 
-    const onSubmit = async (data: z.infer<typeof bookSchema>) => {
+    const onSubmit = async (data: z.infer<typeof editBookSchema>) => {
         setIsSubmitting(true);
         try{
-            const response = await axios.post('/api/add-book', data);
+            const response = await axios.post('/api/edit-book', data);
             if(response.status === 200) {
                 toast({
-                    title: "Book added",
-                    description: "Book successfully added to database",
+                    title: "Book edited",
+                    description: "Book successfully edited int the database",
                     variant: "default"
                 });
                 
@@ -105,7 +111,7 @@ function AddBookForm() {
                         Welcome to StudyMaxx
                     </h1>
                     <p className="mb-4">
-                        Please add a book
+                        Please edit this book
                     </p>
                 </div>
                 <Form {...form}>
@@ -474,7 +480,7 @@ function AddBookForm() {
                         <div className="flex justify-center items-center">
                             <Button type="submit" disabled={isSubmitting}>
                                 {
-                                    isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Add Book')
+                                    isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Edit Book')
                                 }
                             </Button>
                         </div>

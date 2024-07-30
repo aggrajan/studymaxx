@@ -22,8 +22,10 @@ import { Author } from "@/model/Authors"
 import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
 import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
+import { useRouter } from "next/navigation"
 
 export function ItemCard({ book } : { book: Book}) {
+  const route = useRouter();
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userPresent, user } = useAppSelector((state) => state.auth);
@@ -126,6 +128,9 @@ export function ItemCard({ book } : { book: Book}) {
           <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
             <ShoppingCartIcon className="w-6 h-6" />
           </Button>
+          {(user && user.isAdmin) ? <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
+            <img src="/edit.svg" className="w-6 h-6" />
+          </Button> : null}
         </div>}
         {addedToCart && <div className="flex items-center flex-col sm:flex-row gap-4">
           <div className="flex items-center gap-2">

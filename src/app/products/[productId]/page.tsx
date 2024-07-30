@@ -51,7 +51,7 @@ export default function Product() {
             <Reviews />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />
-  
+            <div className="mb-24"></div>
         </>
     );
 }
