@@ -25,6 +25,29 @@ export function NavBar() {
   const userAuth = useAppSelector((state) => state.auth);
   const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
   const filters = useAppSelector((state) => state.searchAndFilter.filters);
+  const cart = useAppSelector((state) => state.cart);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
+
+  useEffect(() => {
+    if(searchTerm === "" && filters.board.length === 0 &&
+      filters.categorie.length === 0 && filters.clas.length === 0 && 
+      filters.exam.length === 0 && filters.language.length === 0 &&
+      filters.subject.length === 0 && cart.cartCount === 0
+    ) return ;
+    if(userAuth.userPresent) return ;
+    function handleOnBeforeUnload(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      return (event.returnValue = '');
+    }
+
+    window.addEventListener('beforeunload', handleOnBeforeUnload, { capture: true });
+    return () => {
+      window.removeEventListener('beforeunload', handleOnBeforeUnload, { capture: true });
+    }
+
+  }, [searchTerm, filters, cart, userAuth])
 
   useEffect(() => {(async () => {
     const checkIfToken = await checkIsTokenAvailable();
@@ -45,10 +68,6 @@ export function NavBar() {
       dispatch(setStoreBooks(books));
     })();
   }, []);
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
   
   const toggle = () => {
     setIsOpen((prevState: boolean) => !prevState);
