@@ -5,6 +5,7 @@ import { searchAndFilterReducer } from './slices/searchAndFilterSlice';
 import { booksReducer } from './slices/booksSlice';
 import { persistReducer } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
+import { bookStoreReducer } from './slices/bookStoreSlice';
 
 const authPersistConfig = {
   key: "auth",
@@ -30,11 +31,18 @@ const booksPersistConfig = {
   whitelist: ["books"]
 }
 
+const bookStorePersistConfig = {
+  key: "bookStore",
+  storage: storage,
+  whitelist: ["books"]
+}
+
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   cart: persistReducer(cartPersistConfig, cartReducer),
   searchAndFilter: persistReducer(searchAndFilterPersistConfig, searchAndFilterReducer),
-  books: persistReducer(booksPersistConfig, booksReducer)
+  books: persistReducer(booksPersistConfig, booksReducer),
+  bookStore: persistReducer(bookStorePersistConfig, bookStoreReducer)
 })
 
 export const store = configureStore({

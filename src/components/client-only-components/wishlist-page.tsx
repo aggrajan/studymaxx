@@ -4,17 +4,6 @@ import { Book } from "@/model/Books";
 import { ItemCard } from "../component/item-card";
 
 export function WishlistPage() {
-    function UniqueHashCode(obj: object){
-        var str = JSON.stringify(obj) 
-        var hash = 0;
-        if (str.length == 0) return hash;
-        for (let i = 0; i < str.length; i++) {
-            let char = str.charCodeAt(i);
-            hash = ((hash<<5)-hash)+char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
-    }
     const { userPresent, user } = useAppSelector((state) => state.auth);
     return <>
     {
@@ -28,7 +17,7 @@ export function WishlistPage() {
             <div className="container md:px-6 pt-6">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     {user.wishlist.map((book: Book) => (
-                    <ItemCard key={UniqueHashCode(book)} bookId={book._id as number} />
+                    <ItemCard key={`book_${book._id}`} book={book} />
                     ))}
                 </div>
             </div>

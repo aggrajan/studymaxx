@@ -14,7 +14,7 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { bindings, boards, categories, exams, languages, levels, sizes, subjects } from '@/model/Enums';
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 
 import {
@@ -24,12 +24,12 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { getBooks } from "@/app/apiCalls/callBooks";
   
 
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
+    const allBooks = useAppSelector((state) => state.bookStore.books);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -68,7 +68,7 @@ function AddBookForm() {
                     variant: "default"
                 });
 
-                const allBooks = await getBooks();
+                
                 if (Array.isArray(allBooks)) {
                     dispatch(setBooks(allBooks))
                 } else {

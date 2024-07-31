@@ -1,30 +1,20 @@
+"use client"
 import { useEffect, useState } from "react";
 import { ItemCard } from "./item-card";
 import { Book } from "@/model/Books";
-import { getBooks } from "@/app/apiCalls/callBooks";
+import { useAppSelector } from "@/lib/hooks";
 
 export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, isModal: boolean }) {
-    const [books, setAllBooks] = useState([]);
+    const [books, setAllBooks] = useState<Book[]>([]);
+    const allBooks = useAppSelector((state) => state.bookStore.books);
     useEffect(() => {
         const getAllBooks = async () => {
-            const allBooks = await getBooks();
+            
             setAllBooks(allBooks);
         }
 
         getAllBooks();
     }, []);
-
-    function UniqueHashCode(obj: object){
-        var str = JSON.stringify(obj) 
-        var hash = 0;
-        if (str.length == 0) return hash;
-        for (let i = 0; i < str.length; i++) {
-            let char = str.charCodeAt(i);
-            hash = ((hash<<5)-hash)+char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        return hash;
-    }
 
     function getRelevantBooks() {
         return books.filter((givenBook: Book) => ((givenBook._id !== book._id) 
@@ -48,7 +38,7 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {getRelevantBooks().map((book: Book) => (
-                        <ItemCard key={UniqueHashCode(book)} bookId={book._id as number} />
+                        <ItemCard key={`book_${book._id}`} book={book} />
                     ))}
                 </div>
             </div>

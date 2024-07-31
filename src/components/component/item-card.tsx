@@ -24,11 +24,9 @@ import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 import { useRouter } from "next/navigation"
 
-export function ItemCard({ bookId } : { bookId: number}) {
+export function ItemCard({ book } : { book: Book}) {
   const route = useRouter();
   const dispatch = useAppDispatch();
-  const bookState = useAppSelector((state) => state.books.books);
-  const book = bookState.filter((givenBook: Book) => givenBook._id === bookId)[0];
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userPresent, user } = useAppSelector((state) => state.auth);
   const [addedToWishlist, setAddedToWishlist] = useState<boolean>(false);
@@ -58,7 +56,7 @@ export function ItemCard({ bookId } : { bookId: number}) {
     if(isAddedToWishlist) {
       setAddedToWishlist(true);
     }
-  }, [userPresent, bookState]);
+  }, [userPresent]);
 
   function getQuantity(): number {
     if(!book) return 0;

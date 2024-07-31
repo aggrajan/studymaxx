@@ -13,28 +13,25 @@ import { setAuthState, removeAuthState } from "@/lib/slices/authSlice";
 import { clearAllFilters, updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { getProfile } from "@/app/apiCalls/callProfile";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
+import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
 import { emptyCart, setCart } from "@/lib/slices/cartSlice";
-import { getBooks } from "@/app/apiCalls/callBooks";
 
 export function NavBar() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const books = useAppSelector((state) => state.bookStore.books);
   const userAuth = useAppSelector((state) => state.auth);
   const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
   const filters = useAppSelector((state) => state.searchAndFilter.filters);
 
   useEffect(() => {(async () => {
     const checkIfToken = await checkIsTokenAvailable();
-    const books = await getBooks();
-    dispatch(setBooks(books));
     if(checkIfToken) {
       const user = await getProfile();
-      
       if(user) dispatch(setAuthState(user));
       if(user.cart) dispatch(setCart(user.cart));
-      
     } else {
       dispatch(removeAuthState());
       dispatch(clearAllFilters());
@@ -43,13 +40,11 @@ export function NavBar() {
   })()}, [userAuth.userPresent]);
 
   useEffect(() => {
-    const resetBooks = async () => {
-      const books = await getBooks();
-      dispatch(setBooks(books));
-    }
-    resetBooks();
+    (async () => {
+      
+      dispatch(setStoreBooks(books));
+    })();
   }, []);
-
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -133,9 +128,6 @@ export function NavBar() {
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${userAuth.userPresent ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
                   Your Wishlist
-              </DropdownMenuItem>
-              <DropdownMenuItem className={`${userAuth.userPresent ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/feedback'); }}>
-                  Your Feedbacks
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -23,7 +23,6 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { getBooks } from "@/app/apiCalls/callBooks";
 import { Book } from "@/model/Books";
 import { editBookSchema } from "@/schemas/editBookSchema";
   
@@ -31,6 +30,7 @@ import { editBookSchema } from "@/schemas/editBookSchema";
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
+    const allBooks = useAppSelector((state) => state.bookStore.books);
     const { books } = useAppSelector((state) => state.books)
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
@@ -74,7 +74,7 @@ function AddBookForm() {
                     variant: "default"
                 });
 
-                const allBooks = await getBooks();
+                
                 if (Array.isArray(allBooks)) {
                     console.log("allBooks", allBooks);
                     dispatch(setBooks(allBooks))
