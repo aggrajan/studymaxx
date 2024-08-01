@@ -145,7 +145,7 @@ export function NavBar() {
                   All Queries
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
-              <DropdownMenuItem className={`${userAuth.userPresent ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
                   Your Wishlist
               </DropdownMenuItem>
             </DropdownMenuContent>
