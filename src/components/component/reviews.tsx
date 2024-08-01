@@ -30,7 +30,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
           bookId: bookId,
           review: "",
           rating: 1,
-          image: user?.image || undefined,
+          image: user?.picture || undefined,
           name: user?.name || undefined,
           username: user?.username || ""
       }
