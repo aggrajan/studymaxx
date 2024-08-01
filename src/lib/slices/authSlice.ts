@@ -5,15 +5,16 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 // Inspired from User Interface defined in User model
 interface UserStoreInfo {
-    _id: string
-    username?: string,
-    name?: string,
-    picture?: string,
-    email: string,
-    isVerified: boolean,
-    isAdmin?: boolean,
-    addresses?: Address[],
-    wishlist: Book[]
+    _id: string;
+    username?: string;
+    name?: string;
+    picture?: string;
+    image?: string;
+    email: string;
+    isVerified: boolean;
+    isAdmin?: boolean;
+    addresses?: Address[];
+    wishlist: Book[];
 };
 
 export interface IAuthState {

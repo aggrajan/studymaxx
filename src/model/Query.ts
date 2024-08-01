@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface Query extends Document {
-    userId: string,
-    name: string,
-    email: string,
-    subject: string,
-    message: string
+    userId: string;
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
 }
 
 export const QuerySchema: Schema<Query> = new Schema({

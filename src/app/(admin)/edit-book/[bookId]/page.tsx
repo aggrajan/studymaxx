@@ -157,9 +157,9 @@ function AddBookForm() {
                                             <FormControl>
                                                 <Input placeholder="author name" value={author.name}
                                                     onChange={(e) => {
-                                                    const newAuthors = [...field.value];
-                                                    newAuthors[index].name = e.target.value;
-                                                    field.onChange(newAuthors);
+                                                        const newAuthors = [...field.value];
+                                                        newAuthors[index].name = e.target.value;
+                                                        field.onChange(newAuthors);
                                                     }} 
                                                 />
                                             </FormControl>

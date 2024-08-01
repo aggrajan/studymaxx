@@ -23,7 +23,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             });
         }
 
-        // Find the user and ensure the cart item exists
         const user = await UserModel.findById(userId);
         if (!user) {
             return NextResponse.json({

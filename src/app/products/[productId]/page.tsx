@@ -13,6 +13,8 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/lib/hooks";
 import { Author } from "@/model/Authors";
+import { Review } from "@/model/Review";
+import { getReviews } from "@/app/apiCalls/callReviews";
 
 export default function Product() {
     const { cartItems } = useAppSelector((state) => state.cart);
@@ -20,6 +22,7 @@ export default function Product() {
     const id = params.productId
     const [book, setBook] = useState<Book>({"_id":"","title":" ","image":"/placeholder.svg","authors":[{"name":"-"}],"price":0,"level":"","subject":"","board":"","exam":"","keywords":[""],"language":"","isbn":"","number_of_pages":0,"year":0,"size":"","binding":"","category":""} as Book);
     const [addedToCart, setAddedToCart] = useState(false);
+    const [reviews, setReviews] = useState<Review[]>([])
 
     function getAuthors(authors: Author[]): string {
         if(authors === undefined) return "";
@@ -27,11 +30,13 @@ export default function Product() {
     }
 
     useEffect(() => {
+        if(book._id !== "") return ;
         (async () => {
             const currentBook: Book = await getBook(id);
-            if(book._id !== currentBook._id) setBook(currentBook);
+            setBook(currentBook);
             if(getQuantity() > 0) setAddedToCart(true);
-            console.log("quantity", getQuantity(), book);
+            const currentReviews: Review[] = await getReviews(id);
+            setReviews(currentReviews);
         })();
     }, [book]);
 
@@ -48,7 +53,7 @@ export default function Product() {
             <BreadCrumb book={book} />
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
             <TabView />
-            <Reviews />
+            <Reviews bookId={book._id as string} reviews={reviews} />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />
             <div className="mb-24"></div>
