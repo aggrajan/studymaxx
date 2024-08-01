@@ -24,6 +24,7 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea";
   
 
 
@@ -53,7 +54,11 @@ function AddBookForm() {
             year: undefined,
             size: '',
             binding: '',
-            category: ''
+            category: '',
+            about: [''],
+            salient_features: [''],
+            useful_for: [''],
+            additional_support: ['']
         }
     });
 
@@ -143,12 +148,13 @@ function AddBookForm() {
                         render={({ field }) => (
                             <>{
                                 field.value.map((author, index) => (
-                                    <div key={`author_${index}`}>
-                                        <FormItem >
+                                    <div key={`author_${index}`} className="flex flex-row w-full space-x-2">
+                                        <FormItem className="flex-1">
                                             <FormLabel>Author</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="author name" value={author.name}
-                                                    onChange={(e) => {
+                                                    className="w-full"
+                                                    onChange={(e: any) => {
                                                     const newAuthors = [...field.value];
                                                     newAuthors[index].name = e.target.value;
                                                     field.onChange(newAuthors);
@@ -157,6 +163,11 @@ function AddBookForm() {
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
+                                        <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                            const newAuthors = [...field.value];
+                                            newAuthors.splice(index, 1);
+                                            field.onChange(newAuthors);
+                                        }}></img>
                                     </div>
                                 ))}
                                 <Button type="button" onClick={() => field.onChange([...field.value, {name: ''}])}>Add Another Author</Button>
@@ -303,11 +314,12 @@ function AddBookForm() {
                         render={({ field }) => (
                             <>{
                                 field.value.map((keyword, index) => (
-                                    <div key={`keyword_${index}`}>
-                                        <FormItem >
+                                    <div key={`keyword_${index}`} className="flex flex-row w-full space-x-2">
+                                        <FormItem className="flex-1">
                                             <FormLabel>Keyword</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="keyword" value={keyword}
+                                                    className="w-full"
                                                     onChange={(e) => {
                                                     const newKeywords = [...field.value];
                                                     newKeywords[index] = e.target.value;
@@ -317,6 +329,11 @@ function AddBookForm() {
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
+                                        <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                            const newKeywords = [...field.value];
+                                            newKeywords.splice(index, 1);
+                                            field.onChange(newKeywords);
+                                        }}></img>
                                     </div>
                                 ))}
                                 <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Keyword</Button>
@@ -469,6 +486,129 @@ function AddBookForm() {
                             <FormMessage />
                             </FormItem>
                         )}
+                        />
+
+                        <FormField 
+                            name="about"
+                            control={form.control}
+                            render={({ field }) => (
+                                <>{field.value.map((aboutBook, index) => (
+                                    <div key={`About_${index}`} className="flex flex-row w-full space-x-2">
+                                    <FormItem className="flex-1">
+                                        <FormLabel>About the Book</FormLabel>
+                                        <FormControl>
+                                            <Textarea placeholder="About.." className="w-full"  value={aboutBook} onChange={(e: any) => {
+                     
+                                                const abouts = [...field.value];
+                                                abouts[index] = e.target.value;
+                                                field.onChange(abouts);
+                                            }}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                    <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer"  onClick={(e: any) => {
+                                            const abouts = [...field.value];
+                                            abouts.splice(index, 1);
+                                            field.onChange(abouts);
+                                        }}></img>
+                                </div>
+                                ))}
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another About Section</Button>
+                                </>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="salient_features"
+                            control={form.control}
+                            render={({ field }) => (
+                                <>{field.value.map((feature, index) => (
+                                    <div key={`Feature_${index}`} className="flex flex-row w-full space-x-2">
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Salient Features</FormLabel>
+                                        <FormControl>
+                                            <Textarea placeholder="Feature.."
+                                                className="w-full" value={feature} onChange={(e: any) => {
+                                                e.preventDefault(); 
+                                                const features = [...field.value];
+                                                features[index] = e.target.value;
+                                                field.onChange(features);
+                                            }}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                    <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                            const features = [...field.value];
+                                            features.splice(index, 1);
+                                            field.onChange(features);
+                                        }}></img>
+                                </div>
+                                ))}
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Salient Features Section</Button>
+                                </>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="useful_for"
+                            control={form.control}
+                            render={({ field }) => (
+                                <>{field.value.map((useful, index) => (
+                                    <div key={`Useful_${index}`} className="flex flex-row space-x-2 w-full">
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Useful For</FormLabel>
+                                        <FormControl>
+                                            <Textarea placeholder="Useful for.." 
+                                                className="w-full" value={useful} onChange={(e: any) => {
+                                                e.preventDefault(); 
+                                                const usefulFor = [...field.value];
+                                                usefulFor[index] = e.target.value;
+                                                field.onChange(usefulFor);
+                                            }}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                    <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                            const usefulFor = [...field.value];
+                                            usefulFor.splice(index, 1);
+                                            field.onChange(usefulFor);
+                                        }}></img>
+                                </div>
+                                ))}
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Useful For Section</Button>
+                                </>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="additional_support"
+                            control={form.control}
+                            render={({ field }) => (
+                                <>{field.value.map((additional, index) => (
+                                    <div key={`Additional_${index}`} className="flex flex-row space-x-2 w-full">
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Additional Support</FormLabel>
+                                        <FormControl>
+                                            <Textarea placeholder="additional support.." 
+                                                className="w-full" value={additional} onChange={(e: any) => {
+                                                e.preventDefault(); 
+                                                const additionalSupport = [...field.value];
+                                                additionalSupport[index] = e.target.value;
+                                                field.onChange(additionalSupport);
+                                            }}/>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                    <img src="/minus.svg" className="w-5 h-5 cursor-pointer self-center" onClick={(e: any) => {
+                                            const additionalSupport = [...field.value];
+                                            additionalSupport.splice(index, 1);
+                                            field.onChange(additionalSupport);
+                                        }}></img>
+                                </div>
+                                ))}
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Additional Support Section</Button>
+                                </>
+                            )}      
                         />
 
                         <div className="flex justify-center items-center">

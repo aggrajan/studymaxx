@@ -155,6 +155,9 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                 </div>
               </div>
             </div>))}
+            {(reviews.length === 0) && <div className="flex gap-4">
+                No reviews submitted yet
+              </div>}
           </div>
         </div>
       </div>

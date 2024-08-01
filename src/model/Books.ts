@@ -25,6 +25,10 @@ export interface Book extends Document {
     size: string;
     binding: string;
     category: string;
+    about: string[];
+    salient_features: string[];
+    useful_for: string[];
+    additional_support: string[];
 }
 
 export const BookSchema: Schema<Book> = new Schema({
@@ -103,9 +107,24 @@ export const BookSchema: Schema<Book> = new Schema({
         type: String,
         required: [true, "Category is required"],
         enum: categories
-    }
+    },
+    about: [{
+        type: String,
+        required: [true, "'About the Book' field is required"]
+    }],
+    salient_features: [{
+        type: String,
+        required: [true, "'Salient Features' field is required"]
+    }],
+    useful_for: [{
+        type: String,
+        required: [true, "'Useful For' field is required"]
+    }],
+    additional_support: [{
+        type: String,
+        required: [true, "'Additional Support' is required"]
+    }]
 })
-
 
 const BooksModel = (mongoose.models.Book as mongoose.Model<Book>) || mongoose.model<Book>("Book", BookSchema)
 

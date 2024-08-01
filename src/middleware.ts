@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 export { default } from 'next-auth/middleware';
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
+
 
 export async function middleware(request: NextRequest) {
-    const token = cookies().get("token")?.value || "";
+    let token = cookies().get("token")?.value || "";
     const isAdmin = cookies().get("isAdmin")?.value || "false";
     const url = request.nextUrl;
     const expiryDate = new Date();
@@ -25,19 +27,6 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url));
     }
     const response = NextResponse.next();
-
-    if(token !== "") {
-        response.cookies.set("token", token, {
-            httpOnly: true,
-            expires: expiryDate
-        })
-        if(isAdmin !== "false") {
-            response.cookies.set("isAdmin", isAdmin, {
-                httpOnly: true,
-                expires: expiryDate
-            });
-        }
-    }
     return response;
 }
 

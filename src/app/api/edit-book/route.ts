@@ -1,14 +1,28 @@
+import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
+import UserModel from "@/model/User";
 import BookModel from "@/model/Books";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await dbConnect();
+        const dataResponse = await getDataFromToken(request)
+        const userId = dataResponse.response;
+
+        const user = await UserModel.findById(userId);
+        if(!user || !user.isAdmin) {
+            return NextResponse.json({
+                success: false,
+                message: "Invalid User"
+            }, {
+                status: 404
+            });
+        }
         const reqBody = await request.json();
-        const { id, title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year } = reqBody;
+        const { id, title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year, about, salient_features, useful_for, additional_support } = reqBody;
         const updatedBook = await BookModel.findByIdAndUpdate(id, {
-            title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year
+            title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year, about, salient_features, useful_for, additional_support
         }, { new: true });
 
         console.log(updatedBook);

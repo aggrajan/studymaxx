@@ -17,6 +17,7 @@ import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
 import { emptyCart, setCart } from "@/lib/slices/cartSlice";
+import { getBooks } from "@/app/apiCalls/callBooks";
 
 export function NavBar() {
   const router = useRouter();
@@ -64,8 +65,8 @@ export function NavBar() {
 
   useEffect(() => {
     (async () => {
-      
-      dispatch(setStoreBooks(books));
+      const allStoreBooks = await getBooks();
+      dispatch(setStoreBooks(allStoreBooks));
     })();
   }, []);
   

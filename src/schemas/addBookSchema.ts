@@ -30,5 +30,9 @@ export const bookSchema = z.object({
     year: z.number(),
     size: z.enum(sizes, { required_error: "Size is required" }),
     binding: z.enum(bindings, { required_error: "Binding Type is required" }),
-    category: z.enum(categories, { required_error: "Category is required" })
+    category: z.enum(categories, { required_error: "Category is required" }),
+    about: z.array(z.string().min(1, "about section is required")).nonempty(),
+    salient_features: z.array(z.string().min(1, "salient_features is required")).nonempty(),
+    useful_for: z.array(z.string().min(1, "useful_for is required")).nonempty(),
+    additional_support: z.array(z.string().min(1, "additional_support is required")).nonempty()
 })

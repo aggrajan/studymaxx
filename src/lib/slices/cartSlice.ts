@@ -36,7 +36,9 @@ export const cartSlice = createSlice({
             return {
                 ...state,
                 cartItems: [...action.payload],
-                cartCount: action.payload.length
+                cartCount: action.payload.length,
+                subtotal: action.payload.reduce((prev, curr) => prev + ((curr.product.discount && curr.product.discount > 0) ? curr.product.price * ((100 - curr.product.discount) / 100.0) : curr.product.price), 0),
+                total: action.payload.reduce((prev, curr) => prev + ((curr.product.discount && curr.product.discount > 0) ? curr.product.price * ((100 - curr.product.discount) / 100.0) : curr.product.price), 0) - state.discount + state.shipping
             }
         }, 
         addCartItem: (state: ICartState, action: PayloadAction<ICartItem>) => {
@@ -52,7 +54,7 @@ export const cartSlice = createSlice({
                 ...state,
                 cartItems: [...state.cartItems, action.payload],
                 cartCount: state.cartCount + 1,
-                subtotal: state.subtotal + action.payload.product.price * action.payload.quantity,
+                subtotal: state.subtotal + ((action.payload.product.discount && action.payload.product.discount > 0) ? action.payload.product.price * ((100 - action.payload.product.discount) / 100.0) : action.payload.product.price) * action.payload.quantity,
                 total: state.total + action.payload.product.price * action.payload.quantity
             }
         },
@@ -79,7 +81,7 @@ export const cartSlice = createSlice({
                 })();
 
                 state.cartItems[itemIndex].quantity += 1;
-                state.subtotal += state.cartItems[itemIndex].product.price;
+                state.subtotal += ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0) : state.cartItems[itemIndex].product.price);
                 state.total = state.subtotal + state.shipping - state.discount;
             }
             
@@ -93,7 +95,7 @@ export const cartSlice = createSlice({
                 })();
 
                 state.cartItems[itemIndex].quantity -= 1;
-                state.subtotal -= state.cartItems[itemIndex].product.price;
+                state.subtotal -= ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0) : state.cartItems[itemIndex].product.price);
                 state.total = state.subtotal + state.shipping - state.discount;
             }
         },
@@ -108,7 +110,7 @@ export const cartSlice = createSlice({
                 const item = state.cartItems[itemIndex];
                 state.cartItems.splice(itemIndex, 1);
                 state.cartCount -= 1;
-                state.subtotal -= item.product.price * item.quantity;
+                state.subtotal -= ((item.product.discount && item.product.discount > 0) ? item.product.price * ((100 - item.product.discount) / 100.0) : item.product.price) * item.quantity;
                 state.total = state.subtotal + state.shipping - state.discount;
             }   
         },
