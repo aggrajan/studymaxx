@@ -24,7 +24,7 @@ export function ShareButton({ link }: { link: string}) {
         <h2>Share</h2>
         </span>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent hideCloseButton={false} className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Share link</DialogTitle>
           <DialogDescription>

@@ -95,7 +95,7 @@ export function ItemCard({ book } : { book: Book}) {
         <DialogTrigger asChild>
           <img src={book.image} alt="Book Image" className="w-full hover:shadow-2xl cursor-pointer rounded-t-none transition-all hover:scale-[103%] border-black border-2" />
         </DialogTrigger>
-        <DialogContent className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
+        <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
           {/* <ScrollArea className="rounded-md border">
             <div className="p-0 sm:p-2"> */}
                 <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} />
@@ -107,7 +107,7 @@ export function ItemCard({ book } : { book: Book}) {
         </DialogContent>
       </Dialog>
       
-      <CardContent className="flex flex-col p-2">
+      <CardContent className="flex flex-col p-2 sm:p-3">
         <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -119,12 +119,12 @@ export function ItemCard({ book } : { book: Book}) {
           </Tooltip>
         </TooltipProvider>
         
-        <div className="text-xs md:text-sm text-muted-foreground min-h-4 md:min-h-8">{getAuthorNames(book.authors)}</div>
+        <div className="text-xs md:text-sm text-muted-foreground min-h-8 md:min-h-10">{getAuthorNames(book.authors)}</div>
         
-        <div className="flex justify-start items-center gap-4">
+        <div className="flex justify-start items-center gap-2 sm:gap-3">
           {(book && book.discount && (book.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(book.price, book.discount)}</div> : null}
           <div className={`${(book && book.discount && (book.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{book.price}</div>
-          {(book && book.discount && (book.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100">
+          {(book && book.discount && (book.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0">
             {(book.discount).toFixed(1)}% OFF
           </Badge> : null}
         </div>

@@ -12,8 +12,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
+import { useRouter } from "next/navigation";
 
 export function ProductsPage() {
+    const router = useRouter();
     const filteredBooks = useAppSelector((state) => state.books.books)
     const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
     const filters = useAppSelector((state) => state.searchAndFilter.filters)
@@ -92,7 +94,7 @@ export function ProductsPage() {
                   }}>Search</Button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
+            <div id="products_content" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
                 <FilterButton optionArray={categories} name="categorie" />
                 {isSchoolSelected && <FilterButton optionArray={subjects} name="subject" />}
                 {isSchoolSelected && <FilterButton optionArray={levels} name="clas" />}
@@ -102,27 +104,27 @@ export function ProductsPage() {
             </div>
             <div className="container md:px-6 pt-6">
                 <div className="flex flex-col">
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {
                   currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
                     <ItemCard key={`book_${book._id}`} book={book}/>
                   ))
                 }
                 </div>
-                <div className="container px-4 md:px-6 mt-8">
+                <div className="container px-4 md:px-6 mt-8 mb-24">
                     <Pagination>
                     <PaginationContent>
                         <PaginationItem>
                         <PaginationPrevious
                             className={`hover:cursor-pointer ${currentPage <= 1 ? "pointer-events-none opacity-50" : ""}`}
-                            onClick={(e) => {e.preventDefault(); handlePageChange(currentPage - 1);}}
+                            onClick={(e) => {e.preventDefault(); handlePageChange(currentPage - 1); router.push("/products/#products_content") }}
                             aria-disabled={currentPage <= 1}
                             tabIndex={currentPage <= 1 ? -1 : undefined}
                         />
                         </PaginationItem>
                         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                         <PaginationItem key={page}>
-                            <PaginationLink className="hover:cursor-pointer" onClick={(e) => {e.preventDefault(); handlePageChange(page);}} isActive={page === currentPage}>
+                            <PaginationLink className="hover:cursor-pointer" onClick={(e) => {e.preventDefault(); handlePageChange(page); router.push("/products/#products_content") }} isActive={page === currentPage}>
                             {page}
                             </PaginationLink>
                         </PaginationItem>
@@ -130,7 +132,7 @@ export function ProductsPage() {
                         <PaginationItem>
                         <PaginationNext
                             className={`hover:cursor-pointer ${currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}`}
-                            onClick={(e) => {e.preventDefault(); handlePageChange(currentPage + 1);}}
+                            onClick={(e) => {e.preventDefault(); handlePageChange(currentPage + 1); router.push("/products/#products_content") }}
                             aria-disabled={currentPage >= totalPages}
                             tabIndex={currentPage >= totalPages ? -1 : undefined}
                         />
