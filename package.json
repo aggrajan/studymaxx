@@ -51,6 +51,7 @@
     "react-dom": "^18",
     "react-email": "^2.1.5",
     "react-hook-form": "^7.52.1",
+    "react-pdf": "^9.1.0",
     "react-redux": "^9.1.2",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",

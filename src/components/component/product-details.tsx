@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ShareButton } from "./share-button"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   Tooltip,
   TooltipContent,
@@ -13,8 +13,12 @@ import {
 import { useAppDispatch } from "@/lib/hooks"
 import { addCartItem, addItemQuantity, ICartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
 import { useToast } from "../ui/use-toast"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog"
+import PdfPreview from "./preview-pdf"
+
 
 export function ProductDetails(props: any) {
+  const pathname = usePathname()
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cartItem: ICartItem = {
@@ -25,6 +29,15 @@ export function ProductDetails(props: any) {
   function getDiscountedPrice(originalPrice: number, discount: number): number {
     return (originalPrice * (100 - discount)) / 100.0;
   }
+
+  function getURL() {
+    const currentLocation: string = window.location.toString();
+    if(currentLocation.includes("products")) {
+      return currentLocation
+    } 
+    return `${currentLocation}products//${props.book._id}`;
+  }
+
   const { isModal } = props;
   return (
     <div className={`${isModal ? "flex flex-col lg:flex-row gap-8 lg:gap-12 px-4 mx-auto py-6" : "grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center px-4 mx-auto py-6"}`}>
@@ -46,7 +59,7 @@ export function ProductDetails(props: any) {
               <Link href="#" className="text-primary hover:underline underline-offset-4" prefetch={false}>
                 {props.getAuthors(props.book.authors)}
               </Link>
-              <ShareButton link={`https://study-maxx.vercel.app/products/${props.book._id}`} />
+              <ShareButton link={`${getURL()}`} />
             </div>
             {isModal && <TooltipProvider delayDuration={100}>
                 <Tooltip>
@@ -71,7 +84,22 @@ export function ProductDetails(props: any) {
               {(props.book.discount)}% OFF
             </Badge>}
           </div>
-          <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">Preview</Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">
+                Preview
+              </Button>
+            </DialogTrigger>
+            <DialogContent hideCloseButton={true} className="min-w-[85%] my-16 p-0 h-full" onOpenAutoFocus={(e) => {e.preventDefault()}}>
+              <PdfPreview pdfUrl="https://drive.google.com/file/d/1cPn7aGGNAKU-xGwuyaukfW-BZ9OIgRWS/preview" />
+                <DialogClose asChild className="absolute top-2 left-2 z-50">
+                  <Button type="button" variant="secondary">
+                    Close
+                  </Button>
+                </DialogClose>
+            </DialogContent>
+            
+          </Dialog>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-1">

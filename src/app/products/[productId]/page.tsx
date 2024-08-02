@@ -20,7 +20,7 @@ export default function Product() {
     const { cartItems } = useAppSelector((state) => state.cart);
     const params = useParams<{productId: string}>();
     const id = params.productId
-    const [book, setBook] = useState<Book>({"_id":"","title":" ","image":"/placeholder.svg","authors":[{"name":"-"}],"price":0,"level":"","subject":"","board":"","exam":"","keywords":[""],"language":"","isbn":"","number_of_pages":0,"year":0,"size":"","binding":"","category":""} as Book);
+    const [book, setBook] = useState<Book>({"_id":"","title":" ","image":"/placeholder.svg","authors":[{"name":"-"}],"price":0,"level":"","subject":"","board":"","exam":"","keywords":[""],"language":"","isbn":"","number_of_pages":0,"year":0,"size":"","binding":"","category":"", "about": [""], "salient_features": [""], "useful_for": [""], "additional_support": [""]} as Book);
     const [addedToCart, setAddedToCart] = useState(false);
     const [reviews, setReviews] = useState<Review[]>([])
     const [count, setCount] = useState(0);
