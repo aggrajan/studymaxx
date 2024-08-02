@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Loader2 } from "lucide-react"
 import { Review } from "@/model/Review"
+import { formatDistanceToNow } from 'date-fns'
 
 export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review[] }) {
   const userPresent = useAppSelector((state) => state.auth.userPresent);
@@ -38,7 +39,6 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
 
   const onSubmit = async (data: z.infer<typeof reviewSchema>) => {
       setIsSubmitting(true);
-      console.log("Hello");
       try{
           const response = await axios.post('/api/add-review', data);
           if(response.status === 200) {
@@ -76,7 +76,19 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
         <div>
           <h2 className="text-2xl font-bold mb-4">Leave a Review</h2>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+            <form onSubmit={(e: any) => {
+              e.preventDefault();
+              if (!userPresent) {
+                toast({
+                  title: "Login Required",
+                  description: "You must be logged in to submit a review",
+                  variant: "destructive"
+                });
+                setIsSubmitting(false);
+                return;
+              }
+              form.handleSubmit(onSubmit)();
+            }} className="grid gap-4">
               <div className="grid gap-2">
                   <FormField 
                       name="review"
@@ -85,7 +97,15 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                           <FormItem>
                               <FormLabel>Review</FormLabel>
                               <FormControl>
-                                  <Textarea placeholder="enter your review" {...field}/>
+                                  <Textarea placeholder="enter your review" {...field} onClick={() => {
+                                    if (!userPresent) {
+                                      toast({
+                                        title: "Login Required",
+                                        description: "You must be logged in to submit a review",
+                                        variant: "destructive"
+                                      });
+                                    }
+                                  }} />
                               </FormControl>
                               <FormMessage />
                           </FormItem>
@@ -103,10 +123,30 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                                   <FormControl>
                                   <div className="flex items-center gap-2">
                                     {Array.from({ length: field.value }, (_, i) => i + 1).map((index) => (
-                                      <StarIcon key={`star_icon_${index}`} className="w-5 h-5 fill-primary cursor-pointer" onClick={() => {field.onChange(index)}} />
+                                      <StarIcon key={`star_icon_${index}`} className="w-5 h-5 fill-primary cursor-pointer" onClick={() => {
+                                        if (!userPresent) {
+                                          toast({
+                                            title: "Login Required",
+                                            description: "You must be logged in to submit a review",
+                                            variant: "destructive"
+                                          });
+                                        } else {
+                                          field.onChange(index);
+                                        }
+                                      }} />
                                     ))}
                                     {Array.from({ length: 5 - field.value }, (_, i) => field.value + i + 1).map((index) => (
-                                      <StarIcon key={`star_icon_non_${index}`} className="w-5 h-5 fill-muted stroke-muted-foreground cursor-pointer" onClick={() => {field.onChange(index)}} />
+                                      <StarIcon key={`star_icon_non_${index}`} className="w-5 h-5 fill-muted stroke-muted-foreground cursor-pointer" onClick={() => {
+                                        if (!userPresent) {
+                                          toast({
+                                            title: "Login Required",
+                                            description: "You must be logged in to submit a review",
+                                            variant: "destructive"
+                                          });
+                                        } else {
+                                          field.onChange(index);
+                                        }
+                                      }} />
                                     ))}
                                   </div>
                                 </FormControl>
@@ -117,7 +157,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                   
                 </div>
               </div>
-              <Button type="submit" className={`justify-self-end ${userPresent ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={!userPresent || isSubmitting}>
+              <Button type="submit" className={`justify-self-end cursor-pointer`} disabled={isSubmitting}>
                 {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Review')
                 }
@@ -148,7 +188,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                       return <StarIcon key={`no_star_${index}_${no_star_index}`} className="w-5 h-5 fill-muted stroke-muted-foreground" />
                     })}
                   </div>
-                  <div className="text-xs text-muted-foreground">2 days ago</div>
+                  <div className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(review.createdAt ? review.createdAt : new Date()), { addSuffix: true })}</div>
                 </div>
                 <div className="text-sm leading-loose text-muted-foreground">
                   {review.review}

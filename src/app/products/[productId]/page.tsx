@@ -23,6 +23,9 @@ export default function Product() {
     const [book, setBook] = useState<Book>({"_id":"","title":" ","image":"/placeholder.svg","authors":[{"name":"-"}],"price":0,"level":"","subject":"","board":"","exam":"","keywords":[""],"language":"","isbn":"","number_of_pages":0,"year":0,"size":"","binding":"","category":""} as Book);
     const [addedToCart, setAddedToCart] = useState(false);
     const [reviews, setReviews] = useState<Review[]>([])
+    const [count, setCount] = useState(0);
+    const userPresent = useAppSelector((state) => state.auth.userPresent)
+
 
     function getAuthors(authors: Author[]): string {
         if(authors === undefined) return "";
@@ -34,25 +37,24 @@ export default function Product() {
         (async () => {
             const currentBook: Book = await getBook(id);
             setBook(currentBook);
-            if(getQuantity() > 0) setAddedToCart(true);
+            const cartIndex = cartItems.findIndex((cartItem) => cartItem.product._id === currentBook._id);
+            
+            if(cartIndex !== -1 && cartItems[cartIndex].quantity > 0) {
+                setAddedToCart(true);
+                setCount(cartItems[cartIndex].quantity)
+            }
+            
             const currentReviews: Review[] = await getReviews(id);
             setReviews(currentReviews);
         })();
-    }, [book]);
-
-  
-    function getQuantity(): number {
-      const cartIndex = cartItems.findIndex((cartItem) => cartItem.product._id === book!._id);
-      if(cartIndex === -1) return 0;
-      return cartItems[cartIndex].quantity
-    }
+    }, [book, userPresent]);
 
     return (
         <>
  
-            <BreadCrumb book={book} />
-            <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} getQuantity={getQuantity} />
-            <TabView />
+            <BreadCrumb title={book.title} category={book.category} />
+            <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} />
+            <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
             <Reviews bookId={book._id as string} reviews={reviews} />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />

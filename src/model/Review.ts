@@ -8,6 +8,7 @@ export interface Review extends Document {
     image?: string;
     name?: string;
     username?: string;
+    createdAt?: Date
 }
 
 export const ReviewSchema: Schema<Review> = new Schema({

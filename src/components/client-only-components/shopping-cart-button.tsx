@@ -16,7 +16,8 @@ export function ShoppingCartButton() {
                 <span className="sr-only">Shopping Cart</span>
             </Button>
             {cartCount > 0 && (
-                <Badge className="bg-primary text-primary-foreground w-5 h-5 flex justify-center items-center absolute top-2 right-0 transform translate-x-1/2 -translate-y-1/2">
+                <Badge className="bg-primary text-primary-foreground w-5 h-5 flex justify-center items-center absolute top-2 right-0 transform translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={(e) => { e.preventDefault(); router.push('/cart') }}>
                     {cartCount}
                 </Badge>
             )}

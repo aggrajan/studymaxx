@@ -228,9 +228,11 @@ export function ExploreBooks() {
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {currentBooks.map((book: Book) => (
-              <ItemCard key={`book_${book._id}`} book={book}/>
-            ))}
+            {
+              currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
+                <ItemCard key={`book_${book._id}`} book={book}/>
+              ))
+            }
           </div>
           <div className="container px-4 md:px-6 mt-8" id="pagination">
             <Pagination>

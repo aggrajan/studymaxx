@@ -5,14 +5,18 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 
-export function TabView() {
+export function TabView({ about, salient_features, useful_for, additional_support } : { about: string[], salient_features: string[], useful_for: string[], additional_support: string[] } ) {
     const [tab, setTab] = useState("about");
+    const [fullAbout, setFullAbout] = useState(false);
+    const [fullSalientFeatures, setFullSalientFeatures] = useState(false);
+    const [fullUsefulFor, setFullUsefulFor] = useState(false);
+    const [fullAdditionalSupport, setFullAdditionalSupport] = useState(false);
 
     const onTabChange = (value: string) => {
         setTab(value);
     }
     return (
-        <Tabs defaultValue={tab} onValueChange={onTabChange} className="max-w-7xl mx-auto px-4 md:px-6 pt-8">
+        <Tabs defaultValue={tab} onValueChange={onTabChange} className="max-w-7xl w-full mx-auto px-4 md:px-6 pt-8">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
                 <TabsTrigger value="about" className="mr-1 transition-all duration-300 hover:bg-slate-300 hover:text-black">About The Book</TabsTrigger>
                 <TabsTrigger value="features" className="ml-1 md:mx-1 transition-all duration-300 hover:bg-slate-300 hover:text-black">Salient Features</TabsTrigger>
@@ -34,13 +38,39 @@ export function TabView() {
                             This is a description about the book you are viewing
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">
-                    <div className="text-slate-800 text-sm">&quot;Mathematics for Class 6&quot; by R.S. Aggarwal is a comprehensive textbook designed to cater to the learning needs of middle school students. Known for its clear explanations and structured approach, this book serves as an essential guide for mastering mathematical concepts at the Class 6 level.
-                    </div>
+                    <CardContent className="space-y-2">{
+                    about.length === 0 
+                    ? <div className="text-slate-800 text-sm">No description available</div> 
+                    : (
+                        about.length === 1 
+                        ? <div className="text-slate-800 text-sm">
+                            {about[0]}
+                        </div> 
+                        : (
+                            about.length > 3 
+                            ? <div className="text-slate-800 text-sm">
+                                {fullAbout 
+                                    ? about.map((aboutText: string, index: number) => (
+                                            <li key={`aboutText_${index}`}>{aboutText}</li>
+                                        ))
+                                    : Array.from({length: 3}, (_, i) => i).map((index: number) => (
+                                            <li key={`aboutText_${index}`}>{about[index]}</li>
+                                        ))
+                                }
+                              </div>
+                            : <div className="text-slate-800 text-sm"> 
+                                {
+                                    about.map((aboutText: string, index: number) => (
+                                        <li key={`aboutText_${index}`}>{aboutText}</li>
+                                    ))
+                                }
+                                </div>
+                        )
+                    )}
                     </CardContent>
-                    <CardFooter>
-                        <Button variant="secondary">Read More</Button>
-                    </CardFooter>
+                    {about.length > 3 && <CardFooter>
+                        {fullAbout ? <Button variant="secondary" onClick={() => {setFullAbout((prev) => !prev)}} >Show Less</Button> : <Button variant="secondary" onClick={() => {setFullAbout((prev) => !prev)}} >Read More</Button>}
+                    </CardFooter>}
                 </Card>
             </TabsContent>
             <TabsContent value="features">
@@ -51,15 +81,42 @@ export function TabView() {
                             <CardTitle>Salient Features</CardTitle>
                         </div>
                         <CardDescription>
-                        These are the salient features
+                        These are the salient features for this book
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">
-                        <div className="text-slate-800 text-sm">&quot;Mathematics for Class 6&quot; by R.S. Aggarwal stands out for its clear, step-by-step explanations and structured approach to learning. Each topic is meticulously broken down to ensure conceptual clarity, supported by numerous worked examples and a wide range of exercises that cater to different difficulty levels. The book includes chapter summaries for quick revision, multiple-choice questions for competitive exam preparation, and highlights real-life applications of mathematical concepts, making it a comprehensive resource for middle school students.</div>
+                    <CardContent className="space-y-2">{
+                    salient_features.length === 0 
+                    ? <div className="text-slate-800 text-sm">No features available</div> 
+                    : (
+                        salient_features.length === 1 
+                        ? <div className="text-slate-800 text-sm">
+                            {salient_features[0]}
+                        </div> 
+                        : (
+                            salient_features.length > 3 
+                            ? <div className="text-slate-800 text-sm">
+                                {fullSalientFeatures 
+                                    ? salient_features.map((feature: string, index: number) => (
+                                            <li key={`salient_features_${index}`}>{feature}</li>
+                                        ))
+                                    : Array.from({length: 3}, (_, i) => i).map((index: number) => (
+                                            <li key={`salient_features_${index}`}>{salient_features[index]}</li>
+                                        ))
+                                }
+                              </div>
+                            : <div className="text-slate-800 text-sm"> 
+                                {
+                                    salient_features.map((feature: string, index: number) => (
+                                        <li key={`salient_features_${index}`}>{feature}</li>
+                                    ))
+                                }
+                                </div>
+                        )
+                    )}
                     </CardContent>
-                    <CardFooter>
-                    <Button variant="secondary">Read More</Button>
-                    </CardFooter>
+                    {salient_features.length > 3 && <CardFooter>
+                        {fullSalientFeatures ? <Button variant="secondary" onClick={() => {setFullSalientFeatures((prev) => !prev)}} >Show Less</Button> : <Button variant="secondary" onClick={() => {setFullSalientFeatures((prev) => !prev)}} >Read More</Button>}
+                    </CardFooter>}
                 </Card>
             </TabsContent>
             <TabsContent value="useful">
@@ -73,12 +130,39 @@ export function TabView() {
                             This section describes the usefullness of the book
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">
-                    <div className="text-slate-800 text-sm">This textbook is ideal for Class 6 students who seek a thorough understanding of mathematics. It is particularly useful for students preparing for school exams, as well as those aspiring to excel in competitive exams where a strong foundation in mathematics is crucial. Teachers and tutors will also find this book valuable for its structured content and variety of practice problems that facilitate effective teaching and learning.</div>
+                    <CardContent className="space-y-2">{
+                    useful_for.length === 0 
+                    ? <div className="text-slate-800 text-sm">No data available</div> 
+                    : (
+                        useful_for.length === 1 
+                        ? <div className="text-slate-800 text-sm">
+                            {useful_for[0]}
+                        </div> 
+                        : (
+                            useful_for.length > 3 
+                            ? <div className="text-slate-800 text-sm">
+                                {fullUsefulFor 
+                                    ? useful_for.map((useful: string, index: number) => (
+                                            <li key={`useful_for_${index}`}>{useful}</li>
+                                        ))
+                                    : Array.from({length: 3}, (_, i) => i).map((index: number) => (
+                                            <li key={`useful_for_${index}`}>{useful_for[index]}</li>
+                                        ))
+                                }
+                              </div>
+                            : <div className="text-slate-800 text-sm"> 
+                                {
+                                    useful_for.map((useful: string, index: number) => (
+                                        <li key={`useful_for_${index}`}>{useful}</li>
+                                    ))
+                                }
+                                </div>
+                        )
+                    )}
                     </CardContent>
-                    <CardFooter>
-                    <Button variant="secondary">Read More</Button>
-                    </CardFooter>
+                    {useful_for.length > 3 && <CardFooter>
+                        {fullUsefulFor ? <Button variant="secondary" onClick={() => {setFullUsefulFor((prev) => !prev)}} >Show Less</Button> : <Button variant="secondary" onClick={() => {setFullUsefulFor((prev) => !prev)}} >Read More</Button>}
+                    </CardFooter>}
                 </Card>
             </TabsContent>
             <TabsContent value="support">
@@ -89,15 +173,42 @@ export function TabView() {
                             <CardTitle>Additional Support</CardTitle>
                         </div>
                         <CardDescription>
-                        This shows additional support
+                        This shows additional support for this book
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">
-                    <div className="text-slate-800 text-sm">To complement the textbook, students can access additional support through a variety of resources. Supplementary materials such as solution guides, online tutorials, and interactive practice sessions are available to enhance learning. These resources provide further explanations, step-by-step solutions, and additional practice problems, helping students to reinforce their understanding and excel in their studies.</div>
+                    <CardContent className="space-y-2">{
+                    additional_support.length === 0 
+                    ? <div className="text-slate-800 text-sm">No support available</div> 
+                    : (
+                        additional_support.length === 1 
+                        ? <div className="text-slate-800 text-sm">
+                            {additional_support[0]}
+                        </div> 
+                        : (
+                            additional_support.length > 3 
+                            ? <div className="text-slate-800 text-sm">
+                                {fullAdditionalSupport 
+                                    ? additional_support.map((support: string, index: number) => (
+                                            <li key={`additional_support_${index}`}>{support}</li>
+                                        ))
+                                    : Array.from({length: 3}, (_, i) => i).map((index: number) => (
+                                            <li key={`additional_support_${index}`}>{additional_support[index]}</li>
+                                        ))
+                                }
+                              </div>
+                            : <div className="text-slate-800 text-sm"> 
+                                {
+                                    additional_support.map((support: string, index: number) => (
+                                        <li key={`additional_support_${index}`}>{support}</li>
+                                    ))
+                                }
+                                </div>
+                        )
+                    )}
                     </CardContent>
-                    <CardFooter>
-                    <Button variant="secondary">Read More</Button>
-                    </CardFooter>
+                    {additional_support.length > 3 && <CardFooter>
+                        {fullAdditionalSupport ? <Button variant="secondary" onClick={() => {setFullAdditionalSupport((prev) => !prev)}} >Show Less</Button> : <Button variant="secondary" onClick={() => {setFullAdditionalSupport((prev) => !prev)}} >Read More</Button>}
+                    </CardFooter>}
                 </Card>
             </TabsContent>
         </Tabs>

@@ -149,14 +149,14 @@ export function ProductDetails(props: any) {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => { dispatch(subtractItemQuantity({ id: props.book._id as number})) }}
-              disabled={props.getQuantity() === 1}
+              onClick={() => { dispatch(subtractItemQuantity({ id: props.book._id as number})); props.setCount((prev: number) => prev - 1) }}
+              disabled={props.count === 1}
               className="w-32"
             >
               <MinusIcon className="h-4 w-4" />
             </Button>
-            <span>{props.getQuantity()}</span>
-            <Button variant="outline" className="w-32" size="icon" onClick={() => { dispatch(addItemQuantity({ id: props.book._id as number})) }}>
+            <span>{props.count}</span>
+            <Button variant="outline" className="w-32" size="icon" onClick={() => { dispatch(addItemQuantity({ id: props.book._id as number})); props.setCount((prev: number) => prev + 1); }}>
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>

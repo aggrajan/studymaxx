@@ -37,8 +37,8 @@ export const cartSlice = createSlice({
                 ...state,
                 cartItems: [...action.payload],
                 cartCount: action.payload.length,
-                subtotal: action.payload.reduce((prev, curr) => prev + ((curr.product.discount && curr.product.discount > 0) ? curr.product.price * ((100 - curr.product.discount) / 100.0) : curr.product.price), 0),
-                total: action.payload.reduce((prev, curr) => prev + ((curr.product.discount && curr.product.discount > 0) ? curr.product.price * ((100 - curr.product.discount) / 100.0) : curr.product.price), 0) - state.discount + state.shipping
+                subtotal: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? curr.product.price * ((100 - curr.product.discount) / 100.0) : curr.product.price), 0),
+                total: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? curr.product.price * ((100 - curr.product.discount) / 100.0) : curr.product.price), 0) - state.discount + state.shipping
             }
         }, 
         addCartItem: (state: ICartState, action: PayloadAction<ICartItem>) => {
