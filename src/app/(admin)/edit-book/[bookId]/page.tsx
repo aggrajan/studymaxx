@@ -26,6 +26,7 @@ import {
 import { Book } from "@/model/Books";
 import { editBookSchema } from "@/schemas/editBookSchema";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
   
 
 
@@ -64,7 +65,9 @@ function AddBookForm() {
             about: book.about,
             salient_features: book.salient_features,
             useful_for: book.useful_for,
-            additional_support: book.additional_support
+            additional_support: book.additional_support,
+            pdfUrl: book.pdfUrl,
+            latest: (book.latest !== undefined) ? book.latest : false
         }
     });
 
@@ -144,6 +147,45 @@ function AddBookForm() {
                                     <FormLabel>Image URL</FormLabel>
                                     <FormControl>
                                         <Input placeholder="url" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="pdfUrl"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Pdf URL</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="url" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="latest"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Lastest</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                        <Checkbox id="latest"
+                                            checked={field.value}
+                                            onClick={() => field.onChange(!field.value)}
+                                        />
+                                        <label
+                                            htmlFor="latest"
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-3"
+                                        >
+                                            Latest Book
+                                        </label>
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -496,7 +538,7 @@ function AddBookForm() {
                         )}
                         />
 
-                        <FormField 
+                        <div><FormField 
                             name="about"
                             control={form.control}
                             render={({ field }) => (
@@ -521,12 +563,12 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another About Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another About Section</Button>
                                 </>
                             )}      
-                        />
+                        /></div>
 
-                        <FormField 
+                        <div><FormField 
                             name="salient_features"
                             control={form.control}
                             render={({ field }) => (
@@ -552,12 +594,12 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Salient Feature Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another Salient Feature Section</Button>
                                 </>
                             )}      
-                        />
+                        /></div>
 
-                        <FormField 
+                        <div><FormField 
                             name="useful_for"
                             control={form.control}
                             render={({ field }) => (
@@ -583,12 +625,12 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Useful For Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another Useful For Section</Button>
                                 </>
                             )}      
-                        />
+                        /></div>
 
-                        <FormField 
+                        <div><FormField 
                             name="additional_support"
                             control={form.control}
                             render={({ field }) => (
@@ -614,10 +656,10 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Additional Support Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another Additional Support Section</Button>
                                 </>
                             )}      
-                        />
+                        /></div>
 
                         <div className="flex justify-center items-center">
                             <Button type="submit" disabled={isSubmitting}>

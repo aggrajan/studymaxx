@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ShareButton } from "./share-button"
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
   Tooltip,
   TooltipContent,
@@ -15,10 +15,11 @@ import { addCartItem, addItemQuantity, ICartItem, subtractItemQuantity } from "@
 import { useToast } from "../ui/use-toast"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog"
 import PdfPreview from "./preview-pdf"
+import { useEffect, useState } from "react"
 
 
 export function ProductDetails(props: any) {
-  const pathname = usePathname()
+  const [url, setUrl] = useState("");
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cartItem: ICartItem = {
@@ -30,13 +31,17 @@ export function ProductDetails(props: any) {
     return (originalPrice * (100 - discount)) / 100.0;
   }
 
-  function getURL() {
-    const currentLocation: string = window.location.toString();
-    if(currentLocation.includes("products")) {
-      return currentLocation
-    } 
-    return `${currentLocation}products//${props.book._id}`;
-  }
+  useEffect(() => {
+    if(typeof window !== "undefined") {
+      const currentLocation: string = window.location.toString();
+      if(currentLocation.includes("products")) {
+        setUrl(currentLocation)
+      } 
+      else {
+        setUrl(`${currentLocation}products//${props.book._id}`)
+      }
+    }
+  }, [])
 
   const { isModal } = props;
   return (
@@ -59,7 +64,7 @@ export function ProductDetails(props: any) {
               <Link href="#" className="text-primary hover:underline underline-offset-4" prefetch={false}>
                 {props.getAuthors(props.book.authors)}
               </Link>
-              <ShareButton link={`${getURL()}`} />
+              <ShareButton link={`${url}`} />
             </div>
             {isModal && <TooltipProvider delayDuration={100}>
                 <Tooltip>
@@ -84,22 +89,21 @@ export function ProductDetails(props: any) {
               {(props.book.discount)}% OFF
             </Badge>}
           </div>
-          <Dialog>
+          {props.book.pdfUrl ? <Dialog>
             <DialogTrigger asChild>
               <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">
                 Preview
               </Button>
             </DialogTrigger>
             <DialogContent hideCloseButton={true} className="min-w-[85%] my-16 p-0 h-full" onOpenAutoFocus={(e) => {e.preventDefault()}}>
-              <PdfPreview pdfUrl="https://drive.google.com/file/d/1cPn7aGGNAKU-xGwuyaukfW-BZ9OIgRWS/preview" />
+              <PdfPreview pdfUrl={props.book.pdfUrl} />
                 <DialogClose asChild className="absolute top-2 left-2 z-50">
                   <Button type="button" variant="secondary">
                     Close
                   </Button>
                 </DialogClose>
             </DialogContent>
-            
-          </Dialog>
+          </Dialog> : null}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-1">

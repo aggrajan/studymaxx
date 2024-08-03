@@ -35,5 +35,7 @@ export const editBookSchema = z.object({
     about: z.array(z.string().min(1, "about section is required")).nonempty(),
     salient_features: z.array(z.string().min(1, "salient_features is required")).nonempty(),
     useful_for: z.array(z.string().min(1, "useful_for is required")).nonempty(),
-    additional_support: z.array(z.string().min(1, "additional_support is required")).nonempty()
+    additional_support: z.array(z.string().min(1, "additional_support is required")).nonempty(),
+    pdfUrl: z.string().url({ message: "Invalid url "}),
+    latest: z.boolean()
 })

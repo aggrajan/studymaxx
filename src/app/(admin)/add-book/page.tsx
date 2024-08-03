@@ -25,6 +25,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
   
 
 
@@ -58,7 +59,9 @@ function AddBookForm() {
             about: [''],
             salient_features: [''],
             useful_for: [''],
-            additional_support: ['']
+            additional_support: [''],
+            latest: false,
+            pdfUrl: ''
         }
     });
 
@@ -136,6 +139,45 @@ function AddBookForm() {
                                     <FormLabel>Image URL</FormLabel>
                                     <FormControl>
                                         <Input placeholder="url" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="pdfUrl"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Pdf URL</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="url" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}      
+                        />
+
+                        <FormField 
+                            name="latest"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Lastest</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                        <Checkbox id="latest"
+                                            checked={field.value}
+                                            onClick={() => field.onChange(!field.value)}
+                                        />
+                                        <label
+                                            htmlFor="latest"
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-3"
+                                        >
+                                            Latest Book
+                                        </label>
+                                        </div>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

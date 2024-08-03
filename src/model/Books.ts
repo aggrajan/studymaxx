@@ -29,6 +29,8 @@ export interface Book extends Document {
     salient_features: string[];
     useful_for: string[];
     additional_support: string[];
+    latest?: boolean;
+    pdfUrl?: string;
 }
 
 export const BookSchema: Schema<Book> = new Schema({
@@ -123,7 +125,16 @@ export const BookSchema: Schema<Book> = new Schema({
     additional_support: [{
         type: String,
         required: [true, "'Additional Support' is required"]
-    }]
+    }],
+    latest: {
+        type: Boolean,
+        required: [true, "latest field is required"],
+        default: false
+    }, 
+    pdfUrl: {
+        type: String,
+        required: [true, "PDF url is required"]
+    }
 })
 
 const BooksModel = (mongoose.models.Book as mongoose.Model<Book>) || mongoose.model<Book>("Book", BookSchema)
