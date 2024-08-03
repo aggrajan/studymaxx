@@ -98,7 +98,7 @@ export function ItemCard({ book } : { book: Book}) {
         <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
           {/* <ScrollArea className="rounded-md border">
             <div className="p-0 sm:p-2"> */}
-                <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} />
+                <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
                 <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
                 <Reviews bookId={book._id as string} reviews={reviews} />
                 <OtherProductsYouMayFindUseful book={book} isModal={true} />

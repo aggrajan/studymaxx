@@ -10,13 +10,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useAppDispatch } from "@/lib/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { addCartItem, addItemQuantity, ICartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
 import { useToast } from "../ui/use-toast"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog"
 import PdfPreview from "./preview-pdf"
 import { useEffect, useState } from "react"
-
+import { Book } from "@/model/Books"
+import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
+import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
+import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 
 export function ProductDetails(props: any) {
   const [url, setUrl] = useState("");
@@ -41,7 +44,9 @@ export function ProductDetails(props: any) {
         setUrl(`${currentLocation}products//${props.book._id}`)
       }
     }
-  }, [])
+  }, []);
+
+  
 
   const { isModal } = props;
   return (
@@ -166,14 +171,23 @@ export function ProductDetails(props: any) {
             <img src="/rupee.svg" width={20} className="mr-2"/>
             Buy Now
           </Button>
-          <Button
+          {!props.addedToWishlist ? <Button
             size="lg"
             variant="outline"
             className="flex-1 border-primary px-2 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            onClick={async () => { addToWishlist(props.book._id as string); dispatch(addToWishlistSlice(props.book)); props.setAddedToWishlist((prev: boolean) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }}
           >
             <HeartIcon className="mr-2 h-4 w-4" />
             Add to Wishlist
-          </Button>
+          </Button> : <Button
+            size="lg"
+            variant="outline"
+            className="flex-1 border-primary px-2 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            onClick={async () => { removeFromWishlist(props.book._id as string); dispatch(removeFromWishlistSlice(props.book)); props.setAddedToWishlist((prev: boolean) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}
+          >
+            <HeartIconFilled className="mr-2 h-4 w-4" />
+            Remove From Wishlist
+          </Button>}
         </div>}
 
         {props.addedToCart && <div className="grid grid-cols-2 lg:flex gap-2 w-[25em]">
@@ -218,6 +232,24 @@ function HeartIcon(props: any) {
   )
 }
 
+function HeartIconFilled(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="red"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    </svg>
+  );
+}
 
 function ShoppingCartIcon(props: any) {
   return (

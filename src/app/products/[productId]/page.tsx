@@ -18,14 +18,15 @@ import { getReviews } from "@/app/apiCalls/callReviews";
 
 export default function Product() {
     const { cartItems } = useAppSelector((state) => state.cart);
+    const [addedToWishlist, setAddedToWishlist] = useState<boolean>(false);
+    const { userPresent, user } = useAppSelector((state) => state.auth);
+
     const params = useParams<{productId: string}>();
     const id = params.productId
     const [book, setBook] = useState<Book>({"_id":"","title":" ","image":"/placeholder.svg","authors":[{"name":"-"}],"price":0,"level":"","subject":"","board":"","exam":"","keywords":[""],"language":"","isbn":"","number_of_pages":0,"year":0,"size":"","binding":"","category":"", "about": [""], "salient_features": [""], "useful_for": [""], "additional_support": [""]} as Book);
     const [addedToCart, setAddedToCart] = useState(false);
     const [reviews, setReviews] = useState<Review[]>([])
     const [count, setCount] = useState(0);
-    const userPresent = useAppSelector((state) => state.auth.userPresent)
-
 
     function getAuthors(authors: Author[]): string {
         if(authors === undefined) return "";
@@ -33,6 +34,10 @@ export default function Product() {
     }
 
     useEffect(() => {
+        const isAddedToWishlist = checkIfAddedToWishlist();
+        if(isAddedToWishlist) {
+            setAddedToWishlist(true);
+        }
         if(book._id !== "") return ;
         (async () => {
             const currentBook: Book = await getBook(id);
@@ -46,14 +51,23 @@ export default function Product() {
             
             const currentReviews: Review[] = await getReviews(id);
             setReviews(currentReviews);
+
+            
         })();
+
+        
     }, [book, userPresent]);
+
+    function checkIfAddedToWishlist() {
+        if(!userPresent) return false;
+        return user?.wishlist.findIndex((wishlistBook: Book) => wishlistBook._id === book._id) !== -1;
+      }
 
     return (
         <>
  
             <BreadCrumb title={book.title} category={book.category} />
-            <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} />
+            <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
             <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
             <Reviews bookId={book._id as string} reviews={reviews} />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />

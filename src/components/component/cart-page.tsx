@@ -61,7 +61,7 @@ export function CartPage() {
                         <MinusIcon className="h-4 w-4" />
                       </Button>
                       <span>{item.quantity}</span>
-                      <Button variant="outline" size="icon" onClick={() => {console.log(item.product._id); dispatch(addItemQuantity({ id: item.product._id as number})) }}>
+                      <Button variant="outline" size="icon" onClick={() => {dispatch(addItemQuantity({ id: item.product._id as number})) }}>
                         <PlusIcon className="h-4 w-4" />
                       </Button>
                     </div>

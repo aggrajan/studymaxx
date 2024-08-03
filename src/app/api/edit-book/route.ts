@@ -25,8 +25,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year, about, salient_features, useful_for, additional_support, pdfUrl, latest
         }, { new: true });
 
-        console.log(updatedBook);
-
         return NextResponse.json({
             success: true,
             message: "book has been added successfully"

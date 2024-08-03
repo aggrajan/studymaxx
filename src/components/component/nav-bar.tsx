@@ -80,6 +80,16 @@ export function NavBar() {
       dispatch(setBooks(books));
     })();
   }
+
+  function performLogout() {
+    setIsClicked(true); 
+    logout(); 
+    dispatch(removeAuthState()); 
+    dispatch(clearAllFilters()); 
+    dispatch(emptyCart()); 
+    setIsClicked(false);
+  }
+
   return (<>
       <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
         <Link href="/" onClick={() => {setIsOpen(false)}} className="flex items-center justify-center" prefetch={false}>
@@ -135,7 +145,7 @@ export function NavBar() {
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); setIsClicked(false); }}>
                   Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); setIsClicked(true); logout(); dispatch(removeAuthState()); dispatch(clearAllFilters()); dispatch(emptyCart()); setIsClicked(false);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); performLogout();}}>
                   Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />

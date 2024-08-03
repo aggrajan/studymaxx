@@ -66,7 +66,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             message: "Successfully increased quantity"
         }, { status: 200 });
     } catch (error: any) {
-        console.log(error);
         return NextResponse.json({
             success: false,
             message: "Could not increase quantity"

@@ -48,7 +48,6 @@ export const cartSlice = createSlice({
                                 };
             (async () => {
                 const response = await addToCart(action.payload.product._id as string);
-                console.log(response);
             })();
             return {
                 ...state,
@@ -77,7 +76,6 @@ export const cartSlice = createSlice({
             if (itemIndex !== -1) {
                 (async () => {
                     const response = await changeQuantityInCart(action.payload.id.toString(), 1);
-                    console.log(response);
                 })();
 
                 state.cartItems[itemIndex].quantity += 1;
@@ -91,7 +89,6 @@ export const cartSlice = createSlice({
             if (itemIndex !== -1) {
                 (async () => {
                     const response = await changeQuantityInCart(action.payload.id.toString(), -1);
-                    console.log(response);
                 })();
 
                 state.cartItems[itemIndex].quantity -= 1;
@@ -104,7 +101,6 @@ export const cartSlice = createSlice({
             if (itemIndex !== -1) {
                 (async () => {
                     const response = await removeFromCart(action.payload.id.toString());
-                    console.log(response);
                 })();
 
                 const item = state.cartItems[itemIndex];

@@ -20,8 +20,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             });
         }
 
-        console.log("book found");
-
         const user = await UserModel.findById(userId);
         if(!user) {
             return NextResponse.json({
@@ -31,7 +29,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
                 status: 404
             });
         }
-        console.log("user found");
         const newReview = new ReviewModel({
             userId,
             bookId, 

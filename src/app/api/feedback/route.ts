@@ -22,8 +22,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             });
         }
 
-        console.log("user found");
-
         const feedbackInstance = new FeedbackModel({
             userId,
             name,
