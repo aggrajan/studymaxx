@@ -11,38 +11,38 @@ export function ConnectWithUs() {
                     </p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7  gap-20">
-                    <div className="flex flex-col gap-4">
-                        <img src="/instagram.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/instagram.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <img src="/youtube.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/youtube.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <img src="/facebook.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/facebook.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <img src="/linkedIn.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/linkedIn.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <img src="/twitter.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/twitter.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <img src="/blog.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/blog.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <img src="/mail-list.svg" className="w-[80px]" />
+                    <div className="flex flex-col items-center gap-4">
+                        <img src="/mail-list.svg" className="w-[60px] md:w-[80px]" />
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>

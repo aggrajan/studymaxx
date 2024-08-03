@@ -2,8 +2,12 @@
 import Autoplay from "embla-carousel-autoplay";
 import { Card, CardContent } from "../ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
+import { useAppSelector } from "@/lib/hooks";
+import { Book } from "@/model/Books";
 
 export function LatestArrivals() {
+    const allBooks = useAppSelector((state) => state.bookStore.books)
+    const latestBooks = allBooks.filter((book: Book) => book.latest === true);
     return (
         <section className="w-full pt-12 md:pt-24 lg:pt-32">
           <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
@@ -19,70 +23,26 @@ export function LatestArrivals() {
               opts={{loop: true}}
             >
               <CarouselContent>
-                <CarouselItem>
-                  <div className="p-1">
-                    <Card className="rounded-md">
-                      <CardContent className="flex flex-col items-center justify-center p-6">
-                        <img
-                          src="/placeholder.svg"
-                          width="150"
-                          height="200"
-                          alt="Book Cover"
-                          className="mb-4 aspect-[3/4] overflow-hidden rounded-lg object-cover"
-                        />
-                        <h3 className="text-lg font-semibold">The Great Gatsby</h3>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="p-1">
-                    <Card className="rounded-md">
-                      <CardContent className="flex flex-col items-center justify-center p-6">
-                        <img
-                          src="/placeholder.svg"
-                          width="150"
-                          height="200"
-                          alt="Book Cover"
-                          className="mb-4 aspect-[3/4] overflow-hidden rounded-lg object-cover"
-                        />
-                        <h3 className="text-lg font-semibold">To Kill a Mockingbird</h3>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="p-1">
-                    <Card className="rounded-md">
-                      <CardContent className="flex flex-col items-center justify-center p-6">
-                        <img
-                          src="/placeholder.svg"
-                          width="150"
-                          height="200"
-                          alt="Book Cover"
-                          className="mb-4 aspect-[3/4] overflow-hidden rounded-lg object-cover"
-                        />
-                        <h3 className="text-lg font-semibold">1984</h3>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-                <CarouselItem>
-                  <div className="p-1">
-                    <Card className="rounded-md">
-                      <CardContent className="flex flex-col items-center justify-center p-6">
-                        <img
-                          src="/placeholder.svg"
-                          width="150"
-                          height="200"
-                          alt="Book Cover"
-                          className="mb-4 aspect-[3/4] overflow-hidden rounded-lg object-cover"
-                        />
-                        <h3 className="text-lg font-semibold">Pride and Prejudice</h3>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
+                {
+                  latestBooks.map((book: Book) => (
+                  <CarouselItem>                 
+                    <div className="p-1">
+                      <Card className="rounded-md">
+                        <CardContent className="flex flex-col items-center justify-center p-6">
+                          <img
+                            src={book.image}
+                            width="150"
+                            height="200"
+                            alt="Book Cover"
+                            className="mb-4 aspect-[3/4] overflow-hidden border-2 border-black object-cover"
+                          />
+                          <h3 className="text-lg font-semibold">{book.title}</h3>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CarouselItem>
+                  ))
+                }
               </CarouselContent>
               <span className="hidden lg:inline">
                 <CarouselPrevious />
