@@ -9,7 +9,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
         const { email, username } = await request.json();
         const currentUser = await UserModel.findOne({username});
-        if(!currentUser) {
+        if(!currentUser || !currentUser.isVerified) {
             return NextResponse.json({
                 success: false,
                 message: "User doesn't exist."

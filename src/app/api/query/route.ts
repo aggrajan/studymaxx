@@ -13,7 +13,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const userId = userIdResponse.response;
 
         const user = await UserModel.findById(userId);
-        if(!user) {
+        if(!user || !user.isVerified) {
             return NextResponse.json({
                 success: false,
                 message: "User not found"

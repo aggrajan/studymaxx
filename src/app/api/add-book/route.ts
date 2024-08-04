@@ -11,7 +11,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const userId = dataResponse.response;
 
         const user = await UserModel.findById(userId);
-        if(!user || !user.isAdmin) {
+        if(!user || !user.isVerified || !user.isAdmin) {
             return NextResponse.json({
                 success: false,
                 message: "Invalid User"

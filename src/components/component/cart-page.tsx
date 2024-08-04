@@ -24,7 +24,7 @@ export function CartPage() {
     return (originalPrice * (100 - discount)) / 100.0;
   }
   return (
-      <main className="flex-1 py-12 px-2 md:px-4 mt-16">
+      <main className="flex-1 py-12 px-2 md:px-4">
         <div className="container mx-auto grid gap-8 md:grid-cols-[2fr_1fr]">
           <div>
             <h1 className="text-2xl font-bold mb-4">Your Cart</h1>

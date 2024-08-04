@@ -91,7 +91,7 @@ export function ExploreBooks() {
   
 
   return (
-    <section id="content" className="pt-12 md:pt-24 lg:pt-32 bg-background">
+    <section id="content" className="pt-12 md:pt-24 lg:pt-16 bg-background">
       <div className="container px-4 md:px-6 gap-8 pb-4">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
         <p className="max-w-[700px] text-muted-foreground md:text-xl">

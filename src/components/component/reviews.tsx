@@ -23,6 +23,16 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
 
   const { toast } = useToast();
   const router = useRouter();
+
+  function getFallBack(user: Review) {
+      if(user?.name) {
+          return user.name.split(" ").reduce((prev, curr) => prev + curr[0], "")
+      } else if(user?.username) {
+          return user?.username.toUpperCase()[0];
+      } else {
+          return "User"
+      }
+  }
   
   const form = useForm<z.infer<typeof reviewSchema>>({
       resolver: zodResolver(reviewSchema),
@@ -172,7 +182,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
               <div key={`review_${index}`} className="flex gap-4">
               <Avatar className="w-12 h-12 border">
                 <AvatarImage src={`${review.image}`} />
-                <AvatarFallback>User</AvatarFallback>
+                <AvatarFallback>{getFallBack(review)}</AvatarFallback>
               </Avatar>
               <div className="grid gap-2">
                 <div className="flex items-center gap-2">

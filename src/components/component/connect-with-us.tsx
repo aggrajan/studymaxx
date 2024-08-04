@@ -46,10 +46,6 @@ export function ConnectWithUs() {
                         <div className="text-sm text-gray-700" >@handle</div>
                         <Button>Connect</Button>
                     </div>
-                    {/* <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
-                    <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
-                    <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} />
-                    <ItemCard title="Mathematics by R.S. Aggarwal" authors={["R.S. Aggarwal"]} price={1499} cover={"/placeholder.svg"} /> */}
                 </div>
             </div>
         </section>

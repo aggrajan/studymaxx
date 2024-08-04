@@ -9,11 +9,10 @@ interface UserStoreInfo {
     username?: string;
     name?: string;
     picture?: string;
-    image?: string;
     email: string;
     isVerified: boolean;
     isAdmin?: boolean;
-    addresses?: Address[];
+    addresses: Address[];
     wishlist: Book[];
 };
 

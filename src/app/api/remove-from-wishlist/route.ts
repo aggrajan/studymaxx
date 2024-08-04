@@ -33,7 +33,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             }
         );
 
-        if(!user) {
+        if(!user || !user.isVerified) {
             return NextResponse.json({
                 success: false,
                 message: "User not found"

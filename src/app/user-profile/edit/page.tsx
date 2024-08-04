@@ -1,7 +1,7 @@
-import { CartPage } from "@/components/component/cart-page";
+import EditProfilePage from "@/components/client-only-components/edit-profile-page";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
-export default function Cart() {
+export default function EditProfile() {
     return (
         <>
             <Breadcrumb className="px-4 lg:px-6 mt-16 mb-2">
@@ -11,11 +11,15 @@ export default function Cart() {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Cart</BreadcrumbPage>
+                        <BreadcrumbPage>Profile</BreadcrumbPage>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Edit</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-         <CartPage />
+            <EditProfilePage />
         </>
-    );  
+    );
 }

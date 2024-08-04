@@ -14,18 +14,22 @@ export async function middleware(request: NextRequest) {
     if(token && ( 
         url.pathname.startsWith('/sign-in') || 
         url.pathname.startsWith('/sign-up') || 
-        url.pathname.startsWith('/verify')
+        url.pathname.startsWith('/verify')  
     )) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if((url.pathname.startsWith('/add-book') || 
-    url.pathname.startsWith('/edit-book')  || 
-    url.pathname.startsWith('/all-feedbacks') ||
-    url.pathname.startsWith('/all-queries')) && isAdmin === "false") {
-        
+    if((url.pathname.startsWith('/add-book')      || 
+        url.pathname.startsWith('/edit-book')     || 
+        url.pathname.startsWith('/all-feedbacks') ||
+        url.pathname.startsWith('/all-queries')) && isAdmin === "false") {
         return NextResponse.redirect(new URL('/', request.url));
     }
+
+    if(token === "" && url.pathname.startsWith('/user-profile')) {
+        return NextResponse.redirect(new URL('/', request.url));
+    }
+
     const response = NextResponse.next();
     return response;
 }
@@ -35,7 +39,8 @@ export const config = {
         '/sign-in',
         '/sign-up',
         '/verify',
-        '/profile',
+        '/user-profile',
+        '/user-profile/edit',
         '/add-book',
         '/all-feedbacks',
         '/edit-book',

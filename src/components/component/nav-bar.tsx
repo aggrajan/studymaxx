@@ -159,6 +159,9 @@ export function NavBar() {
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
                   Your Wishlist
               </DropdownMenuItem>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); router.push('/user-profile'); }}>
+                  Your Profile
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           {!isOpen ? <img

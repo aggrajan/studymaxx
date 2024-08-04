@@ -73,7 +73,7 @@ function AddBookForm() {
 
     const onSubmit = async (data: z.infer<typeof editBookSchema>) => {
         setIsSubmitting(true);
-        try{
+        try {
             const response = await axios.post('/api/edit-book', data);
             if(response.status === 200) {
                 toast({
