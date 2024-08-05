@@ -24,8 +24,8 @@ export function LatestArrivals() {
             >
               <CarouselContent>
                 {
-                  latestBooks.map((book: Book) => (
-                  <CarouselItem>                 
+                  latestBooks.map((book: Book, index: number) => (
+                  <CarouselItem key={`lastestBook_${index}`}>                 
                     <div className="p-1">
                       <Card className="rounded-md">
                         <CardContent className="flex flex-col items-center justify-center p-6">

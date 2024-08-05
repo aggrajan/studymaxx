@@ -147,7 +147,7 @@ export default function EditProfilePage() {
                             render={({ field }) => (
                                 <>{
                                     field.value.map((address: Address, index: number) => (
-                                        <Card className="mt-4">
+                                        <Card className="mt-4" key={`address_edit_${index}}`}>
                                             <CardContent className="p-4 grid gap-4">
                                                 <div key={`address_${index}`} className="flex flex-row w-full space-x-2">
                                                     <FormItem className="flex-1">
