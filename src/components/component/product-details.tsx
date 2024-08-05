@@ -22,6 +22,7 @@ import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 
 export function ProductDetails(props: any) {
+  const { userPresent } = useAppSelector((state) => state.auth);
   const [url, setUrl] = useState("");
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -162,7 +163,7 @@ export function ProductDetails(props: any) {
           </div>
         </div>
         
-        {!props.addedToCart && <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 w-full lg:w-4/5">
+        {!props.addedToCart && <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 w-full lg:w-full">
           <Button size="lg" className="flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             Add to Cart
@@ -174,7 +175,7 @@ export function ProductDetails(props: any) {
           {!props.addedToWishlist ? <Button
             size="lg"
             variant="outline"
-            className="flex-1 border-primary px-2 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            className={`flex-1 border-primary px-2 text-primary hover:bg-primary hover:text-primary-foreground transition-colors ${userPresent ? "" : "hidden"}`}
             onClick={async () => { addToWishlist(props.book._id as string); dispatch(addToWishlistSlice(props.book)); props.setAddedToWishlist((prev: boolean) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }}
           >
             <HeartIcon className="mr-2 h-4 w-4" />
@@ -182,7 +183,7 @@ export function ProductDetails(props: any) {
           </Button> : <Button
             size="lg"
             variant="outline"
-            className="flex-1 border-primary px-2 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            className={`flex-1 border-primary px-2 text-primary hover:bg-primary hover:text-primary-foreground transition-colors ${userPresent ? "" : "hidden"}`}
             onClick={async () => { removeFromWishlist(props.book._id as string); dispatch(removeFromWishlistSlice(props.book)); props.setAddedToWishlist((prev: boolean) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}
           >
             <HeartIconFilled className="mr-2 h-4 w-4" />
