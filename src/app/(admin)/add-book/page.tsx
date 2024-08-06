@@ -26,12 +26,13 @@ import {
   } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { getBooks } from "@/app/apiCalls/callBooks";
+import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
   
 
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
-    const allBooks = useAppSelector((state) => state.bookStore.books);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
@@ -76,9 +77,10 @@ function AddBookForm() {
                     variant: "default"
                 });
 
-                
+                const allBooks = await getBooks();
                 if (Array.isArray(allBooks)) {
-                    dispatch(setBooks(allBooks))
+                    dispatch(setBooks(allBooks));
+                    dispatch(setStoreBooks(allBooks));
                 } else {
                     console.error("Data fetched is not an array:", allBooks);
                 }

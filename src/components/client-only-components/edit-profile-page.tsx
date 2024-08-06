@@ -248,7 +248,7 @@ export default function EditProfilePage() {
                                                             <FormMessage />
                                                         </div>
                                                     </FormItem>
-                                                    <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                                    <img src="/minus.svg" className="w-5 h-5 cursor-pointer" onClick={(e: any) => {
                                                         const newKeywords = [...field.value];
                                                         newKeywords.splice(index, 1);
                                                         field.onChange(newKeywords);

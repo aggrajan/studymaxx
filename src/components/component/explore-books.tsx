@@ -13,6 +13,7 @@ import { addFilter, updateSearchTerm, removeFilter, clearAllFilters } from "@/li
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { useRouter } from "next/navigation";
+import { SkeleltonExploreBooks } from "../skeleton-components/skeleton-explore-books";
 
 export function ExploreBooks() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export function ExploreBooks() {
   const searchAndFilterState = useAppSelector((state) => state.searchAndFilter) 
   const [books, setAllBooks] = useState<Book[]>([]);
   const allBooks = useAppSelector((state) => state.bookStore.books);
+  const [booksConfig, setBooksConfig] = useState(false);
   const [currentPage, setCurrentPage] = useState(1)
   const booksPerPage = 8
   const totalPages = Math.ceil(books.length / booksPerPage)
@@ -49,9 +51,9 @@ export function ExploreBooks() {
 
   useEffect(() => {
     const getAllBooks = async () => {
-        
         if (Array.isArray(allBooks)) {
             setAllBooks(allBooks);
+            setBooksConfig(true);
         } else {
             console.error("Data fetched is not an array:", allBooks);
         }
@@ -73,13 +75,10 @@ export function ExploreBooks() {
         console.error("Filtered books is not an array:", filteredBooks);
     }
   }, [filteredBooks]);
-
   
   const handlePageChange = (page: any) => {
     setCurrentPage(page)
-  }
-
-  
+  } 
   
   const search = (searchText: string) => {
     (async () => {
@@ -88,10 +87,8 @@ export function ExploreBooks() {
     })();
   }
 
-  
-
-  return (
-    <section id="content" className="pt-12 md:pt-24 lg:pt-16 bg-background">
+  return (<>
+    {booksConfig ? <section id="content" className="pt-12 md:pt-24 lg:pt-16 bg-background">
       <div className="container px-4 md:px-6 gap-8 pb-4">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
         <p className="max-w-[700px] text-muted-foreground md:text-xl">
@@ -268,6 +265,6 @@ export function ExploreBooks() {
       </div>
       
       
-    </section>
+    </section> : <SkeleltonExploreBooks />}</>
   )
 }
