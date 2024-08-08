@@ -13,6 +13,7 @@ import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { useRouter } from "next/navigation";
+import { SkeletonProductsPage } from "../skeleton-components/skeleton-products-page";
 
 export function ProductsPage() {
     const router = useRouter();
@@ -22,6 +23,8 @@ export function ProductsPage() {
     const dispatch = useAppDispatch();
     const allBooks = useAppSelector((state) => state.bookStore.books);
     const [books, setAllBooks] = useState<Book[]>([]);
+    const [bookConfig, setBookConfig] = useState(false);
+
     useEffect(() => {
       
       const getAllBooks = async () => {
@@ -35,6 +38,7 @@ export function ProductsPage() {
 
       if(searchTerm === "" && filters.board.length === 0 && filters.categorie.length === 0 && filters.clas.length === 0 && filters.exam.length === 0 && filters.language.length === 0 && filters.subject.length === 0) {
         getAllBooks();
+        setBookConfig(true);
       }
     }, []);
 
@@ -83,8 +87,8 @@ export function ProductsPage() {
 
     
 
-    return (
-        <section className="container px-4 md:px-6">
+    return (<>
+        {bookConfig ? <section className="container px-4 md:px-6">
             <div className="space-y-2 text-center">
                 <h2 className="text-3xl font-bold">Welcome to StudyMaxx</h2>
                 <div className="flex w-full max-w-sm items-center space-x-2 mx-auto">
@@ -142,6 +146,7 @@ export function ProductsPage() {
                 </div>
                 </div>
             </div>
-        </section>
+        </section> : <SkeletonProductsPage />}
+        </>
     );
 }

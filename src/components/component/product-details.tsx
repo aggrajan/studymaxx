@@ -16,7 +16,6 @@ import { useToast } from "../ui/use-toast"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog"
 import PdfPreview from "./preview-pdf"
 import { useEffect, useState } from "react"
-import { Book } from "@/model/Books"
 import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
 import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
@@ -163,7 +162,7 @@ export function ProductDetails(props: any) {
           </div>
         </div>
         
-        {!props.addedToCart && <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 w-full lg:w-full">
+        {!props.addedToCart && <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 ${isModal ? "w-full" : "w-full lg:w-5/6"}`}>
           <Button size="lg" className="flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             Add to Cart

@@ -139,14 +139,20 @@ export function ItemCard({ book } : { book: Book}) {
           {userPresent && <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
             <ShoppingCartIcon className="w-6 h-6" />
           </Button>}
-          {!userPresent && <Button variant="outline" className="mx-auto w-full mt-2 bg-gray-300 border-gray-400" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+          {!userPresent && <Button variant="outline" className="mx-auto w-2/3 mt-2 bg-gray-300 border-gray-400" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
               <h3 className="font-semibold">Add to Cart</h3>
             </Button>}
           {(user && user.isAdmin) ? <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
             <img src="/edit.svg" className="w-6 h-6" />
           </Button> : null}
         </div>}
-        {addedToCart && <div className="flex items-center flex-col mt-2">
+        {addedToCart && <div className="flex items-center justify-around flex-row mt-2">
+          {userPresent && <Button variant="ghost" size="icon">
+            {addedToWishlist ? 
+            <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/> : 
+            <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />}
+            
+          </Button>}
           <div className="flex items-center gap-x-4">
             <Button
               variant="outline"
@@ -161,6 +167,9 @@ export function ItemCard({ book } : { book: Book}) {
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>
+          {(user && user.isAdmin) ? <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
+            <img src="/edit.svg" className="w-6 h-6" />
+          </Button> : null}
         </div>}
       </CardContent>
     </Card>

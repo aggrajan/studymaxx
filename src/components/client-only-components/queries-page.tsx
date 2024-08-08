@@ -10,16 +10,16 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import { getEveryQuery } from "@/app/apiCalls/callEveryQuery";
+import { getQuery } from "@/app/apiCalls/callQueries";
 import { SkeletonQuery } from "../skeleton-components/skeleton-queries";
 
-export function EveryQueryPage() {
+export function QueryPage() {
     const { userPresent, user } = useAppSelector((state) => state.auth);
     const [queries, setQueries] = useState([]);
     const [queryConfig, setQueryConfig] = useState(false);
     useEffect(() => {
         const getAllQuery = async () => {
-            const allQueries = await getEveryQuery();
+            const allQueries = await getQuery();
             setQueries(allQueries);
             setQueryConfig(true);
         }
@@ -28,16 +28,17 @@ export function EveryQueryPage() {
     }, []);
 
     return <>
-        {(queryConfig) ? (userPresent && user && queries.length > 0) ? <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        {(queryConfig) ? 
+        ((userPresent && user && queries.length > 0) ? <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
             <div className="container px-4 md:px-6 gap-8 pb-4">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">All Queries</h2>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Your Queries</h2>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                See all your queries that might improve our website
+                    See all your queries that might improve our website
                 </p>
             </div>
             <div className="container md:px-6 pt-6">
             <Table>
-                <TableCaption>A list of all recent queries</TableCaption>
+                <TableCaption>A list of all your recent queries</TableCaption>
                 <TableHeader>
                     <TableRow>
                     <TableHead className="w-[100px]">Query ID</TableHead>
@@ -66,7 +67,9 @@ export function EveryQueryPage() {
 
             </div>
         </section> : <div className="h-full w-full flex justify-center items-center min-h-screen ">
-                    No one has submitted any queries yet!
-        </div> : <SkeletonQuery />}
+            You have not submitted any queries yet!
+        </div>) 
+        : <SkeletonQuery />
+        }
     </>
 }

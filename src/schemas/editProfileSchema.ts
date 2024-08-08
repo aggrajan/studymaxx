@@ -15,5 +15,5 @@ export const profileSchema = z.object({
     username: usernameValidation,
     email: z.string().email({message: 'Invalid Email Address'}),
     addresses: z.array(addressSchema),
-    picture: z.string().url({ message: "Invalid url" })
+    picture: z.string().optional()
 });

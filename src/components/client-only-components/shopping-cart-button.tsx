@@ -4,24 +4,100 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/lib/hooks";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+import { Author } from "@/model/Authors";
 
 export function ShoppingCartButton() {
     const router = useRouter();
-    const cartCount = useAppSelector((state) => state.cart.cartCount)
+    const { cartCount, cartItems } = useAppSelector((state) => state.cart);
+    function getAuthors(authors: Author[] | undefined): string {
+      if(authors ===  undefined) return "";
+      const authorsName = authors.map((author) => author.name)
+      return authorsName.join(", ");
+    }
+    function getDiscountedPrice(originalPrice: number, discount: number): number {
+      return (originalPrice * (100 - discount)) / 100.0;
+    }
 
-    return (
-      <div className="relative">
-            <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full">
-                <ShoppingCartIcon className="h-5 w-5" />
-                <span className="sr-only">Shopping Cart</span>
+    function getTruncatedTitle(title: string): string {
+      return title.length > 50 ? title.substring(0, 50) + "..." : title;
+    }
+
+    return ( <>
+    {/* Show HoverCard on larger screens */}  
+      <div className="hidden sm:block">
+      <HoverCard openDelay={400}>
+        <HoverCardTrigger asChild>
+          <div className="relative">
+              <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full">
+                  <ShoppingCartIcon className="h-5 w-5" />
+                  <span className="sr-only">Shopping Cart</span>
+              </Button>
+              {cartCount > 0 && (
+                  <Badge className="bg-primary text-primary-foreground w-5 h-5 flex justify-center items-center absolute top-2 right-0 transform translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={(e) => { e.preventDefault(); router.push('/cart') }}>
+                      {cartCount}
+                  </Badge>
+              )}
+          </div>
+        </HoverCardTrigger>
+        <HoverCardContent className="mr-5 min-w-[25rem] max-h-60 overflow-y-auto">
+          <div className="flex flex-col gap-y-4">
+            {(cartCount > 0) ? cartItems.map((item, index) => (
+              <div key={`hover_cart_element_${index}`} className="flex flex-row justify-start items-center gap-x-2">
+                <img
+                    src={item.product.image}
+                    alt={item.product.title}
+                    width={80}
+                    height={100}
+                    className="object-cover cursor-pointer"
+                    onClick={() => {router.push(`/products/${item.product._id}`)}}
+                  />
+                  <div onClick={() => {router.push(`/products/${item.product._id}`)}} className="cursor-pointer">
+                    <h3 className="font-semibold text-sm">{getTruncatedTitle(item.product.title)}</h3>
+                    <p className="text-muted-foreground text-xs">{getAuthors(item.product.authors)}</p>
+                    <div className="flex justify-start items-center gap-2">
+                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-sm md:text-md font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount)}</div> : null}
+                      <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price}</div>
+                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75">
+                        {(item.product.discount).toFixed(1)}% OFF
+                      </Badge> : null}
+                    </div>
+                  </div>
+              </div>
+            ))
+
+             : <div className="flex justify-center items-center">
+              Your cart is empty
+            </div>}
+            <Button onClick={() => { router.push("/cart") }}>
+              Go to Cart
             </Button>
-            {cartCount > 0 && (
-                <Badge className="bg-primary text-primary-foreground w-5 h-5 flex justify-center items-center absolute top-2 right-0 transform translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={(e) => { e.preventDefault(); router.push('/cart') }}>
-                    {cartCount}
-                </Badge>
-            )}
-        </div>
+          </div>
+        </HoverCardContent>
+      </HoverCard>
+      </div>
+
+      {/* Show button without HoverCard on smaller screens */}
+      <div className="block sm:hidden">
+      <div className="relative">
+              <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full">
+                  <ShoppingCartIcon className="h-5 w-5" />
+                  <span className="sr-only">Shopping Cart</span>
+              </Button>
+              {cartCount > 0 && (
+                  <Badge className="bg-primary text-primary-foreground w-5 h-5 flex justify-center items-center absolute top-2 right-0 transform translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={(e) => { e.preventDefault(); router.push('/cart') }}>
+                      {cartCount}
+                  </Badge>
+              )}
+          </div>
+      </div>
+      </>
     );
 }
 
@@ -46,4 +122,3 @@ function ShoppingCartIcon(props: any) {
       </svg>
     )
   }
-  

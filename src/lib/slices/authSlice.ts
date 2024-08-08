@@ -1,5 +1,6 @@
 import { Address } from "@/model/Address";
 import { Book } from "@/model/Books";
+import { CartItem } from "@/model/User";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

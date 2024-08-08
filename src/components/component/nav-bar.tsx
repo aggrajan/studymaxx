@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from "../ui/dropdown-menu";
 import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
 import { ShoppingCartButton } from "../client-only-components/shopping-cart-button";
@@ -18,11 +18,17 @@ import { setBooks } from "@/lib/slices/booksSlice";
 import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
 import { emptyCart, setCart } from "@/lib/slices/cartSlice";
 import { getBooks } from "@/app/apiCalls/callBooks";
+import { SkeletonNavBar } from "../skeleton-components/skeleton-nav-bar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export function NavBar() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const books = useAppSelector((state) => state.bookStore.books);
   const userAuth = useAppSelector((state) => state.auth);
   const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
   const filters = useAppSelector((state) => state.searchAndFilter.filters);
@@ -30,6 +36,9 @@ export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [userConfig, setUserConfig] = useState(false);
+  const [booksConfig, setBooksConfig] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     if(searchTerm === "" && filters.board.length === 0 &&
@@ -56,10 +65,12 @@ export function NavBar() {
       const user = await getProfile();
       if(user) dispatch(setAuthState(user));
       if(user.cart) dispatch(setCart(user.cart));
+      setUserConfig(true);
     } else {
       dispatch(removeAuthState());
       dispatch(clearAllFilters());
       dispatch(emptyCart());
+      setUserConfig(true);
     }
   })()}, [userAuth.userPresent]);
 
@@ -67,6 +78,7 @@ export function NavBar() {
     (async () => {
       const allStoreBooks = await getBooks();
       dispatch(setStoreBooks(allStoreBooks));
+      setBooksConfig(true);
     })();
   }, []);
   
@@ -90,9 +102,17 @@ export function NavBar() {
     setIsClicked(false);
   }
 
+  const handleItemClick = (action: any) => {
+    setIsClicked(true);
+    action();
+    setIsDropdownOpen(false);
+    setIsClicked(false);
+  };
+
   return (<>
+      {(userConfig && booksConfig) ? <>
       <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
-        <Link href="/" onClick={() => {setIsOpen(false)}} className="flex items-center justify-center" prefetch={false}>
+        <Link href="/" className="flex items-center justify-center" prefetch={false}>
           <BookIcon className="h-6 w-6" />
           <span className="sr-only">StudyMaxx</span>
         </Link>
@@ -116,10 +136,17 @@ export function NavBar() {
             Add book
           </Link>}
           
-          {!isSearching ? <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
+          {!isSearching ? <TooltipProvider>
+            <Tooltip delayDuration={200}>
+            <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
             <SearchIcon className="h-5 w-5" />
             <span className="sr-only">Search</span>
-          </Button> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
+          </Button></TooltipTrigger>
+            <TooltipContent>
+              <p>Search</p>
+            </TooltipContent>
+          </Tooltip></TooltipProvider> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <Input
                 type="text"
@@ -130,40 +157,47 @@ export function NavBar() {
                 className="bg-[#f3f3f3] border border-gray-300 rounded-md py-2 pl-10 pr-4 w-full"
               />
             </form>}
+
           <ShoppingCartButton />
-          <DropdownMenu>
+          
+          <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                <span className="sr-only">Account</span>
+              <Button variant="outline" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <span className="sr-only">Manage</span>
                 <UserIcon className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-up'); setIsClicked(false);}}>
-                  Register
+            <DropdownMenuLabel>Manage account</DropdownMenuLabel>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-up'));}}>
+                  <img src="/register.svg" className="w-4 h-4 mr-2" />Register
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); setIsClicked(true); router.push('/sign-in'); setIsClicked(false); }}>
-                  Login
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-in')); }}>
+                  <img src="/login.svg" className="w-4 h-4 mr-2" />Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault(); performLogout();}}>
-                  Logout
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout);}}>
+                  <img src="/logout.svg" className="w-4 h-4 mr-2" />Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />
-              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/all-feedbacks'); }}>
-                  All Feedbacks
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-feedbacks')); }}>
+                  <img src="/feedback.svg" className="w-4 h-4 mr-2" />All Feedbacks
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); router.push('/all-queries'); }}>
-                  All Queries
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-queries')); }}>
+                  <img src="/query.svg" className="w-4 h-4 mr-2" />All Queries
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
-              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); router.push('/wishlist'); }}>
-                  Your Wishlist
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
+                  <img src="/wishlist.svg" className="w-4 h-4 mr-2" />Your Wishlist
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); router.push('/user-profile'); }}>
-                  Your Profile
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/user-profile')); }}>
+                  <img src="/profile.svg" className="w-4 h-4 mr-2" />Your Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/queries')); }}>
+                  <img src="/query.svg" className="w-4 h-4 mr-2" />Your Queries
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          
           {!isOpen ? <img
             src="/hamburger.svg"
             width="24"
@@ -198,9 +232,10 @@ export function NavBar() {
         {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
             Add book
         </Link>}
-      </div>
-
-    </>);
+      </div></> : 
+      <SkeletonNavBar />}
+    </>
+  );
 }
 
 function BookIcon(props: any) {

@@ -14,7 +14,7 @@ import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { bindings, boards, categories, exams, languages, levels, sizes, subjects } from '@/model/Enums';
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { useAppDispatch } from "@/lib/hooks";
 import { setBooks } from "@/lib/slices/booksSlice";
 
 import {
@@ -26,15 +26,40 @@ import {
   } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { getBooks } from "@/app/apiCalls/callBooks";
+import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
   
 
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
-    const allBooks = useAppSelector((state) => state.bookStore.books);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
     const router = useRouter();
+
+    function convertPDFLink(url: string): string {
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/file/d/${fileId}/preview`;
+        }
+    
+        return url;
+    }
+
+    function convertDriveLink(url: string): string {
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/thumbnail?id=${fileId}`;
+        }
+    
+        return url;
+    }
 
     const form = useForm<z.infer<typeof bookSchema>>({
         resolver: zodResolver(bookSchema),
@@ -68,6 +93,8 @@ function AddBookForm() {
     const onSubmit = async (data: z.infer<typeof bookSchema>) => {
         setIsSubmitting(true);
         try{
+            data.image = convertDriveLink(data.image);
+            data.pdfUrl = convertPDFLink(data.pdfUrl);
             const response = await axios.post('/api/add-book', data);
             if(response.status === 200) {
                 toast({
@@ -76,9 +103,10 @@ function AddBookForm() {
                     variant: "default"
                 });
 
-                
+                const allBooks = await getBooks();
                 if (Array.isArray(allBooks)) {
-                    dispatch(setBooks(allBooks))
+                    dispatch(setBooks(allBooks));
+                    dispatch(setStoreBooks(allBooks));
                 } else {
                     console.error("Data fetched is not an array:", allBooks);
                 }

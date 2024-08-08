@@ -27,12 +27,15 @@ import { Book } from "@/model/Books";
 import { editBookSchema } from "@/schemas/editBookSchema";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-  
+import { getBooks } from "@/app/apiCalls/callBooks";
+import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
+import { setAuthState } from "@/lib/slices/authSlice";
+import { getProfile } from "@/app/apiCalls/callProfile";
+import { removeCartItem, updateCartItem } from "@/lib/slices/cartSlice";  
 
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
-    const allBooks = useAppSelector((state) => state.bookStore.books);
     const { books } = useAppSelector((state) => state.books)
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast();
@@ -41,9 +44,33 @@ function AddBookForm() {
     const bookId = params.bookId;
     const book: Book = books.filter((book: Book) => book._id === bookId)[0];
 
+    function convertDriveLink(url: string): string {
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/thumbnail?id=${fileId}`;
+        }
+    
+        return url;
+    }
+
+    function convertPDFLink(url: string): string {
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/file/d/${fileId}/preview`;
+        }
+    
+        return url;
+    }
+
     const form = useForm<z.infer<typeof editBookSchema>>({
         resolver: zodResolver(editBookSchema),
-        defaultValues: {
+        defaultValues: book ? {
             id: bookId,
             title: book.title,
             image: book.image,
@@ -68,23 +95,82 @@ function AddBookForm() {
             additional_support: book.additional_support,
             pdfUrl: book.pdfUrl,
             latest: (book.latest !== undefined) ? book.latest : false
+        } : {
+            id: bookId,
+            title: "",
+            image: "",
+            authors: [{name: ""}],
+            price: undefined,
+            discount: undefined,
+            level: "",
+            subject: "",
+            board: "",
+            exam: "",
+            keywords: [""],
+            language: "",
+            isbn: "",
+            number_of_pages: undefined,
+            year: undefined,
+            size: "",
+            binding: "",
+            category: "",
+            about: [""],
+            salient_features: [""],
+            useful_for: [""],
+            additional_support: [""],
+            pdfUrl: "",
+            latest: false
         }
     });
 
     const onSubmit = async (data: z.infer<typeof editBookSchema>) => {
         setIsSubmitting(true);
         try {
+            data.image = convertDriveLink(data.image);
+            data.pdfUrl = convertPDFLink(data.pdfUrl);
+            const updatedBook: any = {
+                ...book,
+                title: data.title,
+                image: data.image,
+                authors: data.authors,
+                price: data.price,
+                discount: data.discount,
+                level: data.level,
+                subject: data.subject,
+                board: data.board,
+                exam: data.exam,
+                keywords: data.keywords,
+                language: data.language,
+                isbn: data.isbn,
+                number_of_pages: data.number_of_pages,
+                year: data.year,
+                size: data.size,
+                binding: data.binding,
+                category: data.category,
+                about: data.about,
+                salient_features: data.salient_features,
+                useful_for: data.useful_for,
+                additional_support: data.additional_support,
+                pdfUrl: data.pdfUrl,
+                latest: data.latest
+            };
+            dispatch(updateCartItem({ book: updatedBook as Book }));
             const response = await axios.post('/api/edit-book', data);
             if(response.status === 200) {
+                await axios.post(`/api/refresh-cart`, { bookId: bookId });
+                await axios.post(`/api/refresh-wishlist`, { bookId: bookId });
                 toast({
                     title: "Book edited",
-                    description: "Book successfully edited int the database",
+                    description: "Book successfully edited in the database",
                     variant: "default"
                 });
 
-                
+                const allBooks = await getBooks();
+                const currentUser = await getProfile();
                 if (Array.isArray(allBooks)) {
-                    dispatch(setBooks(allBooks))
+                    dispatch(setBooks(allBooks));
+                    dispatch(setStoreBooks(allBooks));
+                    dispatch(setAuthState(currentUser));
                 } else {
                     console.error("Data fetched is not an array:", allBooks);
                 }
@@ -108,7 +194,53 @@ function AddBookForm() {
         } finally {
             setIsSubmitting(false);
         }
-        
+    }
+
+    const onDelete = async () => {
+        setIsSubmitting(true);
+        try {
+            
+            dispatch(removeCartItem({ id: (book._id as number) }));
+            
+            const response = await axios.post('/api/delete-book', { id: bookId });
+            if(response.status === 200) {
+                form.reset();
+                
+                toast({
+                    title: "Book deleted",
+                    description: "Book successfully deleted in the database",
+                    variant: "default"
+                });
+
+                const allBooks = await getBooks();
+                const currentUser = await getProfile();
+                if (Array.isArray(allBooks)) {
+                    dispatch(setBooks(allBooks));
+                    dispatch(setStoreBooks(allBooks));
+                    dispatch(setAuthState(currentUser));
+                } else {
+                    console.error("Data fetched is not an array:", allBooks);
+                }
+                
+                router.push('/');
+            } else {
+                toast({
+                    title: "Error Occured",
+                    description: "There might be some issue with the data provided",
+                    variant: "destructive"
+                });
+                
+                router.push('/');
+            }
+        } catch (error: any) {
+            toast({
+                title: "Error Occured",
+                description: error.message,
+                variant: "destructive"
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     return (
@@ -659,10 +791,15 @@ function AddBookForm() {
                             )}      
                         /></div>
 
-                        <div className="flex justify-center items-center">
+                        <div className="flex justify-center items-center gap-8">
                             <Button type="submit" disabled={isSubmitting}>
                                 {
                                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Edit Book')
+                                }
+                            </Button>
+                            <Button type="button" disabled={isSubmitting} className="bg-red-600 hover:bg-red-400" onClick={onDelete}>
+                                {
+                                    isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Delete Book')
                                 }
                             </Button>
                         </div>

@@ -75,7 +75,7 @@ export const cartSlice = createSlice({
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
                 (async () => {
-                    const response = await changeQuantityInCart(action.payload.id.toString(), 1);
+                    await changeQuantityInCart(action.payload.id.toString(), 1);
                 })();
 
                 state.cartItems[itemIndex].quantity += 1;
@@ -88,7 +88,7 @@ export const cartSlice = createSlice({
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
                 (async () => {
-                    const response = await changeQuantityInCart(action.payload.id.toString(), -1);
+                    await changeQuantityInCart(action.payload.id.toString(), -1);
                 })();
 
                 state.cartItems[itemIndex].quantity -= 1;
@@ -99,16 +99,27 @@ export const cartSlice = createSlice({
         removeCartItem: (state: ICartState, action: PayloadAction<{ id: number }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
-                (async () => {
-                    const response = await removeFromCart(action.payload.id.toString());
-                })();
-
-                const item = state.cartItems[itemIndex];
-                state.cartItems.splice(itemIndex, 1);
-                state.cartCount -= 1;
-                state.subtotal -= ((item.product.discount && item.product.discount > 0) ? item.product.price * ((100 - item.product.discount) / 100.0) : item.product.price) * item.quantity;
-                state.total = state.subtotal + state.shipping - state.discount;
+                try {
+                    (async () => {
+                        await removeFromCart(action.payload.id.toString());
+                    })();
+                } catch (error: any) {
+                    console.log(error.message);
+                } finally {
+                    const item = state.cartItems[itemIndex];
+                    state.cartItems.splice(itemIndex, 1);
+                    state.cartCount -= 1;
+                    state.subtotal -= ((item.product.discount && item.product.discount > 0) ? item.product.price * ((100 - item.product.discount) / 100.0) : item.product.price) * item.quantity;
+                    state.total = state.subtotal + state.shipping - state.discount;
+                }
             }   
+        },
+        updateCartItem: (state: ICartState, action: PayloadAction<{ book: Book }>) => {
+            const itemIndex = state.cartItems.findIndex(item => item.product._id === (action.payload.book._id as number));
+            console.log(itemIndex, action.payload.book);
+            if(itemIndex !== -1) {
+                state.cartItems[itemIndex].product = action.payload.book;
+            }
         },
         emptyCart: (state: ICartState) => {
             return {
@@ -120,4 +131,4 @@ export const cartSlice = createSlice({
 })
 
 export const cartReducer = cartSlice.reducer;
-export const { setCart, addCartItem, addItemQuantity, setShippingAmount, setDiscountAmount, subtractItemQuantity, removeCartItem, emptyCart } = cartSlice.actions;
+export const { setCart, addCartItem, addItemQuantity, setShippingAmount, setDiscountAmount, subtractItemQuantity, removeCartItem, updateCartItem, emptyCart } = cartSlice.actions;

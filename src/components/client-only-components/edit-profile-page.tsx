@@ -24,6 +24,19 @@ export default function EditProfilePage() {
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+
+    function convertDriveLink(url: string | undefined): string | undefined {
+        if(url === undefined) return url;
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/thumbnail?id=${fileId}`;
+        }
+    
+        return url;
+    }
     
     const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
@@ -39,11 +52,12 @@ export default function EditProfilePage() {
     const onSubmit = async (data: z.infer<typeof profileSchema>) => {
         setIsSubmitting(true);
         try {
+            data.picture = convertDriveLink(data.picture);
             const response = await axios.post('/api/edit-profile', data);
             if(response.status === 200) {
                 toast({
-                    title: "Profile edited",
-                    description: "Profile successfully edited int the database",
+                    title: "Profile updated",
+                    description: "Profile successfully updated!",
                     variant: "default"
                 });
 
@@ -248,7 +262,7 @@ export default function EditProfilePage() {
                                                             <FormMessage />
                                                         </div>
                                                     </FormItem>
-                                                    <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                                    <img src="/minus.svg" className="w-5 h-5 cursor-pointer" onClick={(e: any) => {
                                                         const newKeywords = [...field.value];
                                                         newKeywords.splice(index, 1);
                                                         field.onChange(newKeywords);
