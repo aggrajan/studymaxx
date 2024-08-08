@@ -47,8 +47,8 @@ export function ShoppingCartButton() {
         </HoverCardTrigger>
         <HoverCardContent className="mr-5 min-w-[25rem] max-h-60 overflow-y-auto">
           <div className="flex flex-col gap-y-4">
-            {(cartCount > 0) ? cartItems.map((item) => (
-              <div className="flex flex-row justify-start items-center gap-x-2">
+            {(cartCount > 0) ? cartItems.map((item, index) => (
+              <div key={`hover_cart_element_${index}`} className="flex flex-row justify-start items-center gap-x-2">
                 <img
                     src={item.product.image}
                     alt={item.product.title}
