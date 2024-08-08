@@ -31,9 +31,7 @@ import { getBooks } from "@/app/apiCalls/callBooks";
 import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
 import { setAuthState } from "@/lib/slices/authSlice";
 import { getProfile } from "@/app/apiCalls/callProfile";
-import { removeCartItem, updateCartItem } from "@/lib/slices/cartSlice";
-import { Document, Model, Types, ClientSession, DocumentSetOptions, QueryOptions, UpdateQuery, AnyObject, PopulateOptions, MergeType, Query, SaveOptions, ToObjectOptions, FlattenMaps, Require_id, UpdateWithAggregationPipeline, pathsToSkip, Error } from "mongoose";
-  
+import { removeCartItem, updateCartItem } from "@/lib/slices/cartSlice";  
 
 
 function AddBookForm() {
@@ -45,7 +43,30 @@ function AddBookForm() {
     const params = useParams<{bookId: string}>();
     const bookId = params.bookId;
     const book: Book = books.filter((book: Book) => book._id === bookId)[0];
-    const cart = useAppSelector((state) => state.cart.cartItems);
+
+    function convertDriveLink(url: string): string {
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/thumbnail?id=${fileId}`;
+        }
+    
+        return url;
+    }
+
+    function convertPDFLink(url: string): string {
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/file/d/${fileId}/preview`;
+        }
+    
+        return url;
+    }
 
     const form = useForm<z.infer<typeof editBookSchema>>({
         resolver: zodResolver(editBookSchema),
@@ -105,6 +126,8 @@ function AddBookForm() {
     const onSubmit = async (data: z.infer<typeof editBookSchema>) => {
         setIsSubmitting(true);
         try {
+            data.image = convertDriveLink(data.image);
+            data.pdfUrl = convertPDFLink(data.pdfUrl);
             const updatedBook: any = {
                 ...book,
                 title: data.title,

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from "../ui/dropdown-menu";
 import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
 import { ShoppingCartButton } from "../client-only-components/shopping-cart-button";
@@ -19,6 +19,12 @@ import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
 import { emptyCart, setCart } from "@/lib/slices/cartSlice";
 import { getBooks } from "@/app/apiCalls/callBooks";
 import { SkeletonNavBar } from "../skeleton-components/skeleton-nav-bar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export function NavBar() {
   const router = useRouter();
@@ -130,10 +136,17 @@ export function NavBar() {
             Add book
           </Link>}
           
-          {!isSearching ? <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
+          {!isSearching ? <TooltipProvider>
+            <Tooltip delayDuration={200}>
+            <TooltipTrigger asChild>
+            <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
             <SearchIcon className="h-5 w-5" />
             <span className="sr-only">Search</span>
-          </Button> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
+          </Button></TooltipTrigger>
+            <TooltipContent>
+              <p>Search</p>
+            </TooltipContent>
+          </Tooltip></TooltipProvider> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <Input
                 type="text"
@@ -144,40 +157,47 @@ export function NavBar() {
                 className="bg-[#f3f3f3] border border-gray-300 rounded-md py-2 pl-10 pr-4 w-full"
               />
             </form>}
+
           <ShoppingCartButton />
+          
           <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                <span className="sr-only">Account</span>
+                <span className="sr-only">Manage</span>
                 <UserIcon className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Manage account</DropdownMenuLabel>
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-up'));}}>
-                  Register
+                  <img src="/register.svg" className="w-4 h-4 mr-2" />Register
               </DropdownMenuItem>
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-in')); }}>
-                  Login
+                  <img src="/login.svg" className="w-4 h-4 mr-2" />Login
               </DropdownMenuItem>
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout);}}>
-                  Logout
+                  <img src="/logout.svg" className="w-4 h-4 mr-2" />Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-feedbacks')); }}>
-                  All Feedbacks
+                  <img src="/feedback.svg" className="w-4 h-4 mr-2" />All Feedbacks
               </DropdownMenuItem>
               <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-queries')); }}>
-                  All Queries
+                  <img src="/query.svg" className="w-4 h-4 mr-2" />All Queries
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
-                  Your Wishlist
+                  <img src="/wishlist.svg" className="w-4 h-4 mr-2" />Your Wishlist
               </DropdownMenuItem>
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/user-profile')); }}>
-                  Your Profile
+                  <img src="/profile.svg" className="w-4 h-4 mr-2" />Your Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/queries')); }}>
+                  <img src="/query.svg" className="w-4 h-4 mr-2" />Your Queries
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          
           {!isOpen ? <img
             src="/hamburger.svg"
             width="24"

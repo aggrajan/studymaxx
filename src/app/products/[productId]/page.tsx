@@ -15,6 +15,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { Author } from "@/model/Authors";
 import { Review } from "@/model/Review";
 import { getReviews } from "@/app/apiCalls/callReviews";
+import { SkeletonProductPage } from "@/components/skeleton-components/skeleton-product-page";
 
 export default function Product() {
     const { cartItems } = useAppSelector((state) => state.cart);
@@ -27,6 +28,7 @@ export default function Product() {
     const [addedToCart, setAddedToCart] = useState(false);
     const [reviews, setReviews] = useState<Review[]>([])
     const [count, setCount] = useState(0);
+    const [bookConfig, setBookConfig] = useState(false);
 
     function getAuthors(authors: Author[]): string {
         if(authors === undefined) return "";
@@ -52,7 +54,7 @@ export default function Product() {
             const currentReviews: Review[] = await getReviews(id);
             setReviews(currentReviews);
 
-            
+            setBookConfig(true);
         })();
 
         
@@ -65,14 +67,15 @@ export default function Product() {
 
     return (
         <>
- 
+            {bookConfig ? <>
             <BreadCrumb title={book.title} category={book.category} />
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
             <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
-            <Reviews bookId={book._id as string} reviews={reviews} />
+            <Reviews bookId={id} reviews={reviews} />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />
             <div className="mb-24"></div>
+            </> : <SkeletonProductPage isModal={false} />}
         </>
     );
 }

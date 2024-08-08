@@ -24,6 +24,19 @@ export default function EditProfilePage() {
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+
+    function convertDriveLink(url: string | undefined): string | undefined {
+        if(url === undefined) return url;
+        const regex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/?(view\?(usp=sharing|usp=drive_link)|view)?$/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            const fileId = match[1];
+            return `https://drive.google.com/thumbnail?id=${fileId}`;
+        }
+    
+        return url;
+    }
     
     const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
@@ -39,11 +52,12 @@ export default function EditProfilePage() {
     const onSubmit = async (data: z.infer<typeof profileSchema>) => {
         setIsSubmitting(true);
         try {
+            data.picture = convertDriveLink(data.picture);
             const response = await axios.post('/api/edit-profile', data);
             if(response.status === 200) {
                 toast({
-                    title: "Profile edited",
-                    description: "Profile successfully edited int the database",
+                    title: "Profile updated",
+                    description: "Profile successfully updated!",
                     variant: "default"
                 });
 

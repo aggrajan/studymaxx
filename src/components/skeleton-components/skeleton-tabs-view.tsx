@@ -1,10 +1,10 @@
-"use client";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 
-export function TabView({ about, salient_features, useful_for, additional_support } : { about: string[], salient_features: string[], useful_for: string[], additional_support: string[] } ) {
+export function SkeletonTabView() {
     const [tab, setTab] = useState("about");
 
     const onTabChange = (value: string) => {
@@ -33,22 +33,9 @@ export function TabView({ about, salient_features, useful_for, additional_suppor
                             This is a description about the book you are viewing
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">{
-                    about.length === 0 
-                    ? <div className="text-slate-800 text-sm">No description available</div> 
-                    : (
-                        about.length === 1 
-                        ? <div className="text-slate-800 text-sm">
-                            {about[0]}
-                        </div> 
-                        : <div className="text-slate-800 text-sm"> 
-                                {
-                                    about.map((aboutText: string, index: number) => (
-                                        <li key={`aboutText_${index}`}>{aboutText}</li>
-                                    ))
-                                }
-                        </div>
-                    )}
+                    <CardContent className="space-y-2">
+                        <Skeleton className="w-full h-20" />
+                        <Skeleton className="w-full h-20" />
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -63,22 +50,9 @@ export function TabView({ about, salient_features, useful_for, additional_suppor
                         These are the salient features for this book
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">{
-                    salient_features.length === 0 
-                    ? <div className="text-slate-800 text-sm">No features available</div> 
-                    : (
-                        salient_features.length === 1 
-                        ? <div className="text-slate-800 text-sm">
-                            {salient_features[0]}
-                        </div> 
-                        : <div className="text-slate-800 text-sm"> 
-                                {
-                                    salient_features.map((feature: string, index: number) => (
-                                        <li key={`salient_features_${index}`}>{feature}</li>
-                                    ))
-                                }
-                        </div>
-                    )}
+                    <CardContent className="space-y-2">
+                        <Skeleton className="w-full h-20" />
+                        <Skeleton className="w-full h-20" />
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -93,22 +67,9 @@ export function TabView({ about, salient_features, useful_for, additional_suppor
                             This section describes the usefullness of the book
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">{
-                    useful_for.length === 0 
-                    ? <div className="text-slate-800 text-sm">No data available</div> 
-                    : (
-                        useful_for.length === 1 
-                        ? <div className="text-slate-800 text-sm">
-                            {useful_for[0]}
-                        </div> 
-                        : <div className="text-slate-800 text-sm"> 
-                                {
-                                    useful_for.map((useful: string, index: number) => (
-                                        <li key={`useful_for_${index}`}>{useful}</li>
-                                    ))
-                                }
-                        </div>
-                    )}
+                    <CardContent className="space-y-2">
+                        <Skeleton className="w-full h-20" />
+                        <Skeleton className="w-full h-20" />
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -123,22 +84,9 @@ export function TabView({ about, salient_features, useful_for, additional_suppor
                         This shows additional support for this book
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-2">{
-                    additional_support.length === 0 
-                    ? <div className="text-slate-800 text-sm">No support available</div> 
-                    : (
-                        additional_support.length === 1 
-                        ? <div className="text-slate-800 text-sm">
-                            {additional_support[0]}
-                        </div> 
-                        : <div className="text-slate-800 text-sm"> 
-                                {
-                                    additional_support.map((support: string, index: number) => (
-                                        <li key={`additional_support_${index}`}>{support}</li>
-                                    ))
-                                }
-                        </div>
-                    )}
+                    <CardContent className="space-y-2">
+                        <Skeleton className="w-full h-20" />
+                        <Skeleton className="w-full h-20" />
                     </CardContent>
                 </Card>
             </TabsContent>

@@ -24,13 +24,13 @@ export function CartPage() {
     return (originalPrice * (100 - discount)) / 100.0;
   }
   return (
-      <main className="flex-1 py-12 px-2 md:px-4">
-        <div className="container mx-auto grid gap-8 md:grid-cols-[2fr_1fr]">
+      <main className="flex-1 py-12 px-0 md:px-4">
+        <div className="px-4 mx-auto grid gap-8 md:grid-cols-[2fr_1fr]">
           <div>
             <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
             <div className="grid gap-6">
               {cartCount > 0 ? cartItems.map((item) => (
-                <div key={item.product._id as string} className="grid grid-cols-[100px_1fr_auto] items-center gap-4">
+                <div key={item.product._id as string} className="grid grid-cols-[1fr_2fr_1fr] sm:grid-cols-[100px_1fr_auto] items-center gap-4">
                   <img
                     src={item.product.image}
                     alt={item.product.title}
@@ -51,7 +51,7 @@ export function CartPage() {
                     </div>
                   </div>
                   <div className="flex items-center flex-col sm:flex-row gap-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col sm:flex-row items-center gap-2">
                       <Button
                         variant="outline"
                         size="icon"

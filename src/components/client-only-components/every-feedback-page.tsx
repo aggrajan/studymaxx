@@ -11,25 +11,28 @@ import {
     TableRow,
   } from "@/components/ui/table"
 import { getEveryFeedback } from "@/app/apiCalls/callEveryFeedback";
+import { SkeletonFeedbackPage } from "../skeleton-components/skeleton-feedback-page";
 
 export function EveryFeedbackPage() {
     const { userPresent, user } = useAppSelector((state) => state.auth);
     const [feedbacks, setFeedbacks] = useState([]);
+    const [feedbackConfig, setFeedbackConfig] = useState(false);
     useEffect(() => {
         const getAllFeedbacks = async () => {
             const allFeedbacks = await getEveryFeedback();
             setFeedbacks(allFeedbacks);
+            setFeedbackConfig(true);
         }
         
         if(userPresent) getAllFeedbacks();
     }, []);
 
     return <>
-        {(userPresent && user && feedbacks.length > 0) ? <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        {(feedbackConfig) ? (userPresent && user && feedbacks.length > 0) ? <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
             <div className="container px-4 md:px-6 gap-8 pb-4">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Your Feedbacks</h2>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl">
-                See all your feedbacks that might improve our website
+                See all the feedbacks that might improve our website
                 </p>
             </div>
             <div className="container md:px-6 pt-6">
@@ -64,6 +67,6 @@ export function EveryFeedbackPage() {
             </div>
         </section> : <div className="h-full w-full flex justify-center items-center min-h-screen ">
                     No one has submitted any feedbacks yet!
-        </div>}
+        </div> : <SkeletonFeedbackPage />}
     </>
 }
