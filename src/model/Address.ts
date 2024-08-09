@@ -6,7 +6,6 @@ export interface Address {
     city: string;
     state: string;
     landmark?: string;
-    contact: number;
 }
 
 const AddressSchema: Schema<Address> = new Schema({
@@ -31,10 +30,6 @@ const AddressSchema: Schema<Address> = new Schema({
     landmark: {
         type: String,
         required: false
-    },
-    contact: {
-        type: Number,
-        required: [true, "contact number is required"]
     }
 });
 

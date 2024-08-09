@@ -562,8 +562,8 @@ function AddBookForm() {
                             name="about"
                             control={form.control}
                             render={({ field }) => (
-                                <>{field.value.map((aboutBook, index) => (
-                                    <div key={`About_${index}`} className="flex flex-row w-full space-x-2">
+                                <div>{field.value.map((aboutBook, index) => (
+                                    <div key={`About_${index}`} className="flex flex-row w-full space-x-2 mb-6">
                                     <FormItem className="flex-1">
                                         <FormLabel>About the Book</FormLabel>
                                         <FormControl>
@@ -583,8 +583,8 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another About Section</Button>
-                                </>
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another About Section" : "Add About Section"}</Button>
+                                </div>
                             )}      
                         />
 
@@ -592,8 +592,8 @@ function AddBookForm() {
                             name="salient_features"
                             control={form.control}
                             render={({ field }) => (
-                                <>{field.value.map((feature, index) => (
-                                    <div key={`Feature_${index}`} className="flex flex-row w-full space-x-2">
+                                <div>{field.value.map((feature, index) => (
+                                    <div key={`Feature_${index}`} className="flex flex-row w-full space-x-2 mb-6">
                                     <FormItem className="flex-1">
                                         <FormLabel>Salient Features</FormLabel>
                                         <FormControl>
@@ -614,8 +614,8 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Salient Features Section</Button>
-                                </>
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Salient Features Section" : "Add Salient Features Section"}</Button>
+                                </div>
                             )}      
                         />
 
@@ -623,8 +623,8 @@ function AddBookForm() {
                             name="useful_for"
                             control={form.control}
                             render={({ field }) => (
-                                <>{field.value.map((useful, index) => (
-                                    <div key={`Useful_${index}`} className="flex flex-row space-x-2 w-full">
+                                <div>{field.value.map((useful, index) => (
+                                    <div key={`Useful_${index}`} className="flex flex-row space-x-2 w-full mb-6">
                                     <FormItem className="flex-1">
                                         <FormLabel>Useful For</FormLabel>
                                         <FormControl>
@@ -645,8 +645,8 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Useful For Section</Button>
-                                </>
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Useful For Section" : "Add Useful For Section"}</Button>
+                                </div>
                             )}      
                         />
 
@@ -654,8 +654,8 @@ function AddBookForm() {
                             name="additional_support"
                             control={form.control}
                             render={({ field }) => (
-                                <>{field.value.map((additional, index) => (
-                                    <div key={`Additional_${index}`} className="flex flex-row space-x-2 w-full">
+                                <div>{field.value.map((additional, index) => (
+                                    <div key={`Additional_${index}`} className="flex flex-row space-x-2 w-full mb-6">
                                     <FormItem className="flex-1">
                                         <FormLabel>Additional Support</FormLabel>
                                         <FormControl>
@@ -676,8 +676,8 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Additional Support Section</Button>
-                                </>
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Additional Support Section" : "Add Additional Support Section"}</Button>
+                                </div>
                             )}      
                         />
 

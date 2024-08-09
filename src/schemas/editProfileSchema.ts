@@ -7,7 +7,6 @@ export const addressSchema = z.object({
     state: z.string().min(1, "state is required"),
     pincode: z.number().min(100000).max(999999),
     landmark: z.string().optional(),
-    contact: z.number().min(1000000000).max(9999999999)
 })
 
 export const profileSchema = z.object({
@@ -15,5 +14,6 @@ export const profileSchema = z.object({
     username: usernameValidation,
     email: z.string().email({message: 'Invalid Email Address'}),
     addresses: z.array(addressSchema),
-    picture: z.string().optional()
+    picture: z.string().optional(),
+    contact: z.number().min(1000000000).max(9999999999).optional()
 });

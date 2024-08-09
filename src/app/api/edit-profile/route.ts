@@ -16,10 +16,10 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const reqBody = await request.json();
-    const { name, username, email, addresses, picture } = reqBody;
+    const { name, username, email, addresses, picture, contact } = reqBody;
 
     const user = await UserModel.findByIdAndUpdate(userId, {
-        name, username, email, addresses, picture
+        name, username, email, addresses, picture, contact
     });
     if(!user) {
         return NextResponse.json({

@@ -15,6 +15,7 @@ interface UserStoreInfo {
     isAdmin?: boolean;
     addresses: Address[];
     wishlist: Book[];
+    contact?: number;
 };
 
 export interface IAuthState {

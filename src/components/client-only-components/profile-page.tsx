@@ -46,6 +46,10 @@ export default function UserProfilePage() {
                   <div className="flex gap-2"><Badge className="w-[75px] text-sm bg-green-500 hover:bg-green-600">Verified</Badge>{user.isAdmin && <Badge className="w-[65px] text-sm bg-gray-700 hover:bg-gray-600" >Admin</Badge>}</div> : 
                   <p className="text-red-500">User is not verified. Please verify your account.</p>}
                 </div>
+                <div className="grid gap-1">
+                  <label className="text-sm font-semibold text-muted-foreground">Contact</label>
+                  <p className="text-sm">{user?.contact}</p>
+                </div>
               </div>
             </div>
             <div className="grid gap-2 mb-4">
@@ -74,10 +78,6 @@ export default function UserProfilePage() {
                             <div>
                               <div className="font-semibold text-gray-500">Pincode</div>
                               <p className="text-sm">{address.pincode}</p>
-                            </div>
-                            <div>
-                              <div className="font-semibold text-gray-500">Contact Number</div>
-                              <p className="text-sm">{address.contact}</p>
                             </div>
                         </div>
                     </CardContent>

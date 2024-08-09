@@ -302,7 +302,7 @@ function AddBookForm() {
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Lastest</FormLabel>
+                                    <FormLabel>Latest</FormLabel>
                                     <FormControl>
                                         <div>
                                         <Checkbox id="latest"
@@ -693,7 +693,7 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another About Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another About Section" : "Add About Section"}</Button>
                                 </>
                             )}      
                         /></div>
@@ -724,7 +724,7 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another Salient Feature Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Salient Feature Section" : "Add Salient Feature Section"}</Button>
                                 </>
                             )}      
                         /></div>
@@ -755,7 +755,7 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another Useful For Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Useful For Section" : "Add Useful For Section"}</Button>
                                 </>
                             )}      
                         /></div>
@@ -786,7 +786,7 @@ function AddBookForm() {
                                         }}></img>
                                 </div>
                                 ))}
-                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>Add Another Additional Support Section</Button>
+                                <Button type="button" className="mt-4" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Additional Support Section" : "Add Additional Support Section"}</Button>
                                 </>
                             )}      
                         /></div>

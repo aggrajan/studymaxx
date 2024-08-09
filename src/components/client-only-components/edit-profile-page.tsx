@@ -45,7 +45,8 @@ export default function EditProfilePage() {
             username: user?.username,
             email: user?.email,
             addresses: user?.addresses,
-            picture: user?.picture
+            picture: user?.picture,
+            contact: user?.contact
         }
     });
 
@@ -70,7 +71,8 @@ export default function EditProfilePage() {
                     picture: data.picture,
                     isVerified: user?.isVerified ? user.isVerified : false,
                     isAdmin: user?.isAdmin ? user.isAdmin : false,
-                    wishlist: user?.wishlist ? user.wishlist : []
+                    wishlist: user?.wishlist ? user.wishlist : [],
+                    contact: data.contact
                 }));
 
                 await axios.post(`/api/refresh-reviews/${user?._id}`);
@@ -147,7 +149,7 @@ export default function EditProfilePage() {
                                 control={form.control}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Profile Pricture URL</FormLabel>
+                                        <FormLabel>Profile Picture URL</FormLabel>
                                         <FormControl>
                                             <Input placeholder="enter your profile picture url.." {...field} />
                                         </FormControl>
@@ -166,9 +168,9 @@ export default function EditProfilePage() {
                                                 <div key={`address_${index}`} className="flex flex-row w-full space-x-2">
                                                     <FormItem className="flex-1">
                                                         <div>
-                                                            <FormLabel>Address</FormLabel>
+                                                            <FormLabel htmlFor={`address_${index}`}>Address</FormLabel>
                                                             <FormControl>
-                                                                <Input placeholder="enter your location" value={address.address}
+                                                                <Input id={`address_${index}`} placeholder="enter your location" value={address.address}
                                                                     className="w-full"
                                                                     onChange={(e) => {
                                                                         const newAddresses = [...field.value];
@@ -181,24 +183,9 @@ export default function EditProfilePage() {
                                                         </div>
 
                                                         <div>
-                                                            <FormLabel>State</FormLabel>
+                                                            <FormLabel htmlFor={`city_${index}`}>City</FormLabel>
                                                             <FormControl>
-                                                                <Input placeholder="state" value={address.state}
-                                                                    className="w-full"
-                                                                    onChange={(e) => {
-                                                                        const newAddresses = [...field.value];
-                                                                        newAddresses[index].state = e.target.value;
-                                                                        field.onChange(newAddresses);
-                                                                    }}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </div>
-
-                                                        <div>
-                                                            <FormLabel>City</FormLabel>
-                                                            <FormControl>
-                                                                <Input placeholder="city" value={address.city}
+                                                                <Input id={`city_${index}`} placeholder="city" value={address.city}
                                                                     className="w-full"
                                                                     onChange={(e) => {
                                                                         const newAddresses = [...field.value];
@@ -211,9 +198,24 @@ export default function EditProfilePage() {
                                                         </div>
 
                                                         <div>
-                                                            <FormLabel>Pincode</FormLabel>
+                                                            <FormLabel htmlFor={`state_${index}`}>State</FormLabel>
                                                             <FormControl>
-                                                                <InputOTP maxLength={6} value={address.pincode ? address.pincode.toString(): ""} 
+                                                                <Input id={`state_${index}`} placeholder="state" value={address.state}
+                                                                    className="w-full"
+                                                                    onChange={(e) => {
+                                                                        const newAddresses = [...field.value];
+                                                                        newAddresses[index].state = e.target.value;
+                                                                        field.onChange(newAddresses);
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </div>
+
+                                                        <div>
+                                                            <FormLabel htmlFor={`pincode_${index}`}>Pincode</FormLabel>
+                                                            <FormControl>
+                                                                <InputOTP id={`pincode_${index}`} maxLength={6} value={address.pincode ? address.pincode.toString(): ""} 
                                                                 onChange={(value) => {
                                                                     const newAddresses = [...field.value];
                                                                     newAddresses[index].pincode = parseInt(value);
@@ -233,28 +235,13 @@ export default function EditProfilePage() {
                                                         </div>
 
                                                         <div>
-                                                            <FormLabel>Landmark</FormLabel>
+                                                            <FormLabel htmlFor={`landmark_${index}`}>Landmark</FormLabel>
                                                             <FormControl>
-                                                                <Input placeholder="landmark" value={address.landmark}
+                                                                <Input id={`landmark_${index}`} placeholder="landmark" value={address.landmark}
                                                                     className="w-full"
                                                                     onChange={(e) => {
                                                                         const newAddresses = [...field.value];
                                                                         newAddresses[index].landmark = e.target.value;
-                                                                        field.onChange(newAddresses);
-                                                                    }}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </div>
-
-                                                        <div>
-                                                            <FormLabel>Contact</FormLabel>
-                                                            <FormControl>
-                                                                <Input placeholder="contact" type="number" value={address.contact}
-                                                                    className="w-full"
-                                                                    onChange={(e) => {
-                                                                        const newAddresses = [...field.value];
-                                                                        newAddresses[index].contact = e.target.valueAsNumber;
                                                                         field.onChange(newAddresses);
                                                                     }}
                                                                 />
@@ -271,7 +258,9 @@ export default function EditProfilePage() {
                                             </CardContent>
                                         </Card>
                                     ))}
-                                    <Button type="button" onClick={() => field.onChange([...field.value, { address: "", state: "", city: "", pincode: 0, contact: undefined, landmark: "" }])}>Add Another Address</Button>
+                                    <Button type="button" onClick={() => field.onChange([...field.value, { address: "", state: "", city: "", pincode: 0, contact: undefined, landmark: "" }])}>
+                                        {field.value.length > 0 ? "Add Another Address" : "Add Address"}
+                                    </Button>
                                 </>
 
                                 
@@ -279,6 +268,25 @@ export default function EditProfilePage() {
 
                             
                             />
+
+                            <FormField 
+                                name="contact"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Contact Number</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="enter your contact number.." 
+                                                type="number" value={field.value} 
+                                                onChange={(e) => field.onChange(e.target.valueAsNumber)} 
+                                                onWheel={(e) => (e.target as HTMLElement).blur()}  
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}      
+                            />
+
                             <div className="flex justify-end gap-2">
                                 <Button type="submit" disabled={isSubmitting}>
                                     {
