@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="bg-muted text-muted-foreground py-12 px-0 md:px-4">
+    <footer className="bg-muted text-muted-foreground py-12 px-4 md:px-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:px-0">
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
