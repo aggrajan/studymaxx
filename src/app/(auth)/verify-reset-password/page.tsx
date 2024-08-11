@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { verifyNewPasswordSchema } from "@/schemas/verifyNewPasswordSchema";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const VerifyAccount = () => {
     const router = useRouter();
@@ -96,9 +97,7 @@ const VerifyAccount = () => {
                                 <FormItem>
                                     <FormLabel>New Password</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Enter your new password" {...field} type="password" onChange={(e) => {
-                                            field.onChange(e);
-                                        }}/>
+                                        <PasswordInput placeholder="Enter your new password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

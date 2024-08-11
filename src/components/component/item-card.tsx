@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog"
@@ -25,6 +26,7 @@ import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWi
 import { useRouter } from "next/navigation"
 import { Review } from "@/model/Review"
 import { getReviews } from "@/app/apiCalls/callReviews"
+import { Separator } from "../ui/separator"
 
 export function ItemCard({ book } : { book: Book}) {
   const route = useRouter();
@@ -81,7 +83,7 @@ export function ItemCard({ book } : { book: Book}) {
   }
 
   function getDiscountedPrice(originalPrice: number, discount: number): number {
-    return (originalPrice * (100 - discount)) / 100.0;
+    return ((originalPrice * (100 - discount)) / 100.0)
   }
 
   function checkIfAddedToWishlist() {
@@ -93,17 +95,16 @@ export function ItemCard({ book } : { book: Book}) {
     <Card className="w-full rounded-md rounded-t-none">
       <Dialog>
         <DialogTrigger asChild>
-          <img src={book.image} alt="Book Image" className="w-full hover:shadow-2xl cursor-pointer rounded-t-none transition-all hover:scale-[103%] border-black border-2" />
+        <div className="relative transition-all hover:scale-[103%]">
+          <img src={book.image} alt="Book Image" className="w-full hover:shadow-2xl cursor-pointer rounded-t-none border-black border-2" />
+          {book.latest ? <img src="/latest.svg" alt="Latest Icon" className="w-8 h-8 sm:w-12 sm:h-12 absolute -top-3 -right-3" /> : null}
+        </div>
         </DialogTrigger>
         <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
-          {/* <ScrollArea className="rounded-md border">
-            <div className="p-0 sm:p-2"> */}
-                <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
-                <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
-                <Reviews bookId={book._id as string} reviews={reviews} />
-                <OtherProductsYouMayFindUseful book={book} isModal={true} />
-            {/* </div>
-          </ScrollArea> */}
+          <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
+          <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
+          <Reviews bookId={book._id as string} reviews={reviews} />
+          <OtherProductsYouMayFindUseful book={book} isModal={true} />
         </DialogContent>
       </Dialog>
       
@@ -111,65 +112,170 @@ export function ItemCard({ book } : { book: Book}) {
         <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>
-                <div className="text-md lg:text-lg font-semibold min-h-16 sm:min-h-20 md:min-h-20">{getTruncatedTitle(book.title)}</div>
+              <div className="truncate-title text-md lg:text-lg font-semibold min-h-[5.5rem]">
+                {book.title}
+              </div>
             </TooltipTrigger>
             <TooltipContent>
               <p className="text-wrap">{book.title}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        <Separator className="mt-1 mb-1" />
         
-        <div className="text-xs md:text-sm text-muted-foreground min-h-8 md:min-h-10">{getAuthorNames(book.authors)}</div>
+        <div className="truncate-text text-xs md:text-sm text-muted-foreground min-h-12">{getAuthorNames(book.authors)}</div>
         
-        <div className="flex justify-start items-center gap-2 sm:gap-3">
-          {(book && book.discount && (book.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(book.price, book.discount)}</div> : null}
-          <div className={`${(book && book.discount && (book.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{book.price}</div>
-          {(book && book.discount && (book.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0">
-            {(book.discount).toFixed(1)}% OFF
+        <div className="hidden md:flex justify-start items-center gap-2 sm:gap-3 min-h-16 sm:min-h-16">
+          {(book && book.discount && (book.discount > 0)) ? <div className="text-xl font-semibold text-primary">&#8377;{getDiscountedPrice(book.price, book.discount).toFixed(0)}</div> : null}
+          <div className={`${(book && book.discount && (book.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{book.price.toFixed(0)}</div>
+          {(book && book.discount && (book.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-[80%] lg:scale-100 -ml-2 sm:ml-0">
+            {(book.discount).toFixed(0)}% OFF
           </Badge> : null}
         </div>
+
+        <div className="md:hidden flex flex-col justify-start items-start gap-2 sm:gap-3 min-h-16 sm:min-h-16">
+            <div className="text-2xl font-semibold text-primary">
+              &#8377;{(book && book.discount && (book.discount > 0)) ? getDiscountedPrice(book.price, book.discount).toFixed(0) : book.price.toFixed(0) }
+            </div>
+            {
+              (book && book.discount && (book.discount > 0)) ?
+              <div className="flex flex-row gap-2 -mt-2">
+                <div className="text-md md:text-md font-semibold text-muted-foreground line-through">
+                  &#8377;{book.price.toFixed(0)}
+                </div>
+                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0">{(book.discount).toFixed(0)}% OFF</Badge>
+              </div>
+              : null
+            }
+        </div>
         
-        {!addedToCart && <div className="flex mx-auto justify-around w-3/4 mt-2">
-          {userPresent && <Button variant="ghost" size="icon">
-            {addedToWishlist ? 
-            <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/> : 
-            <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />}
+        {!addedToCart && <div className="flex justify-around mt-2">
+          {userPresent ?
+            addedToWishlist ? 
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/>
+                </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Remove From Wishlist</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+              : 
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon">  
+                    <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add To Wishlist</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             
-          </Button>}
-          {userPresent && <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
-            <ShoppingCartIcon className="w-6 h-6" />
-          </Button>}
-          {!userPresent && <Button variant="outline" className="mx-auto w-2/3 mt-2 bg-gray-300 border-gray-400" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
-              <h3 className="font-semibold">Add to Cart</h3>
+          : null}
+          {userPresent && 
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+                  <ShoppingCartIcon className="w-6 h-6" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                  <p>Add To Cart</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          }
+          {!userPresent && <Button className="mt-2" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+              <h3 className="flex items-center text-xs sm:text-sm font-semibold"><ShoppingCartIcon className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> Add to Cart</h3>
             </Button>}
-          {(user && user.isAdmin) ? <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
-            <img src="/edit.svg" className="w-6 h-6" />
-          </Button> : null}
+          {(user && user.isAdmin) ? 
+          <TooltipProvider>
+            <Tooltip delayDuration={200}>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
+                  <img src="/edit.svg" className="w-6 h-6" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                  <p>Edit Book</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          : null}
         </div>}
         {addedToCart && <div className="flex items-center justify-around flex-row mt-2">
-          {userPresent && <Button variant="ghost" size="icon">
-            {addedToWishlist ? 
-            <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/> : 
-            <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />}
+          {userPresent ?
+            addedToWishlist ? 
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/>
+                </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Remove From Wishlist</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+              : 
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon">  
+                    <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Add To Wishlist</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             
-          </Button>}
-          <div className="flex items-center gap-x-4">
+          : null}
+          <div className="flex items-center gap-x-1 sm:gap-x-2 md:gap-x-2">
             <Button
               variant="outline"
               size="icon"
               onClick={() => { dispatch(subtractItemQuantity({ id: book._id as number})); setCount((prev) => prev - 1); }}
               disabled={count <= 1}
+              className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
             >
               <MinusIcon className="h-4 w-4" />
             </Button>
             <span>{count}</span>
-            <Button variant="outline" size="icon" onClick={() => { dispatch(addItemQuantity({ id: book._id as number})); setCount((prev) => prev + 1) }}>
+            <Button variant="outline" 
+              size="icon" 
+              onClick={() => { dispatch(addItemQuantity({ id: book._id as number})); setCount((prev) => prev + 1) }}
+              className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
+            >
               <PlusIcon className="h-4 w-4" />
             </Button>
           </div>
-          {(user && user.isAdmin) ? <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
-            <img src="/edit.svg" className="w-6 h-6" />
-          </Button> : null}
+          {(user && user.isAdmin) ? 
+          <TooltipProvider>
+          <Tooltip delayDuration={200}>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
+                <img src="/edit.svg" className="w-6 h-6" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>Edit Book</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+          
+          : null}
         </div>}
       </CardContent>
     </Card>

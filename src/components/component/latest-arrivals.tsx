@@ -10,8 +10,8 @@ export function LatestArrivals() {
     const latestBooks = allBooks.filter((book: Book) => book.latest === true);
     return (
         <section className="w-full pt-12 md:pt-24 lg:pt-32">
-          <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
-            <div className="space-y-2">
+          <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
+            <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Latest Arrivals</h2>
               <p className="max-w-[700px] text-muted-foreground md:text-xl">
                 Discover our top-selling and most popular books across various genres.
@@ -19,7 +19,7 @@ export function LatestArrivals() {
             </div>
             <Carousel
               plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
-              className="w-full max-w-4xl"
+              className="w-full max-w-7xl"
               opts={{loop: true}}
             >
               <CarouselContent>
@@ -29,13 +29,16 @@ export function LatestArrivals() {
                     <div className="p-1">
                       <Card className="rounded-md">
                         <CardContent className="flex flex-col items-center justify-center p-6">
-                          <img
-                            src={book.image}
-                            width="150"
-                            height="200"
-                            alt="Book Cover"
-                            className="mb-4 aspect-[3/4] overflow-hidden border-2 border-black object-cover"
-                          />
+                          <div className="relative transition-all hover:scale-[103%]">
+                            <img
+                              src={book.image}
+                              width="150"
+                              height="200"
+                              alt="Book Cover"
+                              className="mb-4 aspect-[3/4] overflow-hidden border-2 border-black object-cover"
+                            />
+                            {book.latest ? <img src="/latest.svg" alt="Latest Icon" className="w-8 h-8 sm:w-10 sm:h-10 absolute -top-3 -right-3" /> : null}
+                          </div>
                           <h3 className="text-lg font-semibold">{book.title}</h3>
                         </CardContent>
                       </Card>

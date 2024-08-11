@@ -52,12 +52,14 @@ export function FeedbackForm() {
     setIsSubmitting(false);
   }
   return (
-    <section className="m-auto w-full sm:w-full md:w-3/4 lg:w-2/3 pt-12 md:pt-24 lg:pt-32">
-      <div className="container px-4 md:px-6">
+    <section className="m-auto w-full pt-12 md:pt-24 lg:pt-32">
+      <div className="px-4 md:px-6">
         <div className="space-y-6">
-          <div className="space-y-2 text-center">
-            <h2 className="text-3xl font-bold">Give us your feedback</h2>
-            <p className="text-muted-foreground">Help us improve our book selection and services.</p>
+          <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Give us your feedback</h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
+              Help us improve our book selection and services.
+            </p>
           </div>
           <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

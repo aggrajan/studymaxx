@@ -48,7 +48,7 @@ export default function UserProfilePage() {
                 </div>
                 <div className="grid gap-1">
                   <label className="text-sm font-semibold text-muted-foreground">Contact</label>
-                  <p className="text-sm">{user?.contact}</p>
+                  <p className="text-sm">{user?.contact ? user.contact : "-"}</p>
                 </div>
               </div>
             </div>

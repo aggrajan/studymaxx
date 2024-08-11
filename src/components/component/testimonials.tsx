@@ -55,8 +55,8 @@ export function Testimonials() {
   }, [api])
   return (
     <section className="w-full pt-12 md:pt-24 lg:pt-32 h-full">
-    <div className="container flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
-      <div className="space-y-2">
+    <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
+      <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Testimonials</h2>
         <p className="max-w-[700px] text-muted-foreground md:text-xl">
           Discover our top-selling and most popular books across various genres.
@@ -102,7 +102,7 @@ export function Testimonials() {
         loop: true
       }}
       plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
-      className="w-full max-w-4xl block lg:hidden"
+      className="w-full block lg:hidden"
     >
       <CarouselContent>
       {testimonials.map((testimonial, index) => (

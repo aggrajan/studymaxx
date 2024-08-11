@@ -10,6 +10,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import { Author } from "@/model/Authors";
+import { Separator } from "../ui/separator";
 
 export function ShoppingCartButton() {
     const router = useRouter();
@@ -28,7 +29,6 @@ export function ShoppingCartButton() {
     }
 
     return ( <>
-    {/* Show HoverCard on larger screens */}  
       <div className="hidden sm:block">
       <HoverCard openDelay={400}>
         <HoverCardTrigger asChild>
@@ -39,16 +39,16 @@ export function ShoppingCartButton() {
               </Button>
               {cartCount > 0 && (
                   <Badge className="bg-primary text-primary-foreground w-5 h-5 flex justify-center items-center absolute top-2 right-0 transform translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                  onClick={(e) => { e.preventDefault(); router.push('/cart') }}>
+                    onClick={(e) => { e.preventDefault(); router.push('/cart') }}>
                       {cartCount}
                   </Badge>
               )}
           </div>
         </HoverCardTrigger>
         <HoverCardContent className="mr-5 min-w-[25rem] max-h-60 overflow-y-auto">
-          <div className="flex flex-col gap-y-4">
+          <div className="flex flex-col gap-y-4 w-full">
             {(cartCount > 0) ? cartItems.map((item, index) => (
-              <div key={`hover_cart_element_${index}`} className="flex flex-row justify-start items-center gap-x-2">
+              <div key={`hover_cart_element_${index}`} className="flex flex-row justify-start items-center gap-x-2 w-full">
                 <img
                     src={item.product.image}
                     alt={item.product.title}
@@ -58,13 +58,14 @@ export function ShoppingCartButton() {
                     onClick={() => {router.push(`/products/${item.product._id}`)}}
                   />
                   <div onClick={() => {router.push(`/products/${item.product._id}`)}} className="cursor-pointer">
-                    <h3 className="font-semibold text-sm">{getTruncatedTitle(item.product.title)}</h3>
-                    <p className="text-muted-foreground text-xs">{getAuthors(item.product.authors)}</p>
+                    <h3 className="truncate-text font-semibold text-md w-full">{(item.product.title)}</h3>
+                    <Separator className="w-full mt-2 mb-1" />
+                    <p className="truncate-text text-muted-foreground text-xs w-full">{getAuthors(item.product.authors)}</p>
                     <div className="flex justify-start items-center gap-2">
-                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-sm md:text-md font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount)}</div> : null}
-                      <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price}</div>
+                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
+                      <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
                       {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75">
-                        {(item.product.discount).toFixed(1)}% OFF
+                        {(item.product.discount).toFixed(0)}% OFF
                       </Badge> : null}
                     </div>
                   </div>

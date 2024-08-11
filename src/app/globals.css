@@ -73,4 +73,22 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .truncate-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(180deg, black 60%, transparent);
+  }
+
+  .truncate-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(180deg, black 60%, transparent);
+  }
 }

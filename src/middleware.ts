@@ -26,7 +26,8 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if(token === "" && (url.pathname.startsWith('/user-profile') || url.pathname.startsWith('/wishlist'))) {
+    if(token === "" && (url.pathname.startsWith('/user-profile') || url.pathname.startsWith('/wishlist')
+     || url.pathname.startsWith('/queries'))) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
@@ -46,6 +47,7 @@ export const config = {
         '/edit-book',
         '/all-queries',
         '/wishlist',
+        '/queries',
         '/'
     ]
 }

@@ -138,15 +138,17 @@ export function NavBar() {
           
           {!isSearching ? <TooltipProvider>
             <Tooltip delayDuration={200}>
-            <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
-            <SearchIcon className="h-5 w-5" />
-            <span className="sr-only">Search</span>
-          </Button></TooltipTrigger>
-            <TooltipContent>
-              <p>Search</p>
-            </TooltipContent>
-          </Tooltip></TooltipProvider> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
+                  <SearchIcon className="h-5 w-5" />
+                  <span className="sr-only">Search</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Search</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <Input
                 type="text"

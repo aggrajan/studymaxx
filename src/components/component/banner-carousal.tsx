@@ -11,11 +11,11 @@ export function BannerCarousal() {
           className="w-full"
           opts={{loop: true}}
         >
-          <CarouselContent>
-            <CarouselItem>
-              <div className="p-1">
-                <Card className="rounded-none">
-                  <CardContent className="flex flex-col items-center justify-center p-6">
+          <CarouselContent className="h-full">
+            <CarouselItem className="flex items-center justify-center h-full">
+              <div className="p-1 w-full h-full">
+                <Card className="rounded-none h-full aspect-[30/9]">
+                  <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
                       width="150"
@@ -30,8 +30,8 @@ export function BannerCarousal() {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className="rounded-none">
-                  <CardContent className="flex flex-col items-center justify-center p-6">
+                <Card className="rounded-none h-full aspect-[30/9]">
+                  <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
                       width="150"
@@ -46,8 +46,8 @@ export function BannerCarousal() {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className="rounded-none">
-                  <CardContent className="flex flex-col items-center justify-center p-6">
+                <Card className="rounded-none h-full aspect-[30/9]">
+                  <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
                       width="150"
@@ -62,8 +62,8 @@ export function BannerCarousal() {
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className="rounded-none">
-                  <CardContent className="flex flex-col items-center justify-center p-6">
+                <Card className="rounded-none h-full aspect-[30/9]">
+                  <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
                       width="150"

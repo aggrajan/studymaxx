@@ -30,23 +30,23 @@ export function CartPage() {
             <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
             <div className="grid gap-6">
               {cartCount > 0 ? cartItems.map((item) => (
-                <div key={item.product._id as string} className="grid grid-cols-[1fr_2fr_1fr] sm:grid-cols-[100px_1fr_auto] items-center gap-4">
+                <div key={item.product._id as string} className="grid grid-cols-[1fr_2fr_1fr] sm:grid-cols-[100px_1fr_auto] items-center gap-4 my-5">
                   <img
                     src={item.product.image}
                     alt={item.product.title}
-                    width={100}
-                    height={150}
+                    width={200}
                     className="object-cover cursor-pointer"
                     onClick={() => {router.push(`/products/${item.product._id}`)}}
                   />
                   <div onClick={() => {router.push(`/products/${item.product._id}`)}} className="cursor-pointer">
-                    <h3 className="font-semibold">{item.product.title}</h3>
-                    <p className="text-muted-foreground">{getAuthors(item.product.authors)}</p>
+                    <h3 className="truncate-title font-semibold text-lg">{item.product.title}</h3>
+                    <Separator className="mt-2 mb-2" />
+                    <p className="truncate-text text-muted-foreground text-sm">{getAuthors(item.product.authors)}</p>
                     <div className="flex justify-start items-center gap-4">
-                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount)}</div> : null}
-                      <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price}</div>
+                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-lg md:text-xl font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
+                      <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
                       {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100">
-                        {(item.product.discount).toFixed(1)}% OFF
+                        {(item.product.discount).toFixed(0)}% OFF
                       </Badge> : null}
                     </div>
                   </div>

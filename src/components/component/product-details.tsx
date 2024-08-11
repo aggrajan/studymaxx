@@ -74,7 +74,7 @@ export function ProductDetails(props: any) {
             {isModal && <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="rounded-full p-2" variant="outline" onClick={() => router.push(`/products/${props.book._id}`)}>
+                    <Button className="rounded-full border-2 p-2 shadow-xl absolute left-5 top-4 transform transition-transform duration-300 hover:bg-white hover:scale-110" variant="outline" onClick={() => router.push(`/products/${props.book._id}`)}>
                       <img src="/full-screen.svg" width={18} className="cursor-pointer"  />
                     </Button>
                   </TooltipTrigger>
@@ -88,10 +88,10 @@ export function ProductDetails(props: any) {
         </div>
         <div className="grid gap-2">
           <div className="flex items-center justify-start gap-4">
-            {props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount)}</div>}
-            <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price}</div>
+            {props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount).toFixed(0)}</div>}
+            <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price.toFixed(0)}</div>
             {props.book.discount > 0 && <Badge variant="default">
-              {(props.book.discount)}% OFF
+              {(props.book.discount).toFixed(0)}% OFF
             </Badge>}
           </div>
           {props.book.pdfUrl ? <Dialog>

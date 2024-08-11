@@ -8,7 +8,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -29,6 +28,7 @@ import Link from "next/link"
 export function ContactQueryForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const { toast } = useToast();
   const { user } = useAppSelector((state) => state.auth)
 
@@ -56,22 +56,26 @@ export function ContactQueryForm() {
           message: ''
         })
         toast({title: "Query Submitted", description: "Your query has been successfully submitted"});
+        setShowDialog(true); // Show the alert dialog
       } else {
-        toast({title: "Something Went Wrong", description: "Your query has not submitted"});
+        toast({title: "Something Went Wrong", description: "Your query has not been submitted"});
       }
     } catch(error: any) {
       toast({title: "Something Went Wrong", description: "You might not have logged in"});
     }
     setIsSubmitting(false);
   }
+  
   return (
-    <section className="m-auto w-full sm:w-full md:w-3/4 lg:w-2/3 px-4 pt-12 md:pt-24 lg:pt-32" id="contact-us">
-      <div className="space-y-6">
-        <div className="space-y-2 text-center">
-          <h2 className="text-3xl font-bold">Contact Us and Ask your query</h2>
-          <p className="text-muted-foreground">Help us improve our book selection and services.</p>
+    <section className="m-auto w-full pt-12 md:pt-24 lg:pt-32" id="contact-us">
+      <div className="space-y-6 px-4 md:px-6">
+        <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Contact Us and Ask your query</h2>
+          <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
+            Help us improve our book selection and services.
+          </p>
         </div>
-        <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md">
+        <div className="">
           <div className="flex items-center gap-4">
             <div className="rounded-md bg-primary p-3 text-primary-foreground">
               <MailIcon className="h-6 w-6" />
@@ -145,34 +149,33 @@ export function ContactQueryForm() {
                   />
               </div>
               <div className="flex justify-end">
-              <AlertDialog>
-              <AlertDialogTrigger>
                 <Button type="submit" disabled={isSubmitting}>
                   {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Query')
                   }
                 </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Your query is registered</AlertDialogTitle>
-                <AlertDialogDescription>
-                  You can see your Query ID at <Link href="/queries" className="text-sm text-black font-medium underline transform duration-300 underline-offset-4 hover:font-bold focus:scale-110" >My Queries</Link>. This ID will be required to have follow-ups with our team.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Understood</AlertDialogCancel>
-                <AlertDialogAction onClick={(e: any) => { router.push("/queries") }}>
-                  My Queries
-                </AlertDialogAction>
-              </AlertDialogFooter>
-              </AlertDialogContent>
-              </AlertDialog>
               </div>
             </form>
           </Form>
         </div>
       </div>
+
+      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Your query is registered</AlertDialogTitle>
+            <AlertDialogDescription>
+              You can see your Query ID at <Link href="/queries" className="text-sm text-black font-medium underline transform duration-300 underline-offset-4 hover:font-bold focus:scale-110" >My Queries</Link>. This ID will be required to have follow-ups with our team.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setShowDialog(false)}>Understood</AlertDialogCancel>
+            <AlertDialogAction onClick={(e: any) => { router.push("/queries") }}>
+              My Queries
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </section>
   )
 }

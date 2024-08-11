@@ -89,13 +89,13 @@ export function ExploreBooks() {
 
   return (<>
     {booksConfig ? <section id="content" className="pt-12 md:pt-24 lg:pt-16 bg-background">
-      <div className="container px-4 md:px-6 gap-8 pb-4">
+      <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
-        <p className="max-w-[700px] text-muted-foreground md:text-xl">
+        <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
           Discover our top-selling and most popular books across various genres.
         </p>
       </div>
-      <div className="container px-4 md:px-6 grid md:grid-cols-[280px_1fr] gap-8">
+      <div className="px-4 md:px-6 grid md:grid-cols-[280px_1fr] lg:grid-cols-[380px_1fr] gap-8">
         <div className="flex flex-col gap-4">
           <Card className="rounded-md">
             <CardHeader>
@@ -111,8 +111,8 @@ export function ExploreBooks() {
                 }
               />
               <div className="flex flex-row gap-2">
-                <Button className="mt-2 bg-blue-500 border" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
-                <Button className="mt-2 bg-blue-500 border" onClick={() => { dispatch(clearAllFilters()); search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
+                <Button className="mt-2" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
+                <Button className="mt-2" onClick={() => { dispatch(clearAllFilters()); search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
               </div>
             </CardContent>
           </Card>
@@ -224,7 +224,7 @@ export function ExploreBooks() {
 
         </div>
         <div className="flex flex-col">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {
               currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
                 <ItemCard key={`book_${book._id}`} book={book}/>

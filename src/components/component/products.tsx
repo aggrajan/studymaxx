@@ -9,7 +9,7 @@ import { FilterButton } from "./filter-button";
 import { Input } from "../ui/input";
 import { Book } from "@/model/Books";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
+import { clearAllFilters, updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
 import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { useRouter } from "next/navigation";
@@ -88,14 +88,15 @@ export function ProductsPage() {
     
 
     return (<>
-        {bookConfig ? <section className="container px-4 md:px-6">
+        {bookConfig ? <section className="px-4 md:px-6">
             <div className="space-y-2 text-center">
-                <h2 className="text-3xl font-bold">Welcome to StudyMaxx</h2>
-                <div className="flex w-full max-w-sm items-center space-x-2 mx-auto">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-5">Welcome to StudyMaxx</h2>
+                <div className="flex flex-col w-full max-w-sm items-start space-x-2 mx-auto">
                   <Input type="text" placeholder="search by title or author or keywords" value={searchTerm} onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} />
-                  <Button type="button" onClick={() => {
-                    search(searchTerm);
-                  }}>Search</Button>
+                  <div className="flex flex-row">
+                    <Button className="mt-3 mr-2" onClick={() => { search(searchTerm); setCurrentPage(1); }}>Search</Button>
+                    <Button className="mt-3" onClick={() => { dispatch(clearAllFilters()); search(searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
+                  </div>
                 </div>
             </div>
             <div id="products_content" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
@@ -106,9 +107,9 @@ export function ProductsPage() {
                 {(isSchoolSelected || isCompetitiveExamSelected) && <FilterButton optionArray={languages} name="language" />}
                 {isCompetitiveExamSelected && <FilterButton optionArray={exams} name="exam" />}
             </div>
-            <div className="container md:px-6 pt-6">
+            <div className="md:px-6 pt-6">
                 <div className="flex flex-col">
-                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                 {
                   currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
                     <ItemCard key={`book_${book._id}`} book={book}/>

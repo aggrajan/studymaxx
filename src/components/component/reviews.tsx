@@ -1,4 +1,15 @@
 "use client"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
@@ -77,6 +88,8 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                   variant: "default"
               });
               
+
+              router.push(`/products/${bookId}`);
               router.refresh();
           } else {
               toast({
@@ -97,6 +110,39 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
           setIsSubmitting(false);
       }
       
+  }
+
+  const onDelete = async (reviewId: string) => {
+    setIsSubmitting(true);
+    try {
+      const response = await axios.post('/api/delete-review', { userId: user?._id, bookId: bookId, reviewId: reviewId });
+      if(response.status == 200) {
+        toast({
+            title: "Review Deleted",
+            description: "Review successfully deleted",
+            variant: "default"
+        });
+        
+        router.push(`/products/${bookId}`);
+        router.refresh();
+      } else {
+          toast({
+              title: "Error Occured",
+              description: "There might be some issue with the data provided",
+              variant: "destructive"
+          });
+          
+          router.push('/');
+      }
+    } catch (error: any) {
+      toast({
+          title: "Error Occured",
+          description: error.message,
+          variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -204,26 +250,51 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                   <AvatarImage src={`${review.image}`} />
                   <AvatarFallback>{getFallBack(review)}</AvatarFallback>
                 </Avatar>
-                <div className="grid gap-2">
-                  <div className="flex items-center gap-2">
-                    <div className="font-semibold">{review.name ? review.name : review.username}</div>
-                    <div className="text-xs text-muted-foreground">{review.name ? review.username : ""}</div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-0.5">
-                      {Array.from({ length: review.rating }, (_, i) => (
-                        <StarIcon key={`star_${index}_${i}`} className="w-5 h-5 fill-primary" />
-                      ))}
-                      {Array.from({ length: 5 - review.rating }, (_, i) => (
-                        <StarIcon key={`no_star_${index}_${i}`} className="w-5 h-5 fill-muted stroke-muted-foreground" />
-                      ))}
+                <div className="w-full flex justify-between">
+                  <div className="grid gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="font-semibold">{review.name ? review.name : review.username}</div>
+                      <div className="text-xs text-muted-foreground">{review.name ? review.username : ""}</div>
                     </div>
-                    <div className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(review.createdAt || new Date()), { addSuffix: true })}</div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-0.5">
+                        {Array.from({ length: review.rating }, (_, i) => (
+                          <StarIcon key={`star_${index}_${i}`} className="w-5 h-5 fill-primary" />
+                        ))}
+                        {Array.from({ length: 5 - review.rating }, (_, i) => (
+                          <StarIcon key={`no_star_${index}_${i}`} className="w-5 h-5 fill-muted stroke-muted-foreground" />
+                        ))}
+                      </div>
+                      <div className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(review.createdAt || new Date()), { addSuffix: true })}</div>
+                    </div>
+                    <div className="text-sm leading-loose text-muted-foreground">
+                      {review.review}
+                    </div>
                   </div>
-                  <div className="text-sm leading-loose text-muted-foreground">
-                    {review.review}
-                  </div>
+                  
+                  <AlertDialog>
+                  <AlertDialogTrigger>
+                    <TrashIcon className="w-5 h-5" />
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you sure you want to delete your review</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action can't be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <Button type="button" className={`justify-self-end cursor-pointer`} disabled={isSubmitting} onClick={() => onDelete(review._id as string)}>
+                        {
+                          isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Delete')
+                        }
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                  </AlertDialog>
                 </div>
+
               </div>
             ))}
           </div>
@@ -297,8 +368,7 @@ function StarIcon(props: any) {
   )
 }
 
-
-function XIcon(props: any) {
+function TrashIcon(props: any) {
   return (
     <svg
       {...props}
@@ -312,8 +382,9 @@ function XIcon(props: any) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M18 6 6 18" />
-      <path d="m6 6 12 12" />
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
     </svg>
   )
 }

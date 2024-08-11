@@ -5,7 +5,7 @@ import { Separator } from "../ui/separator";
 export function OurMission() {
     return (
         <section className="w-full pt-12 md:pt-24 lg:pt-32 mb-24">
-            <div className="container flex flex-col items-center justify-center space-y-36 px-4 md:px-6 text-center">
+            <div className="flex flex-col items-center justify-center space-y-36 px-4 md:px-6 text-center">
                 <div className="space-y-2">
                     <p className="max-w-4xl text-muted-foreground md:text-xl">
                         Mission
