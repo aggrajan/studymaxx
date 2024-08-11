@@ -97,7 +97,7 @@ export function ItemCard({ book } : { book: Book}) {
         <DialogTrigger asChild>
         <div className="relative transition-all hover:scale-[103%]">
           <img src={book.image} alt="Book Image" className="w-full hover:shadow-2xl cursor-pointer rounded-t-none border-black border-2" />
-          {book.latest ? <img src="/latest.svg" alt="Latest Icon" className="w-8 h-8 sm:w-12 sm:h-12 absolute -top-3 -right-3" /> : null}
+          {book.latest ? <img src="/latest.svg" alt="Latest Icon" className="w-10 h-10 sm:w-12 sm:h-12 absolute -top-3 -right-3" /> : null}
         </div>
         </DialogTrigger>
         <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
