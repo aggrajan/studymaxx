@@ -280,7 +280,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you sure you want to delete your review</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action can't be undone.
+                        This action can&apos;t be undone.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
