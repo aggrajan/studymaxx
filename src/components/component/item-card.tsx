@@ -144,7 +144,7 @@ export function ItemCard({ book } : { book: Book}) {
                 <div className="text-md md:text-md font-semibold text-muted-foreground line-through">
                   &#8377;{book.price.toFixed(0)}
                 </div>
-                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0 bg-orange-500 hover:bg-orange-400">{(book.discount).toFixed(0)}% OFF</Badge>
+                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0 bg-blue-700 hover:bg-blue-600">{(book.discount).toFixed(0)}% OFF</Badge>
               </div>
               : null
             }
