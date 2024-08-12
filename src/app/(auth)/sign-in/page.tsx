@@ -141,14 +141,14 @@ function SignIn() {
                     </form>
                 </Form>
                 <div className="text-center mt-4">
-                    <p>
+                    <div>
                         Not a member?{' '}
                         <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">Sign up</Link>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         Forgot password?{' '}
                         <Link href="/reset-password" className="text-blue-600 hover:text-blue-800">Reset Password</Link>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

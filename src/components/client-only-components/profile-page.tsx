@@ -35,19 +35,19 @@ export default function UserProfilePage() {
           <div className="grid gap-8">
             <div className="grid gap-2">
               <h2 className="text-lg font-semibold">Profile</h2>
-              <div className="grid sm:grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-5">
                 <div className="grid gap-1">
-                  <label className="text-sm font-semibold text-muted-foreground">Email</label>
+                  <label className="font-semibold text-muted-foreground underline-offset-4 underline">Email</label>
                   <p className="text-sm">{user?.email}</p>
                 </div>
                 <div className="grid gap-1">
-                  <label className="text-sm font-semibold text-muted-foreground">Verification Status</label>
+                  <label className="font-semibold text-muted-foreground underline-offset-4 underline">Verification Status</label>
                   {user?.isVerified ? 
                   <div className="flex gap-2"><Badge className="w-[75px] text-sm bg-green-500 hover:bg-green-600">Verified</Badge>{user.isAdmin && <Badge className="w-[65px] text-sm bg-gray-700 hover:bg-gray-600" >Admin</Badge>}</div> : 
                   <p className="text-red-500">User is not verified. Please verify your account.</p>}
                 </div>
                 <div className="grid gap-1">
-                  <label className="text-sm font-semibold text-muted-foreground">Contact</label>
+                  <label className="font-semibold text-muted-foreground underline-offset-4 underline">Contact</label>
                   <p className="text-sm">{user?.contact ? user.contact : "-"}</p>
                 </div>
               </div>
@@ -59,24 +59,24 @@ export default function UserProfilePage() {
                     <Card key={`address_${index}`}>
                     <CardContent className="p-4 grid gap-2">
                         <div className="grid gap-1">
-                        <div className="font-semibold text-gray-500">Address</div>
+                        <div className="font-semibold text-gray-500 underline-offset-4 underline">Address</div>
                             <p className="text-sm">{address.address}</p>
                         </div>
                         {address.landmark && <div className="grid gap-1">
-                            <div className="font-semibold text-gray-500">Landmark</div>
+                            <div className="font-semibold text-gray-500 underline-offset-4 underline">Landmark</div>
                             <p className="text-sm">{address.landmark}</p>
                         </div>}
                         <div className="grid grid-cols-2 gap-y-4">
                             <div>
-                              <div className="font-semibold text-gray-500">City</div>
+                              <div className="font-semibold text-gray-500 underline-offset-4 underline">City</div>
                               <p className="text-sm">{address.city}</p>
                             </div>
                             <div>
-                              <div className="font-semibold text-gray-500">State</div>
+                              <div className="font-semibold text-gray-500 underline-offset-4 underline">State</div>
                               <p className="text-sm">{address.state}</p>
                             </div>
                             <div>
-                              <div className="font-semibold text-gray-500">Pincode</div>
+                              <div className="font-semibold text-gray-500 underline-offset-4 underline">Pincode</div>
                               <p className="text-sm">{address.pincode}</p>
                             </div>
                         </div>

@@ -85,7 +85,7 @@ export function Testimonials() {
               <div className="flex flex-col items-start">
                 <div className="font-semibold">{testimonial.author}</div>
                 <div className="text-sm text-muted-foreground">{testimonial.designation}</div>
-              </div>
+              </div> 
             </div>
             </CardContent>
           </Card>

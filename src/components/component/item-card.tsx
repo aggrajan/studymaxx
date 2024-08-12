@@ -126,16 +126,16 @@ export function ItemCard({ book } : { book: Book}) {
         
         <div className="truncate-text text-xs md:text-sm text-muted-foreground min-h-12">{getAuthorNames(book.authors)}</div>
         
-        <div className="hidden md:flex justify-start items-center gap-2 sm:gap-3 min-h-16 sm:min-h-16">
+        {/* <div className="hidden lg:flex justify-start items-center gap-2 sm:gap-3 min-h-16 sm:min-h-16">
           {(book && book.discount && (book.discount > 0)) ? <div className="text-xl font-semibold text-primary">&#8377;{getDiscountedPrice(book.price, book.discount).toFixed(0)}</div> : null}
           <div className={`${(book && book.discount && (book.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{book.price.toFixed(0)}</div>
           {(book && book.discount && (book.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-[80%] lg:scale-100 -ml-2 sm:ml-0">
             {(book.discount).toFixed(0)}% OFF
           </Badge> : null}
-        </div>
+        </div> */}
 
-        <div className="md:hidden flex flex-col justify-start items-start gap-2 sm:gap-3 min-h-16 sm:min-h-16">
-            <div className="text-2xl font-semibold text-primary">
+        <div className="flex flex-col justify-start items-start gap-2 sm:gap-3 min-h-16 sm:min-h-16">
+            <div className="text-xl sm:text-2xl font-semibold text-primary">
               &#8377;{(book && book.discount && (book.discount > 0)) ? getDiscountedPrice(book.price, book.discount).toFixed(0) : book.price.toFixed(0) }
             </div>
             {
@@ -144,7 +144,7 @@ export function ItemCard({ book } : { book: Book}) {
                 <div className="text-md md:text-md font-semibold text-muted-foreground line-through">
                   &#8377;{book.price.toFixed(0)}
                 </div>
-                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0">{(book.discount).toFixed(0)}% OFF</Badge>
+                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0 bg-orange-500 hover:bg-orange-400">{(book.discount).toFixed(0)}% OFF</Badge>
               </div>
               : null
             }

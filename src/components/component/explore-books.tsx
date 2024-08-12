@@ -53,7 +53,7 @@ export function ExploreBooks() {
     const getAllBooks = async () => {
         if (Array.isArray(allBooks)) {
             setAllBooks(allBooks);
-            setBooksConfig(true);
+            if(allBooks.length > 0) setBooksConfig(true);
         } else {
             console.error("Data fetched is not an array:", allBooks);
         }
@@ -106,8 +106,8 @@ export function ExploreBooks() {
                 placeholder="Type title, author, keywords..."
                 value={searchAndFilterState.searchTerm}
                 onChange={(e) => {
-                  dispatch(updateSearchTerm(e.target.value))
-                }
+                    dispatch(updateSearchTerm(e.target.value))
+                  }
                 }
               />
               <div className="flex flex-row gap-2">
