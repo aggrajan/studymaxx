@@ -104,7 +104,7 @@ export function LatestArrivals() {
                                 className={`select-none`}
                             >
                                 <Card
-                                    className={`relative rounded-md transition-all duration-500 ease-in-out mx-auto w-2/4`}
+                                    className={`relative rounded-md transition-all duration-500 ease-in-out mx-auto w-3/4 sm:w-2/4`}
                                 >
                                     <img
                                         src={book.image}

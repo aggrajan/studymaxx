@@ -52,7 +52,7 @@ export function FeedbackForm() {
     setIsSubmitting(false);
   }
   return (
-    <section className="m-auto w-5/6 pt-12 md:pt-24 lg:pt-32">
+    <section className="m-auto w-full sm:w-5/6 pt-12 md:pt-24 lg:pt-32">
       <div className="px-4 md:px-6">
         <div className="space-y-6">
           <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
