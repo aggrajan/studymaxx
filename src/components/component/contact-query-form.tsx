@@ -67,8 +67,8 @@ export function ContactQueryForm() {
   }
   
   return (
-    <section className="m-auto w-full sm:w-5/6 pt-12 md:pt-24 lg:pt-32" id="contact-us">
-      <div className="space-y-6 px-4 md:px-6">
+    <section className="container max-w-[100rem] w-5/6 pt-12 md:pt-24 lg:pt-32" id="contact-us">
+      <div className="space-y-6">
         <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Contact Us and Ask your query</h2>
           <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
@@ -77,7 +77,7 @@ export function ContactQueryForm() {
         </div>
         <div className="">
           <div className="flex items-center gap-4">
-            <div className="rounded-md bg-primary p-3 text-primary-foreground">
+            <div className="rounded-sm bg-primary p-3 text-primary-foreground">
               <MailIcon className="h-6 w-6" />
             </div>
             <h3 className="text-xl font-semibold">Contact Us / Book Inquiries</h3>

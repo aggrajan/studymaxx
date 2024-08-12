@@ -54,7 +54,7 @@ export function Testimonials() {
     })
   }, [api])
   return (
-    <section className="w-full pt-12 md:pt-24 lg:pt-32 h-full">
+    <section className="container max-w-[100rem] pt-12 md:pt-24 lg:pt-32 h-full">
     <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
       <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Testimonials</h2>
@@ -75,7 +75,7 @@ export function Testimonials() {
       <CarouselContent>
       {testimonials.map((testimonial, index) => (
           <CarouselItem key={index} className="basis-1/3 select-none">
-          <Card className={`cursor-pointer rounded-md transition-all duration-500 ease-in-out ${(index === ((current + 1)%testimonials.length)) ? 'bg-gray-200 scale-110 m-4' : 'scale-[0.8] opacity-75 mt-4 ml-4 mr-4 mb-4'}`}>
+          <Card className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out ${(index === ((current + 1)%testimonials.length)) ? 'bg-gray-200 scale-110 m-4' : 'scale-[0.8] opacity-75 mt-4 ml-4 mr-4 mb-4'}`}>
             <CardContent className="flex flex-col items-start justify-center p-6">
             <blockquote className="text-lg font-semibold leading-snug min-h-32">
               &ldquo;{testimonial.text}&rdquo;
@@ -107,7 +107,7 @@ export function Testimonials() {
       <CarouselContent>
       {testimonials.map((testimonial, index) => (
           <CarouselItem key={index}>
-          <Card className="mx-2 rounded-md">
+          <Card className="mx-2 rounded-sm">
             <CardContent className="flex flex-col items-start justify-center p-6">
             <blockquote className="text-lg font-semibold leading-snug">
               &ldquo;{testimonial.text}&rdquo;

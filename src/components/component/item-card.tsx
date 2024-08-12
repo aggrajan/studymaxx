@@ -92,7 +92,7 @@ export function ItemCard({ book } : { book: Book}) {
   }
 
   return (
-    <Card className="w-full rounded-md rounded-t-none">
+    <Card className="w-full rounded-sm rounded-t-none">
       <Dialog>
         <DialogTrigger asChild>
         <div className="relative transition-all hover:scale-[103%]">
@@ -194,7 +194,7 @@ export function ItemCard({ book } : { book: Book}) {
             </Tooltip>
           </TooltipProvider>
           }
-          {!userPresent && <Button className="mt-2" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+          {!userPresent && <Button className="mt-2 rounded-sm" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
               <h3 className="flex items-center text-xs sm:text-sm font-semibold"><ShoppingCartIcon className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> Add to Cart</h3>
             </Button>}
           {(user && user.isAdmin) ? 

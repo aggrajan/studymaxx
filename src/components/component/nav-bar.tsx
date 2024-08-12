@@ -156,7 +156,7 @@ export function NavBar() {
                 value={searchTerm}
                 onChange={(e) => { dispatch(updateSearchTerm(e.target.value)); }}
                 onBlur={(e) => { e.preventDefault(); setIsSearching((prev) => !prev); }}
-                className="bg-[#f3f3f3] border border-gray-300 rounded-md py-2 pl-10 pr-4 w-full"
+                className="bg-[#f3f3f3] border border-gray-300 rounded-sm py-2 pl-10 pr-4 w-full"
               />
             </form>}
 

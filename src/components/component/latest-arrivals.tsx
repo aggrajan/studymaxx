@@ -6,8 +6,10 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, Car
 import { useAppSelector } from "@/lib/hooks";
 import { Book } from "@/model/Books";
 import { Author } from "@/model/Authors";
+import { useRouter } from "next/navigation";
 
 export function LatestArrivals() {
+    const route = useRouter();
     const allBooks = useAppSelector((state) => state.bookStore.books);
     const [isMounted, setIsMounted] = useState(false);
     const [api, setApi] = useState<CarouselApi | null>(null);
@@ -50,7 +52,7 @@ export function LatestArrivals() {
                     setApi={setApi}
                     opts={{ align: "start", loop: true }}
                     plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
-                    className="max-w-7xl min-h-72 hidden lg:block"
+                    className="max-w-7xl hidden lg:block"
                 >
                     <CarouselContent>
                         {latestBooks.map((book: Book, index: number) => (
@@ -59,16 +61,17 @@ export function LatestArrivals() {
                                 className={`lg:basis-1/3 select-none`}
                             >
                                 <Card
-                                    className={`cursor-pointer rounded-md transition-all duration-500 ease-in-out ${
+                                    className={`cursor-pointer shadow-2xl rounded-sm transition-all duration-500 ease-in-out ${
                                         index === (current + 1) % latestBooks.length
                                             ? 'scale-[0.9] m-0'
-                                            : 'scale-[0.7] opacity-80 mt-4 mb-4'
+                                            : 'scale-[0.7] opacity-80 mt-4'
                                     }`}
+                                    onClick={() => route.push(`/products/${book._id}`)}
                                 >
                                     <img
                                         src={book.image}
                                         alt="Book Image"
-                                        className="w-full hover:shadow-2xl cursor-pointer rounded-t-none border-black border-2"
+                                        className="w-full cursor-pointer rounded-t-none"
                                     />
                                     <CardContent className="flex flex-col p-2 sm:p-3">
                                         <div className="text-md lg:text-lg font-semibold mb-5">
@@ -101,10 +104,11 @@ export function LatestArrivals() {
                         {latestBooks.map((book: Book) => (
                             <CarouselItem
                                 key={`latestBook_${book._id}`}
-                                className={`select-none`}
+                                className={`select-none cursor-pointer`}
                             >
                                 <Card
-                                    className={`relative rounded-md transition-all duration-500 ease-in-out mx-auto w-3/4 sm:w-2/4`}
+                                    className={`relative rounded-sm transition-all duration-500 ease-in-out mx-auto w-3/4 sm:w-2/4`}
+                                    onClick={() => route.push(`/products/${book._id}`)}
                                 >
                                     <img
                                         src={book.image}

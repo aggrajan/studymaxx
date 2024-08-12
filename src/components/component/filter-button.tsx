@@ -35,7 +35,7 @@ export function FilterButton({optionArray, name} : { optionArray: string[], name
           <Button
             variant="outline"
             role="combobox"
-            className="p-5 overflow-x-auto overflow-y-hidden flex justify-between hover:bg-slate-100" 
+            className="p-5 overflow-x-auto overflow-y-hidden flex justify-between hover:bg-slate-100 rounded-sm" 
             aria-expanded={open}
           >
             {(filters[name as keyof IFilter]).length > 0

@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 
 export function OnlineSupport() {
   return (
-    <section className="w-full pt-12 md:pt-24 lg:pt-32">
+    <section className="container max-w-[100rem] pt-12">
       <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
         <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Online Support</h2>
@@ -11,10 +11,10 @@ export function OnlineSupport() {
           </p>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
+          <div className="rounded-sm border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-4">
-                <div className="rounded-md bg-primary p-3 text-primary-foreground">
+                <div className="rounded-sm bg-primary p-3 text-primary-foreground">
                   <SchoolIcon className="h-6 w-6" />
                 </div>
                 <h3 className="text-xl font-semibold">Student Support</h3>
@@ -25,10 +25,10 @@ export function OnlineSupport() {
             </div>
             <Button className="mt-4 w-auto mx-auto">Get Support</Button>
           </div>
-          <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
+          <div className="rounded-sm border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-4">
-                <div className="rounded-md bg-secondary p-3 text-secondary-foreground">
+                <div className="rounded-sm bg-secondary p-3 text-secondary-foreground">
                   <SchoolIcon className="h-6 w-6" />
                 </div>
                 <h3 className="text-xl font-semibold">Teacher Support</h3>
@@ -39,10 +39,10 @@ export function OnlineSupport() {
             </div>
             <Button className="mt-4 w-auto mx-auto">Get Support</Button>
           </div>
-          <div className="rounded-md border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
+          <div className="rounded-sm border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-4">
-                <div className="rounded-md bg-muted p-3 text-muted-foreground">
+                <div className="rounded-sm bg-muted p-3 text-muted-foreground">
                   <BabyIcon className="h-6 w-6" />
                 </div>
                 <h3 className="text-xl font-semibold">Parent Support</h3>

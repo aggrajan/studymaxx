@@ -4,7 +4,7 @@ export function AboutUsMain() {
   return (
     <div className="flex flex-col">
       <section className="bg-primary py-20 md:py-32">
-        <div className="mx-auto px-4 md:px-6">
+        <div className="mx-auto px-4 md:px-6 container max-w-[100rem]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div className="space-y-4">
               <h1 className="text-4xl md:text-6xl font-bold text-primary-foreground">
@@ -15,7 +15,7 @@ export function AboutUsMain() {
               </p>
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-md bg-secondary px-6 py-3 text-sm font-medium text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
+                className="inline-flex items-center justify-center rounded-sm bg-secondary px-6 py-3 text-sm font-medium text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
                 prefetch={false}
               >
                 Shop Now
@@ -28,7 +28,7 @@ export function AboutUsMain() {
         </div>
       </section>
       <section className="py-20 md:py-32">
-        <div className="mx-auto px-4 md:px-6">
+        <div className="mx-auto px-4 md:px-6 container max-w-[100rem]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div>
               <img src="/placeholder.svg" alt="About Us" className="rounded-lg mx-auto" />
