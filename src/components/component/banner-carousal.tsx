@@ -14,7 +14,7 @@ export function BannerCarousal() {
           <CarouselContent className="h-full">
             <CarouselItem className="flex items-center justify-center h-full">
               <div className="p-1 w-full h-full">
-                <Card className="rounded-none h-full aspect-[30/9]">
+                {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
@@ -25,12 +25,13 @@ export function BannerCarousal() {
                     />
                     <h3 className="text-lg font-semibold">New Release: The Midnight Library</h3>
                   </CardContent>
-                </Card>
+                </Card> */}
+                <img src="/banner1.png" className="w-full h-full object-cover" />
               </div>
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className="rounded-none h-full aspect-[30/9]">
+                {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
@@ -41,12 +42,13 @@ export function BannerCarousal() {
                     />
                     <h3 className="text-lg font-semibold">Summer Sale: 50% Off</h3>
                   </CardContent>
-                </Card>
+                </Card> */}
+                <img src="/banner1.png" className="object-cover w-full h-full" />
               </div>
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className="rounded-none h-full aspect-[30/9]">
+                {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
@@ -57,12 +59,13 @@ export function BannerCarousal() {
                     />
                     <h3 className="text-lg font-semibold">Book of the Month: The Vanishing Half</h3>
                   </CardContent>
-                </Card>
+                </Card> */}
+                <img src="/banner1.png" className="object-cover w-full h-full" />
               </div>
             </CarouselItem>
             <CarouselItem>
               <div className="p-1">
-                <Card className="rounded-none h-full aspect-[30/9]">
+                {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
                       src="/placeholder.svg"
@@ -73,7 +76,8 @@ export function BannerCarousal() {
                     />
                     <h3 className="text-lg font-semibold">Holiday Sale: 25% Off</h3>
                   </CardContent>
-                </Card>
+                </Card> */}
+                <img src="/banner1.png" className="object-cover w-full h-full" />
               </div>
             </CarouselItem>
           </CarouselContent>
