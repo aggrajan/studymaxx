@@ -94,7 +94,7 @@ export function CartPage() {
                 <span>&#8377;{(total).toFixed(2)}</span>
               </div>
             </div>
-            <Button className={`w-full mt-6 ${cartCount > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={cartCount === 0}>Proceed to Checkout</Button>
+            <Button className={`w-full mt-6 ${cartCount > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} onClick={() => router.push("/payment")} disabled={cartCount === 0}>Proceed to Checkout</Button>
           </div>
         </div>
       </main>

@@ -6,6 +6,10 @@ export interface Address {
     city: string;
     state: string;
     landmark?: string;
+    contact: number;
+    name: string;
+    default: boolean;
+    company?: string;
 }
 
 const AddressSchema: Schema<Address> = new Schema({
@@ -28,6 +32,23 @@ const AddressSchema: Schema<Address> = new Schema({
         required: [true, "state is required"]
     },
     landmark: {
+        type: String,
+        required: false
+    },
+    contact: {
+        type: Number,
+        required: [true, "contact is required"]
+    },
+    default: {
+        type: Boolean,
+        required: [true, "default is required"],
+        default: false
+    },
+    name: {
+        type: String,
+        required: [true, "name is required"] 
+    }, 
+    company: {
         type: String,
         required: false
     }

@@ -57,31 +57,44 @@ export default function UserProfilePage() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   {(user?.addresses && user?.addresses.length > 0) ? user?.addresses.map((address: Address, index: number) => (
                     <Card key={`address_${index}`}>
-                    <CardContent className="p-4 grid gap-2">
-                        <div className="grid gap-1">
-                        <div className="font-semibold text-gray-500 underline-offset-4 underline">Address</div>
+                      <CardContent className="relative p-4 grid gap-2">
+                          {address.default && <Badge className="h-7 absolute top-3 right-3">Default</Badge>}
+                          <div className="grid gap-1">
+                            <div className="font-semibold text-gray-500">Address</div>
                             <p className="text-sm">{address.address}</p>
-                        </div>
-                        {address.landmark && <div className="grid gap-1">
-                            <div className="font-semibold text-gray-500 underline-offset-4 underline">Landmark</div>
-                            <p className="text-sm">{address.landmark}</p>
-                        </div>}
-                        <div className="grid grid-cols-2 gap-y-4">
+                          </div>
+                          {address.landmark && <div className="grid gap-1">
+                              <div className="font-semibold text-gray-500">Landmark</div>
+                              <p className="text-sm">{address.landmark}</p>
+                          </div>}
+                          {address.company && <div className="grid gap-1">
+                              <div className="font-semibold text-gray-500">Company</div>
+                              <p className="text-sm">{address.company}</p>
+                          </div>}
+                          <div>
+                            <div className="font-semibold text-gray-500">Name</div>
+                            <p className="text-sm">{address.name}</p>
+                          </div>
+                          <div className="grid grid-cols-2 gap-y-4">
                             <div>
-                              <div className="font-semibold text-gray-500 underline-offset-4 underline">City</div>
+                              <div className="font-semibold text-gray-500">City</div>
                               <p className="text-sm">{address.city}</p>
                             </div>
                             <div>
-                              <div className="font-semibold text-gray-500 underline-offset-4 underline">State</div>
+                              <div className="font-semibold text-gray-500">State</div>
                               <p className="text-sm">{address.state}</p>
                             </div>
                             <div>
-                              <div className="font-semibold text-gray-500 underline-offset-4 underline">Pincode</div>
+                              <div className="font-semibold text-gray-500">Pincode</div>
                               <p className="text-sm">{address.pincode}</p>
                             </div>
-                        </div>
-                    </CardContent>
-                  </Card>)) : <div className="text-red-500">No addresses available</div>
+                            <div>
+                              <div className="font-semibold text-gray-500">Contact</div>
+                              <p className="text-sm">{address.contact}</p>
+                            </div>
+                          </div>
+                      </CardContent>
+                    </Card>)) : <div className="text-red-500">No addresses available</div>
                   }
                 </div>
             </div>

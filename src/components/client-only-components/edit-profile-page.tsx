@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { Loader2 } from "lucide-react";
 import { setAuthState } from "@/lib/slices/authSlice";
+import { Checkbox } from "../ui/checkbox";
 
 export default function EditProfilePage() {
     const dispatch = useAppDispatch();
@@ -45,8 +46,7 @@ export default function EditProfilePage() {
             username: user?.username,
             email: user?.email,
             addresses: user?.addresses,
-            picture: user?.picture,
-            contact: user?.contact
+            picture: user?.picture
         }
     });
 
@@ -71,8 +71,7 @@ export default function EditProfilePage() {
                     picture: data.picture,
                     isVerified: user?.isVerified ? user.isVerified : false,
                     isAdmin: user?.isAdmin ? user.isAdmin : false,
-                    wishlist: user?.wishlist ? user.wishlist : [],
-                    contact: data.contact
+                    wishlist: user?.wishlist ? user.wishlist : []
                 }));
 
                 await axios.post(`/api/refresh-reviews/${user?._id}`);
@@ -168,6 +167,82 @@ export default function EditProfilePage() {
                                                 <div key={`address_${index}`} className="flex flex-row w-full space-x-2">
                                                     <FormItem className="flex-1">
                                                         <div>
+                                                            <FormLabel>Default</FormLabel>
+                                                            <FormControl>
+                                                                <div>
+                                                                <Checkbox id={`default_${index}`}
+                                                                    checked={address.default}
+                                                                    onClick={() => {
+                                                                        const newAddresses = field.value.map(
+                                                                            (eachAddress: Address, addressIndex: number) => {
+                                                                                if(addressIndex === index) {
+                                                                                    eachAddress.default = true;
+                                                                                } else {
+                                                                                    eachAddress.default = false;
+                                                                                }
+                                                                                return eachAddress;
+                                                                            });
+                                                                        field.onChange(newAddresses);
+                                                                    }} 
+                                                                />
+                                                                <label
+                                                                    htmlFor={`default_${index}`}
+                                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-3"
+                                                                >
+                                                                    Default
+                                                                </label>
+                                                                </div>
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </div>
+
+                                                        <div>
+                                                            <FormLabel htmlFor={`name_${index}`}>Name</FormLabel>
+                                                            <FormControl>
+                                                                <Input id={`name_${index}`} placeholder="enter your name" value={address.name}
+                                                                    className="w-full"
+                                                                    onChange={(e) => {
+                                                                        const newAddresses = [...field.value];
+                                                                        newAddresses[index].name = e.target.value;
+                                                                        field.onChange(newAddresses);
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </div>
+
+                                                        <div>
+                                                            <FormLabel htmlFor={`contact_${index}`}>Contact</FormLabel>
+                                                            <FormControl>
+                                                                <Input id={`contact_${index}`} type="number" placeholder="enter your contact number" value={address.contact}
+                                                                    className="w-full"
+                                                                    onChange={(e) => {
+                                                                        const newAddresses = [...field.value];
+                                                                        newAddresses[index].contact = e.target.valueAsNumber;
+                                                                        field.onChange(newAddresses);
+                                                                    }}
+                                                                    onWheel={(e) => (e.target as HTMLElement).blur()}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </div>
+
+                                                        <div>
+                                                            <FormLabel htmlFor={`company_${index}`}>Company</FormLabel>
+                                                            <FormControl>
+                                                                <Input id={`company_${index}`} placeholder="enter your company name" value={address.company}
+                                                                    className="w-full"
+                                                                    onChange={(e) => {
+                                                                        const newAddresses = [...field.value];
+                                                                        newAddresses[index].company = e.target.value;
+                                                                        field.onChange(newAddresses);
+                                                                    }}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </div>
+
+                                                        <div>
                                                             <FormLabel htmlFor={`address_${index}`}>Address</FormLabel>
                                                             <FormControl>
                                                                 <Input id={`address_${index}`} placeholder="enter your location" value={address.address}
@@ -262,29 +337,8 @@ export default function EditProfilePage() {
                                         {field.value.length > 0 ? "Add Another Address" : "Add Address"}
                                     </Button>
                                 </>
-
                                 
                             )}
-
-                            
-                            />
-
-                            <FormField 
-                                name="contact"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Contact Number</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="enter your contact number.." 
-                                                type="number" value={field.value} 
-                                                onChange={(e) => field.onChange(e.target.valueAsNumber)} 
-                                                onWheel={(e) => (e.target as HTMLElement).blur()}  
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}      
                             />
 
                             <div className="flex justify-end gap-2">

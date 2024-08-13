@@ -1,44 +1,37 @@
-import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
-    try{
-        await dbConnect();
-        const reqBody = await request.json();
-        const { token, username } = reqBody;
+const generatedSignature = (
+ razorpayOrderId: string,
+ razorpayPaymentId: string
+) => {
+ const keySecret = process.env.key_secret;
+ if (!keySecret) {
+  throw new Error(
+   'Razorpay key secret is not defined in environment variables.'
+  );
+ }
+ const sig = crypto
+  .createHmac('sha256', keySecret)
+  .update(razorpayOrderId + '|' + razorpayPaymentId)
+  .digest('hex');
+ return sig;
+};
 
-        const currentUser = await UserModel.findOne({username: username ,verifyCode: token, verifyCodeExpiry: {$gt: Date.now()}});
-        if(!currentUser) {
-            return NextResponse.json({
-                success: false,
-                message: "Invalid token",
-                response: {
-                    statusCode: 500
-                }
-            })
-        }
 
-        currentUser.isVerified = true;
-        currentUser.verifyCode = undefined;
-        currentUser.verifyCodeExpiry = undefined;
-        await currentUser.save();
+export async function POST(request: NextRequest) {
+ const { orderCreationId, razorpayPaymentId, razorpaySignature } =
+  await request.json();
 
-        return NextResponse.json({
-            success: true,
-            message: 'Email verified successfully',
-            response: {
-                statusCode: 200
-            }
-        })
-    } catch(error: any) {
-        return NextResponse.json({
-            success: false,
-            message: error.message,
-            response: {
-                statusCode: 500
-            }
-        })
-    }
-
+ const signature = generatedSignature(orderCreationId, razorpayPaymentId);
+ if (signature !== razorpaySignature) {
+  return NextResponse.json(
+   { message: 'payment verification failed', isOk: false },
+   { status: 400 }
+  );
+ }
+ return NextResponse.json(
+  { message: 'payment verified successfully', isOk: true },
+  { status: 200 }
+ );
 }

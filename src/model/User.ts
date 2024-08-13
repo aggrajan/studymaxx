@@ -33,7 +33,6 @@ export interface User extends Document {
     addresses?: Address[];
     wishlist: Book[];
     cart: CartItem[];
-    contact?: number;
 };
 
 export const UserSchema: Schema<User> = new Schema({
@@ -88,11 +87,7 @@ export const UserSchema: Schema<User> = new Schema({
     },
     addresses: [AddressSchema],
     wishlist: [BookSchema],
-    cart: [CartItemSchema],
-    contact: {
-        type: Number,
-        required: false
-    }
+    cart: [CartItemSchema]
 })
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);

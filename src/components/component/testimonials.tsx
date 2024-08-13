@@ -1,6 +1,4 @@
 "use client"
-
-import Link from "next/link";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { Card, CardContent } from "../ui/card";
 import { useEffect, useState } from "react";
