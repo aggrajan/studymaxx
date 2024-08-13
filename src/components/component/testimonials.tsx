@@ -52,7 +52,7 @@ export function Testimonials() {
     })
   }, [api])
   return (
-    <section className="container max-w-[100rem] pt-12 md:pt-24 lg:pt-32 h-full">
+    <section className="mx-auto max-w-[100rem] pt-12 md:pt-24 lg:pt-32 h-full">
     <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
       <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Testimonials</h2>

@@ -52,8 +52,8 @@ export function FeedbackForm() {
     setIsSubmitting(false);
   }
   return (
-    <section className="m-auto container max-w-[100rem] sm:w-5/6 pt-12 md:pt-24 lg:pt-32">
-      <div className="">
+    <section className="mx-auto max-w-[100rem] pt-12 md:pt-24 lg:pt-32">
+      <div className="w-full">
         <div className="space-y-6">
           <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Give us your feedback</h2>
@@ -62,7 +62,7 @@ export function FeedbackForm() {
             </p>
           </div>
           <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4">
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <FormField 

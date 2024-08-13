@@ -147,11 +147,15 @@ export default function CheckoutPage() {
            color: '#3399cc',
           },
          };
-         const paymentObject = new window.Razorpay(options);
-         paymentObject.on('payment.failed', function (response: any) {
-          alert(response.error.description);
-         });
-         paymentObject.open();
+         if (typeof window !== "undefined" && window.Razorpay) {
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.on('payment.failed', function (response: any) {
+              alert(response.error.description);
+            });
+            paymentObject.open();
+          } else {
+            console.error("Razorpay SDK not loaded");
+          }
         } catch (error) {
          console.log(error);
         }

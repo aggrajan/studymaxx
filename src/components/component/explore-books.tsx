@@ -88,7 +88,7 @@ export function ExploreBooks() {
   }
 
   return (<>
-    {booksConfig ? <section id="content" className="container max-w-[100rem] pt-7 bg-background">
+    {booksConfig ? <section id="content" className="mx-auto max-w-[100rem] pt-7 bg-background">
       <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
         <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function DiscoverSection() {
     return (
-        <section className="container max-w-[100rem] pt-12 md:pt-24 lg:pt-32">
+        <section className="mx-auto max-w-[100rem] pt-12 md:pt-24 lg:pt-32">
           <div className="grid gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-12">
             <img
               src="/placeholder.svg"
