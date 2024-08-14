@@ -333,7 +333,7 @@ export default function EditProfilePage() {
                                             </CardContent>
                                         </Card>
                                     ))}
-                                    <Button type="button" onClick={() => field.onChange([...field.value, { address: "", state: "", city: "", pincode: 0, contact: undefined, landmark: "" }])}>
+                                    <Button type="button" onClick={() => field.onChange([...field.value, { address: "", state: "", city: "", pincode: 0, contact: undefined, landmark: "", name: "", default: false, company: "" }])}>
                                         {field.value.length > 0 ? "Add Another Address" : "Add Address"}
                                     </Button>
                                 </>
