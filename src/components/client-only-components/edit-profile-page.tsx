@@ -100,7 +100,7 @@ export default function EditProfilePage() {
     return (
         <div className="w-full max-w-3xl mx-auto py-8 px-4 md:px-6">
           <h2 className="text-lg font-semibold">Edit Profile</h2>
-            <Card className="mt-4">
+            <Card className="mt-4 rounded-sm">
                 <CardContent className="p-4 grid gap-4">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -162,7 +162,7 @@ export default function EditProfilePage() {
                             render={({ field }) => (
                                 <>{
                                     field.value.map((address: Address, index: number) => (
-                                        <Card className="mt-4" key={`address_edit_${index}}`}>
+                                        <Card className="mt-4 rounded-sm" key={`address_edit_${index}}`}>
                                             <CardContent className="p-4 grid gap-4">
                                                 <div key={`address_${index}`} className="flex flex-row w-full space-x-2">
                                                     <FormItem className="flex-1">

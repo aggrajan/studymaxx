@@ -184,7 +184,7 @@ export default function CheckoutPage() {
     return (
         <>
             <div className="flex justify-center items-center min-h-screen bg-gray-100 mt-[55px]">
-                <div className="w-full max-w-7xl p-8 space-y-8 bg-white rounded-lg shadow-md">
+                <div className="w-full max-w-7xl p-8 space-y-8 bg-white rounded-lg shadow-md mt-16 mb-16">
                     <div className="text-center">
                         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                             Welcome to StudyMaxx

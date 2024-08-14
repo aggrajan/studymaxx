@@ -67,7 +67,7 @@ export function ContactQueryForm() {
   }
   
   return (
-    <section className="m-auto max-w-[100rem] pt-12 md:pt-24 lg:pt-32" id="contact-us">
+    <section className="m-auto max-w-[100rem] md:w-4/6 pt-12 md:pt-24 lg:pt-32" id="contact-us">
       <div className="space-y-6">
         <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Contact Us and Ask your query</h2>
