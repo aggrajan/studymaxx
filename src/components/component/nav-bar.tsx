@@ -64,7 +64,7 @@ export function NavBar() {
     if(checkIfToken) {
       const user = await getProfile();
       if(user) dispatch(setAuthState(user));
-      if(user.cart) dispatch(setCart(user.cart));
+      if(user?.cart && user.cart) dispatch(setCart(user.cart));
       setUserConfig(true);
     } else {
       dispatch(removeAuthState());
@@ -177,7 +177,7 @@ export function NavBar() {
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-in')); }}>
                   <img src="/login.svg" className="w-4 h-4 mr-2" />Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout);}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout); router.refresh();}}>
                   <img src="/logout.svg" className="w-4 h-4 mr-2" />Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />

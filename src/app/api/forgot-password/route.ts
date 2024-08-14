@@ -7,8 +7,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await dbConnect();
 
-        const { email, username } = await request.json();
-        const currentUser = await UserModel.findOne({username});
+        const { email } = await request.json();
+        const currentUser = await UserModel.findOne({email});
         if(!currentUser || !currentUser.isVerified) {
             return NextResponse.json({
                 success: false,

@@ -111,7 +111,7 @@ export default function EditProfilePage() {
                                     <FormItem>
                                         <FormLabel>Name</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="enter your name.." {...field} disabled={user?.name ? true : false} />
+                                            <Input placeholder="enter your name.." {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

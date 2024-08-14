@@ -23,7 +23,6 @@ function ResetPassword() {
     const form = useForm<z.infer<typeof forgotPasswordSchema>>({
         resolver: zodResolver(forgotPasswordSchema),
         defaultValues: {
-            username: '',
             email: '',
         }
     });
@@ -64,21 +63,6 @@ function ResetPassword() {
                 </div>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <FormField 
-                            name="username"
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Username</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="username" {...field} onChange={(e) => {
-                                            field.onChange(e);
-                                        }}/>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}      
-                        />
                         <FormField 
                             name="email"
                             control={form.control}
