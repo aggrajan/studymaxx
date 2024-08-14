@@ -60,8 +60,8 @@ export function LatestArrivals() {
                                 key={`latestBook_${book._id}`}
                                 className={`lg:basis-1/3 select-none`}
                             >
-                                <Card
-                                    className={`cursor-pointer shadow-2xl rounded-sm transition-all duration-500 ease-in-out ${
+                                <div
+                                    className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out ${
                                         index === (current + 1) % latestBooks.length
                                             ? 'scale-[0.9] m-0'
                                             : 'scale-[0.7] opacity-80 mt-4'
@@ -69,11 +69,11 @@ export function LatestArrivals() {
                                     onClick={() => route.push(`/products/${book._id}`)}
                                 >
                                     <img
-                                        src={book.image}
+                                        src={`/book_mockup1.png`}
                                         alt="Book Image"
                                         className="w-full cursor-pointer rounded-t-none"
                                     />
-                                    <CardContent className="flex flex-col p-2 sm:p-3">
+                                    {/* <CardContent className="flex flex-col p-2 sm:p-3">
                                         <div className="text-md lg:text-lg font-semibold mb-5">
                                             {book.title}
                                         </div>
@@ -81,8 +81,8 @@ export function LatestArrivals() {
                                         <div className="text-xs md:text-sm text-muted-foreground">
                                             by: {getAuthorNames(book.authors)}
                                         </div>
-                                    </CardContent>
-                                </Card>
+                                    </CardContent> */}
+                                </div>
                             </CarouselItem>
                         ))}
                     </CarouselContent>
@@ -106,16 +106,16 @@ export function LatestArrivals() {
                                 key={`latestBook_${book._id}`}
                                 className={`select-none cursor-pointer`}
                             >
-                                <Card
+                                <div
                                     className={`relative rounded-sm transition-all duration-500 ease-in-out mx-auto w-3/4 sm:w-2/4`}
                                     onClick={() => route.push(`/products/${book._id}`)}
                                 >
                                     <img
-                                        src={book.image}
+                                        src={`/book_mockup1.png`}
                                         alt="Book Image"
-                                        className="w-full shadow-2xl rounded-t-none border-black border-2"
+                                        className="w-full rounded-t-none"
                                     />
-                                    <CardContent className="relative flex flex-col p-2 sm:p-3">
+                                    {/* <CardContent className="relative flex flex-col p-2 sm:p-3">
                                         <div className="text-lg lg:text-xl font-semibold mb-5">
                                             {book.title}
                                         </div>
@@ -123,8 +123,8 @@ export function LatestArrivals() {
                                         <div className="text-xs md:text-sm text-muted-foreground">
                                             by: {getAuthorNames(book.authors)}
                                         </div>
-                                    </CardContent>
-                                </Card>
+                                    </CardContent> */}
+                                </div>
                             </CarouselItem>
                         ))}
                     </CarouselContent>
