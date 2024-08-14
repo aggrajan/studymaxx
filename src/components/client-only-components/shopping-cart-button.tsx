@@ -48,8 +48,8 @@ export function ShoppingCartButton() {
         <HoverCardContent className="mr-5 min-w-[25rem] max-h-60 overflow-y-auto">
           <div className="flex flex-col gap-y-4 w-full">
             {(cartCount > 0) ? cartItems.map((item, index) => (
-              <div key={`hover_cart_element_${index}`} className="flex flex-row justify-start items-center gap-x-2 w-full">
-                <img
+              <div key={`hover_cart_element_${index}`} className="relative flex flex-row justify-start items-center gap-x-2 w-full">
+                  <img
                     src={item.product.image}
                     alt={item.product.title}
                     width={80}
@@ -57,18 +57,19 @@ export function ShoppingCartButton() {
                     className="object-cover cursor-pointer"
                     onClick={() => {router.push(`/products/${item.product._id}`)}}
                   />
-                  <div onClick={() => {router.push(`/products/${item.product._id}`)}} className="cursor-pointer">
-                    <h3 className="truncate-text font-semibold text-md w-full">{(item.product.title)}</h3>
-                    <Separator className="w-full mt-2 mb-1" />
-                    <p className="truncate-text text-muted-foreground text-xs w-full">{getAuthors(item.product.authors)}</p>
-                    <div className="flex justify-start items-center gap-2">
-                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
-                      <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
-                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75">
-                        {(item.product.discount).toFixed(0)}% OFF
-                      </Badge> : null}
-                    </div>
+                <div onClick={() => {router.push(`/products/${item.product._id}`)}} className="cursor-pointer w-full">
+                  <h3 className="truncate-text font-semibold text-md w-full">{(item.product.title)}</h3>
+                  <Separator className="w-full mt-2 mb-1" />
+                  <p className="truncate-text text-muted-foreground text-xs w-full">{getAuthors(item.product.authors)}</p>
+                  <div className="flex justify-start items-center gap-2">
+                    {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
+                    <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
+                    {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75 -ml-2">
+                      {(item.product.discount).toFixed(0)}% OFF
+                    </Badge> : null}
+                    <Badge className="text-md scale-[55%] md:scale-75 lg:scale-75 -ml-4">Qty: {item.quantity}</Badge>
                   </div>
+                </div>
               </div>
             ))
 

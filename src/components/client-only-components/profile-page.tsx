@@ -27,7 +27,7 @@ export default function UserProfilePage() {
               <AvatarImage src={user?.picture} alt="@shadcn" />
               <AvatarFallback>{getFallBack()}</AvatarFallback>
             </Avatar>
-            <div className="grid gap-1">
+            <div className="grid">
               <h1 className="text-2xl font-bold">{user?.name ? user.name : user?.username}</h1>
               <p className="text-muted-foreground">{user?.username ? user.username : ""}</p>
             </div>
@@ -45,10 +45,6 @@ export default function UserProfilePage() {
                   {user?.isVerified ? 
                   <div className="flex gap-2"><Badge className="w-[75px] text-sm bg-green-500 hover:bg-green-600">Verified</Badge>{user.isAdmin && <Badge className="w-[65px] text-sm bg-gray-700 hover:bg-gray-600" >Admin</Badge>}</div> : 
                   <p className="text-red-500">User is not verified. Please verify your account.</p>}
-                </div>
-                <div className="grid gap-1">
-                  <label className="font-semibold text-muted-foreground underline-offset-4 underline">Contact</label>
-                  <p className="text-sm">{user?.contact ? user.contact : "-"}</p>
                 </div>
               </div>
             </div>
