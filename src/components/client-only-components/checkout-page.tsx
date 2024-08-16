@@ -32,10 +32,12 @@ import {
   } from "@/components/ui/dialog"
   import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
+import Link from "next/link";
 
 export default function CheckoutPage() {
     const { user, userPresent } = useAppSelector((state) => state.auth);
-    const cart = useAppSelector((state) => state.cart)
+    const cart = useAppSelector((state) => state.checkout)
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [name, setName] = useState(user?.name ? user.name : "");
     const [email, setEmail] = useState(user?.email ? user.email : "");
@@ -57,14 +59,13 @@ export default function CheckoutPage() {
     const defaultAddress = user?.addresses.filter((address: Address) => address.default === true);
     const currentAddress = (defaultAddress && defaultAddress?.length > 0) ? defaultAddress[0] : blankAddress;
     const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
-    const [address, setAddress] = useState(currentAddress);
 
     const form = useForm<z.infer<typeof checkoutSchema>>({
         resolver: zodResolver(checkoutSchema),
         defaultValues: {
             userId: (userPresent && user?._id) ? user._id : "",
             products: cart.cartItems,
-            address: address,
+            address: currentAddress,
             total: cart.total,
             subtotal: cart.subtotal,
             shipping: cart.shipping,
@@ -256,7 +257,7 @@ export default function CheckoutPage() {
                                 name="address"
                                 control={form.control}
                                 render={({ field }) => (
-                                    <Card className="mt-4">
+                                    <Card className="mt-4 rounded-sm">
                                         <CardContent className="space-y-6 mt-5">
                                             <h1 className="font-medium text-xl">Choose Your Address</h1>
                                             { userPresent && 
@@ -279,7 +280,7 @@ export default function CheckoutPage() {
                                                                 setSelectedAddressIndex(index);
                                                             }
                                                         }}>
-                                                            {user?.addresses ? user.addresses.map((address: Address, index: number) => (
+                                                            {(user?.addresses && user.addresses.length > 0) ? user.addresses.map((address: Address, index: number) => (
                                                                 <div className="flex items-center space-x-2" key={`radioitem_${index}`}>
                                                                     <RadioGroupItem value={`${index}`} id={`radio_${index}`} className="w-fit" />
                                                                     <Label htmlFor={`radio_${index}`} className="cursor-pointer">
@@ -287,7 +288,7 @@ export default function CheckoutPage() {
                                                                         <span className="font-light text-sm ml-1">{address.address}</span>
                                                                     </Label>
                                                                 </div>
-                                                            )) : null}
+                                                            )) : <div>You have no saved addresses. You can edit your <Link href="/user-profile" className="font-normal text-gray-600 cursor-pointer underline underline-offset-4" >Profile</Link> to add one or more addresses.</div>}
                                                         </RadioGroup>
                                                         <DialogFooter className="sm:justify-start">
                                                         <DialogClose asChild>
@@ -299,6 +300,7 @@ export default function CheckoutPage() {
                                                     </DialogContent>
                                                 </Dialog>
                                             }
+                                            <div className="grid grid-cols-2 gap-4">
                                             <FormItem>
                                                 <FormLabel>Recipient Name</FormLabel>
                                                 <FormControl>
@@ -327,6 +329,7 @@ export default function CheckoutPage() {
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
+                                            </div>
 
                                             <FormItem>
                                                 <FormLabel>Company Name</FormLabel>
@@ -345,7 +348,7 @@ export default function CheckoutPage() {
                                             <FormItem>
                                                 <FormLabel>Address</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="enter your address" value={field.value.address} onChange={
+                                                    <Textarea placeholder="enter your address" value={field.value.address} onChange={
                                                         (e) => {
                                                             const updatedAddress = {...field.value};
                                                             updatedAddress["address"] = e.target.value;
@@ -355,7 +358,7 @@ export default function CheckoutPage() {
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
-
+                                            <div className="grid lg:grid-cols-2 gap-4">
                                             <FormItem>
                                                 <FormLabel>City</FormLabel>
                                                 <FormControl>
@@ -383,7 +386,7 @@ export default function CheckoutPage() {
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
-
+                                            
                                             <FormItem>
                                                 <FormLabel>Pincode</FormLabel>
                                                 <FormControl>
@@ -419,6 +422,7 @@ export default function CheckoutPage() {
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
+                                            </div>
                                         </CardContent>
                                     </Card>
                                 )}
@@ -434,6 +438,7 @@ export default function CheckoutPage() {
                     </Form>
                 </div>
                 <div className="md:mt-16 min-w-[25rem]">
+                    <h2 className="font-bold tracking-tighter text-2xl mb-3">Your Products</h2>
                     <div className="flex flex-col gap-y-4 w-full mb-10">
                         {(cart.cartCount > 0) ? cart.cartItems.map((item, index) => (
                         <div key={`hover_cart_element_${index}`} className="flex flex-row justify-start items-center gap-x-4 w-full">

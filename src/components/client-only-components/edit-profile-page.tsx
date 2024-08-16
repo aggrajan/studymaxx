@@ -18,6 +18,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { Loader2 } from "lucide-react";
 import { setAuthState } from "@/lib/slices/authSlice";
 import { Checkbox } from "../ui/checkbox";
+import { Textarea } from "../ui/textarea";
 
 export default function EditProfilePage() {
     const dispatch = useAppDispatch();
@@ -122,7 +123,7 @@ export default function EditProfilePage() {
             <Card className="mt-4 rounded-sm">
                 <CardContent className="w-full p-4">
                     
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                             
                                     <div>
                                         <Label htmlFor="name">Name</Label>
@@ -212,41 +213,43 @@ export default function EditProfilePage() {
                                                         
                                                         <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.default?.message}</div>
                                                     </div>
+                                                    
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="mb-2">
+                                                            <Label htmlFor={`name_${index}`}>Name</Label>
+                                                            
+                                                                <Input id={`name_${index}`} placeholder="enter your name" 
+                                                                    className="w-full"
+                                                                    value={field.name}
+                                                                    onChange={async (e) => {
+                                                                        const newAddresses = [...fields];
+                                                                        newAddresses[index].name = e.target.value;
+                                                                        setValue(`addresses`, newAddresses);
+                                                                        await trigger();
+                                                                    }}
+                                                                    
+                                                                />
+                                                            
+                                                            <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.name?.message}</div>
+                                                        </div>
 
-                                                    <div className="mb-2">
-                                                        <Label htmlFor={`name_${index}`}>Name</Label>
-                                                        
-                                                            <Input id={`name_${index}`} placeholder="enter your name" 
-                                                                className="w-full"
-                                                                value={field.name}
-                                                                onChange={async (e) => {
-                                                                    const newAddresses = [...fields];
-                                                                    newAddresses[index].name = e.target.value;
-                                                                    setValue(`addresses`, newAddresses);
-                                                                    await trigger();
-                                                                }}
-                                                                
-                                                            />
-                                                        
-                                                        <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.name?.message}</div>
-                                                    </div>
-
-                                                    <div className="mb-2">
-                                                        <Label htmlFor={`contact_${index}`}>Contact</Label>
-                                                        
-                                                            <Input id={`contact_${index}`} type="number" placeholder="enter your contact number" 
-                                                                className="w-full"
-                                                                value={field.contact}
-                                                                onChange={async (e) => {
-                                                                    const newAddresses = [...fields];
-                                                                    newAddresses[index].contact = e.target.valueAsNumber;
-                                                                    setValue("addresses", newAddresses);
-                                                                    await trigger(`addresses.${index}.contact`);
-                                                                }}
-                                                                onWheel={(e) => (e.target as HTMLElement).blur()}
-                                                            />
-                                                        
-                                                        <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.contact?.message}</div>
+                                                        <div className="mb-2">
+                                                            <Label htmlFor={`contact_${index}`}>Contact</Label>
+                                                            
+                                                                <Input id={`contact_${index}`} type="number" placeholder="enter your contact number" 
+                                                                    className="w-full"
+                                                                    value={field.contact}
+                                                                    onChange={async (e) => {
+                                                                        const newAddresses = [...fields];
+                                                                        newAddresses[index].contact = e.target.valueAsNumber;
+                                                                        setValue("addresses", newAddresses);
+                                                                        await trigger(`addresses.${index}.contact`);
+                                                                    }}
+                                                                    onWheel={(e) => (e.target as HTMLElement).blur()}
+                                                                />
+                                                            
+                                                            <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.contact?.message}</div>
+                                                        </div>
                                                     </div>
 
                                                     <div className="mb-2">
@@ -268,7 +271,7 @@ export default function EditProfilePage() {
                                                     <div className="mb-2">
                                                         <Label htmlFor={`address_${index}`}>Address</Label>
                                                         
-                                                            <Input id={`address_${index}`} placeholder="enter your location"
+                                                            <Textarea id={`address_${index}`} placeholder="enter your location"
                                                                 className="w-full"
                                                                 value={field.address} onChange={async (e) => {
                                                                     const newAddresses = [...fields];
@@ -280,76 +283,79 @@ export default function EditProfilePage() {
                                                         
                                                         <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.address?.message}</div>
                                                     </div>
+                                                
+                                                    <div className="grid sm:grid-cols-2 gap-4">
+                                                        <div className="mb-2">
+                                                            <Label htmlFor={`city_${index}`}>City</Label>
+                                                            
+                                                                <Input id={`city_${index}`} placeholder="city"
+                                                                    className="w-full"
+                                                                    value={field.city} onChange={async (e) => {
+                                                                        const newAddresses = [...fields];
+                                                                        newAddresses[index].city = e.target.value;
+                                                                        setValue(`addresses`, newAddresses);
+                                                                        await trigger();
+                                                                    }}
+                                                                />
+                                                            
+                                                            <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.city?.message}</div>
+                                                        </div>
 
-                                                    <div className="mb-2">
-                                                        <Label htmlFor={`city_${index}`}>City</Label>
-                                                        
-                                                            <Input id={`city_${index}`} placeholder="city"
-                                                                className="w-full"
-                                                                value={field.city} onChange={async (e) => {
-                                                                    const newAddresses = [...fields];
-                                                                    newAddresses[index].city = e.target.value;
-                                                                    setValue(`addresses`, newAddresses);
-                                                                    await trigger();
-                                                                }}
-                                                            />
-                                                        
-                                                        <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.city?.message}</div>
-                                                    </div>
-
-                                                    <div className="mb-2">
-                                                        <Label htmlFor={`state_${index}`}>State</Label>
-                                                        
-                                                            <Input id={`state_${index}`} placeholder="state"
-                                                                className="w-full"
-                                                                value={field.state} onChange={async (e) => {
-                                                                    const newAddresses = [...fields];
-                                                                    newAddresses[index].state = e.target.value;
-                                                                    setValue(`addresses`, newAddresses);
-                                                                    await trigger();
-                                                                }}
-                                                            />
-                                                        
-                                                        <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.state?.message}</div>
-                                                    </div>
-
-                                                    <div className="mb-2">
-                                                        <Label htmlFor={`pincode_${index}`}>Pincode</Label>
-                                                        
-                                                            <InputOTP id={`pincode_${index}`} maxLength={6} value={field.pincode ? field.pincode.toString(): ""} 
-                                                            onChange={async (value) => {
-                                                                const newAddresses = [...fields];
-                                                                newAddresses[index].pincode = parseInt(value);
-                                                                setValue("addresses", newAddresses);
-                                                                await trigger(`addresses.${index}.pincode`);
-                                                            }}>
-                                                                <InputOTPGroup>
-                                                                    <InputOTPSlot index={0} />
-                                                                    <InputOTPSlot index={1} />
-                                                                    <InputOTPSlot index={2} />
-                                                                    <InputOTPSlot index={3} />
-                                                                    <InputOTPSlot index={4} />
-                                                                    <InputOTPSlot index={5} />
-                                                                </InputOTPGroup>
-                                                            </InputOTP>
-                                                        
-                                                        <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.pincode?.message}</div>
-                                                    </div>
-
-                                                    <div className="mb-2">
-                                                        <Label htmlFor={`landmark_${index}`}>Landmark</Label>
-                                                            <Input id={`landmark_${index}`} placeholder="landmark" 
-                                                                className="w-full"
-                                                                value={field.landmark} onChange={async (e) => {
-                                                                    const newAddresses = [...fields];
-                                                                    newAddresses[index].landmark = e.target.value;
-                                                                    setValue(`addresses`, newAddresses);
-                                                                    await trigger();
-                                                                }}
-                                                            />
-                                                        <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.landmark?.message}</div>
-                                                    </div>
+                                                        <div className="mb-2">
+                                                            <Label htmlFor={`state_${index}`}>State</Label>
+                                                            
+                                                                <Input id={`state_${index}`} placeholder="state"
+                                                                    className="w-full"
+                                                                    value={field.state} onChange={async (e) => {
+                                                                        const newAddresses = [...fields];
+                                                                        newAddresses[index].state = e.target.value;
+                                                                        setValue(`addresses`, newAddresses);
+                                                                        await trigger();
+                                                                    }}
+                                                                />
+                                                            
+                                                            <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.state?.message}</div>
+                                                        </div>
                                                     
+                                                
+                                                        <div className="mb-2">
+                                                            <Label htmlFor={`pincode_${index}`}>Pincode</Label>
+                                                            
+                                                                <InputOTP id={`pincode_${index}`} maxLength={6} value={field.pincode ? field.pincode.toString(): ""} 
+                                                                onChange={async (value) => {
+                                                                    const newAddresses = [...fields];
+                                                                    newAddresses[index].pincode = parseInt(value);
+                                                                    setValue("addresses", newAddresses);
+                                                                    await trigger(`addresses.${index}.pincode`);
+                                                                }}>
+                                                                    <InputOTPGroup>
+                                                                        <InputOTPSlot index={0} />
+                                                                        <InputOTPSlot index={1} />
+                                                                        <InputOTPSlot index={2} />
+                                                                        <InputOTPSlot index={3} />
+                                                                        <InputOTPSlot index={4} />
+                                                                        <InputOTPSlot index={5} />
+                                                                    </InputOTPGroup>
+                                                                </InputOTP>
+                                                            
+                                                            <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.pincode?.message}</div>
+                                                        </div>
+
+                                                        <div className="mb-2">
+                                                            <Label htmlFor={`landmark_${index}`}>Landmark</Label>
+                                                                <Input id={`landmark_${index}`} placeholder="landmark" 
+                                                                    className="w-full"
+                                                                    value={field.landmark} onChange={async (e) => {
+                                                                        const newAddresses = [...fields];
+                                                                        newAddresses[index].landmark = e.target.value;
+                                                                        setValue(`addresses`, newAddresses);
+                                                                        await trigger();
+                                                                    }}
+                                                                />
+                                                            <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.landmark?.message}</div>
+                                                        </div>
+                                                    </div>
+
                                                     <img src="/minus.svg" className="absolute top-3 right-3 z-100 w-5 h-5 cursor-pointer" onClick={() => remove(index)}></img>
                                                 
                                             </CardContent>

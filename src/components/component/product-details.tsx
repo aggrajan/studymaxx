@@ -19,6 +19,8 @@ import { useEffect, useState } from "react"
 import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
 import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
+import { setCheckout } from "@/lib/slices/checkoutSlice"
+import { TwitterShareButton } from "react-share"
 
 export function ProductDetails(props: any) {
   const { userPresent } = useAppSelector((state) => state.auth);
@@ -56,7 +58,7 @@ export function ProductDetails(props: any) {
           src={props.book.image}
           alt="Book Cover"
           width={450}
-          className="rounded-lg border aspect-[3/4] object-cover shadow-lg hover:shadow-xl transition-shadow duration-300 md:ml-auto mx-auto"
+          className="rounded-sm border aspect-[3/4] object-cover shadow-lg hover:shadow-xl transition-shadow duration-300 md:ml-auto mx-auto"
         />
         
       </div>
@@ -109,6 +111,14 @@ export function ProductDetails(props: any) {
                 </DialogClose>
             </DialogContent>
           </Dialog> : null}
+          <div>
+            <h2>Share on Social Media</h2>
+            <div className="flex gap-2">
+              <TwitterShareButton url={url} title={props.book.title}>
+                <img src="/twitter.svg" className="w-4 h-4" />
+              </TwitterShareButton>
+            </div>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-1">
@@ -167,7 +177,7 @@ export function ProductDetails(props: any) {
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             Add to Cart
           </Button>
-          <Button size="lg" className="flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+          <Button size="lg" className="flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(setCheckout([cartItem])); router.push("/payment"); }}>
             <img src="/rupee.svg" width={20} className="mr-2"/>
             Buy Now
           </Button>

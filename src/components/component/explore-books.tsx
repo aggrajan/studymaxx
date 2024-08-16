@@ -112,7 +112,7 @@ export function ExploreBooks() {
               />
               <div className="flex flex-row gap-2">
                 <Button className="mt-2" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
-                <Button className="mt-2" onClick={() => { dispatch(clearAllFilters()); search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
+                <Button className="mt-2" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}>Clear All Filters</Button>
               </div>
             </CardContent>
           </Card>

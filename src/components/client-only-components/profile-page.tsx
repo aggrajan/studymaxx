@@ -52,7 +52,7 @@ export default function UserProfilePage() {
               <h2 className="text-lg font-semibold">Addresses</h2>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {(user?.addresses && user?.addresses.length > 0) ? user?.addresses.map((address: Address, index: number) => (
-                    <Card key={`address_${index}`}>
+                    <Card key={`address_${index}`} className="rounded-sm">
                       <CardContent className="relative p-4 grid gap-2">
                           {address.default && <Badge className="h-7 absolute top-3 right-3">Default</Badge>}
                           <div className="grid gap-1">

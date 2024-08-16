@@ -13,7 +13,7 @@ import { TabView } from "./tab-view";
 import { Reviews } from "./reviews";
 import { OtherProductsYouMayFindUseful } from "./other-products-you-may-find-useful";
 import { Book } from "@/model/Books";
-import { addItemQuantity, ICartItem, subtractItemQuantity, addCartItem } from "@/lib/slices/cartSlice";
+import { addItemQuantity, ICartItem, subtractItemQuantity, addCartItem, removeCartItem } from "@/lib/slices/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
 import { Badge } from "../ui/badge"
@@ -180,7 +180,7 @@ export function ItemCard({ book } : { book: Book}) {
             </TooltipProvider>
             
           : null}
-          {userPresent && 
+          {(userPresent && !addedToCart) && 
           <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
@@ -243,19 +243,31 @@ export function ItemCard({ book } : { book: Book}) {
             
           : null}
           <div className="flex items-center gap-x-1 sm:gap-x-2 md:gap-x-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => { dispatch(subtractItemQuantity({ id: book._id as number})); setCount((prev) => prev - 1); }}
-              disabled={count <= 1}
-              className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
-            >
-              <MinusIcon className="h-4 w-4" />
+            {
+              count > 1 && <Button
+                variant="outline"
+                size="icon"
+                onClick={() => { dispatch(subtractItemQuantity({ id: book._id as number})); setCount((prev) => prev - 1); }}
+                disabled={count <= 1}
+                className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
+              >
+                <MinusIcon className="h-4 w-4" />
+              </Button>
+            }
+            {
+              count <= 1 && <Button 
+                variant="outline" 
+                size="icon" 
+                onClick={() => { dispatch(removeCartItem({ id: book._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); route.push("/");}}
+                className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
+              >
+              <TrashIcon className="h-4 w-4" />
             </Button>
+            }
             <span>{count}</span>
             <Button variant="outline" 
               size="icon" 
-              onClick={() => { dispatch(addItemQuantity({ id: book._id as number})); setCount((prev) => prev + 1) }}
+              onClick={() => { dispatch(addItemQuantity({ id: book._id as number})); setCount((prev) => prev + 1); }}
               className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
             >
               <PlusIcon className="h-4 w-4" />

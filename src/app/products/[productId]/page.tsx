@@ -16,6 +16,7 @@ import { Author } from "@/model/Authors";
 import { Review } from "@/model/Review";
 import { getReviews } from "@/app/apiCalls/callReviews";
 import { SkeletonProductPage } from "@/components/skeleton-components/skeleton-product-page";
+import Head from "next/head";
 
 export default function Product() {
     const { cartItems } = useAppSelector((state) => state.cart);
@@ -67,6 +68,20 @@ export default function Product() {
 
     return (
         <>
+            <Head>
+                <title>{book.title}</title>
+                <meta name="description" content="Checkout this amazing book on StudyMaxx" />
+                <link rel="icon" href="/favicon.ico" />
+                <meta property="og:image" content={book.image} />
+                <meta property="og:title" content={book.title} />
+                <meta property="og:description" content={book.about[0]} />
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:site" content="study-maxx" />
+                <meta property="twitter:title" content={book.title} />
+                <meta property="twitter:description" content={book.about[0]} />
+                <meta property="twitter:image" content={book.image} />
+                <meta property="twitter:url" content={`http://localhost:3000/products/${book._id}`} />
+            </Head>
             {bookConfig ? <>
             <BreadCrumb title={book.title} category={book.category} />
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />

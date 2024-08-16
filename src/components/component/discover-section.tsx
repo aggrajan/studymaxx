@@ -9,7 +9,7 @@ export function DiscoverSection() {
               width="550"
               height="550"
               alt="Hero Book"
-              className="mx-auto aspect-square overflow-hidden rounded-xl object-cover object-center sm:w-full"
+              className="mx-auto aspect-square overflow-hidden rounded-sm object-cover object-center sm:w-full"
             />
             <div className="flex flex-col justify-center space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
