@@ -11,7 +11,7 @@ export default function EditProfile() {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Profile</BreadcrumbPage>
+                        <BreadcrumbLink href="/user-profile">Profile</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

@@ -228,7 +228,7 @@ export default function CheckoutPage() {
                                             <Input placeholder="your name" value={field.value} onChange={(e) => {
                                                 field.onChange(e.target.value);
                                                 setName(e.target.value);
-                                            }} disabled={userPresent ? true : false}/>
+                                            }} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -284,7 +284,7 @@ export default function CheckoutPage() {
                                                                     <RadioGroupItem value={`${index}`} id={`radio_${index}`} className="w-fit" />
                                                                     <Label htmlFor={`radio_${index}`} className="cursor-pointer">
                                                                         <span className="font-normal text-base">{address.name}</span>
-                                                                        <span className="font-light text-sm">{address.address}</span>
+                                                                        <span className="font-light text-sm ml-1">{address.address}</span>
                                                                     </Label>
                                                                 </div>
                                                             )) : null}
