@@ -13,14 +13,14 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { addCartItem, addItemQuantity, ICartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
 import { useToast } from "../ui/use-toast"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "../ui/dialog"
 import PdfPreview from "./preview-pdf"
 import { useEffect, useState } from "react"
 import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
 import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 import { setCheckout } from "@/lib/slices/checkoutSlice"
-import { TwitterShareButton } from "react-share"
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton } from "react-share"
 
 export function ProductDetails(props: any) {
   const { userPresent } = useAppSelector((state) => state.auth);
@@ -68,7 +68,7 @@ export function ProductDetails(props: any) {
           <div className="flex flex-row justify-between">
             <div className="flex items-center gap-2 text-muted-foreground">
               <span>by</span>
-              <Link href="#" className="text-primary hover:underline underline-offset-4" prefetch={false}>
+              <Link href="#" className="text-primary hover:underline underline-offset-4 w-full md:w-[25rem]" prefetch={false}>
                 {props.getAuthors(props.book.authors)}
               </Link>
               <ShareButton link={`${url}`} />
@@ -92,10 +92,8 @@ export function ProductDetails(props: any) {
           <div className="flex items-center justify-start gap-4">
             {props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount).toFixed(0)}</div>}
             <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price.toFixed(0)}</div>
-            {props.book.discount > 0 && <Badge variant="default">
-              {(props.book.discount).toFixed(0)}% OFF
-            </Badge>}
-          </div>
+            {props.book.discount > 0 && <Badge variant="default">{(props.book.discount).toFixed(0)}% OFF</Badge>}
+          </div> 
           {props.book.pdfUrl ? <Dialog>
             <DialogTrigger asChild>
               <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">
@@ -112,11 +110,20 @@ export function ProductDetails(props: any) {
             </DialogContent>
           </Dialog> : null}
           <div>
-            <h2>Share on Social Media</h2>
-            <div className="flex gap-2">
+            <h2 className="text-sm font-semibold pt-2">Share on Social Media</h2>
+            <div className="flex gap-2 mt-1">
               <TwitterShareButton url={url} title={props.book.title}>
-                <img src="/twitter.svg" className="w-4 h-4" />
+                <img src="/twitter.svg" className="w-6 h-6" />
               </TwitterShareButton>
+              <WhatsappShareButton url={url} title={props.book.title}>
+                <img src="/whatsapp.svg" className="w-6 h-6" />
+              </WhatsappShareButton>
+              <LinkedinShareButton url={url} title={props.book.title}>
+                <img src="/linkedInColor.svg" className="w-6 h-6" />
+              </LinkedinShareButton>
+              <FacebookShareButton url={url} title={props.book.title}>
+                <img src="/facebookColor.svg" className="w-6 h-6" />
+              </FacebookShareButton>
             </div>
           </div>
         </div>
