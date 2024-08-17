@@ -29,8 +29,10 @@ export interface Book extends Document {
     salient_features: string[];
     useful_for: string[];
     additional_support: string[];
-    latest?: boolean;
+    latest: boolean;
     pdfUrl?: string;
+    outOfStock: boolean;
+    previewImages: string[];
 }
 
 export const BookSchema: Schema<Book> = new Schema({
@@ -133,9 +135,22 @@ export const BookSchema: Schema<Book> = new Schema({
     }, 
     pdfUrl: {
         type: String,
-        required: [true, "PDF url is required"]
-    }
-})
+        required: false
+    },
+    outOfStock: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    previewImages: [{
+        type: String,
+        required: [true, "Preview Image is required"]
+    }]
+});
+
+if(mongoose.models.Book) {
+    delete mongoose.models.Book;
+}
 
 const BooksModel = (mongoose.models.Book as mongoose.Model<Book>) || mongoose.model<Book>("Book", BookSchema)
 

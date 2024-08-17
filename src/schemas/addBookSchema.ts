@@ -35,6 +35,13 @@ export const bookSchema = z.object({
     salient_features: z.array(z.string().min(1, "salient_features is required")).nonempty(),
     useful_for: z.array(z.string().min(1, "useful_for is required")).nonempty(),
     additional_support: z.array(z.string().min(1, "additional_support is required")).nonempty(),
-    pdfUrl: z.string().url({ message: "Invalid url "}),
-    latest: z.boolean()
+    pdfUrl: z.string().optional().refine(val => val === undefined || val === '' || z.string().url().safeParse(val).success, {
+        message: "Invalid url"
+    }),
+    latest: z.boolean(),
+    outOfStock: z.boolean(),
+    previewImages: z.array(z.string())
+                      .refine(arr => arr.length === 0 || arr.every(str => str.length > 0), {
+                          message: "All Preview Images must be non-empty strings if provided"
+                      })
 })

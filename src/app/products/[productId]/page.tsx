@@ -1,8 +1,6 @@
 "use client";
 import { getBook } from "@/app/apiCalls/callBook";
-import { Footer } from "@/components/component/footer";
 import { LatestArrivals } from "@/components/component/latest-arrivals";
-import { NavBar } from "@/components/component/nav-bar";
 import { OtherProductsYouMayFindUseful } from "@/components/component/other-products-you-may-find-useful";
 import { ProductDetails } from "@/components/component/product-details";
 import { Reviews } from "@/components/component/reviews";

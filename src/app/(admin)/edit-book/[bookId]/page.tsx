@@ -94,7 +94,9 @@ function AddBookForm() {
             useful_for: book.useful_for,
             additional_support: book.additional_support,
             pdfUrl: book.pdfUrl,
-            latest: (book.latest !== undefined) ? book.latest : false
+            latest: (book.latest !== undefined) ? book.latest : false,
+            outOfStock: book.outOfStock,
+            previewImages: book.previewImages
         } : {
             id: bookId,
             title: "",
@@ -119,7 +121,9 @@ function AddBookForm() {
             useful_for: [""],
             additional_support: [""],
             pdfUrl: "",
-            latest: false
+            latest: false,
+            outOfStock: false,
+            previewImages: []
         }
     });
 
@@ -127,7 +131,7 @@ function AddBookForm() {
         setIsSubmitting(true);
         try {
             data.image = convertDriveLink(data.image);
-            data.pdfUrl = convertPDFLink(data.pdfUrl);
+            data.pdfUrl = convertPDFLink(data.pdfUrl ? data.pdfUrl : "");
             const updatedBook: any = {
                 ...book,
                 title: data.title,
@@ -152,7 +156,9 @@ function AddBookForm() {
                 useful_for: data.useful_for,
                 additional_support: data.additional_support,
                 pdfUrl: data.pdfUrl,
-                latest: data.latest
+                latest: data.latest,
+                outOfStock: data.outOfStock,
+                previewImages: data.previewImages
             };
             dispatch(updateCartItem({ book: updatedBook as Book }));
             const response = await axios.post('/api/edit-book', data);
@@ -298,6 +304,64 @@ function AddBookForm() {
                         />
 
                         <FormField 
+                            name="outOfStock"
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Out of stock</FormLabel>
+                                    <FormControl>
+                                        <div>
+                                        <Checkbox id="outOfStock"
+                                            checked={field.value}
+                                            onClick={() => field.onChange(!field.value)}
+                                        />
+                                        <label
+                                            htmlFor="outOfStock"
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ml-3"
+                                        >
+                                            Is book out of stock?
+                                        </label>
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}      
+                        />
+
+                        <FormField 
+                        name="previewImages"
+                        control={form.control}
+                        render={({ field }) => (
+                            <>{
+                                field.value.map((previewImage, index) => (
+                                    <div key={`previewImage_${index}`} className="flex flex-row w-full space-x-2">
+                                        <FormItem className="flex-1">
+                                            <FormLabel>Preview Image</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="enter preview image url" value={previewImage}
+                                                    className="w-full"
+                                                    onChange={(e) => {
+                                                    const newPreviewImages = [...field.value];
+                                                    newPreviewImages[index] = e.target.value;
+                                                    field.onChange(newPreviewImages);
+                                                    }} 
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                        <img src="/minus.svg" className="w-5 h-5 self-center cursor-pointer" onClick={(e: any) => {
+                                            const newPreviewImages = [...field.value];
+                                            newPreviewImages.splice(index, 1);
+                                            field.onChange(newPreviewImages);
+                                        }}></img>
+                                    </div>
+                                ))}
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Preview Image</Button>
+                            </>
+                        )}
+                        />
+
+                        <FormField 
                             name="latest"
                             control={form.control}
                             render={({ field }) => (
@@ -381,6 +445,32 @@ function AddBookForm() {
                                     <FormMessage />
                                 </FormItem>
                             )}      
+                        />
+
+                        <FormField
+                        control={form.control}
+                        name="category"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Category</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                {categories.map((category, index) => {
+                                    if(category === "") return null;
+                                    return <SelectItem key={`category_${index}`} value={category}>
+                                        {category}
+                                    </SelectItem>
+                                })}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                            </FormItem>
+                        )}
                         />
                         
                         <FormField
@@ -633,32 +723,6 @@ function AddBookForm() {
                                     if(binding === "") return null;
                                     return <SelectItem key={`binding_${index}`} value={binding}>
                                         {binding}
-                                    </SelectItem>
-                                })}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                        />
-
-                        <FormField
-                        control={form.control}
-                        name="category"
-                        render={({ field }) => (
-                            <FormItem>
-                            <FormLabel>Category</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select a category" />
-                                </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                {categories.map((category, index) => {
-                                    if(category === "") return null;
-                                    return <SelectItem key={`category_${index}`} value={category}>
-                                        {category}
                                     </SelectItem>
                                 })}
                                 </SelectContent>
