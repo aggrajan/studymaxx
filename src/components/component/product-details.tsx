@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import { addCartItem, addItemQuantity, ICartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
+import { addCartItem, addItemQuantity, ICartItem, removeCartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
 import { useToast } from "../ui/use-toast"
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "../ui/dialog"
 import PdfPreview from "./preview-pdf"
@@ -21,8 +21,16 @@ import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 import { setCheckout } from "@/lib/slices/checkoutSlice"
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton } from "react-share"
+import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel"
+import { Card, CardContent } from "../ui/card"
 
 export function ProductDetails(props: any) {
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+
+ 
+  
+
   const { userPresent } = useAppSelector((state) => state.auth);
   const [url, setUrl] = useState("");
   const dispatch = useAppDispatch();
@@ -48,18 +56,73 @@ export function ProductDetails(props: any) {
     }
   }, []);
 
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+    setCurrent((api.selectedScrollSnap()) % props.book.previewImages.length)
+    api.on("select", () => {
+      setCurrent((api.selectedScrollSnap()) % props.book.previewImages.length)
+    })
+  }, [api])
+
   
 
   const { isModal } = props;
   return (
     <div className={`${isModal ? "flex flex-col lg:flex-row gap-8 lg:gap-12 px-4 mx-auto py-6" : "grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center px-4 mx-auto py-6"}`}>
       <div className="grid gap-4">
-        <img
+        {(props.book.previewImages === undefined || props.book.previewImages.length === 0) ? <img
           src={props.book.image}
           alt="Book Cover"
           width={450}
-          className="rounded-sm border aspect-[3/4] object-cover shadow-lg hover:shadow-xl transition-shadow duration-300 md:ml-auto mx-auto"
-        />
+          className="rounded-sm border-gray-500 aspect-[3/4] object-cover shadow-lg hover:shadow-gray-500 transition-shadow duration-300 md:ml-auto mx-auto"
+        /> : <><Carousel 
+          setApi={setApi}
+          opts={{
+            align: "start",
+            loop: true
+          }} 
+          className="md:ml-auto mx-auto sm:w-[425px] w-full" 
+        >
+          <CarouselContent className="rounded-sm">
+            {props.book.previewImages.map((previewImage: string, index: number) => (
+              <CarouselItem key={`carousel_${index}`} className="select-none rounded-sm">
+              <Card className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out p-0`}>
+                <CardContent className="p-0 rounded-sm">
+                  <img src={previewImage} width={450} className="w-full rounded-sm" />
+                </CardContent>
+              </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true
+          }}
+          className="md:ml-auto mx-auto w-[250px] h-full" 
+        >
+          <CarouselContent className="h-full">
+            {props.book.previewImages.map((previewImage: string, index: number) => (
+              <CarouselItem className="basis-1/4 select-none flex items-center justify-center h-full">
+                <div className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out hover:scale-110 ${current === index ? "scale-110 opacity-100" : "scale-90 opacity-75"}  hover:opacity-100`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  api?.scrollTo(index);
+                  
+                }}>
+                  <img src={previewImage} className="object-cover" />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        </>
+        }
         
       </div>
       <div className="grid gap-4 md:gap-8">
@@ -94,7 +157,7 @@ export function ProductDetails(props: any) {
             <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price.toFixed(0)}</div>
             {props.book.discount > 0 && <Badge variant="default">{(props.book.discount).toFixed(0)}% OFF</Badge>}
           </div> 
-          {props.book.pdfUrl ? <Dialog>
+          {(props.book.pdfUrl && props.book.pdfUrl !== "") ? <Dialog>
             <DialogTrigger asChild>
               <Button size="lg" variant="outline" className="mr-auto border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors mt-4">
                 Preview
@@ -180,13 +243,13 @@ export function ProductDetails(props: any) {
         </div>
         
         {!props.addedToCart && <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 ${isModal ? "w-full" : "w-full lg:w-5/6"}`}>
-          <Button size="lg" className="flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
+          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-primary"}`} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
-            Add to Cart
+            {props.book.outOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
-          <Button size="lg" className="flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors" onClick={() => { dispatch(setCheckout([cartItem])); router.push("/payment"); }}>
-            <img src="/rupee.svg" width={20} className="mr-2"/>
-            Buy Now
+          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-primary"}`} onClick={() => { dispatch(setCheckout([cartItem])); router.push("/payment"); }}>
+            <img src={props.book.outOfStock ? "/rupeeRed.svg" : "/rupee.svg"} width={20} className="mr-1"/>
+            {props.book.outOfStock ? "Out of Stock" : "Buy Now"}
           </Button>
           {!props.addedToWishlist ? <Button
             size="lg"
@@ -209,7 +272,7 @@ export function ProductDetails(props: any) {
 
         {props.addedToCart && <div className="grid grid-cols-2 lg:flex gap-2 w-[25em]">
           <div className="flex items-center gap-2 w-full">
-            <Button
+            {props.count > 1 && <Button
               variant="outline"
               size="icon"
               onClick={() => { dispatch(subtractItemQuantity({ id: props.book._id as number})); props.setCount((prev: number) => prev - 1) }}
@@ -217,7 +280,18 @@ export function ProductDetails(props: any) {
               className="w-32"
             >
               <MinusIcon className="h-4 w-4" />
-            </Button>
+            </Button>}
+            {
+              props.count <= 1 && <Button
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  dispatch(removeCartItem({ id: props.book._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); router.push(`/products/${props.book._id}`);
+                }}
+              >
+                <TrashIcon className="h-4 w-4" />
+              </Button>
+            }
             <span>{props.count}</span>
             <Button variant="outline" className="w-32" size="icon" onClick={() => { dispatch(addItemQuantity({ id: props.book._id as number})); props.setCount((prev: number) => prev + 1); }}>
               <PlusIcon className="h-4 w-4" />
@@ -346,6 +420,27 @@ function PlusIcon(props: any) {
     >
       <path d="M5 12h14" />
       <path d="M12 5v14" />
+    </svg>
+  )
+}
+
+function TrashIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 6h18" />
+      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
     </svg>
   )
 }

@@ -184,18 +184,18 @@ export function ItemCard({ book } : { book: Book}) {
           <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+                <Button variant="ghost" size="icon" disabled={book.outOfStock} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
                   <ShoppingCartIcon className="w-6 h-6" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                  <p>Add To Cart</p>
+                  <p>{book.outOfStock ? "Out of Stock" : "Add To Cart"}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
           }
-          {!userPresent && <Button className="mt-2 rounded-sm" onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
-              <h3 className="flex items-center text-xs sm:text-sm font-semibold"><ShoppingCartIcon className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> Add to Cart</h3>
+          {!userPresent && <Button className="mt-2 rounded-sm" disabled={book.outOfStock} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+              <h3 className="flex items-center text-xs sm:text-sm font-semibold"><ShoppingCartIcon className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> {book.outOfStock ? "Out of Stock" : "Add to Cart"}</h3>
             </Button>}
           {(user && user.isAdmin) ? 
           <TooltipProvider>

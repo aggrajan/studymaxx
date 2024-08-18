@@ -68,6 +68,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
                     cartItem.product.additional_support = updatedBook.additional_support;
                     cartItem.product.latest = updatedBook.latest;
                     cartItem.product.pdfUrl = updatedBook.pdfUrl;
+                    cartItem.product.outOfStock = updatedBook.outOfStock;
+                    cartItem.product.previewImages = updatedBook.previewImages;
                 }
                 return cartItem;
             });
