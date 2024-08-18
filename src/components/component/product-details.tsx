@@ -106,7 +106,7 @@ export function ProductDetails(props: any) {
         >
           <CarouselContent className="h-full">
             {props.book.previewImages.map((previewImage: string, index: number) => (
-              <CarouselItem className="basis-1/4 select-none flex items-center justify-center h-full">
+              <CarouselItem className="basis-1/4 select-none flex items-center justify-center h-full" key={`preview_carousel_${index}`}>
                 <div className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out hover:scale-110 ${current === index ? "scale-110 opacity-100" : "scale-90 opacity-75"}  hover:opacity-100`}
                 onClick={(e) => {
                   e.preventDefault();
