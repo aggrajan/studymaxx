@@ -288,6 +288,7 @@ export function ProductDetails(props: any) {
                 onClick={() => {
                   dispatch(removeCartItem({ id: props.book._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); router.push(`/products/${props.book._id}`);
                 }}
+                className="w-32"
               >
                 <TrashIcon className="h-4 w-4" />
               </Button>

@@ -148,10 +148,6 @@ export const BookSchema: Schema<Book> = new Schema({
     }]
 });
 
-if(mongoose.models.Book) {
-    delete mongoose.models.Book;
-}
-
 const BooksModel = (mongoose.models.Book as mongoose.Model<Book>) || mongoose.model<Book>("Book", BookSchema)
 
 export default BooksModel;

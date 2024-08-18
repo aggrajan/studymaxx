@@ -22,7 +22,10 @@ export async function middleware(request: NextRequest) {
     if((url.pathname.startsWith('/add-book')      || 
         url.pathname.startsWith('/edit-book')     || 
         url.pathname.startsWith('/all-feedbacks') ||
-        url.pathname.startsWith('/all-queries')) && isAdmin === "false") {
+        url.pathname.startsWith('/all-queries')   ||
+        url.pathname.startsWith('/add-coupon')    || 
+        url.pathname.startsWith('/edit-coupon')   ||
+        url.pathname.startsWith('/all-coupons')) && isAdmin === "false") {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
@@ -49,6 +52,9 @@ export const config = {
         '/wishlist',
         '/queries',
         '/payment',
+        '/add-coupon',
+        '/edit-coupon',
+        '/all-coupons',
         '/'
     ]
 }

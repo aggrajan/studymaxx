@@ -187,6 +187,9 @@ export function NavBar() {
               <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-queries')); }}>
                   <img src="/query.svg" className="w-4 h-4 mr-2" />All Queries
               </DropdownMenuItem>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-coupons')); }}>
+                  <img src="/coupon.svg" className="w-4 h-4 mr-2" />All Coupons
+              </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
                   <img src="/wishlist.svg" className="w-4 h-4 mr-2" />Your Wishlist

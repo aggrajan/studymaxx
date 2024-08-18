@@ -112,7 +112,6 @@ export default function EditProfilePage() {
 
     const handleAppendAddress = async () => {
         append({ address: "", state: "", city: "", pincode: 0, contact: NaN, landmark: "", name: "", default: false, company: "" });
-        await trigger();
     };
 
     const errorMessageCss = "text-xs text-red-600 font-normal mt-1"
@@ -130,7 +129,7 @@ export default function EditProfilePage() {
                                         
                                             <Input placeholder="enter your name.." id="name" {...register("name")} onChange={async (e) => {
                                                 setValue("name", e.target.value);
-                                                await trigger();
+                                                await trigger("name");
                                             }} />
                                         
                                         <div className={errorMessageCss}>{formState.errors.name?.message}</div>
@@ -143,7 +142,7 @@ export default function EditProfilePage() {
                                         
                                             <Input placeholder="enter your username.." id="username" {...register(`username` as const)} onChange={async (e) => {
                                                 setValue("username", e.target.value);
-                                                await trigger();
+                                                await trigger("username");
                                             }} disabled={user?.username ? true : false} />
                                         
                                         <div className={errorMessageCss}>{formState.errors.username?.message}</div>
@@ -155,7 +154,7 @@ export default function EditProfilePage() {
                                        
                                             <Input placeholder="enter your email.." id="email" {...register(`email` as const)} onChange={async (e) => {
                                                 setValue("email", e.target.value);
-                                                await trigger();
+                                                await trigger("email");
                                             }} disabled={user?.email ? true : false} />
                                         
                                         <div className={errorMessageCss}>{formState.errors.email?.message}</div>
@@ -167,7 +166,7 @@ export default function EditProfilePage() {
                                         
                                             <Input placeholder="enter your profile picture url.." id="picture" {...register(`picture` as const)} onChange={async (e) => {
                                                 setValue("picture", e.target.value);
-                                                await trigger();
+                                                await trigger("picture");
                                             }} />
                                         
                                         <div className={errorMessageCss}>{formState.errors.picture?.message}</div>
@@ -225,7 +224,7 @@ export default function EditProfilePage() {
                                                                         const newAddresses = [...fields];
                                                                         newAddresses[index].name = e.target.value;
                                                                         setValue(`addresses`, newAddresses);
-                                                                        await trigger();
+                                                                        await trigger(`addresses.${index}.name`);
                                                                     }}
                                                                     
                                                                 />
@@ -261,7 +260,7 @@ export default function EditProfilePage() {
                                                                     const newAddresses = [...fields];
                                                                     newAddresses[index].company = e.target.value;
                                                                     setValue(`addresses`, newAddresses);
-                                                                    await trigger();
+                                                                    await trigger(`addresses.${index}.company`);
                                                                 }}
                                                             />
                                                         
@@ -277,7 +276,7 @@ export default function EditProfilePage() {
                                                                     const newAddresses = [...fields];
                                                                     newAddresses[index].address = e.target.value;
                                                                     setValue(`addresses`, newAddresses);
-                                                                    await trigger();
+                                                                    await trigger(`addresses.${index}.address`);
                                                                 }}
                                                             />
                                                         
@@ -294,7 +293,7 @@ export default function EditProfilePage() {
                                                                         const newAddresses = [...fields];
                                                                         newAddresses[index].city = e.target.value;
                                                                         setValue(`addresses`, newAddresses);
-                                                                        await trigger();
+                                                                        await trigger(`addresses.${index}.city`);
                                                                     }}
                                                                 />
                                                             
@@ -310,7 +309,7 @@ export default function EditProfilePage() {
                                                                         const newAddresses = [...fields];
                                                                         newAddresses[index].state = e.target.value;
                                                                         setValue(`addresses`, newAddresses);
-                                                                        await trigger();
+                                                                        await trigger(`addresses.${index}.state`);
                                                                     }}
                                                                 />
                                                             
@@ -349,7 +348,7 @@ export default function EditProfilePage() {
                                                                         const newAddresses = [...fields];
                                                                         newAddresses[index].landmark = e.target.value;
                                                                         setValue(`addresses`, newAddresses);
-                                                                        await trigger();
+                                                                        await trigger(`addresses.${index}.landmark`);
                                                                     }}
                                                                 />
                                                             <div className={errorMessageCss}>{formState.errors.addresses?.[index]?.landmark?.message}</div>

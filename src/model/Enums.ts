@@ -60,3 +60,8 @@ export const languages: [string, ...string[]] = [
     'Marathi',
     'Punjabi'
 ]
+
+export const couponTypes: [string, ...string[]] = [
+    'Percentage',
+    'Rupees'
+]
