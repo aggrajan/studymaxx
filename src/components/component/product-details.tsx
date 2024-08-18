@@ -83,7 +83,7 @@ export function ProductDetails(props: any) {
             align: "start",
             loop: true
           }} 
-          className="md:ml-auto mx-auto sm:w-[425px] w-full" 
+          className="md:ml-auto mx-auto sm:w-[425px] w-full h-fit" 
         >
           <CarouselContent className="rounded-sm">
             {props.book.previewImages.map((previewImage: string, index: number) => (
@@ -102,11 +102,11 @@ export function ProductDetails(props: any) {
             align: "start",
             loop: true
           }}
-          className="md:ml-auto mx-auto w-[250px] h-full" 
+          className="md:ml-auto mx-auto w-[250px] h-fit" 
         >
           <CarouselContent className="h-full">
             {props.book.previewImages.map((previewImage: string, index: number) => (
-              <CarouselItem className="basis-1/4 select-none flex items-center justify-center h-full" key={`preview_carousel_${index}`}>
+              <CarouselItem className="basis-1/4 select-none flex items-center justify-center h-full mb-auto" key={`preview_carousel_${index}`}>
                 <div className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out hover:scale-110 ${current === index ? "scale-110 opacity-100" : "scale-90 opacity-75"}  hover:opacity-100`}
                 onClick={(e) => {
                   e.preventDefault();
