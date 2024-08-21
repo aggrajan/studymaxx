@@ -168,7 +168,7 @@ export default function CheckoutPage() {
         }
        };
 
-    const processPayment = async (data: z.infer<typeof checkoutSchema>) => {
+    const processPayment = async (checkoutData: z.infer<typeof checkoutSchema>) => {
         try {
          const orderId: string = await createOrderId();
          const options = {
@@ -192,9 +192,10 @@ export default function CheckoutPage() {
             headers: { 'Content-Type': 'application/json' },
            });
            const res = await result.json();
+           console.log(res);
            if (res.isOk) {
             alert("payment succeed");
-            const response = await axios.post(`/api/add-order`, data);
+            const response = await axios.post(`/api/add-order`, checkoutData);
             if(response.status === 200) {
                 toast({
                     title: "Order Placed Successfully",
