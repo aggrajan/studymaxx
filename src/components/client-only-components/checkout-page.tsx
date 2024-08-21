@@ -12,9 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Address } from "@/model/Address";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Card, CardContent } from "../ui/card";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import { Separator } from "../ui/separator";
@@ -29,13 +29,19 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-  } from "@/components/ui/dialog"
-  import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+  } from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import Link from "next/link";
+import { useDebounceCallback } from "usehooks-ts";
+import { Coupon } from "@/model/Coupon";
+import { ApiResponse } from "@/types/ApiResponse";
+import { setCheckoutDiscountAmount } from "@/lib/slices/checkoutSlice"
+import { setDiscountAmount } from "@/lib/slices/cartSlice";
 
 export default function CheckoutPage() {
+    const dispatch = useAppDispatch();
     const { user, userPresent } = useAppSelector((state) => state.auth);
     const cart = useAppSelector((state) => state.checkout)
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +49,61 @@ export default function CheckoutPage() {
     const [email, setEmail] = useState(user?.email ? user.email : "");
     const { toast } = useToast();
     const router = useRouter();
+    const [couponName, setCouponName] = useState("");
+    const [coupon, setCoupon] = useState<Coupon>();
+    const [couponMessage, setCouponMessage] = useState('');
+    const [isCheckingCoupon, setIsCheckingCoupon] = useState(false);
+    const debounced = useDebounceCallback(setCouponName, 500);
+
+    const handleCouponSubmit = (message: string, couponType: string, couponValue: number) => {
+        if(message === "Coupon is available") {
+            if(couponType === "Percentage") {
+                dispatch(setCheckoutDiscountAmount(cart.subtotal * (couponValue / 100.0)));
+            } else if(couponType === "Rupees") {
+                dispatch(setCheckoutDiscountAmount(couponValue));
+            } else {
+                toast({ title: "Not a valid Coupon", description: "This coupon is not applicable to your cart" })
+            }
+        }
+    }
+
+    useEffect(() => {
+        const checkCoupon = async () => {
+            if(couponName) {
+                setIsCheckingCoupon(true);
+                setCouponMessage('');
+
+                try {
+                    const response = await axios.get(`/api/unique-coupon/${couponName}`);
+                    if(response.status !== 200) {
+                        setCouponMessage(response.data.message);
+                    } else {
+                        try {
+                            const existingCoupon: Coupon = response.data.response[0];
+                            console.log("coupon: ", existingCoupon);
+                            const validCouponResponse = await axios.post(`/api/check-coupon`, { ...existingCoupon, cartAmount: cart.total, currentDate: new Date() });
+                            const message = validCouponResponse.data.message;
+                            setCouponMessage(message);
+                            setCoupon(existingCoupon);
+                        } catch(error: any) {
+                            const axiosError = error as AxiosError<ApiResponse>;
+                            setCouponMessage(axiosError.response?.data.message ?? "Error checking coupon");
+                        } finally {
+                            setIsCheckingCoupon(false);
+                        }
+                    }
+                }
+                catch(error: any) {
+                    const axiosError = error as AxiosError<ApiResponse>;
+                    setCouponMessage(axiosError.response?.data.message ?? "Error checking coupon");
+                } finally {
+                    setIsCheckingCoupon(false);
+                }
+                
+            }
+        }
+        checkCoupon();
+    }, [couponName]);
 
     const blankAddress = {
         address: "",
@@ -472,7 +533,7 @@ export default function CheckoutPage() {
                         Your cart is empty
                         </div>}
                     </div>
-                    <div className="bg-muted border-2 border-gray-300 p-6 rounded-lg h-fit">
+                    <div className="bg-muted border-2 border-gray-300 p-6 rounded-lg h-fit mb-6">
                         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
                         <div className="grid gap-2">
                         <div className="flex justify-between">
@@ -492,6 +553,19 @@ export default function CheckoutPage() {
                             <span>Total</span>
                             <span>&#8377;{(cart.total).toFixed(2)}</span>
                         </div>
+                        </div>
+                    </div>
+                    <div className="bg-muted border-2 border-gray-300 p-6 rounded-lg h-fit">
+                        <h2 className="text-xl font-bold mb-4">Got a Discount Coupon?</h2>
+                        <div className="flex gap-8">
+                            <div className="flex flex-col gap-2">
+                                <Input type="text" className="bg-white" placeholder="Enter your Coupon Code" value={couponName} onChange={(e) => { setCouponName(e.target.value); debounced(e.target.value); }} />
+                                {isCheckingCoupon && <Loader2 className="animate-spin" />}
+                                <p className={`pl-3 text-xs font-semibold ${couponMessage === "Coupon is available" ? "text-green-500": "text-red-600"}`}>{couponMessage}</p>
+                            </div>
+                            <Button type="button" onClick={() => {
+                                handleCouponSubmit(couponMessage, coupon?.couponType || "", coupon?.couponValue || 1);
+                            }} >Apply</Button>
                         </div>
                     </div>
                 </div>

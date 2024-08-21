@@ -25,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { emptyCheckout } from "@/lib/slices/checkoutSlice";
 
 export function NavBar() {
   const router = useRouter();
@@ -99,6 +100,7 @@ export function NavBar() {
     dispatch(removeAuthState()); 
     dispatch(clearAllFilters()); 
     dispatch(emptyCart()); 
+    dispatch(emptyCheckout());
     setIsClicked(false);
   }
 
