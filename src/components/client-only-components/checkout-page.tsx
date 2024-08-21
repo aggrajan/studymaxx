@@ -69,7 +69,7 @@ export default function CheckoutPage() {
 
     useEffect(() => {
         const checkCoupon = async () => {
-            if(couponName) {
+            if(couponName !== "") {
                 setIsCheckingCoupon(true);
                 setCouponMessage('');
 
@@ -141,6 +141,7 @@ export default function CheckoutPage() {
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         setIsMounted(true);
+        dispatch(setCheckoutDiscountAmount(0));
     }, []);
 
 

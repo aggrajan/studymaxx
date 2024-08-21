@@ -22,7 +22,8 @@ export const checkoutSlice = createSlice({
                 cartItems: [...action.payload],
                 cartCount: action.payload.length,
                 subtotal: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? parseInt((curr.product.price * ((100 - curr.product.discount) / 100.0)).toFixed(0)) : parseInt(curr.product.price.toFixed(0))), 0),
-                total: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? parseInt((curr.product.price * ((100 - curr.product.discount) / 100.0)).toFixed(0)) : parseInt(curr.product.price.toFixed(0))), 0) - state.discount + state.shipping
+                discount: 0,
+                total: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? parseInt((curr.product.price * ((100 - curr.product.discount) / 100.0)).toFixed(0)) : parseInt(curr.product.price.toFixed(0))), 0) + state.shipping
             }
         }, 
         addCheckoutItem: (state: ICartState, action: PayloadAction<ICartItem>) => {
