@@ -11,9 +11,7 @@ const CouponQuerySchema = z.object({
     couponName: z.string().min(1, "Name is required"),
     lastValidityDate: z.preprocess(
         (arg) => (typeof arg === "string" ? new Date(arg) : arg),
-        z.date().refine(date => date > new Date(), {
-            message: "The last validity date must be in the future",
-        }).optional()
+        z.date()
     ),
     couponDescription: z.string().min(1, "Description is required"),
     couponType: z.enum(couponTypesWithEmpty),
@@ -24,16 +22,17 @@ const CouponQuerySchema = z.object({
         (arg) => (typeof arg === "string" ? new Date(arg) : arg),
         z.date()
     ),
+    couponsUsed: z.array(z.string().optional()).optional()
 });
 
 export async function POST(request: NextRequest) {
     try {
         await dbConnect();
         const reqBody = await request.json();
-        const { couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate } = reqBody;
+        const { _id: couponId, couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate, couponsUsed } = reqBody;
 
 
-        const coupon = { couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate };
+        const coupon = { couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate, couponsUsed };
         const couponFound = await CouponModel.find({ couponName: couponName });
         if(!couponFound) {
             return NextResponse.json({
@@ -69,6 +68,15 @@ export async function POST(request: NextRequest) {
                 message: `This coupon is expired`
             }, {
                 status: 401
+            })
+        }
+
+        if(couponsUsed.filter((usedId: string) => usedId === couponId).length > 0) {
+            return NextResponse.json({
+                success: false,
+                message: "Coupon has been used earlier"
+            }, {
+                status: 400
             })
         }
 

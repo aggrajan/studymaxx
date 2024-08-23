@@ -16,6 +16,7 @@ interface UserStoreInfo {
     addresses: Address[];
     wishlist: Book[];
     contact?: number;
+    coupons?: string[];
 };
 
 export interface IAuthState {

@@ -81,7 +81,7 @@ export default function CheckoutPage() {
                         try {
                             const existingCoupon: Coupon = response.data.response[0];
                             console.log("coupon: ", existingCoupon);
-                            const validCouponResponse = await axios.post(`/api/check-coupon`, { ...existingCoupon, cartAmount: cart.total, currentDate: new Date() });
+                            const validCouponResponse = await axios.post(`/api/check-coupon`, { ...existingCoupon, cartAmount: cart.total, currentDate: new Date(), couponsUsed: user?.coupons });
                             const message = validCouponResponse.data.message;
                             setCouponMessage(message);
                             setCoupon(existingCoupon);
@@ -196,7 +196,8 @@ export default function CheckoutPage() {
            if (res.isOk) {
             alert("payment succeed");
             const response = await axios.post(`/api/add-order`, checkoutData);
-            if(response.status === 200) {
+            const addCouponResponse = await axios.post(`/api/add-user-coupon`, { couponId: coupon?._id || "" });
+            if(response.status === 200 && addCouponResponse.status == 200) {
                 toast({
                     title: "Order Placed Successfully",
                     description: "You can view your order details at Orders page",
