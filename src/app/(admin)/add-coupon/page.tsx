@@ -78,7 +78,7 @@ function AddCouponForm() {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen mt-32 mb-24">
+        <div className="flex justify-center items-center min-h-screen pt-32 pb-24 bg-gray-100">
             <div className="w-full max-w-5xl p-8 space-y-8 bg-white rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
@@ -183,7 +183,7 @@ function AddCouponForm() {
                                     <Button
                                     variant={"outline"}
                                     className={cn(
-                                        "w-[240px] pl-3 text-left font-normal",
+                                        "w-[240px] pl-3 text-left font-normal border border-black ",
                                         !field.value && "text-muted-foreground"
                                     )}
                                     >
@@ -217,7 +217,7 @@ function AddCouponForm() {
                         />
 
                         <div className="flex justify-center items-center">
-                            <Button type="submit" disabled={isSubmitting}>
+                            <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
                                 {
                                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Add Coupon')
                                 }

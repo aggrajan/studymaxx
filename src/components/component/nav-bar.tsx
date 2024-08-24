@@ -113,35 +113,35 @@ export function NavBar() {
 
   return (<>
       {(userConfig && booksConfig) ? <>
-      <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-white z-50 border shadow">
-        <Link href="/" className="flex items-center justify-center" prefetch={false}>
+      <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
+        <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
           <BookIcon className="h-6 w-6" />
-          <span className="sr-only">StudyMaxx</span>
+          <span className="sr-only text-white">StudyMaxx</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link href="/" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Home
           </Link>
-          <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             About Us
           </Link>
-          <Link href="/mission" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/mission" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Mission
           </Link>
-          <Link href="/products" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/products" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Products
           </Link>
-          <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Contact Us
           </Link>
-          {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+          {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Add book
           </Link>}
           
           {!isSearching ? <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full" onClick={() => { setIsSearching((prev) => !prev) }}>
+                <Button variant="ghost" size="icon" className="rounded-full text-white" onClick={() => { setIsSearching((prev) => !prev) }}>
                   <SearchIcon className="h-5 w-5" />
                   <span className="sr-only">Search</span>
                 </Button>
@@ -166,7 +166,7 @@ export function NavBar() {
           
           <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+              <Button variant="outline" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-gray-100 hover:bg-gray-300 border-black">
                 <span className="sr-only">Manage</span>
                 <UserIcon className="h-5 w-5" />
               </Button>
@@ -192,6 +192,9 @@ export function NavBar() {
               <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-coupons')); }}>
                   <img src="/coupon.svg" className="w-4 h-4 mr-2" />All Coupons
               </DropdownMenuItem>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-orders')); }}>
+                  <img src="/order.svg" className="w-4 h-4 mr-2" />All Orders
+              </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
                   <img src="/wishlist.svg" className="w-4 h-4 mr-2" />Your Wishlist
@@ -201,6 +204,9 @@ export function NavBar() {
               </DropdownMenuItem>
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/queries')); }}>
                   <img src="/query.svg" className="w-4 h-4 mr-2" />Your Queries
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/my-orders')); }}>
+                  <img src="/order.svg" className="w-4 h-4 mr-2" />My Orders
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

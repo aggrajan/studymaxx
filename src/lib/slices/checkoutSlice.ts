@@ -43,15 +43,15 @@ export const checkoutSlice = createSlice({
         setCheckoutShippingAmount: (state: ICartState, action: PayloadAction<number>) => {
             return {
                 ...state,
-                shipping: action.payload,
-                total: state.total - state.shipping + action.payload
+                shipping: parseInt(action.payload.toFixed(0)),
+                total: state.total - parseInt(state.shipping.toFixed(0)) + parseInt(action.payload.toFixed(0))
             }
         },
         setCheckoutDiscountAmount: (state: ICartState, action: PayloadAction<number>) => {
             return {
                 ...state,
-                discount: action.payload,
-                total: state.total + state.discount - action.payload
+                discount: parseInt(action.payload.toFixed(0)),
+                total: state.total + parseInt(state.discount.toFixed(0)) - parseInt(action.payload.toFixed(0))
             }
         },
         addCheckoutItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
@@ -59,7 +59,7 @@ export const checkoutSlice = createSlice({
             if (itemIndex !== -1) {
                 state.cartItems[itemIndex].quantity += 1;
                 state.subtotal += ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
-                state.total = state.subtotal + state.shipping - state.discount;
+                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
             }
             
         },
@@ -68,7 +68,7 @@ export const checkoutSlice = createSlice({
             if (itemIndex !== -1) {
                 state.cartItems[itemIndex].quantity -= 1;
                 state.subtotal -= ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
-                state.total = state.subtotal + state.shipping - state.discount;
+                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
             }
         },
         removeCheckoutItem: (state: ICartState, action: PayloadAction<{ id: number }>) => {
@@ -78,8 +78,8 @@ export const checkoutSlice = createSlice({
                 state.cartItems.splice(itemIndex, 1);
                 state.cartCount -= 1;
                 state.subtotal -= ((item.product.discount && item.product.discount > 0) ? parseInt((item.product.price * ((100 - item.product.discount) / 100.0)).toFixed(0)) : parseInt(item.product.price.toFixed(0))) * item.quantity;
-                state.total = state.subtotal + state.shipping - state.discount;
-            }   
+                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
+            }
         },
         updateCheckoutItem: (state: ICartState, action: PayloadAction<{ book: Book }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === (action.payload.book._id as number));

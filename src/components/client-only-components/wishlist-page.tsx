@@ -3,6 +3,7 @@ import { useAppSelector } from "@/lib/hooks";
 import { Book } from "@/model/Books";
 import { ItemCard } from "../component/item-card";
 import { useEffect, useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 export function WishlistPage() {
     const { userPresent, user } = useAppSelector((state) => state.auth);
@@ -12,7 +13,9 @@ export function WishlistPage() {
         setIsMounted(true);
     }, []);
 
-    if (!isMounted) return null; // Prevents rendering on the server side
+    if (!isMounted) return <div className="mt-[55px] w-screen h-screen flex justify-center items-center text-xl font-semibold tracking-tighter sm:text-2xl bg-gray-100">
+                            <LoaderCircle className="mr-2 h-7 w-7 duration-200 animate-spin"/> Loading...
+                        </div>;; // Prevents rendering on the server side
 
     return (
         <>

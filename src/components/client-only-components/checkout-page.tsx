@@ -9,7 +9,7 @@ import { checkoutSchema } from "@/schemas/checkoutSchema";
 import { Form } from "@/components/ui/form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, LoaderCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -266,7 +266,9 @@ export default function CheckoutPage() {
     }
 
 
-    if(!isMounted) return null;
+    if(!isMounted) return <div className="mt-[55px] w-screen h-screen flex justify-center items-center text-xl font-semibold tracking-tighter sm:text-2xl">
+                            <LoaderCircle className="mr-2 h-7 w-7 duration-200 animate-spin"/> Loading...
+                        </div>;
 
     return (
         <>
@@ -536,7 +538,7 @@ export default function CheckoutPage() {
                         Your cart is empty
                         </div>}
                     </div>
-                    <div className="bg-muted border-2 border-gray-300 p-6 rounded-lg h-fit mb-6">
+                    <div className="bg-gray-200 border-2 border-gray-400 p-6 rounded-lg h-fit mb-6">
                         <h2 className="text-xl font-bold mb-4">Order Summary</h2>
                         <div className="grid gap-2">
                         <div className="flex justify-between">
@@ -558,7 +560,7 @@ export default function CheckoutPage() {
                         </div>
                         </div>
                     </div>
-                    <div className="bg-muted border-2 border-gray-300 p-6 rounded-lg h-fit">
+                    <div className="bg-gray-200 border-2 border-gray-400 p-6 rounded-lg h-fit">
                         <h2 className="text-xl font-bold mb-4">Got a Discount Coupon?</h2>
                         <div className="flex gap-8">
                             <div className="flex flex-col gap-2">

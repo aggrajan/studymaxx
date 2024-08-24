@@ -104,7 +104,7 @@ const VerifyAccount = () => {
                             )}      
                         />
                         
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
                             {
                                 isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Update password')
                             }

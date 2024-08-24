@@ -144,7 +144,7 @@ export function ItemCard({ book } : { book: Book}) {
                 <div className="text-md md:text-md font-semibold text-muted-foreground line-through">
                   &#8377;{book.price.toFixed(0)}
                 </div>
-                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0 bg-blue-700 hover:bg-blue-600">{(book.discount).toFixed(0)}% OFF</Badge>
+                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">{(book.discount).toFixed(0)}% OFF</Badge>
               </div>
               : null
             }
@@ -194,7 +194,7 @@ export function ItemCard({ book } : { book: Book}) {
             </Tooltip>
           </TooltipProvider>
           }
-          {!userPresent && <Button className="mt-2 rounded-sm" disabled={book.outOfStock} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
+          {!userPresent && <Button className="mt-2 rounded-sm  bg-blue-700 hover:bg-blue-800" disabled={book.outOfStock} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
               <h3 className="flex items-center text-xs sm:text-sm font-semibold"><ShoppingCartIcon className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> {book.outOfStock ? "Out of Stock" : "Add to Cart"}</h3>
             </Button>}
           {(user && user.isAdmin) ? 

@@ -52,9 +52,9 @@ export function FeedbackForm() {
     setIsSubmitting(false);
   }
   return (
-    <section className="mx-auto max-w-[100rem] md:w-4/6 pt-12 md:pt-24 lg:pt-32">
+    <section className=" pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16 bg-gradient-to-tr to-gray-100 from-[#bbdeff]">
       <div className="w-full">
-        <div className="space-y-6">
+        <div className="space-y-6 mx-auto max-w-[100rem] md:w-4/6">
           <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Give us your feedback</h2>
             <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
@@ -131,7 +131,7 @@ export function FeedbackForm() {
               
             </div>
             <div className="flex justify-end">
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
                 {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Feedback')
                 }

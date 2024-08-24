@@ -25,7 +25,8 @@ export async function middleware(request: NextRequest) {
         url.pathname.startsWith('/all-queries')   ||
         url.pathname.startsWith('/add-coupon')    || 
         url.pathname.startsWith('/edit-coupon')   ||
-        url.pathname.startsWith('/all-coupons')) && isAdmin === "false") {
+        url.pathname.startsWith('/all-coupons')   ||
+        url.pathname.startsWith('/all-orders')) && isAdmin === "false") {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
@@ -55,6 +56,7 @@ export const config = {
         '/add-coupon',
         '/edit-coupon',
         '/all-coupons',
+        '/all-orders',
         '/'
     ]
 }

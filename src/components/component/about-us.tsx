@@ -15,23 +15,23 @@ export function AboutUsMain() {
               </p>
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-sm bg-secondary px-6 py-3 text-sm font-medium text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2"
+                className="inline-flex items-center justify-center rounded-sm px-6 py-3 text-sm font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white"
                 prefetch={false}
               >
                 Shop Now
               </Link>
             </div>
             <div className="hidden md:block">
-              <img src="/placeholder.svg" alt="Mathematics Books" className="rounded-lg" />
+              <img src="https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/fe57dd22-971f-45ee-a29e-67edfc155a08/2ec3c40e-79b2-47ed-973e-1840c749dc3f.png" alt="Mathematics Books" className="rounded-lg" />
             </div>
           </div>
         </div>
       </section>
-      <section className="py-20 md:py-32">
+      <section className="py-20 md:py-32 bg-[#edf6ff]">
         <div className="mx-auto px-4 md:px-6 container max-w-[100rem]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div>
-              <img src="/placeholder.svg" alt="About Us" className="rounded-lg mx-auto" />
+              <img src="https://easy-peasy.ai/cdn-cgi/image/quality=80,format=auto,width=700/https://fdczvxmwwjwpwbeeqcth.supabase.co/storage/v1/object/public/images/fe57dd22-971f-45ee-a29e-67edfc155a08/2ec3c40e-79b2-47ed-973e-1840c749dc3f.png" alt="About Us" className="rounded-lg mx-auto" />
             </div>
             <div className="space-y-4">
               <h2 className="text-3xl md:text-4xl font-bold">About Us</h2>

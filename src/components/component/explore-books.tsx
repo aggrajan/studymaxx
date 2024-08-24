@@ -88,7 +88,7 @@ export function ExploreBooks() {
   }
 
   return (<>
-    {booksConfig ? <section id="content" className="mx-auto max-w-[100rem] pt-7 bg-background">
+    {booksConfig ? <div className="bg-[#fcfcfc]"><section id="content" className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16">
       <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
         <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
@@ -111,8 +111,8 @@ export function ExploreBooks() {
                 }
               />
               <div className="flex flex-row gap-2">
-                <Button className="mt-2" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
-                <Button className="mt-2" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}>Clear All Filters</Button>
+                <Button className="mt-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
+                <Button className="mt-2 border border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}>Clear All Filters</Button>
               </div>
             </CardContent>
           </Card>
@@ -265,6 +265,6 @@ export function ExploreBooks() {
       </div>
       
       
-    </section> : <SkeleltonExploreBooks />}</>
+    </section></div> : <SkeleltonExploreBooks />}</>
   )
 }

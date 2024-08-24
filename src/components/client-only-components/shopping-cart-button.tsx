@@ -33,8 +33,8 @@ export function ShoppingCartButton() {
       <HoverCard openDelay={400}>
         <HoverCardTrigger asChild>
           <div className="relative">
-              <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full">
-                  <ShoppingCartIcon className="h-5 w-5" />
+              <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full text-white">
+                  <ShoppingCartIcon className="h-5 w-5 " />
                   <span className="sr-only">Shopping Cart</span>
               </Button>
               {cartCount > 0 && (

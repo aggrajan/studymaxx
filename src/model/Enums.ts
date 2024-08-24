@@ -65,3 +65,12 @@ export const couponTypes: [string, ...string[]] = [
     'Percentage',
     'Rupees'
 ]
+
+export const orderStatus: [string, ...string[]] = [
+    'Placed',
+    'Shipped',
+    'On The Way',
+    'Delivered',
+    'Returned',
+    'Cancelled'
+]

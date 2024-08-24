@@ -3,7 +3,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 
 export default function Feedback() {
     return <>
-        <Breadcrumb className="px-4 lg:px-6 mt-16">
+        <Breadcrumb className="px-4 lg:px-6 pt-16">
             <BreadcrumbList>
                 <BreadcrumbItem>
                     <BreadcrumbLink href="/">Home</BreadcrumbLink>

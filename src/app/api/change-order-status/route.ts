@@ -1,8 +1,9 @@
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import UserModel, { CartItem } from "@/model/User";
 import { NextRequest, NextResponse } from "next/server";
-import CouponModel from "@/model/Coupon";
+import OrderModel from "@/model/Order";
+import { orderStatus as orderStatusEnum } from "@/model/Enums";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
@@ -20,12 +21,25 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             });
         }
         const reqBody = await request.json();
-        const { id } = reqBody;
-        await CouponModel.findByIdAndDelete(id);
+        const { id, orderStatus } = reqBody;
+
+        if(orderStatusEnum.findIndex((status: string) => status === orderStatus) === -1) {
+            return NextResponse.json({
+                success: false,
+                message: "Invalid Order Status"
+            }, 
+            {
+                status: 503
+            })
+        }
+
+        await OrderModel.findByIdAndUpdate(id, {
+            orderStatus: orderStatus
+        });
 
         return NextResponse.json({
             success: true,
-            message: "coupon has been deleted successfully"
+            message: "Order has been updated successfully"
         }, 
         {
             status: 200
@@ -35,7 +49,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         console.log("api error: ", error.message);
         return NextResponse.json({
             success: false,
-            message: "error occured while deleting coupon"
+            message: "error occured while deleting Order"
         }, 
         {
             status: 500

@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="bg-muted text-muted-foreground py-12">
+    <footer className="bg-blue-700 text-gray-300 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 container max-w-[100rem]">
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
@@ -12,16 +12,16 @@ export function Footer() {
           <p className="text-sm">Discover your next great read with our curated selection of books.</p>
           <div className="flex items-center gap-4">
             <Link href="#" aria-label="Facebook" prefetch={false}>
-              <FacebookIcon className="h-5 w-5" />
+              <FacebookIcon className="h-6 w-6" />
             </Link>
             <Link href="#" aria-label="Twitter" prefetch={false}>
-              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 512 512" className="fill-current text-muted-foreground"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 512 512" className="fill-current text-gray-300"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
             </Link>
             <Link href="#" aria-label="Instagram" prefetch={false}>
-              <InstagramIcon className="h-5 w-5" />
+              <InstagramIcon className="h-6 w-6" />
             </Link>
             <Link href="#" aria-label="LinkedIn" prefetch={false}>
-              <LinkedinIcon className="h-5 w-5" />
+              <LinkedinIcon className="h-6 w-6" />
             </Link>
           </div>
           <div className="grid gap-2">
@@ -43,52 +43,52 @@ export function Footer() {
         <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
           <div className="flex flex-col gap-2">
             <h4 className="text-sm font-medium">Quick Links</h4>
-            <Link href="/" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Home
             </Link>
-            <Link href="/mission" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/mission" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Vision
             </Link>
-            <Link href="/faq" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/faq" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               FAQs
             </Link>
-            <Link href="/#contact-us" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/#contact-us" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Contact
             </Link>
           </div>
           <div className="flex flex-col gap-2">
             <h4 className="text-sm font-medium">Information</h4>
-            <Link href="/policy#privacy-policy" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#privacy-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Privacy Policy
             </Link>
-            <Link href="/policy#terms-and-conditions" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#terms-and-conditions" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Terms and Conditions
             </Link>
-            <Link href="/policy#return-policy" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#return-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Return Policy
             </Link>
-            <Link href="/policy#refund-policy" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#refund-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Refund Policy
             </Link>
-            <Link href="/policy#shipping-policy" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#shipping-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Shipping Policy
             </Link>
-            <Link href="/policy#cancellation-policy" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#cancellation-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Cancellation Policy
             </Link>
-            <Link href="/policy#disclaimer" className="text-sm hover:underline" prefetch={false}>
+            <Link href="/policy#disclaimer" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Disclaimer
             </Link>
           </div>
           <div className="flex flex-col gap-2">
             <h4 className="text-sm font-medium">Contact Info</h4>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="#" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               [Address]
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="#" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               [Phone]
             </Link>
-            <Link href="#" className="text-sm hover:underline" prefetch={false}>
+            <Link href="#" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               [Mail]
             </Link>
           </div>
@@ -97,10 +97,10 @@ export function Footer() {
       <div className="container max-w-7xl mt-8 flex items-center justify-between px-4 md:px-0">
         <p className="text-sm">&copy; 2024 StudyMaxx. All rights reserved.</p>
         <nav className="flex items-center gap-4">
-          <Link href="/policy#privacy-policy" className="text-sm hover:underline" prefetch={false}>
+          <Link href="/policy#privacy-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
             Privacy Policy
           </Link>
-          <Link href="/policy#terms-and-conditions" className="text-sm hover:underline" prefetch={false}>
+          <Link href="/policy#terms-and-conditions" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
             Terms of Service
           </Link>
         </nav>

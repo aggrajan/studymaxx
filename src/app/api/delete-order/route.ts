@@ -1,8 +1,8 @@
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
+import UserModel, { CartItem } from "@/model/User";
 import { NextRequest, NextResponse } from "next/server";
-import CouponModel from "@/model/Coupon";
+import OrderModel from "@/model/Order";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
@@ -21,11 +21,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
         const reqBody = await request.json();
         const { id } = reqBody;
-        await CouponModel.findByIdAndDelete(id);
+        await OrderModel.findByIdAndDelete(id);
 
         return NextResponse.json({
             success: true,
-            message: "coupon has been deleted successfully"
+            message: "Order has been deleted successfully"
         }, 
         {
             status: 200
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         console.log("api error: ", error.message);
         return NextResponse.json({
             success: false,
-            message: "error occured while deleting coupon"
+            message: "error occured while deleting Order"
         }, 
         {
             status: 500

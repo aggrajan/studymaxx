@@ -21,6 +21,7 @@ export default function UserProfilePage() {
         }
     }
     return (
+      <div className="bg-gray-100">
         <div className="w-full max-w-3xl mx-auto py-8 px-4 md:px-6">
           <header className="flex items-center gap-4 mb-8">
             <Avatar className="w-16 h-16">
@@ -102,5 +103,6 @@ export default function UserProfilePage() {
               </Button>
           </div>
         </div>
+      </div>
       )
 }

@@ -38,7 +38,7 @@ export const cartSlice = createSlice({
                 cartItems: [...action.payload],
                 cartCount: action.payload.length,
                 subtotal: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? parseInt((curr.product.price * ((100 - curr.product.discount) / 100.0)).toFixed(0)) : parseInt(curr.product.price.toFixed(0))), 0),
-                total: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? parseInt((curr.product.price * ((100 - curr.product.discount) / 100.0)).toFixed(0)) : parseInt(curr.product.price.toFixed(0))), 0) - state.discount + state.shipping
+                total: action.payload.reduce((prev, curr) => prev + curr.quantity * ((curr.product.discount && curr.product.discount > 0) ? parseInt((curr.product.price * ((100 - curr.product.discount) / 100.0)).toFixed(0)) : parseInt(curr.product.price.toFixed(0))), 0) - parseInt(state.discount.toFixed(0)) + parseInt(state.shipping.toFixed(0))
             }
         }, 
         addCartItem: (state: ICartState, action: PayloadAction<ICartItem>) => {
@@ -61,15 +61,15 @@ export const cartSlice = createSlice({
         setShippingAmount: (state: ICartState, action: PayloadAction<number>) => {
             return {
                 ...state,
-                shipping: action.payload,
-                total: state.total - state.shipping + action.payload
+                shipping: parseInt(action.payload.toFixed(0)),
+                total: state.total - parseInt(state.shipping.toFixed(0)) + parseInt(action.payload.toFixed(0))
             }
         },
         setDiscountAmount: (state: ICartState, action: PayloadAction<number>) => {
             return {
                 ...state,
-                discount: action.payload,
-                total: state.total + state.discount - action.payload
+                discount: parseInt(action.payload.toFixed(0)),
+                total: state.total + parseInt(state.discount.toFixed(0)) - parseInt(action.payload.toFixed(0))
             }
         },
         addItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
@@ -81,7 +81,7 @@ export const cartSlice = createSlice({
 
                 state.cartItems[itemIndex].quantity += 1;
                 state.subtotal += ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
-                state.total = state.subtotal + state.shipping - state.discount;
+                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
             }
             
         },
@@ -94,7 +94,7 @@ export const cartSlice = createSlice({
 
                 state.cartItems[itemIndex].quantity -= 1;
                 state.subtotal -= ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
-                state.total = state.subtotal + state.shipping - state.discount;
+                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
             }
         },
         removeCartItem: (state: ICartState, action: PayloadAction<{ id: number }>) => {
@@ -111,7 +111,7 @@ export const cartSlice = createSlice({
                     state.cartItems.splice(itemIndex, 1);
                     state.cartCount -= 1;
                     state.subtotal -= ((item.product.discount && item.product.discount > 0) ? parseInt((item.product.price * ((100 - item.product.discount) / 100.0)).toFixed(0)) : parseInt(item.product.price.toFixed(0))) * item.quantity;
-                    state.total = state.subtotal + state.shipping - state.discount;
+                    state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
                 }
             }   
         },

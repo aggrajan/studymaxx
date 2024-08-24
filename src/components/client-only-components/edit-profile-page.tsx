@@ -117,8 +117,9 @@ export default function EditProfilePage() {
     const errorMessageCss = "text-xs text-red-600 font-normal mt-1"
 
     return (
+        <div className="bg-gray-100">
         <div className="w-full max-w-3xl mx-auto py-8 px-4 md:px-6">
-          <h2 className="text-xl font-semibold">Edit Profile</h2>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">Edit Profile</h2>
             <Card className="mt-4 rounded-sm">
                 <CardContent className="w-full p-4">
                     
@@ -381,5 +382,6 @@ export default function EditProfilePage() {
                 </CardContent>
             </Card>
         </div>
+    </div>
       );
 }

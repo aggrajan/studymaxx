@@ -2,6 +2,7 @@ import mongoose, { Schema, Document, mongo } from "mongoose";
 import { CartItem, CartItemSchema } from "./User";
 import AddressSchema, { Address } from "./Address";
 export interface Order extends Document {
+    _id?: string;
     userId?: string;
     products: CartItem[];
     address: Address;
@@ -13,6 +14,8 @@ export interface Order extends Document {
     orderStatus: string;
     name: string;
     email: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export const OrderSchema: Schema<Order> = new Schema({
@@ -60,11 +63,7 @@ export const OrderSchema: Schema<Order> = new Schema({
         type: String,
         required: [true, "email is required"]
     }
-})
-
-if(mongoose.models.Order) {
-    delete mongoose.models.Order;
-}
+},  { timestamps: true })
 
 const OrderModel = (mongoose.models.Order as mongoose.Model<Order>) || mongoose.model<Order>("Order", OrderSchema);
 export default OrderModel;

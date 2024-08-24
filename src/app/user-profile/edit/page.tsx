@@ -4,7 +4,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 export default function EditProfile() {
     return (
         <>
-            <Breadcrumb className="px-4 lg:px-6 mt-16 mb-2">
+            <Breadcrumb className="px-4 lg:px-6 pt-16 pb-2 bg-gray-100">
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/">Home</BreadcrumbLink>

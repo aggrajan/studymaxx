@@ -92,10 +92,6 @@ export const UserSchema: Schema<User> = new Schema({
     coupons: [String]
 });
 
-if(mongoose.models.User) {
-    delete mongoose.models.User;
-}
-
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);
 
 export default UserModel;

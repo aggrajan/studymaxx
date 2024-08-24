@@ -4,14 +4,14 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 export default function AboutUs() {
     return (
         <>
-            <Breadcrumb className="px-4 lg:px-6 mt-16 mb-2">
+            <Breadcrumb className="px-4 lg:px-6 pt-16 pb-2 bg-primary">
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                        <BreadcrumbLink href="/" className="text-white hover:text-gray-300">Home</BreadcrumbLink>
                     </BreadcrumbItem>
-                    <BreadcrumbSeparator />
+                    <BreadcrumbSeparator className="text-gray-400" />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>About Us</BreadcrumbPage>
+                        <BreadcrumbPage className="text-white">About Us</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>

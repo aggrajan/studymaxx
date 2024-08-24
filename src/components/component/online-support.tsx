@@ -2,7 +2,8 @@ import { Button } from "../ui/button";
 
 export function OnlineSupport() {
   return (
-    <section className="mx-auto max-w-[100rem] pt-12">
+    <div className="bg-gradient-to-tr to-gray-100 from-[#bbdeff]">
+    <section className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-12 md:pb-16 lg:pb-20">
       <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
         <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Online Support</h2>
@@ -23,7 +24,7 @@ export function OnlineSupport() {
                 Get help with assignments, study tips, and more. Our team is available to assist you 24/7.
               </p>
             </div>
-            <Button className="mt-4 w-auto mx-auto">Get Support</Button>
+            <Button className="mt-4 w-auto mx-auto bg-blue-700 hover:bg-blue-800">Get Support</Button>
           </div>
           <div className="rounded-sm border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
@@ -37,7 +38,7 @@ export function OnlineSupport() {
                 Access lesson plans, grading tools, and professional development resources. We&apos;re here to help you succeed.
               </p>
             </div>
-            <Button className="mt-4 w-auto mx-auto">Get Support</Button>
+            <Button className="mt-4 w-auto mx-auto bg-blue-700 hover:bg-blue-800">Get Support</Button>
           </div>
           <div className="rounded-sm border bg-background p-6 shadow-sm transition-all hover:shadow-md flex flex-col justify-between">
             <div>
@@ -51,11 +52,11 @@ export function OnlineSupport() {
                 Get guidance on supporting your child&apos;s learning, managing schedules, and more. We&apos;re here for you.
               </p>
             </div>
-            <Button className="mt-4 w-auto mx-auto">Get Support</Button>
+            <Button className="mt-4 w-auto mx-auto bg-blue-700 hover:bg-blue-800">Get Support</Button>
           </div>
         </div>
       </div>
-    </section>
+    </section></div>
   );
 }
 

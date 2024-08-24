@@ -137,11 +137,13 @@ function SignUp() {
                                 </FormItem>
                             )}      
                         />
-                        <Button type="submit" disabled={isSubmitting}>
-                            {
-                                isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Sign up')
-                            }
-                        </Button>
+                        <div className="flex justify-center items-center">
+                            <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
+                                {
+                                    isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Sign up')
+                                }
+                            </Button>
+                        </div>
                     </form>
                 </Form>
                 <div className="text-center mt-4">

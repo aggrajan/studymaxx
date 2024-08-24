@@ -24,7 +24,7 @@ export function CartPage() {
     return (originalPrice * (100 - discount)) / 100.0;
   }
   return (
-      <main className="flex-1 py-12 px-0 md:px-4">
+      <main className="flex-1 py-12 px-0 md:px-4 bg-gray-100">
         <div className="px-4 mx-auto grid gap-8 md:grid-cols-[2fr_1fr]">
           <div>
             <h1 className="text-2xl font-bold mb-4">Your Cart</h1>
@@ -73,7 +73,7 @@ export function CartPage() {
               )) : <div className="flex justify-center items-center">Your cart is empty</div>}
             </div>
           </div>
-          <div className="bg-muted p-6 rounded-lg h-fit">
+          <div className="bg-gray-200 border-2 border-gray-400 p-6 rounded-lg h-fit">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
             <div className="grid gap-2">
               <div className="flex justify-between">

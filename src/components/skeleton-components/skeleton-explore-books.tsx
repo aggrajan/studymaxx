@@ -4,14 +4,14 @@ import { Skeleton } from "../ui/skeleton";
 export function SkeleltonExploreBooks() {
     const itemCartCss = "w-full aspect-[3/4]"
     return (
-        <section id="content" className="max-w-[100rem] mx-auto pt-7 bg-background">
+        <section id="content" className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16 bg-[#fcfcfc]">
             <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-10">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
                     Discover our top-selling and most popular books across various genres.
                 </p>
             </div>
-            <div className="px-4 md:px-6 grid md:grid-cols-[280px_1fr] gap-8">
+            <div className="px-4 md:px-6 grid md:grid-cols-[280px_1fr] lg:grid-cols-[380px_1fr] gap-8">
                 <div className="flex flex-col gap-4">
                     <Card className="rounded-sm">
                         <CardHeader>
