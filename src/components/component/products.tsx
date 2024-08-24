@@ -96,7 +96,7 @@ export function ProductsPage() {
                   <Input placeholder="search by title or author or keywords" className="mx-0 rounded-sm" value={searchTerm} onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} />
                   <div className="w-full">
                     <Button className="mt-3 mr-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchTerm); setCurrentPage(1); }}>Search</Button>
-                    <Button className="mt-3 border border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
+                    <Button className="mt-3 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
                   </div>
                 </div>
             </div>

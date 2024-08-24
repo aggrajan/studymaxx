@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function DiscoverSection() {
     return (
-        <div className=" bg-gradient-to-tr to-gray-100 from-[#bbdeff]">
+        <div className=" bg-gradient-to-tr to-gray-100 from-[#d9edff]">
         <section className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16">
           <div className="grid gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-12">
             <img
@@ -23,14 +23,14 @@ export function DiscoverSection() {
               <div className="flex gap-2">
                 <Link
                   href="/products"
-                  className="inline-flex h-9 items-center justify-center rounded-sm bg-blue-700 hover:bg-blue-800 px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                  className="inline-flex h-9 items-center justify-center rounded-sm bg-blue-700 hover:bg-blue-800 px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                   prefetch={false}
                 >
                   Shop Books
                 </Link>
                 <Link
                   href="/about-us"
-                  className="inline-flex h-9 items-center justify-center rounded-sm border border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+                  className="inline-flex h-9 items-center justify-center rounded-sm border border-black text-black bg-white hover:bg-gray-600 hover:text-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                   prefetch={false}
                 >
                   Learn More

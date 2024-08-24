@@ -5,7 +5,7 @@ import { Separator } from "../ui/separator";
 export function OurMission() {
     return (
         <section className="container max-w-[100rem] pt-12 md:pt-24 lg:pt-32 mb-24">
-            <div className="flex flex-col items-center justify-center space-y-36 px-4 md:px-6 text-center">
+            <div className="flex flex-col items-center justify-center space-y-36 px-8 md:px-12 text-center">
                 <div className="space-y-2">
                     <p className="max-w-4xl text-muted-foreground md:text-xl">
                         Mission
@@ -19,7 +19,7 @@ export function OurMission() {
                     <Separator orientation="vertical" className="mx-2"></Separator>
                     <div className="flex flex-col justify-start items-center gap-4 text-justify md:text-lg text-slate-600">
                         <div>
-                        Our mission is to be the premier destination for all enthusiasts of R.S. Aggarwal’s literary works, providing unparalleled access to his extensive range of books. We are dedicated to bringing the wisdom, knowledge, and expertise of R.S. Aggarwal into the hands of students, educators, and lifelong learners around the world. Whether it&apos;s mathematical concepts, competitive exam preparation, or advanced problem-solving techniques, our e-commerce platform ensures that every individual can easily find and purchase these invaluable resources.
+                        Our mission is to be the premier destination for all enthusiasts of R.S. Aggarwals literary works, providing unparalleled access to his extensive range of books. We are dedicated to bringing the wisdom, knowledge, and expertise of R.S. Aggarwal into the hands of students, educators, and lifelong learners around the world. Whether it&apos;s mathematical concepts, competitive exam preparation, or advanced problem-solving techniques, our e-commerce platform ensures that every individual can easily find and purchase these invaluable resources.
                         </div>
                         <div>
                         At the heart of our mission lies a commitment to educational excellence. We believe that quality education is the cornerstone of personal and professional growth, and R.S. Aggarwal&apos;s books are renowned for their clarity, depth, and practical approach to learning. By offering these books exclusively, we aim to support students in achieving academic success and reaching their full potential. Our platform is designed to be user-friendly, ensuring a seamless shopping experience where customers can quickly locate the titles they need, read reviews, and make informed purchasing decisions.

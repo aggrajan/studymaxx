@@ -15,7 +15,7 @@ export function AboutUsMain() {
               </p>
               <Link
                 href="/products"
-                className="inline-flex items-center justify-center rounded-sm px-6 py-3 text-sm font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white"
+                className="inline-flex items-center justify-center rounded-sm px-6 py-3 text-sm font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 border-black text-black bg-white hover:bg-gray-600 hover:text-white"
                 prefetch={false}
               >
                 Shop Now

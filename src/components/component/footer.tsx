@@ -2,7 +2,7 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="bg-blue-700 text-gray-300 py-12">
+    <footer className="bg-primary text-gray-300 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 container max-w-[100rem]">
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
@@ -40,7 +40,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="flex flex-col gap-2">
             <h4 className="text-sm font-medium">Quick Links</h4>
             <Link href="/" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>

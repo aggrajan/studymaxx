@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 export function ConnectWithUs() {
     const iconSize = "w-[40px] md:w-[60px]"
     return (
-        <div className="bg-gradient-to-tr to-gray-100 from-[#bbdeff]" >
+        <div className="bg-gradient-to-tr to-gray-100 from-[#d9edff]" >
         <section className="px-4 md:px-6 pt-6 md:pt-12 md:pb-24 lg:pt-16 lg:pb-32 pb-12 container max-w-[100rem]">
             <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
                 <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">

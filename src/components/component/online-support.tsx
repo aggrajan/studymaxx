@@ -2,7 +2,7 @@ import { Button } from "../ui/button";
 
 export function OnlineSupport() {
   return (
-    <div className="bg-gradient-to-tr to-gray-100 from-[#bbdeff]">
+    <div className="bg-gradient-to-tr to-gray-100 from-[#d9edff]">
     <section className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-12 md:pb-16 lg:pb-20">
       <div className="flex flex-col items-center justify-center space-y-4 px-4 md:px-6 text-center">
         <div className="space-y-2 mb-0 sm:mb-5 md:mb-8 lg:mb-10">

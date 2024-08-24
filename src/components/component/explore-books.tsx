@@ -112,7 +112,7 @@ export function ExploreBooks() {
               />
               <div className="flex flex-row gap-2">
                 <Button className="mt-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}>Search</Button>
-                <Button className="mt-2 border border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}>Clear All Filters</Button>
+                <Button className="mt-2 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}>Clear All Filters</Button>
               </div>
             </CardContent>
           </Card>

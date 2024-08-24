@@ -132,7 +132,7 @@ function SignIn() {
                             </Button>
                         </div>
                         <div className="flex justify-center items-center">
-                            <Button onClick={handleGoogleSignIn} className="border border-black text-black bg-gray-300 hover:bg-gray-600 hover:text-white" disabled={isSubmitting}>
+                            <Button onClick={handleGoogleSignIn} className="border border-black text-black bg-white hover:bg-gray-600 hover:text-white" disabled={isSubmitting}>
                                 {
                                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Sign in with Google')
                                 }
