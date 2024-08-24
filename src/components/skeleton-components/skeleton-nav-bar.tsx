@@ -6,7 +6,7 @@ import { Skeleton } from "../ui/skeleton";
 
 export function SkeletonNavBar() {
     return <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
-        <Link href="/" className="flex items-center justify-center" prefetch={false}>
+        <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
           <BookIcon className="h-6 w-6" />
           <span className="sr-only">StudyMaxx</span>
         </Link>
