@@ -562,7 +562,7 @@ export default function CheckoutPage() {
                         </div>
                         </div>
                     </div>
-                    <div className="bg-gray-200 border-2 border-gray-400 p-6 rounded-lg h-fit">
+                    <div className="bg-gray-200 border-2 border-gray-400 p-6 rounded-lg h-fit mb-6">
                         <h2 className="text-xl font-bold mb-4">Got a Discount Coupon?</h2>
                         <div className="flex gap-8">
                             <div className="flex flex-col gap-2">

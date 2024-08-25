@@ -30,7 +30,7 @@ export function OrderDetail(props: any) {
         <div className="w-full bg-gray-100">
             <section className="mx-auto max-w-[100rem] px-4 md:px-6 py-8 pt-[55px]">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">Order Details</h1>
-                <div className="grid gap-8 md:grid-cols-[2fr_1fr] ml-10 mr-10">
+                <div className="grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
                     <Card className="rounded-sm">
                     <CardHeader>
                         <CardTitle className="text-xl">Order #{order._id}</CardTitle>
@@ -83,7 +83,7 @@ export function OrderDetail(props: any) {
                             </div>
                         </CardContent>
                     </Card>
-                    <div className="min-w-[25rem]">
+                    <div className="min-w-[20rem]">
                         <h2 className="font-bold tracking-tighter text-2xl mb-3">You Purchased</h2>
                         <div className="flex flex-col gap-y-4 w-full mb-10">
                             {(order.numberOfItems > 0) ? order.products.map((item, index) => (

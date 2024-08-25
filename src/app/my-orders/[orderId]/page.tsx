@@ -42,7 +42,7 @@ export default function OrderDetailPage() {
 
     if(unauthorized) return <div className='h-screen w-screen flex justify-center items-center'>
     <div className="flex flex-col items-center">
-      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">Unauthorized Access Denied!</h1>
+      <h1 className="text-xl font-bold tracking-tighter sm:text-3xl md:text-5xl mb-4">Unauthorized Access Denied!</h1>
       <Link href="/" className="text-blue-500 hover:text-blue-700 hover:underline underline-offset-2">Visit Home?</Link>
     </div>
   </div>
