@@ -34,7 +34,7 @@ export function OrderDetail(props: any) {
                     <Card className="rounded-sm">
                     <CardHeader>
                         <CardTitle className="text-xl">Order #{order._id}</CardTitle>
-                        <CardDescription className="text-lg">Order {order.orderStatus} at {order.updatedAt?.toString().slice(0, 10)}</CardDescription>
+                        <CardDescription className="text-lg">Order {order.orderStatus} on {order.updatedAt?.toString().slice(0, 10)}</CardDescription>
                     </CardHeader>
                         <CardContent className="relative grid gap-2">
                             <div className="grid gap-1">
