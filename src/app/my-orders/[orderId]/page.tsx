@@ -24,7 +24,12 @@ export default function OrderDetailPage() {
             try{ 
                 const response = await axios.get(`/api/get-order/${user?._id}/${orderId}`);
                 if(response.status === 200) {
-                    setOrder(response.data.response);
+                    const currentOrder = response.data.response;
+                    if(currentOrder.userId !== user?._id) {
+                        setUnauthorized(true);
+                    } else {
+                        setOrder(response.data.response);
+                    }
                 }
             } catch(error: any) {
                 setUnauthorized(true); 
