@@ -15,7 +15,8 @@ import { useToast } from "../ui/use-toast"
 import { Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 
-export function OrdersPage( { api } : { api : string } ) {
+export function OrdersPage( { api, pageLocation } : { api : string, pageLocation: string } ) {
+  const [errorMessage, setErrorMessage] = useState("No Orders Found!");
   const router = useRouter();
   const { toast } = useToast();
   const { user, userPresent } = useAppSelector(state => state.auth);
@@ -54,6 +55,8 @@ export function OrdersPage( { api } : { api : string } ) {
         }
 
         setSelectedStatusToChange(changeStatusArray);
+      } else {
+        setErrorMessage("You are not authorized to view this page");
       }
       setIsMounted(true);
     })();
@@ -116,9 +119,9 @@ export function OrdersPage( { api } : { api : string } ) {
   if(!isMounted || !userPresent) return <SkeletonOrders></SkeletonOrders>
 
   return (
-    (filteredOrders.length > 0 && userPresent) ? 
+    (orders.length > 0 && userPresent) ? 
     <div className="w-full bg-gray-100">
-      <div className="mx-auto max-w-[100rem] px-4 md:px-6  py-8 mt-[55px]">
+      <div className="mx-auto max-w-[100rem] px-4 md:px-6 py-8 pt-[55px]">
       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">Orders</h1>
       <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div>
@@ -145,7 +148,7 @@ export function OrdersPage( { api } : { api : string } ) {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredOrders.map((order: Order, index: number) => (
+        {filteredOrders.length > 0 ? filteredOrders.map((order: Order, index: number) => (
           <Card key={order._id} className="rounded-sm">
             <CardHeader>
               <CardTitle>Order #{order._id}</CardTitle>
@@ -177,17 +180,19 @@ export function OrdersPage( { api } : { api : string } ) {
               </div>
               <Separator />
               <div className="flex justify-between items-center">
-                <Button className="mt-4" disabled={isSubmitting}>
-                {
+                <Button className="mt-4" disabled={isSubmitting} onClick={() => router.push(`/${pageLocation}/${order._id}`)}>
+                  {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('View Order')
-                }
+                  }
                 </Button>
-                {userPresent && user?.isAdmin && <Button disabled={isSubmitting} variant="destructive" className="mt-4" onClick={() => {
+                {userPresent && user?.isAdmin && 
+                <Button disabled={isSubmitting} variant="destructive" className="mt-4" onClick={() => {
                   onDelete(order._id || "");
                 }}>
                   {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Delete Order')
-                  }</Button>}
+                  }
+                </Button>}
               </div>
               {userPresent && user?.isAdmin && <div className="grid grid-cols-1 mt-4 gap-2">
               <Select value={selectedStatusToChange[index]} onValueChange={(value) => {
@@ -217,12 +222,15 @@ export function OrdersPage( { api } : { api : string } ) {
               </div>}
             </CardContent>
           </Card>
-        ))}
+        )) : <div className='h-full w-full flex justify-center items-center'>
+              <h1 className="text-xl font-bold tracking-tighter sm:text-xl md:text-3xl mb-4">No Orders Found!</h1>
+            </div>
+          }
       </div>
       </div>
     </div> : <div className='h-screen w-screen flex justify-center items-center'>
       <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">No Orders Yet!</h1>
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">{errorMessage}</h1>
         <Link href="/" className="text-blue-500 hover:text-blue-700 hover:underline underline-offset-2">Visit Home?</Link>
       </div>
     </div>

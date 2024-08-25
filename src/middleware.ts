@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 export { default } from 'next-auth/middleware';
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-
 
 export async function middleware(request: NextRequest) {
     let token = cookies().get("token")?.value || "";
@@ -31,7 +29,7 @@ export async function middleware(request: NextRequest) {
     }
 
     if(token === "" && (url.pathname.startsWith('/user-profile') || url.pathname.startsWith('/wishlist')
-     || url.pathname.startsWith('/queries') )) {
+     || url.pathname.startsWith('/queries') || url.pathname.startsWith('/my-orders'))) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
@@ -57,6 +55,7 @@ export const config = {
         '/edit-coupon',
         '/all-coupons',
         '/all-orders',
+        '/my-orders',
         '/'
     ]
 }

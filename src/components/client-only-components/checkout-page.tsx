@@ -38,7 +38,6 @@ import { useDebounceCallback } from "usehooks-ts";
 import { Coupon } from "@/model/Coupon";
 import { ApiResponse } from "@/types/ApiResponse";
 import { setCheckoutDiscountAmount } from "@/lib/slices/checkoutSlice"
-import { setDiscountAmount } from "@/lib/slices/cartSlice";
 
 export default function CheckoutPage() {
     const dispatch = useAppDispatch();
@@ -195,6 +194,9 @@ export default function CheckoutPage() {
            console.log(res);
            if (res.isOk) {
             alert("payment succeed");
+            checkoutData.discount = cart.discount;
+            checkoutData.shipping = cart.shipping;
+            checkoutData.total = cart.total;
             const response = await axios.post(`/api/add-order`, checkoutData);
             const addCouponResponse = await axios.post(`/api/add-user-coupon`, { couponId: coupon?._id || "" });
             if(response.status === 200 && addCouponResponse.status == 200) {

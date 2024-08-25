@@ -206,7 +206,7 @@ export function NavBar() {
                   <img src="/query.svg" className="w-4 h-4 mr-2" />Your Queries
               </DropdownMenuItem>
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/my-orders')); }}>
-                  <img src="/order.svg" className="w-4 h-4 mr-2" />My Orders
+                  <img src="/order.svg" className="w-4 h-4 mr-2" />Your Orders
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

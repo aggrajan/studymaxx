@@ -40,63 +40,63 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
           <div className="flex flex-col gap-2">
-            <h4 className="text-sm font-medium">Quick Links</h4>
-            <Link href="/" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <h4 className="text-xs md:text-sm font-medium">Quick Links</h4>
+            <Link href="/" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Home
             </Link>
-            <Link href="/mission" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/mission" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Vision
             </Link>
-            <Link href="/faq" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/faq" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               FAQs
             </Link>
-            <Link href="/#contact-us" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/#contact-us" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Contact
             </Link>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="text-sm font-medium">Information</h4>
-            <Link href="/policy#privacy-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <h4 className="text-xs md:text-sm font-medium">Information</h4>
+            <Link href="/policy#privacy-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Privacy Policy
             </Link>
-            <Link href="/policy#terms-and-conditions" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#terms-and-conditions" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Terms and Conditions
             </Link>
-            <Link href="/policy#return-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#return-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Return Policy
             </Link>
-            <Link href="/policy#refund-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#refund-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Refund Policy
             </Link>
-            <Link href="/policy#shipping-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#shipping-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Shipping Policy
             </Link>
-            <Link href="/policy#cancellation-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#cancellation-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Cancellation Policy
             </Link>
-            <Link href="/policy#disclaimer" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#disclaimer" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Disclaimer
             </Link>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="text-sm font-medium">Contact Info</h4>
-            <Link href="#" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <h4 className="text-xs md:text-sm font-medium">Contact Info</h4>
+            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               [Address]
             </Link>
-            <Link href="#" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               [Phone]
             </Link>
-            <Link href="#" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               [Mail]
             </Link>
           </div>
         </div>
       </div>
-      <div className="container max-w-7xl mt-8 flex items-center justify-between px-4 md:px-0">
+      <div className="container max-w-7xl mt-8 grid grid-cols-1 md:grid-cols-2 px-4 md:px-0 gap-y-6">
         <p className="text-sm">&copy; 2024 StudyMaxx. All rights reserved.</p>
-        <nav className="flex items-center gap-4">
+        <nav className="flex items-center justify-end gap-4">
           <Link href="/policy#privacy-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
             Privacy Policy
           </Link>
