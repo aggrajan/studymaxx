@@ -35,7 +35,7 @@ export function EveryFeedbackPage() {
                 See all the feedbacks that might improve our website
                 </p>
             </div>
-            <div className="container md:px-6 pt-6">
+            <div className="container px-4 md:px-6 pt-6">
             <Table>
                 <TableCaption>A list of all recent feedbacks</TableCaption>
                 <TableHeader>

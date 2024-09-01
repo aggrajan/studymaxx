@@ -54,7 +54,7 @@ export function CouponsPage() {
             </Tooltip>
             </TooltipProvider>
             </div>
-            <div className="container md:px-6 pt-6">
+            <div className="container px-4 md:px-6">
             <Table>
                 <TableCaption>A list of all your added coupons</TableCaption>
                 <TableHeader>
@@ -83,7 +83,7 @@ export function CouponsPage() {
                                 <TooltipProvider>
                                     <Tooltip delayDuration={200}>
                                         <TooltipTrigger asChild>
-                                        <Button variant="outline" size="icon" className="w-8 h-8 flex justify-center items-center border-0 shadow-none bg-inherit hover:bg-inherit" onClick={() => router.push(`/edit-coupon/${coupon._id}`)}>
+                                        <Button variant="outline" size="icon" className="w-6 h-6 flex justify-center items-center border-0 shadow-none bg-inherit hover:bg-inherit" onClick={() => router.push(`/edit-coupon/${coupon._id}`)}>
                                             <img src="/edit.svg" className="w-7 h-7" />
                                         </Button>
                                         </TooltipTrigger>
