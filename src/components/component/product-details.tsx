@@ -155,7 +155,7 @@ export function ProductDetails(props: any) {
           <div className="flex items-center justify-start gap-4">
             {props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount).toFixed(0)}</div>}
             <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price.toFixed(0)}</div>
-            {props.book.discount > 0 && <Badge variant="default">{(props.book.discount).toFixed(0)}% OFF</Badge>}
+            {props.book.discount > 0 && <Badge variant="default" className="text-black bg-gray-300 hover:bg-gray-600 hover:text-white">{(props.book.discount).toFixed(0)}% OFF</Badge>}
           </div> 
           {(props.book.pdfUrl && props.book.pdfUrl !== "") ? <Dialog>
             <DialogTrigger asChild>
