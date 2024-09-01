@@ -55,7 +55,7 @@ export default function UserProfilePage() {
                   {(user?.addresses && user?.addresses.length > 0) ? user?.addresses.map((address: Address, index: number) => (
                     <Card key={`address_${index}`} className="rounded-sm">
                       <CardContent className="relative p-4 grid gap-2">
-                          {address.default && <Badge className="h-7 absolute top-3 right-3">Default</Badge>}
+                          {address.default && <Badge className="h-7 absolute top-3 right-3 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">Default</Badge>}
                           <div className="grid gap-1">
                             <div className="font-semibold text-gray-500">Address</div>
                             <p className="text-sm">{address.address}</p>
@@ -98,7 +98,7 @@ export default function UserProfilePage() {
           </div>
           <Separator />
           <div className="mt-8 gap-8">
-              <Button className="mx-auto" onClick={() => router.push("/user-profile/edit")}>
+              <Button className="mx-auto bg-blue-700 hover:bg-blue-800" onClick={() => router.push("/user-profile/edit")}>
                   Edit Profile
               </Button>
           </div>

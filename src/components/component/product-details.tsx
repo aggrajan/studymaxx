@@ -243,11 +243,11 @@ export function ProductDetails(props: any) {
         </div>
         
         {!props.addedToCart && <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 ${isModal ? "w-full" : "w-full lg:w-5/6"}`}>
-          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-primary"}`} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
+          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-blue-700 hover:bg-blue-800"}`} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             {props.book.outOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
-          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-primary"}`} onClick={() => { dispatch(setCheckout([cartItem])); router.push("/payment"); }}>
+          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-blue-700 hover:bg-blue-800"}`} onClick={() => { dispatch(setCheckout([cartItem])); router.push("/payment"); }}>
             <img src={props.book.outOfStock ? "/rupeeRed.svg" : "/rupee.svg"} width={20} className="mr-1"/>
             {props.book.outOfStock ? "Out of Stock" : "Buy Now"}
           </Button>

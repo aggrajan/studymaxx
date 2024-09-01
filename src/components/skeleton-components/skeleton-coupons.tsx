@@ -4,7 +4,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 export function SkeletonCoupons() {
     return (
         <>
-            <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8  bg-gray-100">
+            <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8  bg-white">
                 <div className="px-4 md:px-6 gap-8 pb-4">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Your Coupons</h2>
                     <p className="max-w-[700px] text-muted-foreground md:text-xl">

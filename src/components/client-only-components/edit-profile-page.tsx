@@ -362,7 +362,7 @@ export default function EditProfilePage() {
                                         </Card>
                                     
                                     ))}
-                                    <Button type="button" onClick={handleAppendAddress}>
+                                    <Button type="button" onClick={handleAppendAddress} className="bg-blue-700 hover:bg-blue-800">
                                         {fields.length > 0 ? "Add Another Address" : "Add Address"}
                                     </Button>
                                 </>
@@ -371,7 +371,7 @@ export default function EditProfilePage() {
                             
 
                             <div className="flex justify-end gap-2">
-                                <Button type="submit" disabled={isSubmitting}>
+                                <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
                                     {
                                         isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Edit Profile')
                                     }

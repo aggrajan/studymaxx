@@ -232,7 +232,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                   
                 </div>
               </div>
-              <Button type="submit" className={`justify-self-end cursor-pointer`} disabled={isSubmitting}>
+              <Button type="submit" className={`justify-self-end cursor-pointer bg-blue-700 hover:bg-blue-800`} disabled={isSubmitting}>
                 {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Review')
                 }
@@ -285,7 +285,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <Button type="button" className={`justify-self-end cursor-pointer`} disabled={isSubmitting} onClick={() => onDelete(review._id as string)}>
+                      <Button type="button" className={`justify-self-end cursor-pointer bg-blue-700 hover:bg-blue-800`} disabled={isSubmitting} onClick={() => onDelete(review._id as string)}>
                         {
                           isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Delete')
                         }

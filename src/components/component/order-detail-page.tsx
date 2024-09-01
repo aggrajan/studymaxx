@@ -31,7 +31,7 @@ export function OrderDetail(props: any) {
             <section className="mx-auto max-w-[100rem] px-4 md:px-6 py-8 pt-[55px]">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-6">Order Details</h1>
                 <div className="grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
-                    <Card className="rounded-sm">
+                    <Card className="rounded-sm h-fit">
                     <CardHeader>
                         <CardTitle className="text-xl">Order #{order._id}</CardTitle>
                         <CardDescription className="text-lg">Order {order.orderStatus} on {order.updatedAt?.toString().slice(0, 10)}</CardDescription>

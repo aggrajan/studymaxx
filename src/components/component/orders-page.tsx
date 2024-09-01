@@ -180,7 +180,7 @@ export function OrdersPage( { api, pageLocation } : { api : string, pageLocation
               </div>
               <Separator />
               <div className="flex justify-between items-center">
-                <Button className="mt-4" disabled={isSubmitting} onClick={() => router.push(`/${pageLocation}/${order._id}`)}>
+                <Button className="mt-4 bg-blue-700 hover:bg-blue-800" disabled={isSubmitting} onClick={() => router.push(`/${pageLocation}/${order._id}`)}>
                   {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('View Order')
                   }
@@ -212,7 +212,7 @@ export function OrdersPage( { api, pageLocation } : { api : string, pageLocation
                   <SelectItem value="Cancelled">Cancelled</SelectItem>
                 </SelectContent>
               </Select>
-                <Button disabled={isSubmitting} className="w-fit mx-auto" onClick={() => {
+                <Button disabled={isSubmitting} className="w-fit mx-auto text-black hover:text-white bg-white hover:bg-gray-600 border border-black" onClick={() => {
                   onChangeOrderStatus(order._id || "", selectedStatusToChange[index]);
                 }}>
                 {
