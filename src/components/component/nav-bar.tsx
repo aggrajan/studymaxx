@@ -72,6 +72,7 @@ export function NavBar() {
       dispatch(clearAllFilters());
       dispatch(emptyCart());
       setUserConfig(true);
+      setBooksConfig(true);
     }
   })()}, [userAuth.userPresent]);
 

@@ -8,7 +8,10 @@ export function SkeleltonExploreBooks() {
             <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-10">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
                 <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
-                    Discover our top-selling and most popular books across various genres.
+                    Discover our top-selling and most popular books
+                </p>
+                <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
+                    across various genres.
                 </p>
             </div>
             <div className="px-4 md:px-6 grid md:grid-cols-[280px_1fr] lg:grid-cols-[380px_1fr] gap-8">
@@ -41,7 +44,7 @@ export function SkeleltonExploreBooks() {
                     </Card>
                 </div>
                 <div className="flex flex-col">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                         <Skeleton className={itemCartCss} />
                         <Skeleton className={itemCartCss} />
                         <Skeleton className={itemCartCss} />

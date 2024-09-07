@@ -247,7 +247,10 @@ export function ItemCard({ book } : { book: Book}) {
               count > 1 && <Button
                 variant="outline"
                 size="icon"
-                onClick={() => { dispatch(subtractItemQuantity({ id: book._id as number})); setCount((prev) => prev - 1); }}
+                onClick={() => { 
+                  if(userPresent) dispatch(subtractItemQuantity({ id: book._id as number})); 
+                  setCount((prev) => prev - 1); 
+                }}
                 disabled={count <= 1}
                 className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
               >
@@ -258,7 +261,12 @@ export function ItemCard({ book } : { book: Book}) {
               count <= 1 && <Button 
                 variant="outline" 
                 size="icon" 
-                onClick={() => { dispatch(removeCartItem({ id: book._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); route.push("/");}}
+                onClick={() => { 
+                  dispatch(removeCartItem({ id: book._id as number })); 
+                  toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); 
+                 
+                  setAddedToCart((prev) => !prev);
+                }}
                 className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
               >
               <TrashIcon className="h-4 w-4" />

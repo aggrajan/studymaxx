@@ -3,15 +3,15 @@ import { Separator } from "../ui/separator";
 
 export function OurMission() {
     return (
-        <section className="max-w-[100rem] pt-12 md:pt-24 lg:pt-32 mb-24">
+        <section className="w-full pt-12 md:pt-24 lg:pt-32 mb-24">
             <div className="flex flex-col items-center justify-center space-y-36 px-6 md:px-12 text-center">
-                <div className="space-y-2">
+                <div className="max-w-[100rem]  space-y-2">
                     <p className="max-w-4xl text-muted-foreground md:text-xl">
                         Mission
                     </p>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl max-w-4xl">Your long mission text goes here</h2>
                 </div>
-                <div className="flex flex-col lg:flex-row gap-4">
+                <div className="max-w-[100rem] flex flex-col lg:flex-row gap-4">
                     <div className="min-w-80 text-black md:text-xl underline underline-offset-4">
                         Our Mission
                     </div>

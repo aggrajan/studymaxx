@@ -74,7 +74,7 @@ export function Testimonials() {
       <CarouselContent>
       {testimonials.map((testimonial, index) => (
           <CarouselItem key={index} className="basis-1/3 select-none">
-          <Card className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out ${(index === ((current + 1)%testimonials.length)) ? 'bg-gray-200 scale-110 m-4' : 'scale-[0.8] opacity-75 mt-4 ml-4 mr-4 mb-4'}`}>
+          <Card className={`cursor-pointer rounded-sm transition-all duration-500 ease-in-out ${(index === ((current + 1)%testimonials.length)) ? 'bg-gray-200 scale-110 m-4' : 'scale-[0.8] opacity-75 mt-4 ml-4 mr-4 mb-4'} bg-[url('/pattern.svg')] bg-cover bg-no-repeat`}>
             <CardContent className="flex flex-col items-start justify-center p-6">
             <blockquote className="text-lg font-semibold leading-snug min-h-32">
               &ldquo;{testimonial.text}&rdquo;

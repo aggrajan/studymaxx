@@ -5,13 +5,13 @@ export function SkeletonQuery() {
     return (
         <>
             <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
-                <div className="px-4 md:px-6 gap-8 pb-4">
+                <div className="container px-4 md:px-6 gap-8 pb-4">
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Your Queries</h2>
                     <p className="max-w-[700px] text-muted-foreground md:text-xl">
                     See all your queries that might improve our website
                     </p>
                 </div>
-                <div className="md:px-6 pt-6">
+                <div className="container md:px-6 pt-6">
                 <Table>
                     <TableCaption>A list of all recent queries</TableCaption>
                     <TableHeader>

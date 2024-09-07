@@ -59,6 +59,72 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        "blob-1": {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1) rotate(0deg)"
+          },
+          "15%": {
+            transform: "translate(15px, -10px) scale(1.05) rotate(3deg)"
+          },
+          "30%": {
+            transform: "translate(-20px, 20px) scale(1.1) rotate(-3deg)"
+          },
+          "45%": {
+            transform: "translate(20px, 15px) scale(1.07) rotate(2deg)"
+          },
+          "60%": {
+            transform: "translate(-15px, -25px) scale(0.98) rotate(-2deg)"
+          },
+          "75%": {
+            transform: "translate(10px, 25px) scale(1.03) rotate(1deg)"
+          },
+          "100%": {
+            transform: "translate(0px, 0px) scale(1) rotate(0deg)"
+          }
+        },
+        "blob-2": {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1) rotate(0deg)"
+          },
+          "20%": {
+            transform: "translate(-15px, 20px) scale(1.08) rotate(-2deg)"
+          },
+          "40%": {
+            transform: "translate(30px, -25px) scale(1.05) rotate(4deg)"
+          },
+          "60%": {
+            transform: "translate(-25px, 30px) scale(1) rotate(-1deg)"
+          },
+          "80%": {
+            transform: "translate(20px, -20px) scale(0.95) rotate(3deg)"
+          },
+          "100%": {
+            transform: "translate(0px, 0px) scale(1) rotate(0deg)"
+          }
+        },
+        "blob-3": {
+          "0%": {
+            transform: "translate(0px, 0px) scale(1) rotate(0deg)"
+          },
+          "10%": {
+            transform: "translate(10px, -5px) scale(1.02) rotate(2deg)"
+          },
+          "25%": {
+            transform: "translate(-25px, 15px) scale(1.07) rotate(-1deg)"
+          },
+          "50%": {
+            transform: "translate(30px, -10px) scale(1.04) rotate(3deg)"
+          },
+          "75%": {
+            transform: "translate(-10px, 25px) scale(0.96) rotate(-3deg)"
+          },
+          "90%": {
+            transform: "translate(15px, -20px) scale(1.03) rotate(1deg)"
+          },
+          "100%": {
+            transform: "translate(0px, 0px) scale(1) rotate(0deg)"
+          }
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -69,6 +135,9 @@ const config = {
         },
       },
       animation: {
+        "blob-1": "blob-1 12s infinite ease-in-out",
+        "blob-2": "blob-2 15s infinite ease-in-out",
+        "blob-3": "blob-3 16s infinite ease-in-out",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

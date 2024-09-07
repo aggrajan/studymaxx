@@ -91,7 +91,7 @@ export function ProductsPage() {
     return (<>
         {bookConfig ? <div className="bg-gray-100"><section className="container max-w-[100rem] px-4 md:px-6">
             <div className="space-y-2 text-center">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-5">Welcome to StudyMaxx</h2>
+                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-5">Begin Your Search Here</h2>
                 <div className="flex flex-col w-full max-w-sm items-start mx-auto">
                   <Input placeholder="search by title or author or keywords" className="mx-0 rounded-sm" value={searchTerm} onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} />
                   <div className="w-full">
