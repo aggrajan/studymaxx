@@ -496,7 +496,7 @@ export default function CheckoutPage() {
                                 )}
                             />
                             <div className="flex justify-end gap-2">
-                                <Button type="submit" disabled={isSubmitting}>
+                                <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
                                     {
                                         isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Place Order')
                                     }
@@ -527,10 +527,10 @@ export default function CheckoutPage() {
                             <div className="flex justify-start items-center gap-2">
                                 {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
                                 <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
-                                {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75">
+                                {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">
                                 {(item.product.discount).toFixed(0)}% OFF
                                 </Badge> : null}
-                                <Badge className="text-md scale-[55%] md:scale-75 lg:scale-75 -ml-4">Qty: {item.quantity}</Badge>
+                                <Badge className="text-md scale-[55%] md:scale-75 lg:scale-75 -ml-4 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">Qty: {item.quantity}</Badge>
                             </div>
                             </div>
                         </div>
@@ -572,7 +572,7 @@ export default function CheckoutPage() {
                             </div>
                             <Button type="button" onClick={() => {
                                 handleCouponSubmit(couponMessage, coupon?.couponType || "", coupon?.couponValue || 1);
-                            }} >Apply</Button>
+                            }} className="bg-blue-700 hover:bg-blue-800" >Apply</Button>
                         </div>
                     </div>
                 </div>

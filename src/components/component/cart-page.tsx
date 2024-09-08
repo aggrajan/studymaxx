@@ -45,7 +45,7 @@ export function CartPage() {
                     <div className="flex justify-start items-center gap-4">
                       {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-lg md:text-xl font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
                       <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-sm md:text-md font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
-                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100">
+                      {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">
                         {(item.product.discount).toFixed(0)}% OFF
                       </Badge> : null}
                     </div>
@@ -94,7 +94,7 @@ export function CartPage() {
                 <span>&#8377;{(total).toFixed(2)}</span>
               </div>
             </div>
-            <Button className={`w-full mt-6 ${cartCount > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} onClick={() => {
+            <Button className={`w-full mt-6 bg-blue-700 hover:bg-blue-800 ${cartCount > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} onClick={() => {
               dispatch(setCheckout(cartItems));
               router.push("/payment");
             }} disabled={cartCount === 0}>Proceed to Checkout</Button>

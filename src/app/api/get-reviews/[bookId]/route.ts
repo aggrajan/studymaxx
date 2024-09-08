@@ -1,8 +1,6 @@
-import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
 import BooksModel from "@/model/Books";
 import ReviewModel from "@/model/Review";
-import UserModel from "@/model/User";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -11,6 +9,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         
         const { pathname } = request.nextUrl;
         const bookId = pathname.split('/').pop();
+        const { searchParams } = new URL(request.url);
+        const page: number = parseInt(searchParams.get('page') || '1');
+        const increment: number = parseInt(searchParams.get('increment') || '5');
+        const userId: string = searchParams.get("userId") || "";
+        const notAllowedUserId: string = searchParams.get("notAllowedUserId") || "";
 
         const book = await BooksModel.findById(bookId);
         if(!book) {
@@ -22,7 +25,9 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             });
         }
         
-        const reviews = await ReviewModel.find({ bookId: bookId })
+        const reviews = notAllowedUserId === "true" ?
+         await ReviewModel.find({ bookId: bookId, userId: { $ne: userId } }).skip(page === 1 ? 0 : (page - 1) * increment).limit(increment) :
+         await ReviewModel.find({ bookId: bookId, userId: userId }).skip(page === 1 ? 0 : (page - 1) * increment).limit(increment);
 
         return NextResponse.json({
             success: true,

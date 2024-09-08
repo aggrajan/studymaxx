@@ -64,10 +64,10 @@ export function ShoppingCartButton() {
                   <div className="flex justify-start items-center gap-2">
                     {(item.product && item.product.discount && (item.product.discount > 0)) ? <div className="text-md md:text-lg font-semibold text-primary">&#8377;{getDiscountedPrice(item.product.price, item.product.discount).toFixed(0)}</div> : null}
                     <div className={`${(item.product && item.product.discount && (item.product.discount > 0)) ? "text-xs md:text-sm font-semibold text-muted-foreground line-through": "text-md md:text-lg font-semibold text-primary"}`}>&#8377;{item.product.price.toFixed(0)}</div>
-                    {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75 -ml-2">
+                    {(item.product && item.product.discount && (item.product.discount > 0)) ? <Badge variant="default" className="text-xs scale-[55%] md:scale-75 lg:scale-75 -ml-2 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">
                       {(item.product.discount).toFixed(0)}% OFF
                     </Badge> : null}
-                    <Badge className="text-md scale-[55%] md:scale-75 lg:scale-75 -ml-4">Qty: {item.quantity}</Badge>
+                    <Badge className="text-md scale-[55%] md:scale-75 lg:scale-75 -ml-4 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">Qty: {item.quantity}</Badge>
                   </div>
                 </div>
               </div>
@@ -76,7 +76,7 @@ export function ShoppingCartButton() {
              : <div className="flex justify-center items-center">
               Your cart is empty
             </div>}
-            <Button onClick={() => { router.push("/cart") }}>
+            <Button onClick={() => { router.push("/cart") }} className="bg-blue-700 hover:bg-blue-800">
               Go to Cart
             </Button>
           </div>
@@ -87,7 +87,7 @@ export function ShoppingCartButton() {
       {/* Show button without HoverCard on smaller screens */}
       <div className="block sm:hidden">
       <div className="relative">
-              <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full text-white">
+              <Button onClick={(e) => { e.preventDefault(); router.push('/cart') }} variant="ghost" size="icon" className="rounded-full text-white bg-blue-700">
                   <ShoppingCartIcon className="h-5 w-5" />
                   <span className="sr-only">Shopping Cart</span>
               </Button>

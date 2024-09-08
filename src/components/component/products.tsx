@@ -95,8 +95,8 @@ export function ProductsPage() {
                 <div className="flex flex-col w-full max-w-sm items-start mx-auto">
                   <Input placeholder="search by title or author or keywords" className="mx-0 rounded-sm" value={searchTerm} onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} />
                   <div className="w-full">
-                    <Button className="mt-3 mr-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchTerm); setCurrentPage(1); }}>Search</Button>
-                    <Button className="mt-3 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(searchTerm); setCurrentPage(1); }}>Clear All Filters</Button>
+                    <Button className="mt-3 mr-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchTerm); setCurrentPage(1); }}><SearchIcon className="h-6 w-6 -ml-2 mr-1" />Search</Button>
+                    <Button className="mt-3 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}><ClearIcon className="h-6 w-6 -ml-2 mr-1" />Clear All Filters</Button>
                   </div>
                 </div>
             </div>
@@ -152,3 +152,59 @@ export function ProductsPage() {
         </>
     );
 }
+
+function SearchIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  )
+}
+
+const ClearIcon = ({ className = "", strokeWidth = 1.5}) => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      stroke="currentColor" // Uses current text color for stroke
+      strokeWidth={strokeWidth}
+      className={className}
+    >
+      <g strokeWidth="0"></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g>
+        <path
+          d="M7.50006 5.5L4.05262 10.7909C3.71387 11.3107 3.69732 11.9772 4.00984 12.5133L7.50006 18.5H18.8588C19.7651 18.5 20.4999 17.7653 20.4999 16.8589V7.14109C20.4999 6.23474 19.7651 5.5 18.8588 5.5H7.50006Z"
+
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 8.5L17 15.5"
+
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 15.5L16.9303 8.49996"
+
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  );
+};

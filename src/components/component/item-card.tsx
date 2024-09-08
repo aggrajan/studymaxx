@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog"
@@ -24,8 +23,6 @@ import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
 import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
 import { useRouter } from "next/navigation"
-import { Review } from "@/model/Review"
-import { getReviews } from "@/app/apiCalls/callReviews"
 import { Separator } from "../ui/separator"
 
 export function ItemCard({ book } : { book: Book}) {
@@ -34,7 +31,6 @@ export function ItemCard({ book } : { book: Book}) {
   const { cartItems } = useAppSelector((state) => state.cart);
   const { userPresent, user } = useAppSelector((state) => state.auth);
   const [addedToWishlist, setAddedToWishlist] = useState<boolean>(false);
-  const [reviews, setReviews] = useState<Review[]>([])
 
   function getAuthorNames(authors: Author[] | undefined): string {
     if(authors === undefined) return "";
@@ -63,13 +59,6 @@ export function ItemCard({ book } : { book: Book}) {
       setAddedToWishlist(true);
     }
   }, [userPresent]);
-
-  useEffect(() => {
-    (async () => {
-      const currentReviews: Review[] = await getReviews(book._id as string);
-      setReviews(currentReviews);
-    })();
-  }, [])
 
   function getQuantity(): number {
     if(!book) return 0;
@@ -103,7 +92,7 @@ export function ItemCard({ book } : { book: Book}) {
         <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
           <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
           <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
-          <Reviews bookId={book._id as string} reviews={reviews} />
+          <Reviews bookId={book._id as string} />
           <OtherProductsYouMayFindUseful book={book} isModal={true} />
         </DialogContent>
       </Dialog>

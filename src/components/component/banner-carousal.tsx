@@ -13,7 +13,7 @@ export function BannerCarousal() {
         >
           <CarouselContent className="h-full">
             <CarouselItem className="flex items-center justify-center h-full">
-              <div className="p-1 w-full h-full">
+              <div className="w-full h-full">
                 {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
@@ -30,7 +30,7 @@ export function BannerCarousal() {
               </div>
             </CarouselItem>
             <CarouselItem>
-              <div className="p-1">
+              <div className="w-full h-full">
                 {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
@@ -47,7 +47,7 @@ export function BannerCarousal() {
               </div>
             </CarouselItem>
             <CarouselItem>
-              <div className="p-1">
+              <div className="w-full h-full">
                 {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img
@@ -64,7 +64,7 @@ export function BannerCarousal() {
               </div>
             </CarouselItem>
             <CarouselItem>
-              <div className="p-1">
+              <div className="w-full h-full">
                 {/* <Card className="rounded-none h-full aspect-[30/9]">
                   <CardContent className="flex flex-col items-center justify-center p-6 h-full">
                     <img

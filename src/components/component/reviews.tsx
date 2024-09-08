@@ -1,7 +1,6 @@
 "use client"
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -18,7 +17,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { reviewSchema } from "@/schemas/addReviewSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useToast } from "../ui/use-toast"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -27,32 +26,70 @@ import { Loader2 } from "lucide-react"
 import { Review } from "@/model/Review"
 import { formatDistanceToNow } from 'date-fns'
 
-export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review[] }) {
-  const [myReviewsToShow, setMyReviewsToShow] = useState(5);
-  const [otherReviewsToShow, setOtherReviewsToShow] = useState(5);
+export function Reviews({ bookId } : { bookId : string }) {
+  const [otherReviews, setOtherReviews] = useState<Review[]>([]);
+  const [myReviews, setMyReviews] = useState<Review[]>([]);
+  const [myReviewsPage, setMyReviewsPage] = useState(1);
+  const [otherReviewsPage, setOtherReviewsPage] = useState(1);
+
+  const isFirstCallForMyReviews = useRef(true);
+  const isFirstCallForOtherReviews = useRef(true);
+ 
   const increment = 5;
+  const [lastMyReviews, setLastMyReviews] = useState(increment);
+  const [lastOtherReviews, setLastOtherReviews] = useState(increment);
   const userPresent = useAppSelector((state) => state.auth.userPresent);
   const user = useAppSelector((state) => state.auth.user);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { myReviews, otherReviews } = reviews.reduce<{ myReviews: Review[]; otherReviews: Review[] }>((acc, review) => {
-    if (review.userId === user?._id) {
-      acc.myReviews.push(review);
-    } else {
-      acc.otherReviews.push(review);
-    }
-    return acc;
-  }, { myReviews: [], otherReviews: [] });
 
   const { toast } = useToast();
   const router = useRouter();
 
-  const handleShowMoreMyReviews = () => {
-    setMyReviewsToShow(myReviewsToShow + increment);
-  };
+  useEffect(() => {
+    if(isFirstCallForMyReviews.current) {
+      isFirstCallForMyReviews.current = false;
 
-  const handleShowMoreOtherReviews = () => {
-    setOtherReviewsToShow(otherReviewsToShow + increment);
-  };
+      (
+        async () => {
+          try {
+            const response = await axios.get(`/api/get-reviews/${bookId}?page=${myReviewsPage}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=false`);
+            if(response.status === 200) {
+              const reviews = response.data.response;
+              setMyReviews((prev) => [...prev, ...reviews]);
+              setLastMyReviews(reviews.length);
+            } else {
+              console.log("Wrong input");
+            }
+          } catch (error: any) {
+            console.log(error.message);
+          }
+        }
+      )();
+    }
+  }, []);
+
+  useEffect(() => {
+    if(isFirstCallForOtherReviews.current) {
+      isFirstCallForOtherReviews.current = false;
+
+      (
+        async () => {
+          try {
+            const response = await axios.get(`/api/get-reviews/${bookId}?page=${otherReviewsPage}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=true`);
+            if(response.status === 200) {
+              const reviews = response.data.response;
+              setOtherReviews((prev) => [...prev, ...reviews]);
+              setLastOtherReviews(reviews.length);
+            } else {
+              console.log("Wrong input");
+            }
+          } catch (error: any) {
+            console.log(error.message);
+          }
+        }
+      )();
+    }
+  }, []);
 
   function getFallBack(user: Review) {
       if(user?.name) {
@@ -244,7 +281,7 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
         {(userPresent && myReviews.length > 0) && <div>
           <h2 className="text-2xl font-bold mb-4">Your Reviews</h2>
           <div className="grid gap-6">
-            {myReviews.slice(0, myReviewsToShow).map((review, index) => (
+            {myReviews.map((review, index) => (
               <div key={`my_review_${index}`} className="flex gap-4">
                 <Avatar className="w-12 h-12 border">
                   <AvatarImage src={`${review.image}`} />
@@ -273,42 +310,62 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
                   </div>
                   
                   <AlertDialog>
-                  <AlertDialogTrigger>
-                    <TrashIcon className="w-5 h-5" />
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure you want to delete your review</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action can&apos;t be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <Button type="button" className={`justify-self-end cursor-pointer bg-blue-700 hover:bg-blue-800`} disabled={isSubmitting} onClick={() => onDelete(review._id as string)}>
-                        {
-                          isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Delete')
-                        }
-                      </Button>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
+                    <AlertDialogTrigger>
+                      <TrashIcon className="w-5 h-5" />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure you want to delete your review</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action can&apos;t be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <Button type="button" className={`justify-self-end cursor-pointer bg-blue-700 hover:bg-blue-800`} disabled={isSubmitting} onClick={() => onDelete(review._id as string)}>
+                          {
+                            isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Delete')
+                          }
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
                   </AlertDialog>
                 </div>
 
               </div>
             ))}
           </div>
-          {myReviewsToShow < myReviews.length && (
-            <p onClick={handleShowMoreMyReviews} className="mt-4 px-4 py-2 cursor-pointer text-blue-600 underline transform duration-300 underline-offset-2">
+          
+          { lastMyReviews === increment &&
+            <p onClick={async () => {
+              
+            
+              try {
+                const response = await axios.get(`/api/get-reviews/${bookId}?page=${myReviewsPage + 1}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=false`);
+                if(response.status === 200) {
+                  const reviews = response.data.response;
+                  setMyReviews((prev) => [...prev, ...reviews]);
+                  setLastMyReviews(reviews.length);
+                } else {
+                  console.log("Wrong input");
+                }
+              } catch (error: any) {
+                console.log(error.message);
+              }
+
+              setMyReviewsPage((prev) => prev + 1);
+              
+            }} className="mt-4 px-4 py-2 cursor-pointer text-blue-600 underline transform duration-300 underline-offset-2">
               See More
             </p>
-          )}
+          }
+
         </div>}
 
         <div>
           <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
           <div className="grid gap-6">
-            {otherReviews.slice(0, otherReviewsToShow).map((review, index) => (
+            {otherReviews.map((review, index) => (
               <div key={`other_review_${index}`} className="flex gap-4">
                 <Avatar className="w-12 h-12 border">
                   <AvatarImage src={`${review.image}`} />
@@ -338,11 +395,28 @@ export function Reviews({ bookId, reviews } : { bookId : string, reviews: Review
             ))}
             {otherReviews.length === 0 && <div className="flex gap-4">No reviews submitted yet</div>}
           </div>
-          {otherReviewsToShow < otherReviews.length && (
-            <p onClick={handleShowMoreOtherReviews} className="mt-4 px-4 py-2 cursor-pointer text-blue-600 underline transform duration-300 underline-offset-2">
+        
+          { lastOtherReviews === increment &&
+            <p onClick={async () => {
+              try {
+                const response = await axios.get(`/api/get-reviews/${bookId}?page=${otherReviewsPage + 1}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=true`);
+                if(response.status === 200) {
+                  const reviews = response.data.response;
+                  setOtherReviews((prev) => [...prev, ...reviews]);
+                  setLastOtherReviews(reviews.length);
+                } else {
+                  console.log("Wrong input");
+                }
+              } catch (error: any) {
+                console.log(error.message);
+              }
+
+              setOtherReviewsPage((prev) => prev + 1);
+            }} className="mt-4 px-4 py-2 cursor-pointer text-blue-600 underline transform duration-300 underline-offset-2">
               See More
             </p>
-          )}
+          }
+        
         </div>
       </div>
     </div>

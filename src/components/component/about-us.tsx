@@ -27,7 +27,7 @@ export function AboutUsMain() {
           </div>
         </div>
       </section>
-      <section className="py-20 md:py-32 bg-[#edf6ff] bg-[url('/hero-pattern.webp')] bg-cover">
+      <section className="py-20 md:py-32 bg-[#edf6ff]">
         <div className="mx-auto px-4 md:px-6 container max-w-[100rem]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center">
             <div>

@@ -174,39 +174,39 @@ export function NavBar() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
             <DropdownMenuLabel>Manage account</DropdownMenuLabel>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-up'));}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""} hover:bg-gray-400`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-up'));}}>
                   <img src="/register.svg" className="w-4 h-4 mr-2" />Register
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""}`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-in')); }}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""} hover:bg-gray-400`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-in')); }}>
                   <img src="/login.svg" className="w-4 h-4 mr-2" />Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"}`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout); router.push("/");}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"} hover:bg-gray-400`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout); router.push("/");}}>
                   <img src="/logout.svg" className="w-4 h-4 mr-2" />Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />
-              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-feedbacks')); }}>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-feedbacks')); }}>
                   <img src="/feedback.svg" className="w-4 h-4 mr-2" />All Feedbacks
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-queries')); }}>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-queries')); }}>
                   <img src="/query.svg" className="w-4 h-4 mr-2" />All Queries
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-coupons')); }}>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-coupons')); }}>
                   <img src="/coupon.svg" className="w-4 h-4 mr-2" />All Coupons
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"}`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-orders')); }}>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-orders')); }}>
                   <img src="/order.svg" className="w-4 h-4 mr-2" />All Orders
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
-              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" } hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
                   <img src="/wishlist.svg" className="w-4 h-4 mr-2" />Your Wishlist
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/user-profile')); }}>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" } hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/user-profile')); }}>
                   <img src="/profile.svg" className="w-4 h-4 mr-2" />Your Profile
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/queries')); }}>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" } hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/queries')); }}>
                   <img src="/query.svg" className="w-4 h-4 mr-2" />Your Queries
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" }`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/my-orders')); }}>
+              <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" } hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/my-orders')); }}>
                   <img src="/order.svg" className="w-4 h-4 mr-2" />Your Orders
               </DropdownMenuItem>
             </DropdownMenuContent>

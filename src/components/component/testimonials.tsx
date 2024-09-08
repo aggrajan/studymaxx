@@ -107,7 +107,7 @@ export function Testimonials() {
       {testimonials.map((testimonial, index) => (
           <CarouselItem key={index}>
           <Card className="mx-2 rounded-sm">
-            <CardContent className="flex flex-col items-start justify-center p-6">
+            <CardContent className="flex flex-col items-start justify-center p-6 bg-[url('/pattern.svg')] bg-cover bg-no-repeat">
             <blockquote className="text-lg font-semibold leading-snug">
               &ldquo;{testimonial.text}&rdquo;
             </blockquote>
