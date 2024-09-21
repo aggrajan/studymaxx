@@ -84,7 +84,7 @@ export default function Product() {
             <BreadCrumb title={book.title} category={book.category} />
             <ProductDetails isModal={false} book={book} getAuthors={getAuthors} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
             <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
-            <Reviews bookId={id} reviews={reviews} />
+            <Reviews bookId={id} />
             <OtherProductsYouMayFindUseful book={book} isModal={false} />
             <LatestArrivals />
             <div className="mb-24"></div>
