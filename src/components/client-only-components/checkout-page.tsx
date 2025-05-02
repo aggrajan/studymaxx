@@ -146,7 +146,7 @@ export default function CheckoutPage() {
 
     const createOrderId = async () => {
         try {
-         const response = await fetch('/api/order', {
+         const response = await fetch('/api/v1/order', {
           method: 'POST',
           headers: {
            'Content-Type': 'application/json',

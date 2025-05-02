@@ -228,7 +228,7 @@ export function OrdersPage( { api, pageLocation } : { api : string, pageLocation
           }
       </div>
       </div>
-    </div> : <div className='h-screen w-screen flex justify-center items-center'>
+    </div> : <div className='h-screen w-screen flex justify-center items-center bg-gray-100'>
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-4">{errorMessage}</h1>
         <Link href="/" className="text-blue-500 hover:text-blue-700 hover:underline underline-offset-2">Visit Home?</Link>

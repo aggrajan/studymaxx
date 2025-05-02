@@ -26,6 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { emptyCheckout } from "@/lib/slices/checkoutSlice";
+import Image from "next/image";
 
 export function NavBar() {
   const router = useRouter();
@@ -102,6 +103,7 @@ export function NavBar() {
     dispatch(clearAllFilters()); 
     dispatch(emptyCart()); 
     dispatch(emptyCheckout());
+    router.push("/");
     setIsClicked(false);
   }
 
@@ -116,7 +118,16 @@ export function NavBar() {
       {(userConfig && booksConfig) ? <>
       <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
         <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
-          <BookIcon className="h-6 w-6" />
+          {/* <BookIcon className="h-6 w-6" /> */}
+          {/* Add a png image named "studymaxx logo.png" present in public folder of this project */}
+          <Image 
+    src="/studymaxx logo.png" 
+    alt="StudyMaxx Logo" 
+    width={96} 
+    height={96} 
+    className="rounded-sm"
+    priority
+  />
           <span className="sr-only text-white">StudyMaxx</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -180,7 +191,7 @@ export function NavBar() {
               <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "hidden" : ""} hover:bg-gray-400`} onClick={(e) => {e.preventDefault(); handleItemClick(() => router.push('/sign-in')); }}>
                   <img src="/login.svg" className="w-4 h-4 mr-2" />Login
               </DropdownMenuItem>
-              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"} hover:bg-gray-400`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout); router.push("/");}}>
+              <DropdownMenuItem className={`${isClicked ? "cursor-wait" : "cursor-pointer"} ${userAuth.userPresent ? "" : "hidden"} hover:bg-gray-400`} onClick={(e) =>  {e.preventDefault();  handleItemClick(performLogout); }}>
                   <img src="/logout.svg" className="w-4 h-4 mr-2" />Logout
               </DropdownMenuItem>
               <DropdownMenuSeparator className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "" : "hidden"}`} />

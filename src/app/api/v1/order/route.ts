@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const razorpay = new Razorpay({
  key_id: process.env.RAZORPAY_KEYID!,
- key_secret: process.env.RAZORPAY_KEYSECRET,
+ key_secret: process.env.RAZORPAY_KEYSECRET!,
 });
 
 export async function POST(request: NextRequest) {
@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
   currency: currency,
   receipt: 'rcp1',
  };
+
  const order = await razorpay.orders.create(options);
  console.log(order);
  return NextResponse.json({ orderId: order.id }, { status: 200 });
