@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Script from 'next/script';
@@ -40,6 +40,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { setCheckoutDiscountAmount } from "@/lib/slices/checkoutSlice"
 
 export default function CheckoutPage() {
+    const dialogCloseRef = useRef<HTMLButtonElement>(null);
     const dispatch = useAppDispatch();
     const { user, userPresent } = useAppSelector((state) => state.auth);
     const cart = useAppSelector((state) => state.checkout)
@@ -117,7 +118,7 @@ export default function CheckoutPage() {
     }
 
     const defaultAddress = user?.addresses.filter((address: Address) => address.default === true);
-    const currentAddress = (defaultAddress && defaultAddress?.length > 0) ? defaultAddress[0] : blankAddress;
+    const currentAddress = (defaultAddress && defaultAddress?.length > 0) ? defaultAddress[0] : (user && user.addresses.length > 0 ? user.addresses[0] : blankAddress);
     const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
 
     const form = useForm<z.infer<typeof checkoutSchema>>({
@@ -168,10 +169,11 @@ export default function CheckoutPage() {
        };
 
     const processPayment = async (checkoutData: z.infer<typeof checkoutSchema>) => {
+        const apiKey = process.env.NEXT_PUBLIC_RAZORPAY_KEYID;
         try {
          const orderId: string = await createOrderId();
          const options = {
-          key: process.env.RAZORPAY_KEYID,
+          key: apiKey,
           amount: (cart.total * 100).toFixed(0),
           currency: "INR",
           name: 'StudyMaxx',
@@ -231,6 +233,7 @@ export default function CheckoutPage() {
          };
          if (typeof window !== "undefined" && window.Razorpay) {
             const paymentObject = new window.Razorpay(options);
+            console.log(paymentObject);
             paymentObject.on('payment.failed', function (response: any) {
               alert(response.error.description);
             });
@@ -340,17 +343,16 @@ export default function CheckoutPage() {
                                                                 You can choose only one of your registered addresses. If you want to use any other address, then either you can enter manually or add another address in your profile.
                                                             </DialogDescription>
                                                         </DialogHeader>
-                                                        <RadioGroup defaultValue={`${selectedAddressIndex}`} onValueChange={(value: string) => {
-                                                            let index = parseInt(value);
-                                                            const selectedAddress = user?.addresses.filter((address: Address, addressIndex: number) => addressIndex === index)[0];
-                                                            if(selectedAddress) {
-                                                                field.onChange(selectedAddress);
-                                                                setSelectedAddressIndex(index);
-                                                            }
-                                                        }}>
+                                                        <RadioGroup defaultValue={`${selectedAddressIndex}`}>
                                                             {(user?.addresses && user.addresses.length > 0) ? user.addresses.map((address: Address, index: number) => (
                                                                 <div className="flex items-center space-x-2" key={`radioitem_${index}`}>
-                                                                    <RadioGroupItem value={`${index}`} id={`radio_${index}`} className="w-fit" />
+                                                                    <RadioGroupItem value={`${index}`} id={`radio_${index}`} className="w-fit" 
+                                                                    onClick={() => {
+                                                                        const selectedAddress = user.addresses[index];
+                                                                        field.onChange(selectedAddress);
+                                                                        setSelectedAddressIndex(index);
+                                                                        dialogCloseRef.current?.click(); 
+                                                                      }} />
                                                                     <Label htmlFor={`radio_${index}`} className="cursor-pointer">
                                                                         <span className="font-normal text-base">{address.name}</span>
                                                                         <span className="font-light text-sm ml-1">{address.address}</span>
@@ -360,7 +362,7 @@ export default function CheckoutPage() {
                                                         </RadioGroup>
                                                         <DialogFooter className="sm:justify-start">
                                                         <DialogClose asChild>
-                                                            <Button type="button" variant="secondary">
+                                                            <Button type="button" variant="secondary" ref={dialogCloseRef}>
                                                                 Close
                                                             </Button>
                                                         </DialogClose>

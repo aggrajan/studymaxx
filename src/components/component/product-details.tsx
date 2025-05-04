@@ -27,10 +27,6 @@ import { Card, CardContent } from "../ui/card"
 export function ProductDetails(props: any) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-
- 
-  
-
   const { userPresent } = useAppSelector((state) => state.auth);
   const [url, setUrl] = useState("");
   const dispatch = useAppDispatch();
@@ -243,7 +239,7 @@ export function ProductDetails(props: any) {
         </div>
         
         {!props.addedToCart && <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 gap-y-3 ${isModal ? "w-full" : "w-full lg:w-5/6"}`}>
-          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-blue-700 hover:bg-blue-800"}`} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev) }}>
+          <Button size="lg" disabled={props.book.outOfStock} className={`flex-1 px-2 text-primary-foreground hover:bg-primary/90 transition-colors ${props.book.outOfStock ? "text-red-500 bg-gray-200" : "bg-blue-700 hover:bg-blue-800"}`} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); props.setAddedToCart((prev: boolean) => !prev); props.setCount(1); }}>
             <ShoppingCartIcon className="mr-2 h-4 w-4" />
             {props.book.outOfStock ? "Out of Stock" : "Add to Cart"}
           </Button>
@@ -275,7 +271,7 @@ export function ProductDetails(props: any) {
             {props.count > 1 && <Button
               variant="outline"
               size="icon"
-              onClick={() => { dispatch(subtractItemQuantity({ id: props.book._id as number})); props.setCount((prev: number) => prev - 1) }}
+              onClick={() => { dispatch(subtractItemQuantity({ id: props.book._id as number})); props.setCount((prev: number) => prev - 1); }}
               disabled={props.count === 1}
               className="w-32"
             >
@@ -286,7 +282,8 @@ export function ProductDetails(props: any) {
                 variant="outline"
                 size="icon"
                 onClick={() => {
-                  dispatch(removeCartItem({ id: props.book._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); router.push(`/products/${props.book._id}`);
+                  dispatch(removeCartItem({ id: props.book._id as number })); toast({title: "Item Removed", description: "Book(s) successfully removed from your cart"}); 
+                  props.setAddedToCart((prev: boolean) => !prev);
                 }}
                 className="w-32"
               >

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
-import { useForm } from "react-hook-form";
+import { FieldError, FieldErrorsImpl, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,7 @@ import { getProfile } from "@/app/apiCalls/callProfile";
 import { removeCartItem, updateCartItem } from "@/lib/slices/cartSlice";  
 
 
-function AddBookForm() {
+function EditBookForm() {
     const dispatch = useAppDispatch();
     const { books } = useAppSelector((state) => state.books)
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -249,6 +249,32 @@ function AddBookForm() {
         }
     }
 
+    const handleFormSubmit = form.handleSubmit(
+        (data) => { onSubmit({
+                  ...data,
+              });
+            },
+            (errors) => {
+                const fieldErrors = errors as Record<string, FieldError | FieldErrorsImpl<any>>;
+                const firstErrorKey = Object.keys(fieldErrors)[0];
+                const errorDetail = fieldErrors[firstErrorKey];
+
+                const formatFieldName = (name: string) =>
+                    name.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+              
+                const message =
+                  errorDetail && typeof errorDetail.message === 'string'
+                    ? errorDetail.message
+                    : 'Invalid input';
+              
+                toast({
+                  title: `Validation Error in "${formatFieldName(firstErrorKey)}"`,
+                  description: message,
+                  variant: 'destructive',
+                });
+              }
+      );
+
     return (
         <div className="flex justify-center items-center min-h-screen pt-32 pb-24 bg-gray-100">
             <div className="w-full max-w-5xl p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -261,7 +287,7 @@ function AddBookForm() {
                     </p>
                 </div>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <form onSubmit={handleFormSubmit} className="space-y-6">
                         <FormField 
                             name="title"
                             control={form.control}
@@ -356,7 +382,7 @@ function AddBookForm() {
                                         }}></img>
                                     </div>
                                 ))}
-                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>Add Another Preview Image</Button>
+                                <Button type="button" onClick={() => field.onChange([...field.value, ''])}>{field.value.length > 0 ? "Add Another Preview Image" : "Add Preview Image"}</Button>
                             </>
                         )}
                         />
@@ -880,4 +906,4 @@ function AddBookForm() {
     );
 }
 
-export default AddBookForm;
+export default EditBookForm;

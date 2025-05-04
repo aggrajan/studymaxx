@@ -47,15 +47,15 @@ export const cartSlice = createSlice({
                                     ...state
                                 };
             (async () => {
-                const response = await addToCart(action.payload.product._id as string);
+                await addToCart(action.payload.product._id as string);
             })();
+            
             return {
                 ...state,
                 cartItems: [...state.cartItems, action.payload],
                 cartCount: state.cartCount + 1,
                 subtotal: state.subtotal + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity,
                 total: state.total + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity
-            
             }
         },
         setShippingAmount: (state: ICartState, action: PayloadAction<number>) => {

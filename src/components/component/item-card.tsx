@@ -89,7 +89,7 @@ export function ItemCard({ book } : { book: Book}) {
           {book.latest ? <img src="/latest.svg" alt="Latest Icon" className="w-10 h-10 sm:w-12 sm:h-12 absolute -top-3 -right-3" /> : null}
         </div>
         </DialogTrigger>
-        <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>
+        <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>          
           <ProductDetails isModal={true} book={book} getAuthors={getAuthorNames} addedToCart={addedToCart} setAddedToCart={setAddedToCart} count={count} setCount={setCount} addedToWishlist={addedToWishlist} setAddedToWishlist={setAddedToWishlist} />
           <TabView about={book.about} salient_features={book.salient_features} useful_for={book.useful_for} additional_support={book.additional_support} />
           <Reviews bookId={book._id as string} />

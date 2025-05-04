@@ -33,6 +33,7 @@ export function ProductsPage() {
           if (Array.isArray(allBooks)) {
               setAllBooks(allBooks);
           } else {
+              setAllBooks([]);
               console.error("Data fetched is not an array:", allBooks);
           }
       };
