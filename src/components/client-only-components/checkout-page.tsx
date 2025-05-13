@@ -9,7 +9,7 @@ import { checkoutSchema } from "@/schemas/checkoutSchema";
 import { Form } from "@/components/ui/form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2, LoaderCircle } from "lucide-react";
+import { Loader2, LoaderCircle, CircleCheckBig } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -39,6 +39,7 @@ import { Coupon } from "@/model/Coupon";
 import { ApiResponse } from "@/types/ApiResponse";
 import { setCheckoutDiscountAmount } from "@/lib/slices/checkoutSlice"
 
+
 export default function CheckoutPage() {
     const dialogCloseRef = useRef<HTMLButtonElement>(null);
     const dispatch = useAppDispatch();
@@ -50,17 +51,34 @@ export default function CheckoutPage() {
     const { toast } = useToast();
     const router = useRouter();
     const [couponName, setCouponName] = useState("");
+    const [selectedCoupon, setSelectedCoupon] = useState("")
     const [coupon, setCoupon] = useState<Coupon>();
     const [couponMessage, setCouponMessage] = useState('');
     const [isCheckingCoupon, setIsCheckingCoupon] = useState(false);
-    const debounced = useDebounceCallback(setCouponName, 500);
+    const debounced = useDebounceCallback((value: string) => {
+                                                            setCouponName(value);
+                                                        }, 500);
 
-    const handleCouponSubmit = (message: string, couponType: string, couponValue: number) => {
+    const handleCouponSubmit = (message: string, coupon: Coupon | undefined) => {
         if(message === "Coupon is available") {
-            if(couponType === "Percentage") {
-                dispatch(setCheckoutDiscountAmount(cart.subtotal * (couponValue / 100.0)));
-            } else if(couponType === "Rupees") {
-                dispatch(setCheckoutDiscountAmount(couponValue));
+            if(coupon?.couponType === "Percentage") {
+                dispatch(setCheckoutDiscountAmount(cart.subtotal * (coupon.couponValue / 100.0)));
+                setSelectedCoupon(coupon.couponName);
+                setCouponMessage("");
+                setCoupon(undefined);
+                toast({
+                    title: "You have applied a coupon",
+                    description: `${coupon.couponName} has been applied successfully`
+                })
+            } else if(coupon?.couponType === "Rupees") {
+                dispatch(setCheckoutDiscountAmount(coupon.couponValue));
+                setSelectedCoupon(coupon.couponName);
+                setCouponMessage("");
+                setCoupon(undefined);
+                toast({
+                    title: "You have applied a coupon",
+                    description: `${coupon.couponName} has been applied successfully`
+                })
             } else {
                 toast({ title: "Not a valid Coupon", description: "This coupon is not applicable to your cart" })
             }
@@ -68,42 +86,51 @@ export default function CheckoutPage() {
     }
 
     useEffect(() => {
-        const checkCoupon = async () => {
-            if(couponName !== "") {
-                setIsCheckingCoupon(true);
-                setCouponMessage('');
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-                try {
-                    const response = await axios.get(`/api/unique-coupon/${couponName}`);
-                    if(response.status !== 200) {
-                        setCouponMessage(response.data.message);
-                    } else {
-                        try {
-                            const existingCoupon: Coupon = response.data.response[0];
-                            console.log("coupon: ", existingCoupon);
-                            const validCouponResponse = await axios.post(`/api/check-coupon`, { ...existingCoupon, cartAmount: cart.total, currentDate: new Date(), couponsUsed: user?.coupons });
-                            const message = validCouponResponse.data.message;
-                            setCouponMessage(message);
-                            setCoupon(existingCoupon);
-                        } catch(error: any) {
-                            const axiosError = error as AxiosError<ApiResponse>;
-                            setCouponMessage(axiosError.response?.data.message ?? "Error checking coupon");
-                        } finally {
-                            setIsCheckingCoupon(false);
-                        }
-                    }
+    const checkCoupon = async () => {
+        if (couponName !== "") {
+            setIsCheckingCoupon(true);
+            setCouponMessage('');
+
+            try {
+                const response = await axios.get(`/api/unique-coupon/${couponName}`, { signal });
+                if (response.status !== 200) {
+                    setCouponMessage(response.data.message);
+                } else {
+                    const existingCoupon: Coupon = response.data.response[0];
+                    const validCouponResponse = await axios.post(`/api/check-coupon`, {
+                        ...existingCoupon,
+                        cartAmount: cart.total,
+                        currentDate: new Date(),
+                        couponsUsed: user?.coupons,
+                    }, { signal });
+
+                    setCouponMessage(validCouponResponse.data.message);
+                    setCoupon(existingCoupon);
                 }
-                catch(error: any) {
+            } catch (error: any) {
+                if (axios.isCancel(error)) {
+                    // Request was aborted
+                    console.log("Coupon check canceled");
+                } else {
                     const axiosError = error as AxiosError<ApiResponse>;
                     setCouponMessage(axiosError.response?.data.message ?? "Error checking coupon");
-                } finally {
-                    setIsCheckingCoupon(false);
                 }
-                
+            } finally {
+                setIsCheckingCoupon(false);
             }
         }
-        checkCoupon();
-    }, [couponName]);
+    };
+
+    checkCoupon();
+
+    return () => {
+        controller.abort(); 
+    };
+}, [couponName]);
+
 
     const blankAddress = {
         address: "",
@@ -507,7 +534,7 @@ export default function CheckoutPage() {
                         </form>
                     </Form>
                 </div>
-                <div className="md:mt-16 min-w-[25rem]">
+                <div className="md:mt-16 min-w-[22rem]">
                     <h2 className="font-bold tracking-tighter text-2xl mb-3">Your Products</h2>
                     <div className="flex flex-col gap-y-4 w-full mb-10">
                         {(cart.cartCount > 0) ? cart.cartItems.map((item, index) => (
@@ -564,17 +591,24 @@ export default function CheckoutPage() {
                         </div>
                         </div>
                     </div>
+
                     <div className="bg-gray-200 border-2 border-gray-400 p-6 rounded-lg h-fit mb-6">
                         <h2 className="text-xl font-bold mb-4">Got a Discount Coupon?</h2>
                         <div className="flex gap-8">
                             <div className="flex flex-col gap-2">
-                                <Input type="text" className="bg-white" placeholder="Enter your Coupon Code" value={couponName} onChange={(e) => { setCouponName(e.target.value); debounced(e.target.value); }} />
+                                <Input type="text" className="bg-white" placeholder="Enter your Coupon Code" onChange={(e) => {  debounced(e.target.value); }} />
                                 {isCheckingCoupon && <Loader2 className="animate-spin" />}
                                 <p className={`pl-3 text-xs font-semibold ${couponMessage === "Coupon is available" ? "text-green-500": "text-red-600"}`}>{couponMessage}</p>
                             </div>
                             <Button type="button" onClick={() => {
-                                handleCouponSubmit(couponMessage, coupon?.couponType || "", coupon?.couponValue || 1);
-                            }} className="bg-blue-700 hover:bg-blue-800" >Apply</Button>
+                                handleCouponSubmit(couponMessage, coupon);
+                            }} disabled={isCheckingCoupon || couponMessage !== "Coupon is available"} className="bg-blue-700 hover:bg-blue-800" >Apply</Button>
+                        </div>
+                        <div className="flex-col">
+                            {selectedCoupon ?
+                                <div className="flex mb-2 gap-2 items-center"><CircleCheckBig className="text-gray-600 w-5 h-5" /> <span className="text-blue-700 font-semibold">{selectedCoupon}</span></div>
+                                : null
+                            }
                         </div>
                     </div>
                 </div>

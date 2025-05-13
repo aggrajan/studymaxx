@@ -30,7 +30,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     } catch (error: any) {
         const response = NextResponse.json({
             success: false,
-            message: "Error in getting the coupon"
+            message: "Error in getting the coupon. Try Signing up before using Coupon."
         }, {
             status: 500,
         });
