@@ -2,6 +2,7 @@ import { Book } from "@/model/Books";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ICartItem, ICartState } from "./cartSlice";
+import { stat } from "fs";
 
 const initialState: ICartState = {
     cartCount: 0,
@@ -35,23 +36,31 @@ export const checkoutSlice = createSlice({
                 ...state,
                 cartItems: [...state.cartItems, action.payload],
                 cartCount: state.cartCount + 1,
+                discount: 0,
                 subtotal: state.subtotal + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity,
-                total: state.total + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity
+                total: state.subtotal + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity
             
             }
         },
         setCheckoutShippingAmount: (state: ICartState, action: PayloadAction<number>) => {
             return {
                 ...state,
-                shipping: parseInt(action.payload.toFixed(0)),
+                shipping: state.shipping + parseInt(action.payload.toFixed(0)),
                 total: state.total - parseInt(state.shipping.toFixed(0)) + parseInt(action.payload.toFixed(0))
             }
         },
         setCheckoutDiscountAmount: (state: ICartState, action: PayloadAction<number>) => {
             return {
                 ...state,
-                discount: parseInt(action.payload.toFixed(0)),
+                discount: state.discount + parseInt(action.payload.toFixed(0)),
                 total: state.total + parseInt(state.discount.toFixed(0)) - parseInt(action.payload.toFixed(0))
+            }
+        },
+        resetDiscountAmount: (state: ICartState) => {
+            return {
+                ...state,
+                discount: 0,
+                total: state.subtotal + state.shipping
             }
         },
         addCheckoutItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
@@ -97,4 +106,4 @@ export const checkoutSlice = createSlice({
 })
 
 export const checkoutReducer = checkoutSlice.reducer;
-export const { setCheckout, addCheckoutItem, setCheckoutShippingAmount, setCheckoutDiscountAmount, addCheckoutItemQuantity, subtractCheckoutItemQuantity, removeCheckoutItem, updateCheckoutItem, emptyCheckout } = checkoutSlice.actions;
+export const { setCheckout, addCheckoutItem, setCheckoutShippingAmount, setCheckoutDiscountAmount, addCheckoutItemQuantity, subtractCheckoutItemQuantity, removeCheckoutItem, updateCheckoutItem, emptyCheckout, resetDiscountAmount } = checkoutSlice.actions;

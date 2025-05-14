@@ -9,7 +9,7 @@ import { checkoutSchema } from "@/schemas/checkoutSchema";
 import { Form } from "@/components/ui/form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Loader2, LoaderCircle, CircleCheckBig } from "lucide-react";
+import { Loader2, LoaderCircle, CircleCheckBig, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -37,7 +37,7 @@ import Link from "next/link";
 import { useDebounceCallback } from "usehooks-ts";
 import { Coupon } from "@/model/Coupon";
 import { ApiResponse } from "@/types/ApiResponse";
-import { setCheckoutDiscountAmount } from "@/lib/slices/checkoutSlice"
+import { resetDiscountAmount, setCheckoutDiscountAmount } from "@/lib/slices/checkoutSlice"
 
 
 export default function CheckoutPage() {
@@ -51,38 +51,68 @@ export default function CheckoutPage() {
     const { toast } = useToast();
     const router = useRouter();
     const [couponName, setCouponName] = useState("");
-    const [selectedCoupon, setSelectedCoupon] = useState("")
+    const [selectedCoupon, setSelectedCoupon] = useState<Coupon>()
     const [coupon, setCoupon] = useState<Coupon>();
     const [couponMessage, setCouponMessage] = useState('');
     const [isCheckingCoupon, setIsCheckingCoupon] = useState(false);
     const debounced = useDebounceCallback((value: string) => {
                                                             setCouponName(value);
                                                         }, 500);
+    const couponInputRef = useRef<HTMLInputElement>(null);
 
     const handleCouponSubmit = (message: string, coupon: Coupon | undefined) => {
         if(message === "Coupon is available") {
             if(coupon?.couponType === "Percentage") {
                 dispatch(setCheckoutDiscountAmount(cart.subtotal * (coupon.couponValue / 100.0)));
-                setSelectedCoupon(coupon.couponName);
+                setSelectedCoupon(coupon);
                 setCouponMessage("");
                 setCoupon(undefined);
                 toast({
                     title: "You have applied a coupon",
                     description: `${coupon.couponName} has been applied successfully`
-                })
+                });
+                couponInputRef.current!.value = "";
             } else if(coupon?.couponType === "Rupees") {
                 dispatch(setCheckoutDiscountAmount(coupon.couponValue));
-                setSelectedCoupon(coupon.couponName);
+                setSelectedCoupon(coupon);
                 setCouponMessage("");
                 setCoupon(undefined);
                 toast({
                     title: "You have applied a coupon",
                     description: `${coupon.couponName} has been applied successfully`
-                })
+                });
+                couponInputRef.current!.value = "";
             } else {
-                toast({ title: "Not a valid Coupon", description: "This coupon is not applicable to your cart" })
+                toast({ title: "Not a valid Coupon", description: "This coupon is not applicable to your cart" });
+                couponInputRef.current!.value = "";
             }
         }
+    }
+
+    const handleCouponRemove = (message: string, coupon: Coupon | undefined) => {
+        
+            if(coupon?.couponType === "Percentage") {
+                dispatch(resetDiscountAmount());
+                setSelectedCoupon(undefined);
+                setCouponMessage("");
+                setCoupon(undefined);
+                toast({
+                    title: "You have removed a coupon",
+                    description: `${coupon.couponName} has been removed successfully`
+                })
+            } else if(coupon?.couponType === "Rupees") {
+                dispatch(resetDiscountAmount());
+                setSelectedCoupon(undefined);
+                setCouponMessage("");
+                setCoupon(undefined);
+                toast({
+                    title: "You have removed a coupon",
+                    description: `${coupon.couponName} has been removed successfully`
+                })
+            } else {
+                toast({ title: "Not a valid Coupon", description: "This operation is not applicable to your cart" })
+            }
+
     }
 
     useEffect(() => {
@@ -168,7 +198,7 @@ export default function CheckoutPage() {
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         setIsMounted(true);
-        dispatch(setCheckoutDiscountAmount(0));
+        dispatch(resetDiscountAmount());
     }, []);
 
 
@@ -596,7 +626,7 @@ export default function CheckoutPage() {
                         <h2 className="text-xl font-bold mb-4">Got a Discount Coupon?</h2>
                         <div className="flex gap-8">
                             <div className="flex flex-col gap-2">
-                                <Input type="text" className="bg-white" placeholder="Enter your Coupon Code" onChange={(e) => {  debounced(e.target.value); }} />
+                                <Input type="text" className="bg-white" placeholder="Enter your Coupon Code" ref={couponInputRef} onChange={(e) => {  debounced(e.target.value); }} />
                                 {isCheckingCoupon && <Loader2 className="animate-spin" />}
                                 <p className={`pl-3 text-xs font-semibold ${couponMessage === "Coupon is available" ? "text-green-500": "text-red-600"}`}>{couponMessage}</p>
                             </div>
@@ -606,7 +636,12 @@ export default function CheckoutPage() {
                         </div>
                         <div className="flex-col">
                             {selectedCoupon ?
-                                <div className="flex mb-2 gap-2 items-center"><CircleCheckBig className="text-gray-600 w-5 h-5" /> <span className="text-blue-700 font-semibold">{selectedCoupon}</span></div>
+                                <div className="flex justify-between border-2 rounded-md p-1 border-gray-700">
+                                    <div className="flex gap-2 items-center">
+                                        <CircleCheckBig className="text-gray-600 w-5 h-5" /> <span className="text-red-700 font-semibold">{selectedCoupon.couponName}</span>
+                                    </div>
+                                    <X onClick={() => handleCouponRemove(couponMessage, selectedCoupon)} className="cursor-pointer"/>
+                                </div>
                                 : null
                             }
                         </div>
