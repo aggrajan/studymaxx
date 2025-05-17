@@ -1,10 +1,12 @@
-import axios from "axios";
-export const getQuery= async () => {
-    try {
-        const response = await axios.get(`/api/query`);
-        if(response.data.success) return response.data.response;
-        return []
-    } catch(error: any) {
-        return [];
-    }
-}
+export const getQuery = async () => {
+  try {
+    const response = await fetch('/api/query');
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    if (data.success) return data.response;
+    return [];
+  } catch (error) {
+    return [];
+  }
+};

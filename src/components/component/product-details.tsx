@@ -13,9 +13,9 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { addCartItem, addItemQuantity, ICartItem, removeCartItem, subtractItemQuantity } from "@/lib/slices/cartSlice";
 import { useToast } from "../ui/use-toast"
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from "../ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 import PdfPreview from "./preview-pdf"
-import { useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { addToWishlist } from "@/app/apiCalls/callAddtoWishlist"
 import { removeFromWishlist } from "@/app/apiCalls/removeFromWishlist"
 import { addToWishlist as addToWishlistSlice, removeFromWishlist as removeFromWishlistSlice } from "@/lib/slices/authSlice"
@@ -23,8 +23,23 @@ import { setCheckout } from "@/lib/slices/checkoutSlice"
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton, WhatsappShareButton } from "react-share"
 import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel"
 import { Card, CardContent } from "../ui/card"
+import { Book } from "@/model/Books"
+import { Author } from "@/model/Authors"
+import { DialogDescription } from "@radix-ui/react-dialog"
 
-export function ProductDetails(props: any) {
+interface ProductDetailsProps {
+  addedToWishlist: boolean
+  book: Book;
+  isModal?: boolean;
+  getAuthors: (authors: Author[] | undefined) => string;
+  addedToCart?: boolean;
+  setAddedToCart: Dispatch<SetStateAction<boolean>>;
+  setCount: Dispatch<SetStateAction<number>>;
+  count: number;
+  setAddedToWishlist: Dispatch<SetStateAction<boolean>>
+}
+
+export function ProductDetails(props: ProductDetailsProps) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const { userPresent } = useAppSelector((state) => state.auth);
@@ -41,14 +56,11 @@ export function ProductDetails(props: any) {
   }
 
   useEffect(() => {
-    if(typeof window !== "undefined") {
-      const currentLocation: string = window.location.toString();
-      if(currentLocation.includes("products")) {
-        setUrl(currentLocation)
-      } 
-      else {
-        setUrl(`${currentLocation}products//${props.book._id}`)
-      }
+    const pathname = window.location.pathname;
+    if (pathname.includes("/products/")) {
+      setUrl(window.location.href);
+    } else {
+      setUrl(`${window.location.origin}/products/${props.book._id}`);
     }
   }, []);
 
@@ -135,7 +147,11 @@ export function ProductDetails(props: any) {
             {isModal && <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button className="rounded-full border-2 p-2 shadow-xl absolute left-5 top-4 transform transition-transform duration-300 hover:bg-white hover:scale-110" variant="outline" onClick={() => router.push(`/products/${props.book._id}`)}>
+                    <Button className="rounded-full border-2 p-2 shadow-xl absolute left-5 top-4 transform transition-transform duration-300 hover:bg-white hover:scale-110"
+                     variant="outline" 
+                     onClick={() => router.push(`/products/${props.book._id}`)}
+                    onMouseEnter={() => router.prefetch(`/products/${props.book._id}`)} // <== Prefetch on hover
+                     >
                       <img src="/full-screen.svg" width={18} className="cursor-pointer"  />
                     </Button>
                   </TooltipTrigger>
@@ -149,9 +165,9 @@ export function ProductDetails(props: any) {
         </div>
         <div className="grid gap-2">
           <div className="flex items-center justify-start gap-4">
-            {props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount).toFixed(0)}</div>}
-            <div className={`${props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price.toFixed(0)}</div>
-            {props.book.discount > 0 && <Badge variant="default" className="text-black bg-gray-300 hover:bg-gray-600 hover:text-white">{(props.book.discount).toFixed(0)}% OFF</Badge>}
+            {props.book.discount && props.book.discount > 0 && <div className="text-2xl font-bold text-primary">&#8377;{getDiscountedPrice(props.book.price, props.book.discount).toFixed(0)}</div>}
+            <div className={`${props.book.discount && props.book.discount > 0 ? "text-xl font-bold text-muted-foreground line-through": "text-2xl font-bold text-primary"}`}>&#8377;{props.book.price.toFixed(0)}</div>
+            {props.book.discount && props.book.discount > 0 && <Badge variant="default" className="text-black bg-gray-300 hover:bg-gray-600 hover:text-white">{(props.book.discount).toFixed(0)}% OFF</Badge>}
           </div> 
           {(props.book.pdfUrl && props.book.pdfUrl !== "") ? <Dialog>
             <DialogTrigger asChild>
@@ -160,6 +176,14 @@ export function ProductDetails(props: any) {
               </Button>
             </DialogTrigger>
             <DialogContent hideCloseButton={true} className="min-w-[85%] my-16 p-0 h-full" onOpenAutoFocus={(e) => {e.preventDefault()}}>
+              <DialogHeader>
+                <DialogTitle>
+                  Title
+                </DialogTitle>
+                <DialogDescription>
+                  Description
+                </DialogDescription>
+              </DialogHeader>
               <PdfPreview pdfUrl={props.book.pdfUrl} />
                 <DialogClose asChild className="absolute top-2 left-2 z-50">
                   <Button type="button" variant="secondary">

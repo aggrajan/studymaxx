@@ -1,12 +1,14 @@
-import axios from "axios"
 export const getReviews = async (id: string) => {
-    try {
-        const response = await axios.get(`/api/get-reviews/${id}`);
-        if(response.data.success) {
-            return response.data.response
-        }
-        return response.data.message;
-    } catch(error) {
-        return [];
+  try {
+    const response = await fetch(`/api/get-reviews/${id}`);
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    if (data.success) {
+      return data.response;
     }
-}
+    return data.message;
+  } catch (error) {
+    return [];
+  }
+};

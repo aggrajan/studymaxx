@@ -1,9 +1,10 @@
-import axios from "axios";
 export const getBooks = async () => {
-    try {
-        const response = await axios.get(`/api/get-books`);
-        return response.data.response;
-    } catch(error: any) {
-        return [];
-    }
-}
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-books`, {
+    next: { revalidate: 60 }, // Cache for 60 seconds
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch books");
+
+  const data = await res.json();
+  return data.response;
+};

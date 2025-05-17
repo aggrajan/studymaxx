@@ -1,8 +1,9 @@
-import axios from "axios";
 export const logout = async () => {
-    try {
-        const response = await axios.post(`/api/logout`);
-    } catch(error: any) {
-        console.log("logout failed");
-    }
-}
+  try {
+    await fetch('/api/logout', {
+      method: 'POST',
+    });
+  } catch (error) {
+    console.log('logout failed');
+  }
+};
