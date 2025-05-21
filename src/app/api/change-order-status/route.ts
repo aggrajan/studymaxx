@@ -1,6 +1,6 @@
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
-import UserModel, { CartItem } from "@/model/User";
+import UserModel from "@/model/User";
 import { NextRequest, NextResponse } from "next/server";
 import OrderModel from "@/model/Order";
 import { orderStatus as orderStatusEnum } from "@/model/Enums";
@@ -33,9 +33,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             })
         }
 
-        await OrderModel.findByIdAndUpdate(id, {
-            orderStatus: orderStatus
-        });
+        const order = await OrderModel.findById(id);
+        if (!order) {
+        return NextResponse.json({
+            success: false,
+            message: "Order not found"
+        }, { status: 404 });
+        }
+
+        order.orderStatus = orderStatus;
+        await order.save();
 
         return NextResponse.json({
             success: true,

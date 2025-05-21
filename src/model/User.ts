@@ -1,22 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 import AddressSchema, { Address } from "./Address";
-import { Book, BookSchema } from "./Books";
-
-export interface CartItem extends Document {
-    product: Book;
-    quantity: number;
-}
-
-export const CartItemSchema: Schema<CartItem> = new Schema({
-    product: {
-        type: BookSchema,
-        required: [true, "product is required"]
-    },
-    quantity: {
-        type: Number,
-        default: 1
-    }
-})
 
 export interface User extends Document {
     username?: string;
@@ -31,9 +14,6 @@ export interface User extends Document {
     forgotPasswordCode?: string;
     forgotPasswordCodeExpiry?: Date;
     addresses?: Address[];
-    wishlist: Book[];
-    cart: CartItem[];
-    coupons?: [string]
 };
 
 export const UserSchema: Schema<User> = new Schema({
@@ -86,10 +66,7 @@ export const UserSchema: Schema<User> = new Schema({
         type: String,
         required: false
     },
-    addresses: [AddressSchema],
-    wishlist: [BookSchema],
-    cart: [CartItemSchema],
-    coupons: [String]
+    addresses: [AddressSchema]
 });
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);

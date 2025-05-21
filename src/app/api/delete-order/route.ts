@@ -1,6 +1,6 @@
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
-import UserModel, { CartItem } from "@/model/User";
+import UserModel from "@/model/User";
 import { NextRequest, NextResponse } from "next/server";
 import OrderModel from "@/model/Order";
 

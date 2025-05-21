@@ -1,9 +1,14 @@
 import mongoose, { Schema, Document, mongo } from "mongoose";
-import { CartItem, CartItemSchema } from "./User";
+import { CartItem, CartItemSchema } from "./Cart";
 import AddressSchema, { Address } from "./Address";
+
+export interface CouponItem extends Document {
+    coupon: mongoose.Types.ObjectId
+}
+
 export interface Order extends Document {
     _id?: string;
-    userId?: string;
+    user?: mongoose.Types.ObjectId;
     products: CartItem[];
     address: Address;
     total: number;
@@ -16,11 +21,21 @@ export interface Order extends Document {
     email: string;
     createdAt?: Date;
     updatedAt?: Date;
+    coupons?: CouponItem[]
 }
 
+export const CouponItemSchema: Schema<CouponItem> = new Schema({
+    coupon: {
+        type: Schema.Types.ObjectId,
+        ref: "Coupon",
+        required: false
+    }
+}, { _id: false } );
+
 export const OrderSchema: Schema<Order> = new Schema({
-    userId: {
-        type: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: false
     },
     products: {
@@ -62,6 +77,10 @@ export const OrderSchema: Schema<Order> = new Schema({
     email: {
         type: String,
         required: [true, "email is required"]
+    },
+    coupons: {
+        type: [CouponItemSchema],
+        default: []
     }
 },  { timestamps: true })
 

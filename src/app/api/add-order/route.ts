@@ -1,35 +1,95 @@
 import dbConnect from "@/lib/dbConnect";
 import OrderModel from "@/model/Order";
 import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
+
+interface AddOrderRequest {
+  userId?: string;
+  products: {
+    productId: string;
+    quantity: number;
+  }[];
+  address: any;
+  total: number;
+  subtotal: number;
+  shipping: number;
+  discount: number;
+  name: string;
+  email: string;
+  numberOfItems: number;
+  orderStatus: string;
+  coupons?: string[]; // coupon IDs
+}
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-    try {
-        await dbConnect();
+  try {
+    await dbConnect();
 
-        const reqBody = await request.json();
-        const { userId, products, address, total, subtotal, shipping, discount, name, email, numberOfItems, orderStatus } = reqBody;
-        const newOrder = new OrderModel({
-            userId, products, address, total, subtotal, shipping, discount, name, email, numberOfItems, orderStatus
-        })
+    const reqBody: AddOrderRequest = await request.json();
+    const {
+      userId,
+      products,
+      address,
+      total,
+      subtotal,
+      shipping,
+      discount,
+      name,
+      email,
+      numberOfItems,
+      orderStatus,
+      coupons = [],
+    } = reqBody;
 
-        await newOrder.save();
+    // Convert product list to CartItem format
+    const formattedProducts = products.map((item) => ({
+      product: new mongoose.Types.ObjectId(item.productId),
+      quantity: item.quantity,
+    }));
 
-        return NextResponse.json({
-            success: true,
-            message: "order has been added successfully"
-        }, 
-        {
-            status: 200
-        })
-    }
-    catch (error: any) {
-        console.log("api error: ", error.message);
-        return NextResponse.json({
-            success: false,
-            message: "error occured while adding order"
-        }, 
-        {
-            status: 500
-        })
-    }
+    // Convert coupon IDs into CouponItem schema
+    const formattedCoupons = coupons.map((couponId) => ({
+      coupon: new mongoose.Types.ObjectId(couponId),
+    }));
+
+    const newOrder = new OrderModel({
+      user: userId ? new mongoose.Types.ObjectId(userId) : undefined,
+      products: formattedProducts,
+      address,
+      total,
+      subtotal,
+      shipping,
+      discount,
+      name,
+      email,
+      numberOfItems,
+      orderStatus,
+      coupons: formattedCoupons,
+    });
+
+    await newOrder.save();
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Order has been added successfully",
+        orderId: newOrder._id,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error: any) {
+    console.log("Order API Error:", error.message);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "An error occurred while adding the order",
+        error: error.message,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }

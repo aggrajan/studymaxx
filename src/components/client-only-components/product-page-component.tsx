@@ -1,4 +1,3 @@
-// components/component/product-page-client.tsx
 "use client";
 
 import { Book } from "@/model/Books";

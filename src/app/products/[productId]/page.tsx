@@ -42,24 +42,6 @@ export default async function Product({ params }: ProductPageProps) {
     }
 
    
-    return (
-        <>
-            {/* <Head>
-                <title>{book.title}</title>
-                <meta name="description" content="Checkout this amazing book on StudyMaxx" />
-                <link rel="icon" href="/favicon.ico" />
-                <meta property="og:image" content={book.image} />
-                <meta property="og:title" content={book.title} />
-                <meta property="og:description" content={book.about[0]} />
-                <meta property="twitter:card" content="summary_large_image" />
-                <meta property="twitter:site" content="study-maxx" />
-                <meta property="twitter:title" content={book.title} />
-                <meta property="twitter:description" content={book.about[0]} />
-                <meta property="twitter:image" content={book.image} />
-                <meta property="twitter:url" content={`http://localhost:3000/products/${book._id}`} />
-            </Head> */}
-            <ProductPageClient book={book} />
-        </>
-    );
+    return <ProductPageClient book={book} />;
 }
 

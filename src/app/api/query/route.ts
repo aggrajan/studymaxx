@@ -23,7 +23,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         }
 
         const queryInstance = new QueryModel({
-            userId,
+            user: userId,
             name,
             email,
             subject,

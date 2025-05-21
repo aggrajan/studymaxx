@@ -76,7 +76,9 @@ export function ItemCard({ book } : { book: Book}) {
   }
 
   function checkIfAddedToWishlist() {
+    console.log(user);
     if(!userPresent) return false;
+    if(user?.wishlist == null) return false;
     return user?.wishlist.findIndex((wishlistBook: Book) => wishlistBook._id === book._id) !== -1;
   }
 

@@ -6,7 +6,7 @@ export async function addToCart(bookId: string) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ bookId }),
-      cache: 'no-store', // Prevent caching for POST
+      cache: 'no-store',
     });
 
     const data = await res.json();

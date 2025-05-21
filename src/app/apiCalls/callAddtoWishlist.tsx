@@ -6,7 +6,7 @@ export async function addToWishlist(bookId: string) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ bookId }),
-      cache: 'no-store', // Prevent caching for POST (default, but explicit here)
+      cache: 'no-store',
     });
 
     const data = await res.json();

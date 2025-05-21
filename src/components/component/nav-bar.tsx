@@ -27,6 +27,8 @@ import {
 } from "@/components/ui/tooltip"
 import { emptyCheckout } from "@/lib/slices/checkoutSlice";
 import Image from "next/image";
+import { getWishlist } from "@/app/apiCalls/callWishlist";
+import { getCart } from "@/app/apiCalls/callCart";
 
 export function NavBar() {
   const router = useRouter();
@@ -65,8 +67,11 @@ export function NavBar() {
     const checkIfToken = await checkIsTokenAvailable();
     if(checkIfToken) {
       const user = await getProfile();
+      const wishlist = await getWishlist(user._id);
+      const cart = await getCart(user._id);
+      user.wishlist = wishlist;
       if(user) dispatch(setAuthState(user));
-      if(user?.cart && user.cart) dispatch(setCart(user.cart));
+      if(cart) dispatch(setCart(cart.items));
       setUserConfig(true);
     } else {
       dispatch(removeAuthState());
@@ -118,16 +123,14 @@ export function NavBar() {
       {(userConfig && booksConfig) ? <>
       <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
         <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
-          {/* <BookIcon className="h-6 w-6" /> */}
-          {/* Add a png image named "studymaxx logo.png" present in public folder of this project */}
           <Image 
-    src="/studymaxx logo.png" 
-    alt="StudyMaxx Logo" 
-    width={96} 
-    height={96} 
-    className="rounded-sm"
-    priority
-  />
+            src="/studymaxx logo.png" 
+            alt="StudyMaxx Logo" 
+            width={96} 
+            height={96} 
+            className="rounded-sm"
+            priority
+          />
           <span className="sr-only text-white">StudyMaxx</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -262,26 +265,6 @@ export function NavBar() {
     </>
   );
 }
-
-function BookIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
-    </svg>
-  )
-}
-
 
 function SearchIcon(props: any) {
   return (

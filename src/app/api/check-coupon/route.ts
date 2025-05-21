@@ -1,9 +1,10 @@
 import dbConnect from "@/lib/dbConnect";
-import UserModel from "@/model/User";
 import CouponModel from "@/model/Coupon";
 import {z} from "zod";
 import { NextRequest, NextResponse } from "next/server";
 import { couponTypes } from "@/model/Enums";
+import OrderModel from "@/model/Order";
+import { getDataFromToken } from "@/helpers/getDataFromToken";
 
 const couponTypesWithEmpty: [string, ...string[]] = ['' as const, ...couponTypes];
 
@@ -29,18 +30,18 @@ export async function POST(request: NextRequest) {
     try {
         await dbConnect();
         const reqBody = await request.json();
-        const { _id: couponId, couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate, couponsUsed } = reqBody;
+        const { _id: couponId, couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate } = reqBody;
 
+        const userIdResponse = await getDataFromToken(request);
+        const userId = userIdResponse.response;
 
-        const coupon = { couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate, couponsUsed };
+        const coupon = { couponName, lastValidityDate, couponDescription, couponType, couponValue, minimumAmount, cartAmount, currentDate };
         const couponFound = await CouponModel.find({ couponName: couponName });
-        if(!couponFound) {
+        if (couponFound.length === 0) {
             return NextResponse.json({
                 success: false,
                 message: "Coupon not found"
-            }, {
-                status: 404
-            })
+            }, { status: 404 });
         }
 
         const result = CouponQuerySchema.safeParse(coupon);
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
         if(cartAmount < minimumAmount) {
             return NextResponse.json({
                 success: false,
-                message: `Your cart amount should be atleast ${minimumAmount} rupeess inorder to avail this coupon`
+                message: `Your cart amount should be atleast ${minimumAmount} rupees inorder to avail this coupon`
             }, {
                 status: 402
             })
@@ -71,13 +72,25 @@ export async function POST(request: NextRequest) {
             })
         }
 
-        if(couponsUsed.filter((usedId: string) => usedId === couponId).length > 0) {
-            return NextResponse.json({
-                success: false,
-                message: "Coupon has been used earlier"
-            }, {
-                status: 400
-            })
+        // ✅ Step 1: Find all orders by the user and populate the coupons
+        const previousOrders = await OrderModel.find({ user: userId })
+        .populate("coupons.coupon", "_id"); // populate just the _id for performance
+
+        // ✅ Step 2: Extract used coupon IDs
+        const couponsUsed = previousOrders.flatMap(order =>
+        (order.coupons || [])
+            .map(c => c?.coupon?._id?.toString())
+            .filter(Boolean) // remove nulls
+        );
+
+        // ✅ Step 3: Check if this couponId is among used ones
+        if (couponsUsed.includes(couponId)) {
+        return NextResponse.json({
+            success: false,
+            message: "Coupon has been used earlier"
+        }, {
+            status: 400
+        });
         }
 
         return NextResponse.json({
