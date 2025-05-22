@@ -43,17 +43,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // Convert product list to CartItem format
     const formattedProducts = products.map((item) => ({
-      product: new mongoose.Types.ObjectId(item.productId),
+      product: item.productId,
       quantity: item.quantity,
     }));
 
     // Convert coupon IDs into CouponItem schema
     const formattedCoupons = coupons.map((couponId) => ({
-      coupon: new mongoose.Types.ObjectId(couponId),
+      coupon:couponId,
     }));
 
     const newOrder = new OrderModel({
-      user: userId ? new mongoose.Types.ObjectId(userId) : undefined,
+      user: userId ? userId : undefined,
       products: formattedProducts,
       address,
       total,

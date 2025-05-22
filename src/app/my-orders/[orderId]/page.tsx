@@ -20,12 +20,13 @@ export default function OrderDetailPage() {
     const [order, setOrder] = useState<Order>();
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
+        
         (async () => {
             try{ 
                 const response = await axios.get(`/api/get-order/${user?._id}/${orderId}`);
                 if(response.status === 200) {
                     const currentOrder = response.data.response;
-                    if(currentOrder.userId !== user?._id) {
+                    if(currentOrder.user !== user?._id) {
                         setUnauthorized(true);
                     } else {
                         setOrder(response.data.response);

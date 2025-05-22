@@ -1,15 +1,14 @@
-import mongoose, { Schema, Document, mongo } from "mongoose";
-import { CartItem, CartItemSchema } from "./Cart";
+import mongoose, { Schema, Document } from "mongoose";
 import AddressSchema, { Address } from "./Address";
 
-export interface CouponItem extends Document {
-    coupon: mongoose.Types.ObjectId
-}
 
 export interface Order extends Document {
     _id?: string;
     user?: mongoose.Types.ObjectId;
-    products: CartItem[];
+    products: {
+        product: mongoose.Types.ObjectId;
+        quantity: number;
+    }[];
     address: Address;
     total: number;
     discount: number;
@@ -21,16 +20,10 @@ export interface Order extends Document {
     email: string;
     createdAt?: Date;
     updatedAt?: Date;
-    coupons?: CouponItem[]
+    coupons?: {
+        coupon: mongoose.Types.ObjectId
+    }[];
 }
-
-export const CouponItemSchema: Schema<CouponItem> = new Schema({
-    coupon: {
-        type: Schema.Types.ObjectId,
-        ref: "Coupon",
-        required: false
-    }
-}, { _id: false } );
 
 export const OrderSchema: Schema<Order> = new Schema({
     user: {
@@ -38,10 +31,10 @@ export const OrderSchema: Schema<Order> = new Schema({
         ref: "User",
         required: false
     },
-    products: {
-        type: [CartItemSchema],
-        required: [true, "products array is required"]
-    },
+     products: [{
+        product: { type: Schema.Types.ObjectId, ref: "Book", required: true },
+        quantity: { type: Number, required: true }
+    }],
     address: {
         type: AddressSchema,
         required: [true, "address is required"]
@@ -78,10 +71,12 @@ export const OrderSchema: Schema<Order> = new Schema({
         type: String,
         required: [true, "email is required"]
     },
-    coupons: {
-        type: [CouponItemSchema],
-        default: []
-    }
+    coupons: [{
+      coupon: {
+        type: Schema.Types.ObjectId,
+        ref: "Coupon"
+      }
+    }]
 },  { timestamps: true })
 
 const OrderModel = (mongoose.models.Order as mongoose.Model<Order>) || mongoose.model<Order>("Order", OrderSchema);

@@ -29,7 +29,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     // Fetch orders for user using correct field 'user'
-    const orders = await OrderModel.find({ user: userId });
+    const orders = await OrderModel.find({ user: userId }).populate("products.product").populate("coupons.coupon");
 
     return NextResponse.json({
       success: true,

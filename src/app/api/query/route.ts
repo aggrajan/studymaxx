@@ -64,7 +64,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             });
         }
 
-        const queries = await QueryModel.find({ userId });
+        const queries = await QueryModel.find({ user: userId });
         return NextResponse.json({
             success: true,
             message: "Queries retrieved",

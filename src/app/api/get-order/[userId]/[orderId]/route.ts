@@ -23,7 +23,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             })
         }
         
-        const order = await OrderModel.findById(orderId);
+        const order = await OrderModel.findById(orderId).populate("products.product").populate("coupons.coupon");
 
         return NextResponse.json({
             success: true,
@@ -35,7 +35,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     } catch(error: any) {
         return NextResponse.json({
             success: false,
-            message: "Error in getting the orders"
+            message: "Error in getting the orders",
+            response: error
         }, {
             status: 500
         })

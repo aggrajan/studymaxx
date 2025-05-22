@@ -31,7 +31,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             })
         }
 
-        const orders = await OrderModel.find();
+        const orders = await OrderModel.find().populate("products.product").populate("coupons.coupon");
         const response = NextResponse.json({
             success: true,
             message: "Successfully fetched all the orders",

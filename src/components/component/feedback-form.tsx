@@ -22,7 +22,7 @@ export function FeedbackForm() {
   const form = useForm<z.infer<typeof feedbackSchema>>({
       resolver: zodResolver(feedbackSchema),
       defaultValues: {
-        userId: user ? user._id : "",
+        userId: user ? user._id : undefined,
         name: user ? user.name : '',
         email: user ? user.email : '',
         book: '',
