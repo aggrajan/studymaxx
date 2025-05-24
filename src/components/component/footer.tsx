@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -6,8 +7,14 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 container max-w-[100rem]">
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
-            <BookIcon className="h-6 w-6" />
-            <span className="text-xl font-bold">StudyMaxx</span>
+            <Image 
+              src="/studymaxx logo.png" 
+              alt="StudyMaxx Logo" 
+              width={120} 
+              height={120} 
+              className="rounded-sm"
+              priority
+            />
           </Link>
           <p className="text-sm">Discover your next great read with our curated selection of books.</p>
           <div className="flex items-center gap-4">

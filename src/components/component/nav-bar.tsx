@@ -63,24 +63,27 @@ export function NavBar() {
 
   }, [searchTerm, filters, cart, userAuth])
 
-  useEffect(() => {(async () => {
-    const checkIfToken = await checkIsTokenAvailable();
-    if(checkIfToken) {
-      const user = await getProfile();
-      const wishlist = await getWishlist(user._id);
-      const cart = await getCart(user._id);
-      user.wishlist = wishlist;
-      if(user) dispatch(setAuthState(user));
-      if(cart) dispatch(setCart(cart.items));
-      setUserConfig(true);
-    } else {
-      dispatch(removeAuthState());
-      dispatch(clearAllFilters());
-      dispatch(emptyCart());
-      setUserConfig(true);
-      setBooksConfig(true);
-    }
-  })()}, [userAuth.userPresent]);
+  useEffect(() => {
+    if(userConfig) return;
+    (async () => {
+        const checkIfToken = await checkIsTokenAvailable();
+        if(checkIfToken && !userAuth.userPresent) {
+          const user = await getProfile();
+          const wishlist = await getWishlist(user._id);
+          const cart = await getCart(user._id);
+          user.wishlist = wishlist;
+          if(user) dispatch(setAuthState(user));
+          if(cart) dispatch(setCart(cart.items));
+          setUserConfig(true);
+        } else {
+          dispatch(removeAuthState());
+          dispatch(clearAllFilters());
+          dispatch(emptyCart());
+          setUserConfig(true);
+          setBooksConfig(true);
+        }
+      })();
+    }, [userConfig]);
 
   useEffect(() => {
     (async () => {
@@ -94,12 +97,29 @@ export function NavBar() {
     setIsOpen((prevState: boolean) => !prevState);
   };
 
+  let currentSearchToken = 0;
+
   const search = (searchText: string) => {
-    (async () => {
-      const books = await getSearchedAndFilteredBooks(searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
-      dispatch(setBooks(books));
-    })();
-  }
+    const searchToken = ++currentSearchToken;
+    setIsSearching(true);
+    getSearchedAndFilteredBooks(
+      searchText,
+      filters.subject,
+      filters.clas,
+      filters.language,
+      filters.board,
+      filters.categorie,
+      filters.exam
+    ).then((books) => {
+      if (searchToken === currentSearchToken) {
+        dispatch(setBooks(books));
+      }
+    }).finally(() => {
+      if (searchToken === currentSearchToken) {
+        setIsSearching(false);
+      }
+    });
+  };
 
   function performLogout() {
     setIsClicked(true); 
@@ -242,22 +262,22 @@ export function NavBar() {
         </nav>
       </div>
       <div className={`fixed top-14 w-full ${ isOpen ? "border shadow bg-white" : ""}  z-50 transition-all duration-500 ease-in-out ${isOpen ? "max-h-screen" : "max-h-0"} overflow-hidden md:hidden flex flex-col gap-1 p-2 justify-start items-start`}>
-        <Link href="/" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
           Home
         </Link>
-        <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
           About Us
         </Link>
-        <Link href="/mission" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/mission" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
           Mission
         </Link>
-        <Link href="/products" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/products" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
           Products
         </Link>
-        <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
           Contact Us
         </Link>
-        {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={false}>
+        {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
             Add book
         </Link>}
       </div></> : 

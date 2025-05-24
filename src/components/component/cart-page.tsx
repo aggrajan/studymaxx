@@ -78,20 +78,20 @@ export function CartPage() {
             <div className="grid gap-2">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>&#8377;{subtotal.toFixed(2)}</span>
+                <span>&#8377;{subtotal.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
               </div>
               <div className="flex justify-between">
                 <span>Shipping</span>
-                <span>&#8377;{cartCount > 0 ? shipping.toFixed(2): 0}</span>
+                <span>&#8377;{cartCount > 0 ? shipping.toLocaleString("en-IN", { minimumFractionDigits: 2 }): 0}</span>
               </div>
               <div className="flex justify-between">
                 <span>Discount</span>
-                <span>-&#8377;{cartCount > 0 ? discount.toFixed(2) : 0}</span>
+                <span>-&#8377;{cartCount > 0 ? discount.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : 0}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-bold">
                 <span>Total</span>
-                <span>&#8377;{(total).toFixed(2)}</span>
+                <span>&#8377;{(total).toLocaleString("en-IN", { minimumFractionDigits: 2 })}</span>
               </div>
             </div>
             <Button className={`w-full mt-6 bg-blue-700 hover:bg-blue-800 ${cartCount > 0 ? "cursor-pointer" : "cursor-not-allowed"}`} onClick={() => {

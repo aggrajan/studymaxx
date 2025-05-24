@@ -42,20 +42,24 @@ export const cartSlice = createSlice({
             }
         }, 
         addCartItem: (state: ICartState, action: PayloadAction<ICartItem>) => {
-            const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.product._id);
-            if(itemIndex !== -1) return {
-                                    ...state
-                                };
-            (async () => {
-                await addToCart(action.payload.product._id as string);
-            })();
-            
-            return {
-                ...state,
-                cartItems: [...state.cartItems, action.payload],
-                cartCount: state.cartCount + 1,
-                subtotal: state.subtotal + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity,
-                total: state.total + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity
+            try {
+                (async () => {
+                    await addToCart(action.payload.product._id as string);
+                })();
+            } catch (error: any) {
+                console.error("Failed to call addToCart:", error.message);
+            } finally {
+                const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.product._id);
+                if(itemIndex !== -1) return {
+                                        ...state
+                                    };
+                return {
+                    ...state,
+                    cartItems: [...state.cartItems, action.payload],
+                    cartCount: state.cartCount + 1,
+                    subtotal: state.subtotal + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity,
+                    total: state.total + ((action.payload.product.discount && action.payload.product.discount > 0) ? parseInt((action.payload.product.price * ((100 - action.payload.product.discount) / 100.0)).toFixed(0)) : parseInt(action.payload.product.price.toFixed(0))) * action.payload.quantity
+                }
             }
         },
         setShippingAmount: (state: ICartState, action: PayloadAction<number>) => {
@@ -75,26 +79,34 @@ export const cartSlice = createSlice({
         addItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
-                (async () => {
-                    await changeQuantityInCart(action.payload.id.toString(), 1);
-                })();
-
-                state.cartItems[itemIndex].quantity += 1;
-                state.subtotal += ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
-                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
+                try {
+                    (async () => {
+                        await changeQuantityInCart(action.payload.id.toString(), 1);
+                    })();
+                } catch (error: any) {
+                    console.error("Failed to call changeQuantityInCart (increment):", error.message);
+                } finally {
+                    state.cartItems[itemIndex].quantity += 1;
+                    state.subtotal += ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
+                    state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
+                }
             }
             
         },
         subtractItemQuantity: (state: ICartState, action: PayloadAction<{ id: number }>) => {
             const itemIndex = state.cartItems.findIndex(item => item.product._id === action.payload.id);
             if (itemIndex !== -1) {
-                (async () => {
-                    await changeQuantityInCart(action.payload.id.toString(), -1);
-                })();
-
-                state.cartItems[itemIndex].quantity -= 1;
-                state.subtotal -= ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
-                state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
+                try {
+                    (async () => {
+                        await changeQuantityInCart(action.payload.id.toString(), -1);
+                    })();
+                } catch (error: any) {
+                    console.error("Failed to call changeQuantityInCart (decrement):", error.message);
+                } finally {
+                    state.cartItems[itemIndex].quantity -= 1;
+                    state.subtotal -= ((state.cartItems[itemIndex].product.discount && state.cartItems[itemIndex].product.discount > 0) ? parseInt((state.cartItems[itemIndex].product.price * ((100 - state.cartItems[itemIndex].product.discount) / 100.0)).toFixed(0)) : parseInt(state.cartItems[itemIndex].product.price.toFixed(0)));
+                    state.total = state.subtotal + parseInt(state.shipping.toFixed(0)) - parseInt(state.discount.toFixed(0));
+                }
             }
         },
         removeCartItem: (state: ICartState, action: PayloadAction<{ id: number }>) => {
