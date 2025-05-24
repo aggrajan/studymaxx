@@ -1,10 +1,14 @@
-import mongoose, { Schema, Document, mongo } from "mongoose";
-import { CartItem, CartItemSchema } from "./User";
+import mongoose, { Schema, Document } from "mongoose";
 import AddressSchema, { Address } from "./Address";
+
+
 export interface Order extends Document {
     _id?: string;
-    userId?: string;
-    products: CartItem[];
+    user?: mongoose.Types.ObjectId;
+    products: {
+        product: mongoose.Types.ObjectId;
+        quantity: number;
+    }[];
     address: Address;
     total: number;
     discount: number;
@@ -16,17 +20,21 @@ export interface Order extends Document {
     email: string;
     createdAt?: Date;
     updatedAt?: Date;
+    coupons?: {
+        coupon: mongoose.Types.ObjectId
+    }[];
 }
 
 export const OrderSchema: Schema<Order> = new Schema({
-    userId: {
-        type: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: false
     },
-    products: {
-        type: [CartItemSchema],
-        required: [true, "products array is required"]
-    },
+     products: [{
+        product: { type: Schema.Types.ObjectId, ref: "Book", required: true },
+        quantity: { type: Number, required: true }
+    }],
     address: {
         type: AddressSchema,
         required: [true, "address is required"]
@@ -62,7 +70,13 @@ export const OrderSchema: Schema<Order> = new Schema({
     email: {
         type: String,
         required: [true, "email is required"]
-    }
+    },
+    coupons: [{
+      coupon: {
+        type: Schema.Types.ObjectId,
+        ref: "Coupon"
+      }
+    }]
 },  { timestamps: true })
 
 const OrderModel = (mongoose.models.Order as mongoose.Model<Order>) || mongoose.model<Order>("Order", OrderSchema);

@@ -1,23 +1,21 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface Review extends Document {
-    userId: string;
-    bookId: string;
+    user: mongoose.Types.ObjectId;
+    book: mongoose.Types.ObjectId;
     review: string;
     rating: number;
-    image?: string;
-    name?: string;
-    username?: string;
-    createdAt?: Date
 }
 
 export const ReviewSchema: Schema<Review> = new Schema({
-    userId: {
-        type: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: [true, "userId is required"]
     },
-    bookId: {
-        type: String,
+    book: {
+        type: Schema.Types.ObjectId,
+        ref: "Book",
         required: [true, "bookId is required"]
     },
     review: {
@@ -29,18 +27,6 @@ export const ReviewSchema: Schema<Review> = new Schema({
         required: [true, "rating is required"],
         min: 1,
         max: 5
-    }, 
-    image: {
-        type: String,
-        required: false
-    },
-    name: {
-        type: String,
-        required: false
-    },
-    username: {
-        type: String,
-        required: false
     }
 
 }, { timestamps: true });

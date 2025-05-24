@@ -1,53 +1,74 @@
 import dbConnect from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
-import UserModel from "@/model/User";
+import WishlistModel from "@/model/Wishlist";
 import BooksModel from "@/model/Books";
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-    try {
-        await dbConnect();
-        const reqBody = await request.json();
-        const { bookId } = reqBody;
-        const userIdResponse = await getDataFromToken(request);
-        const userId = userIdResponse.response;
-        
+  try {
+    await dbConnect();
 
-        const book = await BooksModel.findById(bookId);
-        if(!book) {
-            return NextResponse.json({
-                success: false,
-                message: "Book not found"
-            }, {
-                status: 404
-            });
-        }
+    const reqBody = await request.json();
+    const { bookId } = reqBody;
+    const userIdResponse = await getDataFromToken(request);
+    const userId = userIdResponse.response;
 
-        const user = await UserModel.findByIdAndUpdate(userId, { 
-            $addToSet: { 
-                wishlist: book 
-            } 
-        }, {
-            new : true 
-        });
-
-        if(!user || !user.isVerified) {
-            return NextResponse.json({
-                success: false,
-                message: "User not found"
-            }, {
-                status: 404
-            });
-        }
-
-        return NextResponse.json({
-            success: true, 
-            message: "Successfully added book"
-        }, {status: 200})
-    } catch(error: any) {
-        return NextResponse.json({
-            success: false, 
-            message: "Book can't be added"
-        }, {status: 500})
+    const book = await BooksModel.findById(bookId);
+    if (!book) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Book not found",
+        },
+        { status: 404 }
+      );
     }
+
+    let wishlist = await WishlistModel.findOne({ user: userId });
+
+    // Create a new wishlist if none exists
+    if (!wishlist) {
+      wishlist = new WishlistModel({
+        user: userId,
+        items: [{ product: bookId }],
+      });
+    } else {
+      // Check if book already in wishlist
+      const alreadyExists = wishlist.items.some((item) =>
+        item.product.equals(bookId)
+      );
+
+      if (alreadyExists) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Book already in wishlist",
+          },
+          { status: 409 }
+        );
+      }
+
+      // Add book to wishlist
+      wishlist.items.push({ product: bookId });
+    }
+
+    await wishlist.save();
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Book successfully added to wishlist",
+      },
+      { status: 200 }
+    );
+  } catch (error: any) {
+    console.error("Error adding to wishlist:", error.message);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Failed to add book to wishlist",
+      },
+      { status: 500 }
+    );
+  }
 }

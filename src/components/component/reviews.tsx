@@ -23,8 +23,20 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Loader2 } from "lucide-react"
-import { Review } from "@/model/Review"
 import { formatDistanceToNow } from 'date-fns'
+
+type Review = {
+  _id: string;
+  user: {
+    _id: string;
+    name?: string;
+    username?: string;
+    picture?: string;
+  };
+  review: string;
+  rating: number;
+  createdAt?: string;
+};
 
 export function Reviews({ bookId } : { bookId : string }) {
   const [otherReviews, setOtherReviews] = useState<Review[]>([]);
@@ -91,7 +103,7 @@ export function Reviews({ bookId } : { bookId : string }) {
     }
   }, []);
 
-  function getFallBack(user: Review) {
+  function getFallBack(user: Review["user"]) {
       if(user?.name) {
           return user.name.split(" ").reduce((prev, curr) => prev + curr[0], "")
       } else if(user?.username) {
@@ -107,10 +119,7 @@ export function Reviews({ bookId } : { bookId : string }) {
           userId: user?._id || "",
           bookId: bookId,
           review: "",
-          rating: 0,
-          image: user?.picture || undefined,
-          name: user?.name || undefined,
-          username: user?.username || ""
+          rating: 0
       }
   });
 
@@ -118,13 +127,12 @@ export function Reviews({ bookId } : { bookId : string }) {
       setIsSubmitting(true);
       try{
           const response = await axios.post('/api/add-review', data);
-          if(response.status === 200) {
+          if(response.status === 201) {
               toast({
                   title: "Review Submitted",
                   description: "Review successfully submitted",
                   variant: "default"
               });
-              
 
               router.push(`/products/${bookId}`);
               router.refresh();
@@ -284,14 +292,14 @@ export function Reviews({ bookId } : { bookId : string }) {
             {myReviews.map((review, index) => (
               <div key={`my_review_${index}`} className="flex gap-4">
                 <Avatar className="w-12 h-12 border">
-                  <AvatarImage src={`${review.image}`} />
-                  <AvatarFallback>{getFallBack(review)}</AvatarFallback>
+                  <AvatarImage src={`${review.user.picture}`} />
+                  <AvatarFallback>{getFallBack(review.user)}</AvatarFallback>
                 </Avatar>
                 <div className="w-full flex justify-between">
                   <div className="grid gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="font-semibold">{review.name ? review.name : review.username}</div>
-                      <div className="text-xs text-muted-foreground">{review.name ? review.username : ""}</div>
+                      <div className="font-semibold">{review.user.name ? review.user.name : review.user.username}</div>
+                      <div className="text-xs text-muted-foreground">{review.user.name ? review.user.username : ""}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-0.5">
@@ -368,13 +376,13 @@ export function Reviews({ bookId } : { bookId : string }) {
             {otherReviews.map((review, index) => (
               <div key={`other_review_${index}`} className="flex gap-4">
                 <Avatar className="w-12 h-12 border">
-                  <AvatarImage src={`${review.image}`} />
-                  <AvatarFallback>{getFallBack(review)}</AvatarFallback>
+                  <AvatarImage src={`${review.user.picture}`} />
+                  <AvatarFallback>{getFallBack(review.user)}</AvatarFallback>
                 </Avatar>
                 <div className="grid gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="font-semibold">{review.name ? review.name : review.username}</div>
-                    <div className="text-xs text-muted-foreground">{review.name ? review.username : ""}</div>
+                    <div className="font-semibold">{review.user.name ? review.user.name : review.user.username}</div>
+                    <div className="text-xs text-muted-foreground">{review.user.name ? review.user.username : ""}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-0.5">

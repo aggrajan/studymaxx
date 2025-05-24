@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface Query extends Document {
-    userId: string;
+    user: mongoose.Types.ObjectId;
     name: string;
     email: string;
     subject: string;
@@ -9,8 +9,9 @@ export interface Query extends Document {
 }
 
 export const QuerySchema: Schema<Query> = new Schema({
-    userId: {
-        type: String,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
         required: [true, "userId is required"]
     },
     name: {

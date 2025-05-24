@@ -191,7 +191,8 @@ export default function CheckoutPage() {
             numberOfItems: cart.cartCount,
             name: (userPresent && user?.name) ? user.name : "",
             email: (userPresent && user?.email) ? user.email : "",
-            orderStatus: "Placed"
+            orderStatus: "Placed",
+            coupons: []
         }
     });
 
@@ -256,9 +257,9 @@ export default function CheckoutPage() {
             checkoutData.discount = cart.discount;
             checkoutData.shipping = cart.shipping;
             checkoutData.total = cart.total;
+            checkoutData.coupons = selectedCoupon ? [selectedCoupon._id as string] : [];      
             const response = await axios.post(`/api/add-order`, checkoutData);
-            const addCouponResponse = await axios.post(`/api/add-user-coupon`, { couponId: coupon?._id || "" });
-            if(response.status === 200 && addCouponResponse.status == 200) {
+            if(response.status === 200) {
                 toast({
                     title: "Order Placed Successfully",
                     description: "You can view your order details at Orders page",

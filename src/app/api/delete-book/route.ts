@@ -1,8 +1,10 @@
 import { getDataFromToken } from "@/helpers/getDataFromToken";
 import dbConnect from "@/lib/dbConnect";
-import UserModel, { CartItem } from "@/model/User";
-import BookModel, { Book } from "@/model/Books";
+import UserModel from "@/model/User";
+import BookModel from "@/model/Books";
 import { NextRequest, NextResponse } from "next/server";
+import CartModel from "@/model/Cart";
+import WishlistModel from "@/model/Wishlist";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
@@ -23,29 +25,16 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const { id } = reqBody;
         await BookModel.findByIdAndDelete(id);
 
-        const cartUsers = await UserModel.find({ "cart.product._id": id });
+        await CartModel.updateMany(
+            { "items.product": id },
+            { $pull: { items: { product: id } } }
+        );
 
-        for (const user of cartUsers) {
-            user.cart = user.cart.filter((cartItem: CartItem) => {
-                if (cartItem.product.id.toString() !== id) {
-                    return true;
-                }
-                return false;
-            });
-            await user.save();
-        }
 
-        const wishlistUsers = await UserModel.find({ "wishlist._id": id });
-
-        for (const user of wishlistUsers) {
-            user.wishlist = user.wishlist.filter((book: Book) => {
-                if (book.id.toString() !== id) {
-                    return true;
-                }
-                return false;
-            });
-            await user.save();
-        }
+        await WishlistModel.updateMany(
+            { "items.product": id },
+            { $pull: { items: { product: id } } }
+        );
 
         return NextResponse.json({
             success: true,

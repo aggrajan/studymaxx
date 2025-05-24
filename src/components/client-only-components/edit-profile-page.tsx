@@ -86,8 +86,6 @@ export default function EditProfilePage() {
                     isAdmin: user?.isAdmin ? user.isAdmin : false,
                     wishlist: user?.wishlist ? user.wishlist : []
                 }));
-
-                await axios.post(`/api/refresh-reviews/${user?._id}`);
                 
                 router.push('/user-profile');
             } else {

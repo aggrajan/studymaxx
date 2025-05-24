@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface Feedback extends Document {
-    userId: string,
+    user?: mongoose.Types.ObjectId,
     name: string,
     email: string,
     book?: string,
@@ -9,9 +9,10 @@ export interface Feedback extends Document {
 }
 
 export const FeedbackSchema: Schema<Feedback> = new Schema({
-    userId: {
-        type: String,
-        required: [true, "userId is required"]
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: false
     },
     name: {
         type: String,

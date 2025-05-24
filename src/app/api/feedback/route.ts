@@ -7,47 +7,45 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await dbConnect();
+
         const reqBody = await request.json();
         const { name, email, book, feedback } = reqBody;
+
+        if (!name || !email || !feedback) {
+            return NextResponse.json({
+                success: false,
+                message: "Name, email, and feedback are required"
+            }, { status: 400 });
+        }
+
+        // Extract userId from token (not from request body)
         const userIdResponse = await getDataFromToken(request);
         const userId = userIdResponse.response;
 
-        const user = await UserModel.findById(userId);
-        if(!user || !user.isVerified) {
-            return NextResponse.json({
-                success: false,
-                message: "User not found"
-            }, {
-                status: 404
-            });
-        }
-
-        const feedbackInstance = new FeedbackModel({
-            userId,
+        const feedbackData: any = {
             name,
             email,
             book,
-            feedback
-        });
+            feedback,
+            user: userId // required, so always attach if your schema demands it
+        };
 
+        const feedbackInstance = new FeedbackModel(feedbackData);
         await feedbackInstance.save();
 
         return NextResponse.json({
             success: true,
             message: "Feedback submitted successfully"
-        }, {
-            status: 200 
-        });
-    } catch(error: any) {
-        console.log(error);
+        }, { status: 200 });
+    } catch (error: any) {
+        console.error("POST /feedback error:", error);
         return NextResponse.json({
             success: false,
             message: "Error in submitting the feedback"
-        }, {
-            status: 500
-        })
+        }, { status: 500 });
     }
 }
+
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
     try {
@@ -56,7 +54,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         const userId = userIdResponse.response;
 
         const user = await UserModel.findById(userId);
-        if(!user) {
+        if (!user) {
             return NextResponse.json({
                 success: false,
                 message: "User not found"
@@ -65,20 +63,21 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             });
         }
 
-        const feedbacks = await FeedbackModel.find({ userId });
+        const feedbacks = await FeedbackModel.find({ user });  // use "user" field not "userId"
         return NextResponse.json({
             success: true,
             message: "Feedbacks retrieved",
             response: feedbacks
         }, {
             status: 200
-        })
-    } catch(error: any) {
+        });
+    } catch (error: any) {
+        console.error("GET /feedback error:", error);
         return NextResponse.json({
             success: false,
             message: "Something went wrong communicating with server"
         }, {
             status: 500
-        })
+        });
     }
 }

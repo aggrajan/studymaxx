@@ -1,4 +1,4 @@
-import { Order } from "@/model/Order";
+
 import {
     Card,
     CardContent,
@@ -11,6 +11,44 @@ import { useRouter } from "next/navigation";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { Author } from "@/model/Authors";
+
+interface OrderProduct {
+  product: {
+    _id: string;
+    title: string;
+    image: string;
+    price: number;
+    discount?: number;
+    authors?: Author[];
+  };
+  quantity: number;
+}
+
+interface Address {
+  address: string;
+  landmark?: string;
+  company?: string;
+  name: string;
+  city: string;
+  state: string;
+  pincode: string;
+  contact: string;
+}
+
+export interface Order {
+  _id: string;
+  orderStatus: string;
+  updatedAt?: string;
+  name: string;
+  email: string;
+  address: Address;
+  products: OrderProduct[];
+  numberOfItems: number;
+  subtotal: number;
+  shipping: number;
+  discount: number;
+  total: number;
+}
 
 export function OrderDetail(props: any) {
     const router = useRouter();

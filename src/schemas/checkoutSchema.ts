@@ -12,5 +12,6 @@ export const checkoutSchema = z.object({
     numberOfItems: z.number().min(0, "Invalid number of items"),
     name: z.string().min(1, "name is required"),
     email: z.string().email({message: 'Invalid Email Address'}),
-    orderStatus: z.string().min(1, "order status is required")
+    orderStatus: z.string().min(1, "order status is required"),
+    coupons: z.string().array()
 })
