@@ -14,7 +14,6 @@ import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { useRouter } from "next/navigation";
 import { SkeletonProductsPage } from "../skeleton-components/skeleton-products-page";
-import { Label } from "../ui/label";
 
 export function ProductsPage() {
     const router = useRouter();
@@ -82,7 +81,7 @@ export function ProductsPage() {
 
     const search = (searchText: string) => {
       (async () => {
-        const books = await getSearchedAndFilteredBooks(searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
+        const books = await getSearchedAndFilteredBooks(allBooks, searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
         dispatch(setBooks(books));
       })();
     }

@@ -9,15 +9,9 @@ import { ShoppingCartButton } from "../client-only-components/shopping-cart-butt
 import { logout } from "@/app/apiCalls/callLogout";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setAuthState, removeAuthState } from "@/lib/slices/authSlice";
+import { removeAuthState } from "@/lib/slices/authSlice";
 import { clearAllFilters, updateSearchTerm } from "@/lib/slices/searchAndFilterSlice";
-import { getProfile } from "@/app/apiCalls/callProfile";
-import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
-import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
-import { setBooks } from "@/lib/slices/booksSlice";
-import { checkIsTokenAvailable } from "@/app/apiCalls/checkIsTokenAvailable";
-import { emptyCart, setCart } from "@/lib/slices/cartSlice";
-import { getBooks } from "@/app/apiCalls/callBooks";
+import { emptyCart } from "@/lib/slices/cartSlice";
 import { SkeletonNavBar } from "../skeleton-components/skeleton-nav-bar";
 import {
   Tooltip,
@@ -27,22 +21,26 @@ import {
 } from "@/components/ui/tooltip"
 import { emptyCheckout } from "@/lib/slices/checkoutSlice";
 import Image from "next/image";
-import { getWishlist } from "@/app/apiCalls/callWishlist";
-import { getCart } from "@/app/apiCalls/callCart";
+import { useUserContext } from "@/context/UserContext";
+import { useBookContext } from "@/context/BookContext";
+import { useDebouncedSearch } from "@/hooks/useDebouncedSearchHook";
 
 export function NavBar() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const userAuth = useAppSelector((state) => state.auth);
-  const searchTerm = useAppSelector((state) => state.searchAndFilter.searchTerm);
   const filters = useAppSelector((state) => state.searchAndFilter.filters);
   const cart = useAppSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [userConfig, setUserConfig] = useState(false);
-  const [booksConfig, setBooksConfig] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const { userLoading } = useUserContext();
+
+  const { booksLoading } = useBookContext();
+
+  const { isSearching, searchTerm, handleSearchChange } = useDebouncedSearch();
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   useEffect(() => {
     if(searchTerm === "" && filters.board.length === 0 &&
@@ -63,62 +61,10 @@ export function NavBar() {
 
   }, [searchTerm, filters, cart, userAuth])
 
-  useEffect(() => {
-    if(userConfig) return;
-    (async () => {
-        const checkIfToken = await checkIsTokenAvailable();
-        if(checkIfToken && !userAuth.userPresent) {
-          const user = await getProfile();
-          const wishlist = await getWishlist(user._id);
-          const cart = await getCart(user._id);
-          user.wishlist = wishlist;
-          if(user) dispatch(setAuthState(user));
-          if(cart) dispatch(setCart(cart.items));
-          setUserConfig(true);
-        } else {
-          dispatch(removeAuthState());
-          dispatch(clearAllFilters());
-          dispatch(emptyCart());
-          setUserConfig(true);
-          setBooksConfig(true);
-        }
-      })();
-    }, [userConfig]);
-
-  useEffect(() => {
-    (async () => {
-      const allStoreBooks = await getBooks();
-      dispatch(setStoreBooks(allStoreBooks));
-      setBooksConfig(true);
-    })();
-  }, []);
+  
   
   const toggle = () => {
     setIsOpen((prevState: boolean) => !prevState);
-  };
-
-  let currentSearchToken = 0;
-
-  const search = (searchText: string) => {
-    const searchToken = ++currentSearchToken;
-    setIsSearching(true);
-    getSearchedAndFilteredBooks(
-      searchText,
-      filters.subject,
-      filters.clas,
-      filters.language,
-      filters.board,
-      filters.categorie,
-      filters.exam
-    ).then((books) => {
-      if (searchToken === currentSearchToken) {
-        dispatch(setBooks(books));
-      }
-    }).finally(() => {
-      if (searchToken === currentSearchToken) {
-        setIsSearching(false);
-      }
-    });
   };
 
   function performLogout() {
@@ -139,8 +85,10 @@ export function NavBar() {
     setIsClicked(false);
   };
 
+  if (userLoading || booksLoading) return <SkeletonNavBar />
+
   return (<>
-      {(userConfig && booksConfig) ? <>
+      
       <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
         <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
           <Image 
@@ -173,29 +121,34 @@ export function NavBar() {
             Add book
           </Link>}
           
-          {!isSearching ? <TooltipProvider>
-            <Tooltip delayDuration={200}>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full text-white" onClick={() => { setIsSearching((prev) => !prev) }}>
-                  <SearchIcon className="h-5 w-5" />
-                  <span className="sr-only">Search</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Search</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider> : <form className="relative flex-1 max-w-md" onSubmit={(e) => {e.preventDefault(); search(searchTerm);}}>
+          
+          {!isSearchVisible ? (
+            <TooltipProvider>
+              <Tooltip delayDuration={200}>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full text-white" onClick={() => setIsSearchVisible(true)}>
+                    <SearchIcon className="h-5 w-5" />
+                    <span className="sr-only">Search</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Search</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          ) : (
+            <form className="relative flex-1 max-w-md" onSubmit={(e) => e.preventDefault()}>
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
               <Input
                 type="text"
                 placeholder="Search for products..."
                 value={searchTerm}
-                onChange={(e) => { dispatch(updateSearchTerm(e.target.value)); }}
-                onBlur={(e) => { e.preventDefault(); setIsSearching((prev) => !prev); }}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                onBlur={() => setIsSearchVisible(false)}
                 className="bg-[#f3f3f3] border border-gray-300 rounded-sm py-2 pl-10 pr-4 w-full"
               />
-            </form>}
+            </form>
+          )}
 
           <ShoppingCartButton />
           
@@ -280,8 +233,7 @@ export function NavBar() {
         {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
             Add book
         </Link>}
-      </div></> : 
-      <SkeletonNavBar />}
+      </div>
     </>
   );
 }

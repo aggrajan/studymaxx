@@ -8,11 +8,9 @@ import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { NavBar } from "@/components/component/nav-bar";
 import { Footer } from "@/components/component/footer";
-import { checkIsTokenAvailable } from "./apiCalls/checkIsTokenAvailable";
-import { useAppDispatch } from "@/lib/hooks";
-import { removeAuthState } from "@/lib/slices/authSlice";
-import { clearAllFilters } from "@/lib/slices/searchAndFilterSlice";
-import { emptyCart } from "@/lib/slices/cartSlice";
+import { UserProvider } from "@/context/UserContext";
+import { BookProvider } from "@/context/BookContext";
+import { QRProvider } from "@/context/QRProvider";
 
 export const metadata: Metadata = {
   title: "StudyMaxx",
@@ -29,20 +27,24 @@ export default function RootLayout({
       <CookiesProvider>
         <AuthProvider>
           <StoreProvider>
-            
-              <html lang="en">
-              
-                <body className={inter.className}>
-                <NavBar />
-                  <main>
-                    {children}
-                    <Toaster />
-                  </main>
-                  <Footer />
-                </body>
-                
-              </html>
-            
+            <UserProvider>
+              <BookProvider>
+                <QRProvider>
+                  <html lang="en">
+                  
+                    <body className={inter.className}>
+                    <NavBar />
+                      <main>
+                        {children}
+                        <Toaster />
+                      </main>
+                      <Footer />
+                    </body>
+                    
+                  </html>
+                </QRProvider>
+              </BookProvider>
+            </UserProvider>
           </StoreProvider>
         </AuthProvider>
       </CookiesProvider>

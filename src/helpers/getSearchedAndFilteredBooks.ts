@@ -1,8 +1,6 @@
-import { getBooks } from "@/app/apiCalls/callBooks";
 import { Book } from "@/model/Books";
 
-export async function getSearchedAndFilteredBooks(searchTerm: string, subjects: string[], levels: string[], languages: string[], boards: string[], categories: string[], exams: string[] ) {
-    const books = await getBooks();
+export async function getSearchedAndFilteredBooks(books: Book[], searchTerm: string, subjects: string[], levels: string[], languages: string[], boards: string[], categories: string[], exams: string[] ) {
     
     const filteredSchool: Book[] = [];
     const filteredCompetitiveExams: Book[] = [];
