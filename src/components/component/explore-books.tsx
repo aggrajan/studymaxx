@@ -82,7 +82,7 @@ export function ExploreBooks() {
   
   const search = (searchText: string) => {
     (async () => {
-      const books = await getSearchedAndFilteredBooks(searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
+      const books = await getSearchedAndFilteredBooks(allBooks, searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
       dispatch(setBooks(books));
     })();
   }
@@ -229,7 +229,10 @@ export function ExploreBooks() {
         <div className="flex flex-col">
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {
-              currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
+              currentBooks.length === 0 ? <>
+                <div className="font-medium text-red-500">No books found matching your search query</div>
+                <Button className="mt-2 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}><ClearIcon className="h-6 w-6 -ml-2 mr-1" />Clear All Filters</Button>
+              </> : currentBooks.map((book: Book) => (
                 <ItemCard key={`book_${book._id}`} book={book}/>
               ))
             }

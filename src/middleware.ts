@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-export { default } from 'next-auth/middleware';
-import { cookies } from "next/headers";
 
 export async function middleware(request: NextRequest) {
-    let token = cookies().get("token")?.value || "";
-    const isAdmin = cookies().get("isAdmin")?.value || "false";
+    const token = request.cookies.get("token")?.value || "";
+    const isAdmin = request.cookies.get("isAdmin")?.value || "false";
     const url = request.nextUrl;
     const expiryDate = new Date();
     expiryDate.setHours(expiryDate.getHours() + 1);
@@ -12,19 +10,19 @@ export async function middleware(request: NextRequest) {
     if(token && ( 
         url.pathname.startsWith('/sign-in') || 
         url.pathname.startsWith('/sign-up') || 
-        url.pathname.startsWith('/verify')  
+        url.pathname.startsWith('/verify')  ||
+        url.pathname.startsWith('/reset-password')
     )) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if((url.pathname.startsWith('/add-book')      || 
-        url.pathname.startsWith('/edit-book')     || 
-        url.pathname.startsWith('/all-feedbacks') ||
-        url.pathname.startsWith('/all-queries')   ||
-        url.pathname.startsWith('/add-coupon')    || 
-        url.pathname.startsWith('/edit-coupon')   ||
-        url.pathname.startsWith('/all-coupons')   ||
-        url.pathname.startsWith('/all-orders')) && isAdmin === "false") {
+    const adminRoutes = [
+        '/add-book', '/edit-book', '/all-feedbacks', '/all-queries',
+        '/add-coupon', '/edit-coupon', '/all-coupons', '/all-orders',
+        '/qr/add', '/qr/view'
+    ];
+
+    if (adminRoutes.some(path => url.pathname.startsWith(path)) && isAdmin === "false") {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
@@ -42,20 +40,31 @@ export const config = {
         '/sign-in',
         '/sign-up',
         '/verify',
+        '/verify-reset-password',
+        '/about-us',
+        '/feedback',
+        '/mission',
+        '/faq',
+        '/products/:path*',
+        '/policy',
         '/user-profile',
         '/user-profile/edit',
         '/add-book',
+        '/cart',
+        '/payment',
         '/all-feedbacks',
         '/edit-book',
         '/all-queries',
         '/wishlist',
+        '/reset-password',
         '/queries',
         '/payment',
         '/add-coupon',
         '/edit-coupon',
         '/all-coupons',
-        '/all-orders',
+        '/all-orders/:path*',
         '/my-orders',
+        '/qr/:path*',
         '/'
     ]
 }

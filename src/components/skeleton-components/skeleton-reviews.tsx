@@ -11,7 +11,7 @@ export function SkeletonReviews() {
                 <div className="w-full">
                     <h2 className="mb-4 w-full">Customer Reviews</h2>
                     <div className="grid gap-6 w-full">
-                        <div key={`other_review`} className="w-full">
+                        <div key={`my_review`} className="w-full">
                             <div className="grid gap-2">
                                 <div className="flex items-center gap-2">
                                     <Skeleton className="w-40 h-8" />
