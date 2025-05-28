@@ -117,9 +117,9 @@ export function NavBar() {
           <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Contact Us
           </Link>
-          {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
+          {/* {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Add book
-          </Link>}
+          </Link>} */}
           
           
           {!isSearchVisible ? (
@@ -183,6 +183,15 @@ export function NavBar() {
               <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/all-orders')); }}>
                   <img src="/order.svg" className="w-4 h-4 mr-2" />All Orders
               </DropdownMenuItem>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/add-book')); }}>
+                  <img src="/book.svg" className="w-4 h-4 mr-2" />Add Book
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/qr/add')); }}>
+                  <img src="/qr-code.svg" className="w-4 h-4 mr-2" />Add QR
+              </DropdownMenuItem>
+              <DropdownMenuItem className={`${(userAuth.userPresent && userAuth.user?.isAdmin) ? "cursor-pointer" : "hidden"} hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/qr/view')); }}>
+                  <img src="/scan-line.svg" className="w-4 h-4 mr-2" />View QR
+              </DropdownMenuItem>
               <DropdownMenuSeparator className={`${userAuth.userPresent ? "" : "hidden"}`} />
               <DropdownMenuItem className={`${ userAuth.userPresent ? "cursor-pointer" : "hidden" } hover:bg-gray-400`} onClick={(e) => { e.preventDefault(); handleItemClick(() => router.push('/wishlist'));}}>
                   <img src="/wishlist.svg" className="w-4 h-4 mr-2" />Your Wishlist
@@ -230,9 +239,9 @@ export function NavBar() {
         <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
           Contact Us
         </Link>
-        {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
+        {/* {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="block md:hidden text-md font-medium hover:underline underline-offset-4 pt-2" prefetch={true}>
             Add book
-        </Link>}
+        </Link>} */}
       </div>
     </>
   );

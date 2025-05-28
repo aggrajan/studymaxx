@@ -49,7 +49,7 @@ export default function QRCodeInfoPage({ qrData } : { qrData: QRCode }) {
   const copyToClipboard = async (text: string) => {
      try {
       await navigator.clipboard.writeText(text)
-      setCopiedId(qrData._id)
+      setCopiedId(text)
       setTimeout(() => setCopiedId(null), 2000)
     } catch (err) {
       console.error("Failed to copy URL:", err)
@@ -101,7 +101,7 @@ export default function QRCodeInfoPage({ qrData } : { qrData: QRCode }) {
                 <div className="flex items-center justify-between mt-1 gap-2">
                     <span className="font-mono text-sm break-all">{qrData.code}</span>
                     <Button variant="ghost" size="sm" onClick={() => copyToClipboard(qrData.code)}>
-                    {copiedId === `url-${qrData._id}` ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
+                    {copiedId === `${qrData.code}` ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="h-3 w-3" />}
                     </Button>
                 </div>
                 </div>
@@ -116,10 +116,10 @@ export default function QRCodeInfoPage({ qrData } : { qrData: QRCode }) {
                     {getUrl(qrData.code)}
                     </span>
                     <div className="flex gap-1 shrink-0">
-                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(qrData.url)}>
-                        <Copy className="w-4 h-4" />
+                    <Button variant="ghost" size="sm" onClick={() => copyToClipboard(getUrl(qrData.code))}>
+                         {copiedId === `${getUrl(qrData.code)}` ? <Check className="h-3 w-3 text-green-600" /> :<Copy className="w-4 h-4" />}
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={() => window.open(qrData.url, "_blank")}>
+                    <Button variant="ghost" size="sm" onClick={() => window.open(getUrl(qrData.code), "_blank")}>
                         <ExternalLink className="w-4 h-4" />
                     </Button>
                     </div>
@@ -133,7 +133,7 @@ export default function QRCodeInfoPage({ qrData } : { qrData: QRCode }) {
                     <span className="text-sm truncate font-mono flex-1" title={qrData.url}>{qrData.url}</span>
                     <div className="flex gap-1 shrink-0">
                     <Button variant="ghost" size="sm" onClick={() => copyToClipboard(qrData.url)}>
-                        <Copy className="w-4 h-4" />
+                        {copiedId === `${qrData.url}` ? <Check className="h-3 w-3 text-green-600" /> : <Copy className="w-4 h-4" />}
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => window.open(qrData.url, "_blank")}>
                         <ExternalLink className="w-4 h-4" />
