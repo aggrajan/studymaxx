@@ -1,7 +1,7 @@
 import QRList from "@/components/client-only-components/qr-list";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbPage, BreadcrumbLink, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
-export default async function() {
+export default async function QRPage() {
 
     return <>
     <Breadcrumb className="px-4 lg:px-6 pt-16 pb-2 bg-gray-100">
