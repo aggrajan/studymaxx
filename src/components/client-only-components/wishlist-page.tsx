@@ -17,9 +17,11 @@ export function WishlistPage() {
                             <LoaderCircle className="mr-2 h-7 w-7 duration-200 animate-spin"/> Loading...
                         </div>;; // Prevents rendering on the server side
 
+    const hasWishlist = userPresent && user && Array.isArray(user.wishlist) && user.wishlist.length > 0;
+
     return (
         <>
-            {(userPresent && user && user.wishlist.length > 0) ? (
+            {hasWishlist ? (
                 <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">
                     <div className="container px-4 md:px-6 gap-8 pb-4">
                         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Your Wishlist</h2>

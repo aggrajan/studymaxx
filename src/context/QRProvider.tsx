@@ -2,6 +2,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { RehydrationContext } from "@/app/StoreProvider";
+import { useAppSelector } from "@/lib/hooks";
 
 export interface QRCode {
   _id: string;
@@ -23,6 +25,8 @@ export const QRProvider = ({ children }: { children: React.ReactNode }) => {
   const [qrCodes, setQrCodes] = useState<QRCode[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { rehydrated } = useContext(RehydrationContext);
+  const userPresent = useAppSelector(state => state.auth.userPresent);
 
   const fetchQRCodes = async () => {
     try {
@@ -41,8 +45,9 @@ export const QRProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    if(!rehydrated) return ;
     fetchQRCodes();
-  }, []);
+  }, [rehydrated, userPresent]);
 
   return (
     <QRContext.Provider value={{ qrCodes, loading, error, refreshQRCodes: fetchQRCodes }}>

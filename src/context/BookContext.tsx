@@ -1,9 +1,10 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
 import { getBooks } from "@/app/apiCalls/callBooks";
+import { RehydrationContext } from "@/app/StoreProvider";
 
 type BookContextType = {
   booksLoading: boolean;
@@ -16,6 +17,8 @@ export const useBookContext = () => useContext(BookContext);
 export const BookProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const [booksLoading, setBooksLoading] = useState(true);
+  const { rehydrated } = useContext(RehydrationContext);
+  const userPresent = useAppSelector(state => state.auth.userPresent);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -30,7 +33,7 @@ export const BookProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchBooks();
-  }, []);
+  }, [rehydrated, userPresent]);
 
   return (
     <BookContext.Provider value={{ booksLoading }}>
