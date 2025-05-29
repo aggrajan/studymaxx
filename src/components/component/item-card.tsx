@@ -57,8 +57,12 @@ export function ItemCard({ book } : { book: Book}) {
     const isAddedToWishlist = checkIfAddedToWishlist();
     if(isAddedToWishlist) {
       setAddedToWishlist(true);
+    } else if(userPresent && user?.wishlist) {
+      setAddedToWishlist(
+        user.wishlist.findIndex((wishlistBook : Book) => wishlistBook._id === book._id) !== -1
+      )
     }
-  }, [userPresent]);
+  }, [userPresent, cartItems, book._id, user, user?.wishlist]);
 
   function getQuantity(): number {
     if(!book) return 0;
