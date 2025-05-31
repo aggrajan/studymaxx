@@ -53,7 +53,7 @@ export function ProductsPage() {
         getAllBooks();
         setBookConfig(true);
       }
-    }, [allBooks, filters.board.length, filters.categorie.length, filters.clas.length, filters.exam.length, filters.language.length, filters.subject.length, searchTerm]);
+    }, []);
 
     useEffect(() => {
       if (Array.isArray(filteredBooks)) {
@@ -85,7 +85,7 @@ export function ProductsPage() {
       }
 
       search(searchTerm);
-    }, [filters, search, searchTerm])
+    }, [filters]);
 
 
     
