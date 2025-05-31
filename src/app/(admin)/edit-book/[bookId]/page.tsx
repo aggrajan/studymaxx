@@ -29,8 +29,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getBooks } from "@/app/apiCalls/callBooks";
 import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
-import { setAuthState } from "@/lib/slices/authSlice";
-import { getProfile } from "@/app/apiCalls/callProfile";
 import { removeCartItem, updateCartItem } from "@/lib/slices/cartSlice";  
 
 
@@ -163,8 +161,7 @@ function EditBookForm() {
             dispatch(updateCartItem({ book: updatedBook as Book }));
             const response = await axios.post('/api/edit-book', data);
             if(response.status === 200) {
-                await axios.post(`/api/refresh-cart`, { bookId: bookId });
-                await axios.post(`/api/refresh-wishlist`, { bookId: bookId });
+             
                 toast({
                     title: "Book edited",
                     description: "Book successfully edited in the database",
@@ -172,11 +169,10 @@ function EditBookForm() {
                 });
 
                 const allBooks = await getBooks();
-                const currentUser = await getProfile();
+
                 if (Array.isArray(allBooks)) {
                     dispatch(setBooks(allBooks));
                     dispatch(setStoreBooks(allBooks));
-                    dispatch(setAuthState(currentUser));
                 } else {
                     console.error("Data fetched is not an array:", allBooks);
                 }
@@ -219,11 +215,10 @@ function EditBookForm() {
                 });
 
                 const allBooks = await getBooks();
-                const currentUser = await getProfile();
+
                 if (Array.isArray(allBooks)) {
                     dispatch(setBooks(allBooks));
                     dispatch(setStoreBooks(allBooks));
-                    dispatch(setAuthState(currentUser));
                 } else {
                     console.error("Data fetched is not an array:", allBooks);
                 }

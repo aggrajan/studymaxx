@@ -31,6 +31,17 @@ export function ExploreBooks() {
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook)
   const [isSchoolSelected, setIsSchoolSelected] = useState(false);
   const [isCompetitiveExamSelected, setIsCompetitiveExamSelected] = useState(false);
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page)
+  } 
+  
+  const search = (searchText: string) => {
+    (async () => {
+      const books = await getSearchedAndFilteredBooks(allBooks, searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
+      dispatch(setBooks(books));
+    })();
+  }
+
 
   useEffect(() => {
     if(searchAndFilterState.filters.categorie.findIndex((category) => category === "School") === -1) {
@@ -66,7 +77,7 @@ export function ExploreBooks() {
     ) {
       getAllBooks();
     }
-  }, []);
+  }, [allBooks, searchAndFilterState.filters.board.length, searchAndFilterState.filters.categorie.length, searchAndFilterState.filters.clas.length, searchAndFilterState.filters.exam.length, searchAndFilterState.filters.language.length, searchAndFilterState.filters.subject.length, searchAndFilterState.searchTerm]);
 
   useEffect(() => {
     if (Array.isArray(filteredBooks)) {
@@ -76,17 +87,7 @@ export function ExploreBooks() {
     }
   }, [filteredBooks]);
   
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page)
-  } 
   
-  const search = (searchText: string) => {
-    (async () => {
-      const books = await getSearchedAndFilteredBooks(allBooks, searchText, searchAndFilterState.filters.subject, searchAndFilterState.filters.clas, searchAndFilterState.filters.language, searchAndFilterState.filters.board, searchAndFilterState.filters.categorie, searchAndFilterState.filters.exam);
-      dispatch(setBooks(books));
-    })();
-  }
-
   return (<>
     {booksConfig ? <div className="bg-[#fcfcfc]"><section id="content" className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16">
       <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">

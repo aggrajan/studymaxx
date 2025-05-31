@@ -17,6 +17,15 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { useAppDispatch } from "@/lib/hooks";
 import { setAuthState } from "@/lib/slices/authSlice";
 import { getProfile } from "@/app/apiCalls/callProfile";
+import { getWishlist } from "@/app/apiCalls/callWishlist";
+import { getCart } from "@/app/apiCalls/callCart";
+import { setCart, emptyCart } from "@/lib/slices/cartSlice";
+import { Book } from "@/model/Books";
+
+
+function convertWishlistToUserWishlist(wishlist: { product: Book }[]): Book[] {
+    return wishlist.map(item => item.product);
+}
 
 function SignIn() {
     const dispatch = useAppDispatch();
@@ -55,7 +64,13 @@ function SignIn() {
                 description: "Successfully logged in with correct credentials"
             })
             const user = await getProfile();
+            const wishlist = await getWishlist(user._id);
+            const cart = await getCart(user._id);
+            user.wishlist = convertWishlistToUserWishlist(wishlist);
+
             dispatch(setAuthState(user));
+            dispatch(setCart(cart.items));
+                      
             router.replace("/");
             setIsSubmitting(false);
         }

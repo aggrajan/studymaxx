@@ -68,7 +68,7 @@ export default function EditQRPage({ qrCode } : {qrCode: QRCode}) {
     }
 
     fetchQR()
-  }, [qrCode])
+  }, [qrCode, form, router, toast])
 
   const onSubmit = async (data: z.infer<typeof EditQRSchema>) => {
     setSubmitting(true)

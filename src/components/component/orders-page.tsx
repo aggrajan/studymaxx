@@ -60,7 +60,7 @@ export function OrdersPage( { api, pageLocation } : { api : string, pageLocation
       }
       setIsMounted(true);
     })();
-  }, []);
+  }, [api]);
 
   const onDelete = async (id: string) => {
     setIsSubmitting(true);

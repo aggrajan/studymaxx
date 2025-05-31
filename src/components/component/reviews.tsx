@@ -78,7 +78,7 @@ export function Reviews({ bookId } : { bookId : string }) {
         }
       )();
     }
-  }, []);
+  }, [bookId, myReviewsPage, user?._id]);
 
   useEffect(() => {
     if(isFirstCallForOtherReviews.current) {
@@ -101,7 +101,7 @@ export function Reviews({ bookId } : { bookId : string }) {
         }
       )();
     }
-  }, []);
+  }, [bookId, otherReviewsPage, user?._id]);
 
   function getFallBack(user: Review["user"]) {
       if(user?.name) {

@@ -25,7 +25,7 @@ export function QueryPage() {
         }
         
         if(userPresent) getAllQuery();
-    }, []);
+    }, [userPresent]);
 
     return <>
         {(queryConfig) ? 

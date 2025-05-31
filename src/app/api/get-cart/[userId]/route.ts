@@ -35,7 +35,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({
         success: true,
         message: "Cart is empty",
-        response: []
+        response: {items: []}
       }, { status: 200 });
     }
 

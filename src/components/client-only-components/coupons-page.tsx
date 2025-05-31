@@ -29,7 +29,7 @@ export function CouponsPage() {
         }
         
         if(userPresent) getAllCoupons();
-    }, []);
+    }, [userPresent]);
 
     return <>
         {(couponConfig) ? 

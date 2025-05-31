@@ -33,7 +33,7 @@ export const BookProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchBooks();
-  }, [rehydrated, userPresent]);
+  }, [rehydrated, userPresent, dispatch]);
 
   return (
     <BookContext.Provider value={{ booksLoading }}>

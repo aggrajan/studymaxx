@@ -25,7 +25,7 @@ export function EveryFeedbackPage() {
         }
         
         if(userPresent) getAllFeedbacks();
-    }, []);
+    }, [userPresent]);
 
     return <>
         {(feedbackConfig) ? (userPresent && user && feedbacks.length > 0) ? <section className="mx-auto px-4 py-12 sm:px-6 lg:px-8">

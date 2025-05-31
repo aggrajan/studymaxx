@@ -14,7 +14,7 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
         }
 
         getAllBooks();
-    }, []);
+    }, [allBooks]);
 
     function getRelevantBooks() {
         return books.filter((givenBook: Book) => ((givenBook._id !== book._id) 

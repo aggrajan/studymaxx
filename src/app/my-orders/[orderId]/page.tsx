@@ -39,7 +39,7 @@ export default function OrderDetailPage() {
             }
             
         })();
-    }, []);
+    }, [orderId, user?._id]);
 
     if(unauthorized) return <div className='h-screen w-screen flex justify-center items-center'>
     <div className="flex flex-col items-center">

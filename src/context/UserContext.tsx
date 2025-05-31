@@ -58,7 +58,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
       setUserLoading(false);
     })();
-  }, [rehydrated, userPresent]);
+  }, [rehydrated, userPresent, dispatch]);
 
   return (
     <UserContext.Provider value={{ userLoading }}>

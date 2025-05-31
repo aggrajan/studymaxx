@@ -159,7 +159,7 @@ export default function CheckoutPage() {
     return () => {
         controller.abort(); 
     };
-}, [couponName]);
+}, [couponName, cart.total, user?.coupons]);
 
 
     const blankAddress = {
@@ -200,7 +200,7 @@ export default function CheckoutPage() {
     useEffect(() => {
         setIsMounted(true);
         dispatch(resetDiscountAmount());
-    }, []);
+    }, [dispatch]);
 
 
     const createOrderId = async () => {

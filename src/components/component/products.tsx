@@ -25,6 +25,18 @@ export function ProductsPage() {
     const [books, setAllBooks] = useState<Book[]>([]);
     const [bookConfig, setBookConfig] = useState(false);
 
+    
+    const handlePageChange = (page: any) => {
+      setCurrentPage(page)
+    }
+
+    const search = (searchText: string) => {
+      (async () => {
+        const books = await getSearchedAndFilteredBooks(allBooks, searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
+        dispatch(setBooks(books));
+      })();
+    }
+
     useEffect(() => {
       
       const getAllBooks = async () => {
@@ -41,7 +53,7 @@ export function ProductsPage() {
         getAllBooks();
         setBookConfig(true);
       }
-    }, []);
+    }, [allBooks, filters.board.length, filters.categorie.length, filters.clas.length, filters.exam.length, filters.language.length, filters.subject.length, searchTerm]);
 
     useEffect(() => {
       if (Array.isArray(filteredBooks)) {
@@ -73,18 +85,8 @@ export function ProductsPage() {
       }
 
       search(searchTerm);
-    }, [filters])
+    }, [filters, search, searchTerm])
 
-    const handlePageChange = (page: any) => {
-      setCurrentPage(page)
-    }
-
-    const search = (searchText: string) => {
-      (async () => {
-        const books = await getSearchedAndFilteredBooks(allBooks, searchText, filters.subject, filters.clas, filters.language, filters.board, filters.categorie, filters.exam);
-        dispatch(setBooks(books));
-      })();
-    }
 
     
 

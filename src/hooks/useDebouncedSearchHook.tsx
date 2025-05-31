@@ -48,7 +48,7 @@ export function useDebouncedSearch(delay = 500) {
         clearTimeout(debounceTimeout.current);
       }
     };
-  }, [searchTerm, filters]);
+  }, [searchTerm, filters,allBooks, delay, dispatch]);
 
   const handleSearchChange = (text: string) => {
     dispatch(updateSearchTerm(text));

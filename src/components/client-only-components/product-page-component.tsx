@@ -36,7 +36,7 @@ export const ProductPageClient = ({ book }: Props) => {
     }
 
     setBookConfig(true);
-  }, [book, userPresent]);
+  }, [book, userPresent, cartItems, user?.wishlist]);
 
   function getAuthors(authors: Author[] | undefined): string {
     return authors?.map((a) => a.name).join(", ") || "";

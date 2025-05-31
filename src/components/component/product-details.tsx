@@ -62,7 +62,7 @@ export function ProductDetails(props: ProductDetailsProps) {
     } else {
       setUrl(`${window.location.origin}/products/${props.book._id}`);
     }
-  }, []);
+  }, [props.book._id]);
 
   useEffect(() => {
     if (!api) {
@@ -72,7 +72,7 @@ export function ProductDetails(props: ProductDetailsProps) {
     api.on("select", () => {
       setCurrent((api.selectedScrollSnap()) % props.book.previewImages.length)
     })
-  }, [api])
+  }, [api, props.book.previewImages.length])
 
   
 
