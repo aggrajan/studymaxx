@@ -27,7 +27,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             email,
             book,
             feedback,
-            user: userId // required, so always attach if your schema demands it
+            user: userId 
         };
 
         const feedbackInstance = new FeedbackModel(feedbackData);

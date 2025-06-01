@@ -35,7 +35,7 @@ export function ContactQueryForm() {
   const form = useForm<z.infer<typeof querySchema>>({
       resolver: zodResolver(querySchema),
       defaultValues: {
-        userId: user ? user._id : "",
+        userId: user ? user._id : undefined,
         name: user ? user.name : '',
         email: user ? user.email : '',
         subject: '',
@@ -49,21 +49,26 @@ export function ContactQueryForm() {
       const response = await axios.post(`/api/query`, data);
       if(response.data.success) {
         form.reset({
-          userId: user ? user._id : "",
-          name: user ? user.name : '',
-          email: user ? user.email : '',
           subject: '',
           message: ''
         })
         toast({title: "Query Submitted", description: "Your query has been successfully submitted"});
-        setShowDialog(true); // Show the alert dialog
+        if(user && user._id && user.isVerified) setShowDialog(true); 
       } else {
-        toast({title: "Something Went Wrong", description: "Your query has not been submitted"});
+        toast({
+          title: "Something Went Wrong", 
+          description: "Your query has not been submitted"
+        });
       }
-    } catch(error: any) {
-      toast({title: "Something Went Wrong", description: "You might not have logged in"});
+    } catch (error: any) {
+      toast({
+        title: "Submission Failed",
+        description: error?.response?.data?.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   }
   
   return (
