@@ -28,7 +28,7 @@ export interface Book extends Document {
     about: string[];
     salient_features: string[];
     useful_for: string[];
-    additional_support: string[];
+    additional_support?: string[];
     latest: boolean;
     pdfUrl?: string;
     outOfStock: boolean;

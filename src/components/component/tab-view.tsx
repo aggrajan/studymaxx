@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 
-export function TabView({ about, salient_features, useful_for, additional_support } : { about: string[], salient_features: string[], useful_for: string[], additional_support: string[] } ) {
+export function TabView({ about, salient_features, useful_for, additional_support } : { about: string[], salient_features: string[], useful_for: string[], additional_support: string[] | undefined } ) {
     const [tab, setTab] = useState("about");
 
     const onTabChange = (value: string) => {
@@ -124,7 +124,7 @@ export function TabView({ about, salient_features, useful_for, additional_suppor
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">{
-                    additional_support.length === 0 
+                    (additional_support === undefined || additional_support.length === 0)
                     ? <div className="text-slate-800 text-sm">No support available</div> 
                     : (
                         additional_support.length === 1 

@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { bindings, boards, categories, exams, languages, levels, sizes, subjects } from '@/model/Enums';
 import { useAppDispatch } from "@/lib/hooks";
 import { setBooks } from "@/lib/slices/booksSlice";
-
 import {
     Select,
     SelectContent,
@@ -28,8 +27,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { getBooks } from "@/app/apiCalls/callBooks";
 import { setStoreBooks } from "@/lib/slices/bookStoreSlice";
-  
-
 
 function AddBookForm() {
     const dispatch = useAppDispatch();
@@ -94,7 +91,7 @@ function AddBookForm() {
 
     const onSubmit = async (data: z.infer<typeof bookSchema>) => {
         setIsSubmitting(true);
-        try{
+        try {
             data.image = convertDriveLink(data.image);
             data.pdfUrl = convertPDFLink(data.pdfUrl ? data.pdfUrl : "");
             const response = await axios.post('/api/add-book', data);
@@ -131,8 +128,7 @@ function AddBookForm() {
             });
         } finally {
             setIsSubmitting(false);
-        }
-        
+        } 
     }
 
     return (
