@@ -23,9 +23,32 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const reqBody = await request.json();
         const { title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, discount, size, subject, year, about, salient_features, useful_for, additional_support, pdfUrl, latest, outOfStock, previewImages } = reqBody;
         const newBook = new BookModel({
-            title, authors, binding, board, category, exam, image, isbn, keywords, language, level, number_of_pages, price, size, subject, year, discount, about, salient_features, useful_for, additional_support, pdfUrl, latest, outOfStock, previewImages
-        })
-
+            title,
+            authors,
+            binding,
+            board,
+            category,
+            exam,
+            image,
+            isbn,
+            keywords,
+            language,
+            level,
+            number_of_pages,
+            price,
+            size,
+            subject,
+            year,
+            discount,
+            about,
+            salient_features,
+            useful_for,
+            additional_support: additional_support ?? [], // 👈 fallback to empty array
+            pdfUrl,
+            latest,
+            outOfStock,
+            previewImages
+        });
         await newBook.save();
 
         return NextResponse.json({

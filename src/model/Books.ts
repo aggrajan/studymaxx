@@ -28,7 +28,7 @@ export interface Book extends Document {
     about: string[];
     salient_features: string[];
     useful_for: string[];
-    additional_support?: string[];
+    additional_support?: string[] | undefined;
     latest: boolean;
     pdfUrl?: string;
     outOfStock: boolean;
@@ -124,10 +124,11 @@ export const BookSchema: Schema<Book> = new Schema({
         type: String,
         required: [true, "'Useful For' field is required"]
     }],
-    additional_support: [{
-        type: String,
-        required: [true, "'Additional Support' is required"]
-    }],
+    additional_support: {
+        type: [String],
+        required: false,
+        default: [],
+    },
     latest: {
         type: Boolean,
         required: [true, "latest field is required"],

@@ -176,14 +176,6 @@ export function ProductDetails(props: ProductDetailsProps) {
               </Button>
             </DialogTrigger>
             <DialogContent hideCloseButton={true} className="min-w-[85%] my-16 p-0 h-full" onOpenAutoFocus={(e) => {e.preventDefault()}}>
-              <DialogHeader>
-                <DialogTitle>
-                  Title
-                </DialogTitle>
-                <DialogDescription>
-                  Description
-                </DialogDescription>
-              </DialogHeader>
               <PdfPreview pdfUrl={props.book.pdfUrl} />
                 <DialogClose asChild className="absolute top-2 left-2 z-50">
                   <Button type="button" variant="secondary">
