@@ -121,7 +121,7 @@ export function ExploreBooks() {
             </CardContent>
           </Card>
 
-          <Card className="rounded-sm">
+          {/* <Card className="rounded-sm">
             <CardHeader>
               <CardTitle>Filter books by Type of Book.</CardTitle>
             </CardHeader>
@@ -139,7 +139,7 @@ export function ExploreBooks() {
                 </div>
               ))}
             </CardContent>
-          </Card>
+          </Card> */}
 
           {isSchoolSelected && <Card className="rounded-sm">
             <CardHeader>

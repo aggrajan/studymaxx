@@ -124,7 +124,7 @@ export function TabView({ about, salient_features, useful_for, additional_suppor
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-2">{
-                    (additional_support === undefined || additional_support.length === 0)
+                    (additional_support === undefined || additional_support.length === 0 || additional_support[0] === "")
                     ? <div className="text-slate-800 text-sm">No support available</div> 
                     : (
                         additional_support.length === 1 

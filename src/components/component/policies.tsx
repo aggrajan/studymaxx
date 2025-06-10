@@ -14,10 +14,10 @@ export function Policies() {
             with us. This may include your name, email address, billing and shipping addresses, payment information, and
             any other information you provide to us.
           </p>
-          <p className="text-muted-foreground">
+          {/* <p className="text-muted-foreground">
             We also collect certain information automatically, such as your IP address, browser type, device
             information, and browsing activity on our website.
-          </p>
+          </p> */}
         </div>
         <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Data Usage</h2>
@@ -37,9 +37,9 @@ export function Policies() {
             You have the right to access, correct, or delete your personal information. You can also opt-out of
             receiving marketing communications from us.
           </p>
-          <p className="text-muted-foreground">
+          {/* <p className="text-muted-foreground">
             If you have any questions or concerns about our privacy practices, please contact us at privacy@example.com.
-          </p>
+          </p> */}
         </div>
         <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Changes to this Policy</h2>
@@ -60,33 +60,33 @@ export function Policies() {
         <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Intellectual Property</h2>
           <p className="text-muted-foreground">
-          All content and materials on our website are the property of Acme Math Books and are protected by copyright and other intellectual property laws.
+          All content and materials on our website are the property of StudyMaxx and are protected by copyright and other intellectual property laws.
           </p>
         </div>
         <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Acceptable Use</h2>
           <p className="text-muted-foreground">
-          You agree to use our website and services only for lawful purposes and in a way that does not infringe on the rights of others or restrict or inhibit anyone else&apos;s use and enjoyment of the website.
+          You agree to use our website and services only for lawful purposes and in a way that does not infringe on the rights of others or restrict or inhibit anyone else&apos;s use of the website.
           </p>
           
         </div>
-        <div className="space-y-4">
+        {/* <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Limitation of Liability</h2>
           <p className="text-muted-foreground">
           We are not responsible for any damages or losses related to your use of our website or services, except as required by applicable law.
           </p>
           
-        </div>
-        <div className="space-y-4">
+        </div> */}
+        {/* <div className="space-y-4">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">Governing Law</h2>
           <p className="text-muted-foreground">
           These terms and conditions are governed by the laws of the state of California, and any disputes will be resolved in the courts of that jurisdiction.
           </p>
-        </div>
+        </div> */}
       </div>
     </section>
 
-    <section id="return-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    {/* <section id="return-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Return Policy</h1>
@@ -95,9 +95,9 @@ export function Policies() {
 Please note that items must be in new, unused condition to be eligible for a refund. We cannot accept returns on custom-ordered or personalized items. If you have any questions about our return policy, please don&apos;t hesitate to reach out.</p>
         </div>
       </div>
-    </section>
+    </section> */}
 
-    <section id="refund-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    {/* <section id="refund-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Refund Policy</h1>
@@ -106,9 +106,9 @@ Please note that items must be in new, unused condition to be eligible for a ref
 We will process your refund as soon as possible, typically within 5-7 business days. Please note that refunds may take longer to appear on your statement, depending on your bank&apos;s processing time. If you have any questions or concerns about our refund policy, please don&apos;t hesitate to reach out.</p>
         </div>
       </div>
-    </section>
+    </section> */}
 
-    <section id="shipping-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    {/* <section id="shipping-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Shipping Policy</h1>
@@ -121,9 +121,9 @@ For international orders, shipping times may vary depending on the destination a
 If you have any questions or concerns about our shipping policy, please don&apos;t hesitate to contact our customer service team.</p>
         </div>
       </div>
-    </section>
+    </section> */}
 
-    <section id="cancellation-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    {/* <section id="cancellation-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Cancellation Policy</h1>
@@ -134,9 +134,9 @@ To cancel an order, please contact our customer service team as soon as possible
 If you have any questions or concerns about our cancellation policy, please don&apos;t hesitate to reach out.</p>
         </div>
       </div>
-    </section>
+    </section> */}
 
-    <section id="disclaimer" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    {/* <section id="disclaimer" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Disclaimer</h1>
@@ -145,7 +145,7 @@ If you have any questions or concerns about our cancellation policy, please don&
 Any reliance you place on such information is therefore strictly at your own risk. In no event will we be liable for any loss or damage, including without limitation, indirect or consequential loss or damage, or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection with, the use of this website.</p>
         </div>
       </div>
-    </section>
+    </section> */}
     </>
   )
 }

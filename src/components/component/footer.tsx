@@ -35,15 +35,15 @@ export function Footer() {
             <h4 className="text-sm font-medium">Information</h4>
             <div className="flex items-center gap-2">
               <PhoneIcon className="h-5 w-5" />
-              <span className="text-sm">+1 (555) 555-5555</span>
+              <span className="text-sm">+91 9211477740</span>
             </div>
             <div className="flex items-center gap-2">
               <MailOpenIcon className="h-5 w-5" />
-              <span className="text-sm">info@studymaxx.com</span>
+              <span className="text-sm">info@studymaxx.in</span>
             </div>
             <div className="flex items-center gap-2">
               <LocateIcon className="h-5 w-5" />
-              <span className="text-sm">123 Main St, Anytown USA</span>
+              <span className="text-sm">146, Deepali, Pitampura, New Delhi-110034</span>
             </div>
           </div>
         </div>
@@ -54,11 +54,11 @@ export function Footer() {
               Home
             </Link>
             <Link href="/mission" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Vision
+              Mission
             </Link>
-            <Link href="/faq" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            {/* <Link href="/faq" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               FAQs
-            </Link>
+            </Link> */}
             <Link href="/#contact-us" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Contact
             </Link>
@@ -71,38 +71,38 @@ export function Footer() {
             <Link href="/policy#terms-and-conditions" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Terms and Conditions
             </Link>
-            <Link href="/policy#return-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            {/* <Link href="/policy#return-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Return Policy
             </Link>
             <Link href="/policy#refund-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Refund Policy
-            </Link>
-            <Link href="/policy#shipping-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            </Link> */}
+            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Shipping Policy
             </Link>
-            <Link href="/policy#cancellation-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            {/* <Link href="/policy#cancellation-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Cancellation Policy
-            </Link>
-            <Link href="/policy#disclaimer" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            </Link> */}
+            {/* <Link href="/policy#disclaimer" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Disclaimer
-            </Link>
+            </Link> */}
           </div>
           <div className="flex flex-col gap-2">
             <h4 className="text-xs md:text-sm font-medium">Contact Info</h4>
             <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              [Address]
+             146, Deepali, Pitampura, New Delhi-110034
             </Link>
             <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              [Phone]
+              +91 9211477740
             </Link>
             <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              [Mail]
+              info@studymaxx.in
             </Link>
           </div>
         </div>
       </div>
       <div className="container max-w-7xl mt-8 grid grid-cols-1 md:grid-cols-2 px-4 md:px-0 gap-y-6">
-        <p className="text-sm">&copy; 2024 StudyMaxx. All rights reserved.</p>
+        <p className="text-sm">&copy; 2025 StudyMaxx. All rights reserved.</p>
         <nav className="flex items-center justify-end gap-4">
           <Link href="/policy#privacy-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
             Privacy Policy
