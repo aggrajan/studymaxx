@@ -102,14 +102,14 @@ export function ProductsPage() {
                   </div>
                 </div>
             </div>
-            <div id="products_content" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
+            {/* <div id="products_content" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
                 <FilterButton optionArray={categories} name="categorie" />
                 {isSchoolSelected && <FilterButton optionArray={subjects} name="subject" />}
                 {isSchoolSelected && <FilterButton optionArray={levels} name="clas" />}
                 {isSchoolSelected && <FilterButton optionArray={boards} name="board" />}
                 {(isSchoolSelected || isCompetitiveExamSelected) && <FilterButton optionArray={languages} name="language" />}
                 {isCompetitiveExamSelected && <FilterButton optionArray={exams} name="exam" />}
-            </div>
+            </div> */}
             <div className="md:px-6 pt-6">
                 <div className="flex flex-col">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">

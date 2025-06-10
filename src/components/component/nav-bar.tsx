@@ -105,9 +105,9 @@ export function NavBar() {
           <Link href="/" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Home
           </Link>
-          <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
+          {/* <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             About Us
-          </Link>
+          </Link> */}
           <Link href="/mission" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             Mission
           </Link>

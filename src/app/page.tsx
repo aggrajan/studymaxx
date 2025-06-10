@@ -14,15 +14,15 @@ export default function Home() {
   
   return (
     <>
-      <BannerCarousal />
+      {/* <BannerCarousal /> */}
       <ExploreBooks />
       <DiscoverSection />
-      <LatestArrivals />
-      <OnlineSupport />
-      <Testimonials />
+      {/* <LatestArrivals /> */}
+      {/* <OnlineSupport /> */}
+      {/* <Testimonials /> */}
       <FeedbackForm />
       <ContactQueryForm />
-      <ConnectWithUs />
+      {/* <ConnectWithUs /> */}
     </>
   );
 }
