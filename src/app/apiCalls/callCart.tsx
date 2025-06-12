@@ -1,6 +1,6 @@
 export const getCart = async (userId: string) => {
   try {
-    const response = await fetch(`/api/get-cart/${userId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-cart/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

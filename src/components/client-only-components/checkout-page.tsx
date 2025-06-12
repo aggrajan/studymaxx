@@ -125,12 +125,12 @@ export default function CheckoutPage() {
             setCouponMessage('');
 
             try {
-                const response = await axios.get(`/api/unique-coupon/${couponName}`, { signal });
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/unique-coupon/${couponName}`, { signal });
                 if (response.status !== 200) {
                     setCouponMessage(response.data.message);
                 } else {
                     const existingCoupon: Coupon = response.data.response[0];
-                    const validCouponResponse = await axios.post(`/api/check-coupon`, {
+                    const validCouponResponse = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/check-coupon`, {
                         ...existingCoupon,
                         cartAmount: cart.total,
                         currentDate: new Date(),
@@ -258,7 +258,7 @@ export default function CheckoutPage() {
             checkoutData.shipping = cart.shipping;
             checkoutData.total = cart.total;
             checkoutData.coupons = selectedCoupon ? [selectedCoupon._id as string] : [];      
-            const response = await axios.post(`/api/add-order`, checkoutData);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/add-order`, checkoutData);
             if(response.status === 200) {
                 toast({
                     title: "Order Placed Successfully",

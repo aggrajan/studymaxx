@@ -64,7 +64,7 @@ export function Reviews({ bookId } : { bookId : string }) {
       (
         async () => {
           try {
-            const response = await axios.get(`/api/get-reviews/${bookId}?page=${myReviewsPage}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=false`);
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-reviews/${bookId}?page=${myReviewsPage}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=false`);
             if(response.status === 200) {
               const reviews = response.data.response;
               setMyReviews((prev) => [...prev, ...reviews]);
@@ -349,7 +349,7 @@ export function Reviews({ bookId } : { bookId : string }) {
               
             
               try {
-                const response = await axios.get(`/api/get-reviews/${bookId}?page=${myReviewsPage + 1}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=false`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-reviews/${bookId}?page=${myReviewsPage + 1}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=false`);
                 if(response.status === 200) {
                   const reviews = response.data.response;
                   setMyReviews((prev) => [...prev, ...reviews]);
@@ -407,7 +407,7 @@ export function Reviews({ bookId } : { bookId : string }) {
           { lastOtherReviews === increment &&
             <p onClick={async () => {
               try {
-                const response = await axios.get(`/api/get-reviews/${bookId}?page=${otherReviewsPage + 1}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=true`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-reviews/${bookId}?page=${otherReviewsPage + 1}&increment=${increment}&userId=${user?._id || ""}&notAllowedUserId=true`);
                 if(response.status === 200) {
                   const reviews = response.data.response;
                   setOtherReviews((prev) => [...prev, ...reviews]);

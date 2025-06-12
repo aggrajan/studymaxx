@@ -22,7 +22,7 @@ export default function IndividualOrder() {
     useEffect(() => {
         (async () => {
             try{
-                const response = await axios.get(`/api/get-orders/${orderId}`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders/${orderId}`);
                 if(response.status === 200) {
                     setOrder(response.data.response);
                 }

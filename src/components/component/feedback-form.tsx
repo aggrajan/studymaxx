@@ -33,7 +33,7 @@ export function FeedbackForm() {
   const onSubmit = async (data: z.infer<typeof feedbackSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`/api/feedback`, data);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/feedback`, data);
       if(response.data.success) {
         form.reset({
           userId: user ? user._id : "",

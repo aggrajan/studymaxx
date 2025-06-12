@@ -26,7 +26,7 @@ const VerifyAccount = () => {
         setIsSubmitting(true);
         try {
             
-            const response = await axios.post(`/api/verify-user`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/verify-user`, {
                 username: params.username,
                 token: data.token
             })

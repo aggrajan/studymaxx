@@ -1,6 +1,6 @@
 export const getWishlist = async (userId: string) => {
   try {
-    const response = await fetch(`/api/get-wishlist/${userId}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-wishlist/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

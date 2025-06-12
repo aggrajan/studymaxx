@@ -43,7 +43,7 @@ export default function EditQRPage({ qrCode } : {qrCode: QRCode}) {
   useEffect(() => {
     const fetchQR = async () => {
       try {
-        const res = await axios.get(`/api/qr/code/${qrCode.code}`)
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/qr/code/${qrCode.code}`)
         if (res.data?.response) {
           form.setValue("code", res.data.response.code)
           form.setValue("url", res.data.response.url)
@@ -73,7 +73,7 @@ export default function EditQRPage({ qrCode } : {qrCode: QRCode}) {
   const onSubmit = async (data: z.infer<typeof EditQRSchema>) => {
     setSubmitting(true)
     try {
-      const res = await axios.post(`/api/qr/code/${qrCode.code}`, { code: data.code, url: data.url })
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/qr/code/${qrCode.code}`, { code: data.code, url: data.url })
       if (res.data.success) {
         toast({
           title: "Updated Successfully",

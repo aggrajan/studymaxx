@@ -43,7 +43,7 @@ function SignUp() {
                 setUsernameMessage('');
 
                 try {
-                    const response = await axios.get(`/api/check-username-unique?username=${username}`);
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/check-username-unique?username=${username}`);
                     const message = response.data.message;
                     setUsernameMessage(message);
                 } catch(error: any) {
@@ -60,7 +60,7 @@ function SignUp() {
     const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
         setIsSubmitting(true);
         try {
-            const response = await axios.post(`/api/sign-up`, data);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sign-up`, data);
             toast({
                 title: 'Success',
                 description: response.data.message

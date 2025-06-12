@@ -27,7 +27,7 @@ export function QRSubmissionForm() {
   const onSubmit = async (data: z.infer<typeof QRFormSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`/api/qr`, data);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/qr`, data);
       if(response.data.success) {
         form.reset({
           code: '',

@@ -46,7 +46,7 @@ export function ContactQueryForm() {
   const onSubmit = async (data: z.infer<typeof querySchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`/api/query`, data);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/query`, data);
       if(response.data.success) {
         form.reset({
           subject: '',

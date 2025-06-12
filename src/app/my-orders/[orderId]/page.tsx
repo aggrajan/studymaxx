@@ -23,7 +23,7 @@ export default function OrderDetailPage() {
         
         (async () => {
             try{ 
-                const response = await axios.get(`/api/get-order/${user?._id}/${orderId}`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-order/${user?._id}/${orderId}`);
                 if(response.status === 200) {
                     const currentOrder = response.data.response;
                     if(currentOrder.user !== user?._id) {

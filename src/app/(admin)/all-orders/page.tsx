@@ -15,6 +15,6 @@ export default function AllOrdersPage() {
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
-        <OrdersPage api={`/api/get-orders`} pageLocation="all-orders" />
+        <OrdersPage api={`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders`} pageLocation="all-orders" />
         </>;
 }

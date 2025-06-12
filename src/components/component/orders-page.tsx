@@ -65,7 +65,7 @@ export function OrdersPage( { api, pageLocation } : { api : string, pageLocation
   const onDelete = async (id: string) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`/api/delete-order`, { id: id });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/delete-order`, { id: id });
       if(response.status === 200) {
         toast({ title: "Order deleted successfully", description: "You have successfully delete an order from database" });
         router.refresh();
@@ -92,7 +92,7 @@ export function OrdersPage( { api, pageLocation } : { api : string, pageLocation
   const onChangeOrderStatus = async (id: string, status: string) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`/api/change-order-status`, { id: id, orderStatus: status });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/change-order-status`, { id: id, orderStatus: status });
       if(response.status === 200) {
         toast({ title: "Order status changed successfully", description: "You have successfully changed an order's status from database" });
         router.refresh();

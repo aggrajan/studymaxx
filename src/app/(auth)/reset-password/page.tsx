@@ -30,7 +30,7 @@ function ResetPassword() {
     const onSubmit = async (data: z.infer<typeof forgotPasswordSchema>) => {
         setIsSubmitting(true);
         try {
-            const response = await axios.post<ApiResponse>(`/api/forgot-password`, data);
+            const response = await axios.post<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/api/forgot-password`, data);
             toast({
                 title: 'Success',
                 description: response.data.message

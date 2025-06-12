@@ -28,7 +28,7 @@ const VerifyAccount = () => {
         setIsSubmitting(true);
         try {
             
-            const response = await axios.post(`/api/verify-reset-password`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/verify-reset-password`, {
                 newPassword: data.newPassword,
                 token: data.token
             })
