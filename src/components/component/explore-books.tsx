@@ -64,7 +64,7 @@ export function ExploreBooks() {
     const getAllBooks = async () => {
         if (Array.isArray(allBooks)) {
             setAllBooks(allBooks);
-            if(allBooks.length > 0) setBooksConfig(true);
+            setBooksConfig(true);
         } else {
             console.error("Data fetched is not an array:", allBooks);
         }

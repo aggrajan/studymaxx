@@ -15,7 +15,7 @@ export async function sendResetPassword(email: string, username: string, otp: st
         })
 
         await resend.emails.send({
-            from: 'studymaxx.in',
+            from: 'onboarding@studymaxx.in',
             to: email,
             subject: 'StudyMaxx | Verification Code',
             react: ResetPasswordMail({username, otp})
