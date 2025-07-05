@@ -108,20 +108,17 @@ We will process your refund as soon as possible, typically within 5-7 business d
       </div>
     </section> */}
 
-    {/* <section id="shipping-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    {<section id="shipping-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Shipping Policy</h1>
-          <p className="mt-2 text-muted-foreground">At StudyMaxx, we strive to provide fast and reliable shipping to our customers. We offer several shipping options, including standard ground shipping, expedited shipping, and international shipping.
-
-Standard ground shipping typically takes 5-7 business days for delivery within the contiguous United States. Expedited shipping options are available for faster delivery, with 2-day and overnight shipping available for an additional fee.
-
-For international orders, shipping times may vary depending on the destination and the selected shipping method. We recommend allowing 10-14 business days for international deliveries. Please note that customers are responsible for any customs fees or taxes associated with international shipments.
-
-If you have any questions or concerns about our shipping policy, please don&apos;t hesitate to contact our customer service team.</p>
+          <p className="mt-2 text-muted-foreground">Orders are typically processed and shipped within 24-48 hours. 
+          The exact shipping time may vary depending upon product availability. The shipping charges are calculated 
+          based on the total cart value and delivery location. Once your order has been processed, you can expect 
+          delivery within 4-6 business days, depending upon delivery location.</p>
         </div>
       </div>
-    </section> */}
+    </section>}
 
     {/* <section id="cancellation-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">

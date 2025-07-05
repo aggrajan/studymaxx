@@ -77,7 +77,7 @@ export function Footer() {
             <Link href="/policy#refund-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Refund Policy
             </Link> */}
-            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#shipping-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Shipping Policy
             </Link>
             {/* <Link href="/policy#cancellation-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
