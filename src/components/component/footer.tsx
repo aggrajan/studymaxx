@@ -71,12 +71,12 @@ export function Footer() {
             <Link href="/policy#terms-and-conditions" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Terms and Conditions
             </Link>
-            {/* <Link href="/policy#return-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
+            <Link href="/policy#return-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Return Policy
             </Link>
             <Link href="/policy#refund-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Refund Policy
-            </Link> */}
+              Refund and Cancellation Policy
+            </Link> 
             <Link href="/policy#shipping-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
               Shipping Policy
             </Link>

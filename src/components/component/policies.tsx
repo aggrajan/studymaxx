@@ -86,27 +86,30 @@ export function Policies() {
       </div>
     </section>
 
-    {/* <section id="return-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    { <section id="return-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">Return Policy</h1>
-          <p className="mt-2 text-muted-foreground">At StudyMaxx, we stand behind the quality of our products. If you are not satisfied with your purchase, you can return it within 30 days for a full refund. To initiate a return, please contact our customer service team with your order information and the reason for the return. We will provide you with a prepaid return label and instructions on how to send the item back to us.
-
-Please note that items must be in new, unused condition to be eligible for a refund. We cannot accept returns on custom-ordered or personalized items. If you have any questions about our return policy, please don&apos;t hesitate to reach out.</p>
+          <p className="mt-2 text-muted-foreground">Goods once sold shall not be returned. However if the customer 
+            receives the goods in damaged condition, he/she may report it via email along with supporting photos and/ or videos,
+            within 48 hours from the receipt of goods. Thereafter, upon affirmation and approval of dispatch team
+            and courier service provider, return of goods and subsequent refund will be intiated.
+          </p>
         </div>
       </div>
-    </section> */}
+    </section> }
 
-    {/* <section id="refund-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    { <section id="refund-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Refund Policy</h1>
-          <p className="mt-2 text-muted-foreground">At StudyMaxx, we are committed to providing a hassle-free refund process. If you are not satisfied with your purchase for any reason, you can request a full refund within 30 days of the delivery date. To initiate a refund, please contact our customer service team with your order information and the reason for the refund request.
-
-We will process your refund as soon as possible, typically within 5-7 business days. Please note that refunds may take longer to appear on your statement, depending on your bank&apos;s processing time. If you have any questions or concerns about our refund policy, please don&apos;t hesitate to reach out.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Refund and Cancellation Policy</h1>
+          <p className="mt-2 text-muted-foreground">1. Any order cancelled before dispatch will be eligible for 
+            refund. In such a case the refund shall be made to the same account from which the payment was received.
+          </p>
+          <p className="mt-2 text-muted-foreground">2. Once shipped/ dispatched, the order cannot be cancelled.</p>
         </div>
       </div>
-    </section> */}
+    </section> }
 
     {<section id="shipping-policy" className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
       <div className="space-y-8">
