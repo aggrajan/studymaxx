@@ -14,7 +14,7 @@ export default function Home() {
   
   return (
     <>
-      {/* <BannerCarousal /> */}
+      <BannerCarousal />
       <ExploreBooks />
       <DiscoverSection />
       {/* <LatestArrivals /> */}

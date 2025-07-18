@@ -92,7 +92,7 @@ export function NavBar() {
       <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
         <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
           <Image 
-            src="/studymaxx logo.png" 
+            src="/image copy.png" 
             alt="StudyMaxx Logo" 
             width={96} 
             height={96} 

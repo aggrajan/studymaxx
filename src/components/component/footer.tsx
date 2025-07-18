@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex flex-col items-start gap-4">
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
             <Image 
-              src="/studymaxx logo.png" 
+              src="/image copy.png" 
               alt="StudyMaxx Logo" 
               width={120} 
               height={120} 

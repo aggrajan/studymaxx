@@ -18,7 +18,7 @@ export function DiscoverSection() {
             />
             <div className="flex flex-col justify-center space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl z-10">
-                Discover the Joy of Reading
+                LearnMaxx. PrepMaxx. ScoreMaxx.
               </h1>
               <p className="text-muted-foreground md:text-xl z-10">
                 Explore our curated collection of books across a wide range of genres. Find your next literary adventure
