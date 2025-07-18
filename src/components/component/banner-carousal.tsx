@@ -136,37 +136,16 @@ export function BannerCarousal() {
                         {bannerData.map((banner, index) => (
                             <CarouselItem key={`banner_${banner.id}`} className="flex items-center justify-center h-full">
                                 <div className="w-full h-full relative group overflow-hidden">
-                                    {/* Background gradient overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-2xl transform rotate-1 group-hover:rotate-0 transition-transform duration-500 z-10"></div>
-                                    
                                     {/* Main image */}
                                     <img 
                                         src={banner.image} 
-                                        className="w-full h-full object-cover shadow-2xl rounded-xl transform group-hover:scale-[1.02] transition-transform duration-500" 
+                                        className="w-full h-full object-contain shadow-2xl rounded-xl transform group-hover:scale-[1.02] transition-transform duration-500" 
                                         alt={banner.title}
                                     />
                                     
-                                    {/* Content overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent rounded-xl z-20"></div>
-                                    
-                                    {/* Text content */}
-                                    <div className="absolute bottom-8 left-8 right-8 z-30 text-white">
-                                        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-                                            <h3 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-                                                {banner.title}
-                                            </h3>
-                                            <p className="text-lg md:text-xl font-semibold text-blue-200 mb-2">
-                                                {banner.subtitle}
-                                            </p>
-                                            <p className="text-sm md:text-base text-gray-200 leading-relaxed">
-                                                {banner.description}
-                                            </p>
-                                        </div>
-                                    </div>
-
                                     {/* Slide number indicator */}
                                     <div className="absolute top-4 right-4 z-30">
-                                        <div className="bg-black/50 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
+                                        <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
                                             {index + 1} / {totalSlides}
                                         </div>
                                     </div>
