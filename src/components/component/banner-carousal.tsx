@@ -1,7 +1,6 @@
 "use client"
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
-import { Card, CardContent } from "../ui/card";
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Play, Pause, RotateCcw } from "lucide-react";
@@ -9,7 +8,6 @@ import { Play, Pause, RotateCcw } from "lucide-react";
 export function BannerCarousal() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isPlaying, setIsPlaying] = useState(true);
-    const [autoplayPlugin, setAutoplayPlugin] = useState<any>(null);
     const [api, setApi] = useState<any>(null);
     const totalSlides = 7;
 
@@ -65,18 +63,11 @@ export function BannerCarousal() {
         }
     ];
 
-    useEffect(() => {
-        const plugin = Autoplay({ delay: 4000, stopOnInteraction: false });
-        setAutoplayPlugin(plugin);
-        
-        const interval = setInterval(() => {
-            if (isPlaying) {
-                setCurrentSlide((prev) => (prev + 1) % totalSlides);
-            }
-        }, 4000);
-        
-        return () => clearInterval(interval);
-    }, [isPlaying]);
+    const autoplayPlugin = Autoplay({ 
+        delay: 4000, 
+        stopOnInteraction: false,
+        stopOnMouseEnter: false
+    });
 
     useEffect(() => {
         if (api) {
@@ -88,12 +79,10 @@ export function BannerCarousal() {
 
     const togglePlayPause = () => {
         setIsPlaying(!isPlaying);
-        if (autoplayPlugin) {
-            if (isPlaying) {
-                autoplayPlugin.stop();
-            } else {
-                autoplayPlugin.play();
-            }
+        if (isPlaying) {
+            autoplayPlugin.stop();
+        } else {
+            autoplayPlugin.play();
         }
     };
 
@@ -109,9 +98,7 @@ export function BannerCarousal() {
             api.scrollTo(0);
             setCurrentSlide(0);
             setIsPlaying(true);
-            if (autoplayPlugin) {
-                autoplayPlugin.play();
-            }
+            autoplayPlugin.play();
         }
     };
 
@@ -128,7 +115,7 @@ export function BannerCarousal() {
             <div className="relative w-full">
                 <Carousel
                     setApi={setApi}
-                    plugins={autoplayPlugin ? [autoplayPlugin] : []}
+                    plugins={[autoplayPlugin]}
                     className="w-full relative z-10"
                     opts={{loop: true}}
                 >
@@ -204,19 +191,6 @@ export function BannerCarousal() {
                             >
                                 <RotateCcw className="w-4 h-4" />
                             </Button>
-
-                            {/* Progress indicator */}
-                            <div className="flex items-center space-x-2 ml-4">
-                                <div className="text-white text-xs font-medium">
-                                    {Math.round(((currentSlide + 1) / totalSlides) * 100)}%
-                                </div>
-                                <div className="w-16 h-1 bg-white/30 rounded-full overflow-hidden">
-                                    <div 
-                                        className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-300"
-                                        style={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
-                                    ></div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
