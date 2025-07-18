@@ -2,12 +2,9 @@
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import { useState, useEffect } from "react";
-import { Button } from "../ui/button";
-import { Play, Pause, RotateCcw } from "lucide-react";
 
 export function BannerCarousal() {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(true);
     const [api, setApi] = useState<any>(null);
     const totalSlides = 7;
 
@@ -77,28 +74,10 @@ export function BannerCarousal() {
         }
     }, [api]);
 
-    const togglePlayPause = () => {
-        setIsPlaying(!isPlaying);
-        if (isPlaying) {
-            autoplayPlugin.stop();
-        } else {
-            autoplayPlugin.play();
-        }
-    };
-
     const goToSlide = (index: number) => {
         if (api) {
             api.scrollTo(index);
             setCurrentSlide(index);
-        }
-    };
-
-    const resetCarousel = () => {
-        if (api) {
-            api.scrollTo(0);
-            setCurrentSlide(0);
-            setIsPlaying(true);
-            autoplayPlugin.play();
         }
     };
 
@@ -169,29 +148,6 @@ export function BannerCarousal() {
                         </div>
 
                         {/* Control Buttons */}
-                        <div className="flex items-center justify-center space-x-3">
-                            <Button
-                                onClick={togglePlayPause}
-                                variant="ghost"
-                                size="sm"
-                                className="text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
-                            >
-                                {isPlaying ? (
-                                    <Pause className="w-4 h-4" />
-                                ) : (
-                                    <Play className="w-4 h-4" />
-                                )}
-                            </Button>
-                            
-                            <Button
-                                onClick={resetCarousel}
-                                variant="ghost"
-                                size="sm"
-                                className="text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
-                            >
-                                <RotateCcw className="w-4 h-4" />
-                            </Button>
-                        </div>
                     </div>
                 </div>
 
