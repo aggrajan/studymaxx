@@ -42,6 +42,7 @@ export function OtherProductsYouMayFindUseful({ book, isModal }: { book: Book, i
                         <ItemCard key={`book_${book._id}`} book={book} />
                     ))}
                 </div>
+                </div>
             </div>
         </section>
     );
