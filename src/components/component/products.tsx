@@ -112,7 +112,7 @@ export function ProductsPage() {
             </div> */}
             <div className="md:px-6 pt-6">
                 <div className="flex flex-col">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                 {
                   currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
                     <ItemCard key={`book_${book._id}`} book={book}/>

@@ -87,12 +87,31 @@ export function ItemCard({ book } : { book: Book}) {
   }
 
   return (
-    <Card className="w-full rounded-sm rounded-t-none">
+    <Card className="group w-full rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 bg-gradient-to-br from-white to-gray-50 border-0">
       <Dialog>
         <DialogTrigger asChild>
-        <div className="relative transition-all hover:scale-[103%]">
-          <img src={book.image} alt="Book Image" className="w-full hover:shadow-2xl cursor-pointer rounded-t-none border-black border-2" />
-          {book.latest ? <img src="/latest.svg" alt="Latest Icon" className="w-10 h-10 sm:w-12 sm:h-12 absolute -top-3 -right-3" /> : null}
+        <div className="relative overflow-hidden">
+          <div className="aspect-[3/4] overflow-hidden bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+            <img 
+              src={book.image} 
+              alt="Book Image" 
+              className="w-full h-full object-cover rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 cursor-pointer" 
+            />
+          </div>
+          {book.latest && (
+            <div className="absolute -top-2 -right-2 z-10">
+              <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+                NEW
+              </div>
+            </div>
+          )}
+          {book.outOfStock && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <div className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold">
+                Out of Stock
+              </div>
+            </div>
+          )}
         </div>
         </DialogTrigger>
         <DialogContent hideCloseButton={false} className="min-w-[85%] my-16 p-0" onOpenAutoFocus={(e) => {e.preventDefault()}}>          
@@ -103,13 +122,13 @@ export function ItemCard({ book } : { book: Book}) {
         </DialogContent>
       </Dialog>
       
-      <CardContent className="flex flex-col p-2 sm:p-3">
+      <CardContent className="flex flex-col p-4 space-y-3">
         <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className="truncate-title text-md lg:text-lg font-semibold min-h-[5.5rem]">
+              <h3 className="truncate-title text-lg font-bold text-gray-800 min-h-[4rem] leading-tight group-hover:text-blue-600 transition-colors duration-200">
                 {book.title}
-              </div>
+              </h3>
             </TooltipTrigger>
             <TooltipContent>
               <p className="text-wrap">{book.title}</p>
@@ -117,34 +136,38 @@ export function ItemCard({ book } : { book: Book}) {
           </Tooltip>
         </TooltipProvider>
 
-        <Separator className="mt-1 mb-1" />
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
         
-        <div className="truncate-text text-xs md:text-sm text-muted-foreground min-h-12">{getAuthorNames(book.authors)}</div>
+        <p className="truncate-text text-sm text-gray-600 min-h-[2.5rem] italic">
+          by {getAuthorNames(book.authors)}
+        </p>
 
-        <div className="flex flex-col justify-start items-start gap-2 sm:gap-3 min-h-16 sm:min-h-16">
-            <div className="text-xl sm:text-2xl font-semibold text-primary">
+        <div className="flex flex-col justify-start items-start gap-2 min-h-[4rem]">
+            <div className="text-2xl font-bold text-green-600">
               &#8377;{(book && book.discount && (book.discount > 0)) ? getDiscountedPrice(book.price, book.discount).toFixed(0) : book.price.toFixed(0) }
             </div>
             {
               (book && book.discount && (book.discount > 0)) ?
-              <div className="flex flex-row gap-2 -mt-2">
-                <div className="text-md md:text-md font-semibold text-muted-foreground line-through">
+              <div className="flex flex-row items-center gap-2 -mt-1">
+                <span className="text-sm font-medium text-gray-500 line-through">
                   &#8377;{book.price.toFixed(0)}
-                </div>
-                <Badge variant="default" className="text-xs scale-75 md:scale-90 lg:scale-100 -ml-2 sm:ml-0 text-black bg-gray-300 hover:bg-gray-600 hover:text-white">{(book.discount).toFixed(0)}% OFF</Badge>
+                </span>
+                <Badge className="text-xs font-semibold bg-gradient-to-r from-orange-400 to-red-500 text-white border-0 px-2 py-1">
+                  {(book.discount).toFixed(0)}% OFF
+                </Badge>
               </div>
               : null
             }
         </div>
         
-        {!addedToCart && <div className="flex justify-around mt-2">
+        {!addedToCart && <div className="flex justify-between items-center mt-4 gap-2">
           {userPresent ?
             addedToWishlist ? 
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/>
+                <Button variant="ghost" size="icon" className="rounded-full hover:bg-red-50 transition-colors duration-200">
+                  <HeartIconFilled className="w-5 h-5 text-red-500" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/>
                 </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -156,8 +179,8 @@ export function ItemCard({ book } : { book: Book}) {
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon">  
-                    <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />
+                  <Button variant="ghost" size="icon" className="rounded-full hover:bg-pink-50 transition-colors duration-200">  
+                    <HeartIcon className="w-5 h-5 text-gray-400 hover:text-pink-500 transition-colors duration-200" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -171,8 +194,14 @@ export function ItemCard({ book } : { book: Book}) {
           <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" disabled={book.outOfStock} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
-                  <ShoppingCartIcon className="w-6 h-6" />
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  disabled={book.outOfStock} 
+                  onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} 
+                  className="rounded-full hover:bg-blue-50 transition-colors duration-200"
+                >
+                  <ShoppingCartIcon className="w-5 h-5 text-gray-400 hover:text-blue-500 transition-colors duration-200" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -181,15 +210,20 @@ export function ItemCard({ book } : { book: Book}) {
             </Tooltip>
           </TooltipProvider>
           }
-          {!userPresent && <Button className="mt-2 rounded-sm  bg-blue-700 hover:bg-blue-800" disabled={book.outOfStock} onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} >
-              <h3 className="flex items-center text-xs sm:text-sm font-semibold"><ShoppingCartIcon className="mr-2 w-4 h-4 sm:w-5 sm:h-5" /> {book.outOfStock ? "Out of Stock" : "Add to Cart"}</h3>
+          {!userPresent && <Button 
+            className="flex-1 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" 
+            disabled={book.outOfStock} 
+            onClick={() => { dispatch(addCartItem(cartItem)); toast({title: "Added to Cart", description: "One item successfully added to cart"}); setAddedToCart((prev) => !prev)}} 
+          >
+              <ShoppingCartIcon className="mr-2 w-4 h-4" /> 
+              <span className="text-sm">{book.outOfStock ? "Out of Stock" : "Add to Cart"}</span>
             </Button>}
           {(user && user.isAdmin) ? 
           <TooltipProvider>
             <Tooltip delayDuration={200}>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
-                  <img src="/edit.svg" className="w-6 h-6" />
+                <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} className="rounded-full hover:bg-gray-100 transition-colors duration-200">
+                  <img src="/edit.svg" className="w-5 h-5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -199,14 +233,14 @@ export function ItemCard({ book } : { book: Book}) {
           </TooltipProvider>
           : null}
         </div>}
-        {addedToCart && <div className="flex items-center justify-around flex-row mt-2">
+        {addedToCart && <div className="flex items-center justify-between mt-4">
           {userPresent ?
             addedToWishlist ? 
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <HeartIconFilled className="w-6 h-6" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/>
+                <Button variant="ghost" size="icon" className="rounded-full hover:bg-red-50 transition-colors duration-200">
+                  <HeartIconFilled className="w-5 h-5 text-red-500" onClick={async () => { removeFromWishlist(book._id as string); dispatch(removeFromWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Removed from Wishlist", description: "One item has been removed from your wishlist"}) }}/>
                 </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -218,8 +252,8 @@ export function ItemCard({ book } : { book: Book}) {
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon">  
-                    <HeartIcon className="w-6 h-6" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />
+                  <Button variant="ghost" size="icon" className="rounded-full hover:bg-pink-50 transition-colors duration-200">  
+                    <HeartIcon className="w-5 h-5 text-gray-400 hover:text-pink-500 transition-colors duration-200" onClick={async () => { addToWishlist(book._id as string); dispatch(addToWishlistSlice(book)); setAddedToWishlist((prev) => !prev); toast({title: "Added to Wishlist", description: "One item has been added to your wishlist"}) }} />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -229,9 +263,9 @@ export function ItemCard({ book } : { book: Book}) {
             </TooltipProvider>
             
           : null}
-          <div className="flex items-center gap-x-1 sm:gap-x-2 md:gap-x-2">
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
             {
-              count > 1 && <Button
+              count > 1 ? <Button
                 variant="outline"
                 size="icon"
                 onClick={() => { 
@@ -239,13 +273,11 @@ export function ItemCard({ book } : { book: Book}) {
                   setCount((prev) => prev - 1); 
                 }}
                 disabled={count <= 1}
-                className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
+                className="w-8 h-8 rounded-full border-gray-300 hover:bg-gray-200 transition-colors duration-200"
               >
                 <MinusIcon className="h-4 w-4" />
               </Button>
-            }
-            {
-              count <= 1 && <Button 
+              : <Button 
                 variant="outline" 
                 size="icon" 
                 onClick={() => { 
@@ -254,16 +286,16 @@ export function ItemCard({ book } : { book: Book}) {
                  
                   setAddedToCart((prev) => !prev);
                 }}
-                className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
+                className="w-8 h-8 rounded-full border-red-300 hover:bg-red-50 text-red-500 transition-colors duration-200"
               >
               <TrashIcon className="h-4 w-4" />
             </Button>
             }
-            <span>{count}</span>
+            <span className="mx-3 font-semibold text-gray-700 min-w-[1.5rem] text-center">{count}</span>
             <Button variant="outline" 
               size="icon" 
               onClick={() => { dispatch(addItemQuantity({ id: book._id as number})); setCount((prev) => prev + 1); }}
-              className="w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-9 lg:h-9"
+              className="w-8 h-8 rounded-full border-green-300 hover:bg-green-50 text-green-600 transition-colors duration-200"
             >
               <PlusIcon className="h-4 w-4" />
             </Button>
@@ -272,8 +304,8 @@ export function ItemCard({ book } : { book: Book}) {
           <TooltipProvider>
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} >
-                <img src="/edit.svg" className="w-6 h-6" />
+              <Button variant="ghost" size="icon" onClick={() => { route.push(`/edit-book/${book._id}`) }} className="rounded-full hover:bg-gray-100 transition-colors duration-200">
+                <img src="/edit.svg" className="w-5 h-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>

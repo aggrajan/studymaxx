@@ -89,32 +89,32 @@ export function NavBar() {
 
   return (<>
       
-      <div className="fixed top-0 w-full px-4 lg:px-6 h-14 flex items-center bg-blue-700 z-50">
+      <div className="fixed top-0 w-full px-4 lg:px-6 h-16 flex items-center bg-gradient-to-r from-blue-700 via-blue-800 to-blue-900 shadow-lg z-50">
         <Link href="/" className="flex items-center justify-center text-white" prefetch={false}>
           <Image 
             src="/image copy.png" 
             alt="StudyMaxx Logo" 
             width={96} 
             height={96} 
-            className="rounded-sm"
+            className="rounded-lg shadow-md"
             priority
           />
           <span className="sr-only text-white">StudyMaxx</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link href="/" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
+          <Link href="/" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:text-blue-200 transition-colors duration-200 pt-2 text-white" prefetch={false}>
             Home
           </Link>
           {/* <Link href="/about-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
             About Us
           </Link> */}
-          <Link href="/mission" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
+          <Link href="/mission" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:text-blue-200 transition-colors duration-200 pt-2 text-white" prefetch={false}>
             Mission
           </Link>
-          <Link href="/products" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
+          <Link href="/products" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:text-blue-200 transition-colors duration-200 pt-2 text-white" prefetch={false}>
             Products
           </Link>
-          <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
+          <Link href="/#contact-us" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:text-blue-200 transition-colors duration-200 pt-2 text-white" prefetch={false}>
             Contact Us
           </Link>
           {/* {userAuth.user?.isAdmin && <Link href="/add-book" onClick={() => {setIsOpen(false)}} className="hidden md:inline text-sm font-medium hover:underline underline-offset-4 pt-2 text-white" prefetch={false}>
@@ -126,7 +126,7 @@ export function NavBar() {
             <TooltipProvider>
               <Tooltip delayDuration={200}>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full text-white" onClick={() => setIsSearchVisible(true)}>
+                  <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/20 transition-colors duration-200" onClick={() => setIsSearchVisible(true)}>
                     <SearchIcon className="h-5 w-5" />
                     <span className="sr-only">Search</span>
                   </Button>
@@ -145,7 +145,7 @@ export function NavBar() {
                 value={searchTerm}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onBlur={() => setIsSearchVisible(false)}
-                className="bg-[#f3f3f3] border border-gray-300 rounded-sm py-2 pl-10 pr-4 w-full"
+                className="bg-white/90 backdrop-blur-sm border border-white/30 rounded-lg py-2 pl-10 pr-4 w-full shadow-lg focus:bg-white transition-all duration-200"
               />
             </form>
           )}
@@ -154,7 +154,7 @@ export function NavBar() {
           
           <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-gray-100 hover:bg-gray-300 border-black">
+              <Button variant="outline" onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="bg-white/90 hover:bg-white border-white/30 rounded-lg shadow-lg backdrop-blur-sm transition-all duration-200">
                 <span className="sr-only">Manage</span>
                 <UserIcon className="h-5 w-5" />
               </Button>

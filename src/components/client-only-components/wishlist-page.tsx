@@ -30,7 +30,7 @@ export function WishlistPage() {
                         </p>
                     </div>
                     <div className="container md:px-6 pt-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
                             {user.wishlist.map((book: Book) => (
                                 <ItemCard key={`book_${book._id}`} book={book} />
                             ))}

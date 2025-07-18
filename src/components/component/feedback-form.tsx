@@ -52,17 +52,19 @@ export function FeedbackForm() {
     setIsSubmitting(false);
   }
   return (
-    <section className=" pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16 bg-[#d9edff] bg-no-repeat bg-cover bg-[url('/hero-pattern.webp')]">
+    <section className="pt-12 md:pt-16 lg:pt-20 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/hero-pattern.webp')] opacity-10"></div>
       <div className="relative w-full overflow-hidden z-10">
         
         <div className="space-y-6 mx-auto max-w-[100rem] md:w-4/6 z-10">
           <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Give us your feedback</h2>
-            <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
+            <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Give us your feedback</h2>
+            <p className="max-w-[700px] text-gray-600 md:text-xl mx-auto">
               Help us improve our book selection and services.
             </p>
           </div>
-          <Form {...form}>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 mx-4">
+            <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 px-4">
             <div className="grid grid-cols-2 gap-2">
               <div>
@@ -132,7 +134,7 @@ export function FeedbackForm() {
               
             </div>
             <div className="flex justify-end">
-            <Button type="submit" disabled={isSubmitting} className="bg-blue-700 hover:bg-blue-800">
+            <Button type="submit" disabled={isSubmitting} className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
                 {
                     isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Feedback')
                 }
@@ -140,6 +142,7 @@ export function FeedbackForm() {
             </div>
           </form>
           </Form>
+          </div>
         </div>
       </div>
     </section>

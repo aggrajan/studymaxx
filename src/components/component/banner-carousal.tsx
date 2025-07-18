@@ -5,7 +5,7 @@ import { Card, CardContent } from "../ui/card";
 
 export function BannerCarousal() {
     return (
-        <div className="w-full overflow-hidden flex justify-center mt-[55px] bg-gray-100">
+        <div className="w-full overflow-hidden flex justify-center mt-16 bg-gradient-to-br from-blue-50 to-indigo-100">
         <Carousel
           plugins={[Autoplay({ delay: 2500, stopOnInteraction: true })]}
           className="w-full"
@@ -26,7 +26,7 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">New Release: The Midnight Library</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 4.png" className="w-full h-full object-cover" />
+                <img src="/image copy 4.png" className="w-full h-full object-cover shadow-2xl" />
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -43,7 +43,7 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">Summer Sale: 50% Off</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 7.png" className="aspect-[16/7] w-full" />
+                <img src="/image copy 7.png" className="aspect-[16/7] w-full shadow-2xl" />
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -60,7 +60,7 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">Book of the Month: The Vanishing Half</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 8.png" className="aspect-[16/7] w-full" />
+                <img src="/image copy 8.png" className="aspect-[16/7] w-full shadow-2xl" />
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -77,7 +77,7 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">Holiday Sale: 25% Off</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 9.png" className="aspect-[16/7] w-full" />
+                <img src="/image copy 9.png" className="aspect-[16/7] w-full shadow-2xl" />
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -94,7 +94,7 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">Holiday Sale: 25% Off</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 10.png" className="aspect-[16/7] w-full" />
+                <img src="/image copy 10.png" className="aspect-[16/7] w-full shadow-2xl" />
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -111,7 +111,7 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">Holiday Sale: 25% Off</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 11.png" className="aspect-[16/7] w-full" />
+                <img src="/image copy 11.png" className="aspect-[16/7] w-full shadow-2xl" />
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -128,12 +128,12 @@ export function BannerCarousal() {
                     <h3 className="text-lg font-semibold">Holiday Sale: 25% Off</h3>
                   </CardContent>
                 </Card> */}
-                <img src="/image copy 12.png" className="aspect-[16/7] w-full" />
+                <img src="/image copy 12.png" className="aspect-[16/7] w-full shadow-2xl" />
               </div>
             </CarouselItem>
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="left-4 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg border-0" />
+          <CarouselNext className="right-4 bg-white/80 backdrop-blur-sm hover:bg-white shadow-lg border-0" />
         </Carousel>
       </div>
     );
