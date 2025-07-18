@@ -89,190 +89,271 @@ export function ExploreBooks() {
   
   
   return (<>
-    {booksConfig ? <div className="bg-[#fcfcfc]"><section id="content" className="mx-auto max-w-[100rem] pt-6 md:pt-12 lg:pt-16 pb-6 md:pb-12 lg:pb-16">
-      <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Explore Our Products</h2>
-        <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
-          Discover our newly launched series of
-        </p>
-        <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto">
-          Exam Oriented Study Material
-        </p>
+    {booksConfig ? <div className="bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-indigo-400/10 to-pink-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
-      <div className="px-4 md:px-6 grid md:grid-cols-[280px_1fr] lg:grid-cols-[380px_1fr] gap-8">
-        <div className="flex flex-col gap-4">
-          <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Search for books by title.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Input
-                placeholder="Type title, author, keywords..."
-                value={searchAndFilterState.searchTerm}
-                onChange={(e) => {
-                    dispatch(updateSearchTerm(e.target.value))
-                  }
-                }
-              />
-              <div className="flex flex-row gap-2">
-                <Button className="mt-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}><SearchIcon className="h-5 w-5 -ml-2 mr-1" />Search</Button>
-                <Button className="mt-2 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}><ClearIcon className="h-6 w-6 -ml-2 mr-1" />Clear All Filters</Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Filter books by Type of Book.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {categories.map((category, index) => (<div className="flex items-center space-x-2 my-2" key={`category_${index}`}>
-                <Checkbox id={category} 
-                checked={searchAndFilterState.filters.categorie.includes(category)} 
-                onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "categorie", value: category})) : dispatch(clearAllFilters()))}
-                disabled={searchAndFilterState.filters.categorie.length > 0 && !searchAndFilterState.filters.categorie.includes(category)} />
-                <label
-                htmlFor={category}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-                  {category}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card> */}
-
-          {isSchoolSelected && <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Filter books by Subjects.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {subjects.map((subject, index) => (<div className="flex items-center space-x-2 my-2" key={`subject_${index}`}>
-                <Checkbox id={subject} checked={searchAndFilterState.filters.subject.includes(subject)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "subject", value: subject})) : dispatch(removeFilter({name: "subject", value: subject})))} />
-                <label
-                htmlFor={subject}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-                  {subject}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card>}
-
-          {isSchoolSelected && <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Filter books by Board.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {boards.map((board, index) => (<div className="flex items-center space-x-2 my-2" key={`board${index}`}>
-                <Checkbox id={board} checked={searchAndFilterState.filters.board.includes(board)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "board", value: board})) : dispatch(removeFilter({name: "board", value: board})))} />
-                <label
-                htmlFor={board}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-                  {board}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card>}
-
-          {(isSchoolSelected || isCompetitiveExamSelected) && <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Filter books by Language.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {languages.map((language, index) => (<div className="flex items-center space-x-2 my-2" key={`language_${index}`}>
-                <Checkbox id={language} checked={searchAndFilterState.filters.language.includes(language)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "language", value: language})) : dispatch(removeFilter({name: "language", value: language})))} />
-                <label
-                htmlFor={language}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-                  {language}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card>}
-
-          {isCompetitiveExamSelected && <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Filter books by Exam Type.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {exams.map((exam, index) => (<div className="flex items-center space-x-2 my-2" key={`exam_${index}`}>
-                <Checkbox id={exam} checked={searchAndFilterState.filters.exam.includes(exam)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "exam", value: exam})) : dispatch(removeFilter({name: "exam", value: exam})))} />
-                <label
-                htmlFor={exam}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-                  {exam}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card>}
-
-          {isSchoolSelected && <Card className="rounded-sm">
-            <CardHeader>
-              <CardTitle>Filter books by Class.</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {levels.map((level, index) => (<div className="flex items-center space-x-2 my-2" key={`level_${index}`}>
-                <Checkbox id={level} checked={searchAndFilterState.filters.clas.includes(level)} onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "clas", value: level})) : dispatch(removeFilter({name: "clas", value: level})))} />
-                <label
-                htmlFor={level}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
-                  {level}
-                </label>
-                </div>
-              ))}
-            </CardContent>
-          </Card>}
-
-        </div>
-        <div className="flex flex-col">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-            {
-              currentBooks.length === 0 ? <>
-                <div className="font-medium text-red-500">No books found matching your search query</div>
-                <Button className="mt-2 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}><ClearIcon className="h-6 w-6 -ml-2 mr-1" />Clear All Filters</Button>
-              </> : currentBooks.map((book: Book) => (
-                <ItemCard key={`book_${book._id}`} book={book}/>
-              ))
-            }
+      
+      <section id="content" className="relative mx-auto max-w-[100rem] pt-12 md:pt-16 lg:pt-20 pb-12 md:pb-16 lg:pb-20">
+        <div className="px-4 md:px-6 gap-8 pb-8 text-center mb-8 md:mb-12">
+          <div className="relative">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-6">
+              Explore Our Products
+            </h2>
+            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
           </div>
-          <div className="container px-4 md:px-6 mt-8" id="pagination">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    className={`hover:cursor-pointer ${currentPage <= 1 ? "pointer-events-none opacity-50" : ""}`}
-                    onClick={(e) => {e.preventDefault(); handlePageChange(currentPage - 1); router.push("/#content")}}
-                    aria-disabled={currentPage <= 1}
-                    tabIndex={currentPage <= 1 ? -1 : undefined}
-                  />
-                </PaginationItem>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page, index) => (
-                  <PaginationItem key={`page_${index}`}>
-                    <PaginationLink className="hover:cursor-pointer" onClick={(e) => {e.preventDefault(); handlePageChange(page); router.push("/#content")}} isActive={page === currentPage}>
-                      {page}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                <PaginationItem>
-                  <PaginationNext
-                    className={`hover:cursor-pointer ${currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}`}
-                    onClick={(e) => {e.preventDefault(); handlePageChange(currentPage + 1); router.push('/#content')}}
-                    aria-disabled={currentPage >= totalPages}
-                    tabIndex={currentPage >= totalPages ? -1 : undefined}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+          <div className="space-y-2">
+            <p className="max-w-[700px] text-gray-600 md:text-xl mx-auto font-medium">
+              Discover our newly launched series of
+            </p>
+            <p className="max-w-[700px] text-gray-600 md:text-xl mx-auto font-medium">
+              Exam Oriented Study Material
+            </p>
           </div>
         </div>
         
+        <div className="px-4 md:px-6 grid md:grid-cols-[320px_1fr] lg:grid-cols-[400px_1fr] gap-8">
+          <div className="flex flex-col gap-6">
+            <Card className="rounded-2xl border-0 bg-white/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-xl">
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <SearchIcon className="h-4 w-4 text-white" />
+                  </div>
+                  Search Books
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Input
+                  placeholder="Type title, author, keywords..."
+                  value={searchAndFilterState.searchTerm}
+                  onChange={(e) => {
+                      dispatch(updateSearchTerm(e.target.value))
+                    }
+                  }
+                  className="border-2 border-gray-200 focus:border-blue-500 rounded-xl"
+                />
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button 
+                    className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105" 
+                    onClick={() => { search(searchAndFilterState.searchTerm); setCurrentPage(1); }}
+                  >
+                    <SearchIcon className="h-4 w-4 mr-2" />
+                    Search
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1 border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105" 
+                    onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}
+                  >
+                    <ClearIcon className="h-4 w-4 mr-2" />
+                    Clear All
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {isSchoolSelected && <Card className="rounded-2xl border-0 bg-white/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-teal-500 rounded-md"></div>
+                  Filter by Subjects
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {subjects.map((subject, index) => (
+                  <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200" key={`subject_${index}`}>
+                    <Checkbox 
+                      id={subject} 
+                      checked={searchAndFilterState.filters.subject.includes(subject)} 
+                      onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "subject", value: subject})) : dispatch(removeFilter({name: "subject", value: subject})))}
+                      className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                    />
+                    <label
+                      htmlFor={subject}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1">
+                      {subject}
+                    </label>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>}
+
+            {isSchoolSelected && <Card className="rounded-2xl border-0 bg-white/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-md"></div>
+                  Filter by Board
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {boards.map((board, index) => (
+                  <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200" key={`board${index}`}>
+                    <Checkbox 
+                      id={board} 
+                      checked={searchAndFilterState.filters.board.includes(board)} 
+                      onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "board", value: board})) : dispatch(removeFilter({name: "board", value: board})))}
+                      className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                    />
+                    <label
+                      htmlFor={board}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1">
+                      {board}
+                    </label>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>}
+
+            {(isSchoolSelected || isCompetitiveExamSelected) && <Card className="rounded-2xl border-0 bg-white/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <div className="w-6 h-6 bg-gradient-to-br from-orange-500 to-red-500 rounded-md"></div>
+                  Filter by Language
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {languages.map((language, index) => (
+                  <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200" key={`language_${index}`}>
+                    <Checkbox 
+                      id={language} 
+                      checked={searchAndFilterState.filters.language.includes(language)} 
+                      onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "language", value: language})) : dispatch(removeFilter({name: "language", value: language})))}
+                      className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                    />
+                    <label
+                      htmlFor={language}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1">
+                      {language}
+                    </label>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>}
+
+            {isCompetitiveExamSelected && <Card className="rounded-2xl border-0 bg-white/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <div className="w-6 h-6 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-md"></div>
+                  Filter by Exam Type
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {exams.map((exam, index) => (
+                  <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200" key={`exam_${index}`}>
+                    <Checkbox 
+                      id={exam} 
+                      checked={searchAndFilterState.filters.exam.includes(exam)} 
+                      onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "exam", value: exam})) : dispatch(removeFilter({name: "exam", value: exam})))}
+                      className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                    />
+                    <label
+                      htmlFor={exam}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1">
+                      {exam}
+                    </label>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>}
+
+            {isSchoolSelected && <Card className="rounded-2xl border-0 bg-white/80 backdrop-blur-sm shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="flex items-center gap-3 text-lg">
+                  <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-md"></div>
+                  Filter by Class
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {levels.map((level, index) => (
+                  <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200" key={`level_${index}`}>
+                    <Checkbox 
+                      id={level} 
+                      checked={searchAndFilterState.filters.clas.includes(level)} 
+                      onCheckedChange={(checked) => (checked ? dispatch(addFilter({name: "clas", value: level})) : dispatch(removeFilter({name: "clas", value: level})))}
+                      className="border-2 border-gray-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                    />
+                    <label
+                      htmlFor={level}
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1">
+                      {level}
+                    </label>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>}
+          </div>
+          
+          <div className="flex flex-col space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+              {
+                currentBooks.length === 0 ? (
+                  <div className="col-span-full flex flex-col items-center justify-center py-16 space-y-4">
+                    <div className="w-24 h-24 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+                      <SearchIcon className="w-10 h-10 text-gray-400" />
+                    </div>
+                    <div className="text-center space-y-2">
+                      <h3 className="text-xl font-semibold text-gray-600">No books found</h3>
+                      <p className="text-gray-500">Try adjusting your search or filters</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:bg-gray-50 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105" 
+                      onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}
+                    >
+                      <ClearIcon className="h-4 w-4 mr-2" />
+                      Clear All Filters
+                    </Button>
+                  </div>
+                ) : currentBooks.map((book: Book) => (
+                  <ItemCard key={`book_${book._id}`} book={book}/>
+                ))
+              }
+            </div>
+            
+            {currentBooks.length > 0 && (
+              <div className="container px-4 md:px-6 mt-12" id="pagination">
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          className={`hover:cursor-pointer rounded-xl font-semibold transition-all duration-200 ${currentPage <= 1 ? "pointer-events-none opacity-50" : "hover:scale-105 hover:shadow-lg"}`}
+                          onClick={(e) => {e.preventDefault(); handlePageChange(currentPage - 1); router.push("/#content")}}
+                          aria-disabled={currentPage <= 1}
+                          tabIndex={currentPage <= 1 ? -1 : undefined}
+                        />
+                      </PaginationItem>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page, index) => (
+                        <PaginationItem key={`page_${index}`}>
+                          <PaginationLink 
+                            className="hover:cursor-pointer rounded-xl font-semibold transition-all duration-200 hover:scale-105 hover:shadow-lg" 
+                            onClick={(e) => {e.preventDefault(); handlePageChange(page); router.push("/#content")}} 
+                            isActive={page === currentPage}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext
+                          className={`hover:cursor-pointer rounded-xl font-semibold transition-all duration-200 ${currentPage >= totalPages ? "pointer-events-none opacity-50" : "hover:scale-105 hover:shadow-lg"}`}
+                          onClick={(e) => {e.preventDefault(); handlePageChange(currentPage + 1); router.push('/#content')}}
+                          aria-disabled={currentPage >= totalPages}
+                          tabIndex={currentPage >= totalPages ? -1 : undefined}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              </div>
+            )}
+          </div>
       </div>
-      
-      
-    </section></div> : <SkeleltonExploreBooks />}</>
+      </section>
+    </div> : <SkeleltonExploreBooks />}</>
   )
 }
 

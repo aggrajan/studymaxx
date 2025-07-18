@@ -3,114 +3,201 @@ import Image from "next/image"
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-gray-300 py-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 container max-w-[100rem]">
-        <div className="flex flex-col items-start gap-4">
-          <Link href="/" className="flex items-center gap-2" prefetch={false}>
-            <Image 
-              src="/image copy.png" 
-              alt="StudyMaxx Logo" 
-              width={120} 
-              height={120} 
-              className="rounded-sm"
-              priority
-            />
-          </Link>
-          <p className="text-sm">Discover your next great read with our curated selection of books.</p>
-          <div className="flex items-center gap-4">
-            <Link href="#" aria-label="Facebook" prefetch={false}>
-              <FacebookIcon className="h-6 w-6" />
-            </Link>
-            <Link href="#" aria-label="Twitter" prefetch={false}>
-              <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 512 512" className="fill-current text-gray-300"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/></svg>
-            </Link>
-            <Link href="#" aria-label="Instagram" prefetch={false}>
-              <InstagramIcon className="h-6 w-6" />
-            </Link>
-            <Link href="#" aria-label="LinkedIn" prefetch={false}>
-              <LinkedinIcon className="h-6 w-6" />
-            </Link>
-          </div>
-          <div className="grid gap-2">
-            <h4 className="text-sm font-medium">Information</h4>
-            <div className="flex items-center gap-2">
-              <PhoneIcon className="h-5 w-5" />
-              <span className="text-sm">+91 9211477740</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MailOpenIcon className="h-5 w-5" />
-              <span className="text-sm">info@studymaxx.in</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <LocateIcon className="h-5 w-5" />
-              <span className="text-sm">146, Deepali, Pitampura, New Delhi-110034</span>
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
-          <div className="flex flex-col gap-2">
-            <h4 className="text-xs md:text-sm font-medium">Quick Links</h4>
-            <Link href="/" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Home
-            </Link>
-            <Link href="/mission" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Mission
-            </Link>
-            {/* <Link href="/faq" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              FAQs
-            </Link> */}
-            <Link href="/#contact-us" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Contact
-            </Link>
-          </div>
-          <div className="flex flex-col gap-2">
-            <h4 className="text-xs md:text-sm font-medium">Information</h4>
-            <Link href="/policy#privacy-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Privacy Policy
-            </Link>
-            <Link href="/policy#terms-and-conditions" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Terms and Conditions
-            </Link>
-            <Link href="/policy#return-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Return Policy
-            </Link>
-            <Link href="/policy#refund-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Refund and Cancellation Policy
-            </Link> 
-            <Link href="/policy#shipping-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Shipping Policy
-            </Link>
-            {/* <Link href="/policy#cancellation-policy" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Cancellation Policy
-            </Link> */}
-            {/* <Link href="/policy#disclaimer" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              Disclaimer
-            </Link> */}
-          </div>
-          <div className="flex flex-col gap-2">
-            <h4 className="text-xs md:text-sm font-medium">Contact Info</h4>
-            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-             146, Deepali, Pitampura, New Delhi-110034
-            </Link>
-            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              +91 9211477740
-            </Link>
-            <Link href="#" className="text-xs md:text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-              info@studymaxx.in
-            </Link>
-          </div>
-        </div>
+    <footer className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-gray-100 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-80 h-80 bg-gradient-to-br from-indigo-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-cyan-500/5 to-blue-500/5 rounded-full blur-3xl"></div>
       </div>
-      <div className="container max-w-7xl mt-8 grid grid-cols-1 md:grid-cols-2 px-4 md:px-0 gap-y-6">
-        <p className="text-sm">&copy; 2025 StudyMaxx. All rights reserved.</p>
-        <nav className="flex items-center justify-end gap-4">
-          <Link href="/policy#privacy-policy" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-            Privacy Policy
-          </Link>
-          <Link href="/policy#terms-and-conditions" className="text-sm hover:underline hover:underline-offset-2" prefetch={false}>
-            Terms of Service
-          </Link>
-        </nav>
+      
+      <div className="relative py-16 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 container max-w-[100rem] px-6 md:px-8">
+          {/* Brand Section */}
+          <div className="flex flex-col items-start gap-6">
+            <Link href="/" className="flex items-center gap-3 group" prefetch={false}>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity duration-300"></div>
+                <Image 
+                  src="/image copy.png" 
+                  alt="StudyMaxx Logo" 
+                  width={120} 
+                  height={120} 
+                  className="relative rounded-xl shadow-2xl transform group-hover:scale-105 transition-transform duration-300"
+                  priority
+                />
+              </div>
+            </Link>
+            
+            <p className="text-gray-300 text-lg leading-relaxed max-w-md">
+              Discover your next great read with our curated selection of educational books and study materials.
+            </p>
+            
+            {/* Social Media Links */}
+            <div className="flex items-center gap-4">
+              <Link href="#" aria-label="Facebook" prefetch={false} className="group">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <FacebookIcon className="h-6 w-6 text-white" />
+                </div>
+              </Link>
+              <Link href="#" aria-label="Twitter" prefetch={false} className="group">
+                <div className="w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 512 512" className="fill-current text-white">
+                    <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+                  </svg>
+                </div>
+              </Link>
+              <Link href="#" aria-label="Instagram" prefetch={false} className="group">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <InstagramIcon className="h-6 w-6 text-white" />
+                </div>
+              </Link>
+              <Link href="#" aria-label="LinkedIn" prefetch={false} className="group">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-700 to-blue-800 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <LinkedinIcon className="h-6 w-6 text-white" />
+                </div>
+              </Link>
+            </div>
+            
+            {/* Contact Information */}
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                Get in Touch
+              </h4>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 group">
+                  <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <PhoneIcon className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-gray-300 group-hover:text-white transition-colors duration-300">+91 9211477740</span>
+                </div>
+                <div className="flex items-center gap-3 group">
+                  <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <MailOpenIcon className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-gray-300 group-hover:text-white transition-colors duration-300">info@studymaxx.in</span>
+                </div>
+                <div className="flex items-start gap-3 group">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 mt-1">
+                    <LocateIcon className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-gray-300 group-hover:text-white transition-colors duration-300 leading-relaxed">
+                    146, Deepali, Pitampura, New Delhi-110034
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Links Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                Quick Links
+              </h4>
+              <div className="space-y-3">
+                <Link href="/" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Home
+                  </span>
+                </Link>
+                <Link href="/mission" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Mission
+                  </span>
+                </Link>
+                <Link href="/#contact-us" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-blue-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Contact
+                  </span>
+                </Link>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                Policies
+              </h4>
+              <div className="space-y-3">
+                <Link href="/policy#privacy-policy" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Privacy Policy
+                  </span>
+                </Link>
+                <Link href="/policy#terms-and-conditions" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Terms & Conditions
+                  </span>
+                </Link>
+                <Link href="/policy#return-policy" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Return Policy
+                  </span>
+                </Link>
+                <Link href="/policy#refund-policy" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Refund Policy
+                  </span>
+                </Link>
+                <Link href="/policy#shipping-policy" className="block text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 group" prefetch={false}>
+                  <span className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full group-hover:w-2 transition-all duration-300"></div>
+                    Shipping Policy
+                  </span>
+                </Link>
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                Contact Info
+              </h4>
+              <div className="space-y-3">
+                <div className="text-gray-300 leading-relaxed">
+                  146, Deepali, Pitampura, New Delhi-110034
+                </div>
+                <div className="text-gray-300">
+                  +91 9211477740
+                </div>
+                <div className="text-gray-300">
+                  info@studymaxx.in
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom Section */}
+        <div className="relative mt-16 pt-8 border-t border-gray-700/50">
+          <div className="container max-w-7xl px-6 md:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"></div>
+                <p className="text-gray-400">&copy; 2025 StudyMaxx. All rights reserved.</p>
+              </div>
+              <nav className="flex items-center gap-6">
+                <Link href="/policy#privacy-policy" className="text-gray-400 hover:text-white transition-colors duration-300" prefetch={false}>
+                  Privacy Policy
+                </Link>
+                <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
+                <Link href="/policy#terms-and-conditions" className="text-gray-400 hover:text-white transition-colors duration-300" prefetch={false}>
+                  Terms of Service
+                </Link>
+              </nav>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   )
@@ -135,7 +222,6 @@ function BookIcon(props: any) {
   )
 }
 
-
 function FacebookIcon(props: any) {
   return (
     <svg
@@ -154,7 +240,6 @@ function FacebookIcon(props: any) {
     </svg>
   )
 }
-
 
 function InstagramIcon(props: any) {
   return (
@@ -177,7 +262,6 @@ function InstagramIcon(props: any) {
   )
 }
 
-
 function LinkedinIcon(props: any) {
   return (
     <svg
@@ -198,7 +282,6 @@ function LinkedinIcon(props: any) {
     </svg>
   )
 }
-
 
 function LocateIcon(props: any) {
   return (
@@ -223,7 +306,6 @@ function LocateIcon(props: any) {
   )
 }
 
-
 function MailOpenIcon(props: any) {
   return (
     <svg
@@ -243,7 +325,6 @@ function MailOpenIcon(props: any) {
     </svg>
   )
 }
-
 
 function PhoneIcon(props: any) {
   return (

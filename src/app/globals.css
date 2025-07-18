@@ -123,4 +123,52 @@
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
   }
+
+   /* Enhanced carousel animations */
+   @keyframes slideIn {
+     from {
+       opacity: 0;
+       transform: translateX(100px);
+     }
+     to {
+       opacity: 1;
+       transform: translateX(0);
+     }
+   }
+
+   @keyframes fadeInUp {
+     from {
+       opacity: 0;
+       transform: translateY(30px);
+     }
+     to {
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+
+   .animate-slide-in {
+     animation: slideIn 0.6s ease-out;
+   }
+
+   .animate-fade-in-up {
+     animation: fadeInUp 0.8s ease-out;
+   }
+
+   /* Glassmorphism effect */
+   .glass {
+     background: rgba(255, 255, 255, 0.1);
+     backdrop-filter: blur(10px);
+     border: 1px solid rgba(255, 255, 255, 0.2);
+   }
+
+   /* Enhanced hover effects for cards */
+   .card-hover {
+     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+
+   .card-hover:hover {
+     transform: translateY(-8px) scale(1.02);
+     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+   }
 }
