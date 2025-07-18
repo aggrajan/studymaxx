@@ -110,8 +110,8 @@ export function BannerCarousal() {
                 </CarouselContent>
                 
                 {/* Enhanced Navigation Buttons */}
-                <CarouselPrevious className="left-4 md:left-6 bg-gradient-to-r from-blue-500/90 to-purple-500/90 backdrop-blur-md hover:from-blue-600 hover:to-purple-600 shadow-2xl border-0 w-14 h-14 hover:scale-125 transition-all duration-500 text-white hover:shadow-blue-500/50 group" />
-                <CarouselNext className="right-4 md:right-6 bg-gradient-to-r from-purple-500/90 to-pink-500/90 backdrop-blur-md hover:from-purple-600 hover:to-pink-600 shadow-2xl border-0 w-14 h-14 hover:scale-125 transition-all duration-500 text-white hover:shadow-purple-500/50 group" />
+                <CarouselPrevious className="left-2 md:left-4 bg-white/20 backdrop-blur-md hover:bg-white/30 border border-white/30 hover:border-white/50 w-10 h-10 hover:scale-110 transition-all duration-300 text-white shadow-lg hover:shadow-xl rounded-lg group" />
+                <CarouselNext className="right-2 md:right-4 bg-white/20 backdrop-blur-md hover:bg-white/30 border border-white/30 hover:border-white/50 w-10 h-10 hover:scale-110 transition-all duration-300 text-white shadow-lg hover:shadow-xl rounded-lg group" />
                 
                 {/* Slide Indicators */}
                 <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
