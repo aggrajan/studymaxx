@@ -14,6 +14,7 @@ import { setBooks } from "@/lib/slices/booksSlice";
 import { getSearchedAndFilteredBooks } from "@/helpers/getSearchedAndFilteredBooks";
 import { useRouter } from "next/navigation";
 import { SkeletonProductsPage } from "../skeleton-components/skeleton-products-page";
+import { Search, Filter, Grid, List } from "lucide-react";
 
 export function ProductsPage() {
     const router = useRouter();
@@ -24,6 +25,7 @@ export function ProductsPage() {
     const allBooks = useAppSelector((state) => state.bookStore.books);
     const [books, setAllBooks] = useState<Book[]>([]);
     const [bookConfig, setBookConfig] = useState(false);
+    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
     
     const handlePageChange = (page: any) => {
@@ -87,70 +89,201 @@ export function ProductsPage() {
       search(searchTerm);
     }, [filters]);
 
-
-    
-
     return (<>
-        {bookConfig ? <div className="bg-gray-100"><section className="container max-w-[100rem] px-4 md:px-6">
-            <div className="space-y-2 text-center">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter mb-5">Begin Your Search Here</h2>
-                <div className="flex flex-col w-full max-w-sm items-start mx-auto">
-                  <Input placeholder="search by title or author or keywords" className="mx-0 rounded-sm" value={searchTerm} onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} />
-                  <div className="w-full">
-                    <Button className="mt-3 mr-2 bg-blue-700 hover:bg-blue-800" onClick={() => { search(searchTerm); setCurrentPage(1); }}><SearchIcon className="h-6 w-6 -ml-2 mr-1" />Search</Button>
-                    <Button className="mt-3 border border-black text-black bg-white hover:bg-gray-600 hover:text-white" onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}><ClearIcon className="h-6 w-6 -ml-2 mr-1" />Clear All Filters</Button>
-                  </div>
-                </div>
+        {bookConfig ? <div className="bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 relative overflow-hidden min-h-screen">
+            {/* Background decorative elements */}
+            <div className="absolute inset-0">
+                <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/8 to-purple-400/8 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-indigo-400/8 to-pink-400/8 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-gradient-to-br from-cyan-400/8 to-blue-400/8 rounded-full blur-3xl animate-pulse delay-500"></div>
             </div>
-            {/* <div id="products_content" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4 mx-8 sm:mx-8 md:mx-6">
-                <FilterButton optionArray={categories} name="categorie" />
-                {isSchoolSelected && <FilterButton optionArray={subjects} name="subject" />}
-                {isSchoolSelected && <FilterButton optionArray={levels} name="clas" />}
-                {isSchoolSelected && <FilterButton optionArray={boards} name="board" />}
-                {(isSchoolSelected || isCompetitiveExamSelected) && <FilterButton optionArray={languages} name="language" />}
-                {isCompetitiveExamSelected && <FilterButton optionArray={exams} name="exam" />}
-            </div> */}
-            <div className="md:px-6 pt-6">
-                <div className="flex flex-col">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
-                {
-                  currentBooks.length === 0 ? <div className="font-medium text-red-500">No books found matching your search query</div> : currentBooks.map((book: Book) => (
-                    <ItemCard key={`book_${book._id}`} book={book}/>
-                  ))
-                }
+
+            <section className="relative container max-w-[100rem] px-4 md:px-6 pt-8 pb-16">
+                {/* Header Section */}
+                <div className="text-center space-y-6 mb-12">
+                    <div className="relative inline-block">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter bg-gradient-to-r from-slate-700 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                            Begin Your Search Here
+                        </h2>
+                        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
+                    </div>
+                    <p className="max-w-2xl text-slate-600 md:text-xl mx-auto font-medium leading-relaxed">
+                        Discover the perfect books for your educational journey
+                    </p>
                 </div>
-                <div className="container px-4 md:px-6 mt-8 mb-24">
-                    <Pagination>
-                    <PaginationContent>
-                        <PaginationItem>
-                        <PaginationPrevious
-                            className={`hover:cursor-pointer ${currentPage <= 1 ? "pointer-events-none opacity-50" : ""}`}
-                            onClick={(e) => {e.preventDefault(); handlePageChange(currentPage - 1); router.push("/products/#products_content") }}
-                            aria-disabled={currentPage <= 1}
-                            tabIndex={currentPage <= 1 ? -1 : undefined}
-                        />
-                        </PaginationItem>
-                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                        <PaginationItem key={page}>
-                            <PaginationLink className="hover:cursor-pointer" onClick={(e) => {e.preventDefault(); handlePageChange(page); router.push("/products/#products_content") }} isActive={page === currentPage}>
-                            {page}
-                            </PaginationLink>
-                        </PaginationItem>
-                        ))}
-                        <PaginationItem>
-                        <PaginationNext
-                            className={`hover:cursor-pointer ${currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}`}
-                            onClick={(e) => {e.preventDefault(); handlePageChange(currentPage + 1); router.push("/products/#products_content") }}
-                            aria-disabled={currentPage >= totalPages}
-                            tabIndex={currentPage >= totalPages ? -1 : undefined}
-                        />
-                        </PaginationItem>
-                    </PaginationContent>
-                    </Pagination>
+
+                {/* Search Section */}
+                <div className="max-w-2xl mx-auto mb-12">
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-indigo-600/5 rounded-2xl transform rotate-1"></div>
+                        <div className="relative bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl p-6 border border-slate-200/50">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg">
+                                    <Search className="h-5 w-5 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-slate-800">Search Books</h3>
+                                    <p className="text-slate-600">Find your perfect study companion</p>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-4">
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                    <Input 
+                                        placeholder="Search by title, author, or keywords..." 
+                                        className="pl-10 border-2 border-slate-200 focus:border-blue-500 rounded-xl h-12 transition-all duration-200 bg-white/80" 
+                                        value={searchTerm} 
+                                        onChange={(e) => {dispatch(updateSearchTerm(e.target.value))}} 
+                                    />
+                                </div>
+                                
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <Button 
+                                        className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" 
+                                        onClick={() => { search(searchTerm); setCurrentPage(1); }}
+                                    >
+                                        <Search className="h-4 w-4 mr-2" />
+                                        Search Books
+                                    </Button>
+                                    <Button 
+                                        variant="outline" 
+                                        className="flex-1 border-2 border-slate-300 hover:border-slate-400 text-slate-700 hover:bg-slate-50 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" 
+                                        onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}
+                                    >
+                                        <Filter className="h-4 w-4 mr-2" />
+                                        Clear Filters
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                {/* Results Section */}
+                <div className="space-y-8">
+                    {/* Results Header */}
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div className="flex items-center gap-4">
+                            <h3 className="text-2xl font-bold text-slate-800">
+                                {currentBooks.length === 0 ? "No Results Found" : `${books.length} Books Found`}
+                            </h3>
+                            {books.length > 0 && (
+                                <div className="text-slate-600">
+                                    Showing {indexOfFirstBook + 1}-{Math.min(indexOfLastBook, books.length)} of {books.length}
+                                </div>
+                            )}
+                        </div>
+                        
+                        {books.length > 0 && (
+                            <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-xl p-1 shadow-lg border border-slate-200/50">
+                                <Button
+                                    variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                                    size="sm"
+                                    onClick={() => setViewMode('grid')}
+                                    className="rounded-lg"
+                                >
+                                    <Grid className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                    variant={viewMode === 'list' ? 'default' : 'ghost'}
+                                    size="sm"
+                                    onClick={() => setViewMode('list')}
+                                    className="rounded-lg"
+                                >
+                                    <List className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Books Grid/List */}
+                    <div className="relative">
+                        {currentBooks.length === 0 ? (
+                            <div className="text-center py-16">
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-slate-600/5 to-blue-600/5 rounded-3xl transform -rotate-1"></div>
+                                    <div className="relative bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-12 border border-slate-200/50 max-w-md mx-auto">
+                                        <div className="w-20 h-20 bg-gradient-to-br from-slate-200 to-slate-300 rounded-full flex items-center justify-center mx-auto mb-6">
+                                            <Search className="w-8 h-8 text-slate-400" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-slate-700 mb-4">No Books Found</h3>
+                                        <p className="text-slate-600 mb-6">Try adjusting your search terms or clear all filters to see more results.</p>
+                                        <Button 
+                                            variant="outline" 
+                                            className="border-2 border-slate-300 hover:border-slate-400 text-slate-700 hover:bg-slate-50 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105" 
+                                            onClick={() => { dispatch(clearAllFilters()); search(""); setCurrentPage(1); }}
+                                        >
+                                            <Filter className="h-4 w-4 mr-2" />
+                                            Clear All Filters
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className={`grid gap-6 md:gap-8 ${
+                                viewMode === 'grid' 
+                                    ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+                                    : 'grid-cols-1'
+                            }`}>
+                                {currentBooks.map((book: Book) => (
+                                    <div key={`book_${book._id}`} className="transform transition-all duration-300 hover:scale-105">
+                                        <ItemCard book={book} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Pagination */}
+                    {currentBooks.length > 0 && totalPages > 1 && (
+                        <div className="flex justify-center mt-12">
+                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-slate-200/50">
+                                <Pagination>
+                                    <PaginationContent>
+                                        <PaginationItem>
+                                            <PaginationPrevious
+                                                className={`hover:cursor-pointer rounded-xl font-semibold transition-all duration-200 ${
+                                                    currentPage <= 1 
+                                                        ? "pointer-events-none opacity-50" 
+                                                        : "hover:scale-105 hover:shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100"
+                                                }`}
+                                                onClick={(e) => {e.preventDefault(); handlePageChange(currentPage - 1); router.push("/products/#products_content")}}
+                                                aria-disabled={currentPage <= 1}
+                                                tabIndex={currentPage <= 1 ? -1 : undefined}
+                                            />
+                                        </PaginationItem>
+                                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                            <PaginationItem key={page}>
+                                                <PaginationLink 
+                                                    className="hover:cursor-pointer rounded-xl font-semibold transition-all duration-200 hover:scale-105 hover:shadow-lg" 
+                                                    onClick={(e) => {e.preventDefault(); handlePageChange(page); router.push("/products/#products_content")}} 
+                                                    isActive={page === currentPage}
+                                                >
+                                                    {page}
+                                                </PaginationLink>
+                                            </PaginationItem>
+                                        ))}
+                                        <PaginationItem>
+                                            <PaginationNext
+                                                className={`hover:cursor-pointer rounded-xl font-semibold transition-all duration-200 ${
+                                                    currentPage >= totalPages 
+                                                        ? "pointer-events-none opacity-50" 
+                                                        : "hover:scale-105 hover:shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100"
+                                                }`}
+                                                onClick={(e) => {e.preventDefault(); handlePageChange(currentPage + 1); router.push("/products/#products_content")}}
+                                                aria-disabled={currentPage >= totalPages}
+                                                tabIndex={currentPage >= totalPages ? -1 : undefined}
+                                            />
+                                        </PaginationItem>
+                                    </PaginationContent>
+                                </Pagination>
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </div>
-        </section></div> : <SkeletonProductsPage />}
+            </section>
+        </div> : <SkeletonProductsPage />}
         </>
     );
 }
