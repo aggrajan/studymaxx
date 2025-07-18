@@ -74,96 +74,96 @@ export function ContactQueryForm() {
   return (
     <section className="pt-12 md:pt-16 lg:pt-20 pb-12 md:pb-16 lg:pb-20 bg-gradient-to-br from-gray-50 to-blue-50" id="contact-us">
       <div className="w-full">
-      <div className="space-y-6 m-auto max-w-[100rem] md:w-4/6">
-        <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
-          <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Contact Us and Ask your query</h2>
-          <p className="max-w-[700px] text-gray-600 md:text-xl mx-auto">
-            Help us improve our book selection and services.
-          </p>
-        </div>
-        <div className="bg-white rounded-2xl shadow-xl p-8 mx-4">
-          <div className="flex items-center gap-4 px-4">
-            <div className="rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 p-3 text-white shadow-lg">
-              <MailIcon className="h-6 w-6" />
-            </div>
-            <h3 className="text-xl font-semibold">Contact Us / Book Inquiries</h3>
+        <div className="space-y-6 m-auto max-w-[100rem] md:w-4/6">
+          <div className="px-4 md:px-6 gap-8 pb-4 text-center mb-0 sm:mb-5 md:mb-8 lg:mb-10">
+            <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Contact Us and Ask your query</h2>
+            <p className="max-w-[700px] text-gray-600 md:text-xl mx-auto">
+              Help us improve our book selection and services.
+            </p>
           </div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4 px-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <FormField 
-                    name="name"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input placeholder="name" {...field}/>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}      
-                  />
-                </div>
-                <div>
-                  <FormField 
-                      name="email"
+          <div className="bg-white rounded-2xl shadow-xl p-8 mx-4">
+            <div className="flex items-center gap-4 px-4">
+              <div className="rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 p-3 text-white shadow-lg">
+                <MailIcon className="h-6 w-6" />
+              </div>
+              <h3 className="text-xl font-semibold">Contact Us / Book Inquiries</h3>
+            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4 px-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <FormField 
+                      name="name"
                       control={form.control}
                       render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="email" {...field}/>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
+                        <FormItem>
+                          <FormLabel>
+                            Name
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="name" {...field}/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}      
-                  />
-                </div>
-              </div>
-              <div>
-                <FormField 
-                      name="subject"
-                      control={form.control}
-                      render={({ field }) => (
-                          <FormItem>
-                              <FormLabel>Subject</FormLabel>
-                              <FormControl>
-                                  <Input placeholder="subject of your query" {...field}/>
-                              </FormControl>
-                              <FormMessage />
-                          </FormItem>
-                      )}      
-                />
-              </div>
-              <div>
-                <FormField 
-                        name="message"
+                    />
+                  </div>
+                  <div>
+                    <FormField 
+                        name="email"
                         control={form.control}
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Message</FormLabel>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input placeholder="email" {...field}/>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                        )}      
+                    />
+                  </div>
+                </div>
+                <div>
+                  <FormField 
+                        name="subject"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Subject</FormLabel>
                                 <FormControl>
-                                  <Textarea placeholder="Share your detailed query" className="min-h-[120px]" {...field} />
+                                    <Input placeholder="subject of your query" {...field}/>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                      )}      
+                        )}      
                   />
-              </div>
-              <div className="flex justify-end">
-                <Button type="submit" disabled={isSubmitting} className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                  {
-                    isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Query')
-                  }
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
+                </div>
+                <div>
+                  <FormField 
+                          name="message"
+                          control={form.control}
+                          render={({ field }) => (
+                              <FormItem>
+                                  <FormLabel>Message</FormLabel>
+                                  <FormControl>
+                                    <Textarea placeholder="Share your detailed query" className="min-h-[120px]" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                              </FormItem>
+                        )}      
+                    />
+                </div>
+                <div className="flex justify-end">
+                  <Button type="submit" disabled={isSubmitting} className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                    {
+                      isSubmitting ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</>) : ('Submit Query')
+                    }
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </div>
         </div>
       </div>
 
@@ -183,7 +183,6 @@ export function ContactQueryForm() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      </div>
     </section>
   )
 }
